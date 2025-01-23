@@ -30,8 +30,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     defaults:
       run:
-        working-directory:
-          ./react
+        working-directory: 'react'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
