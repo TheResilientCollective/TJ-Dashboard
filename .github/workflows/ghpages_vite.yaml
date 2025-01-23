@@ -41,7 +41,6 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          context: 'react'
       - name: Install dependencies
         run: npm ci
       - name: Build
@@ -50,11 +49,10 @@ jobs:
         uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
-        working-directory: ./react
         with:
           # Upload dist folder
           path: './dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        working-directory: ./react
+
