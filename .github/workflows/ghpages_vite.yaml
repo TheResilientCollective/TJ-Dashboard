@@ -20,6 +20,10 @@ concurrency:
   group: 'pages'
   cancel-in-progress: true
 
+defaults:
+      run:
+        working-directory:
+          ./react
 jobs:
 
   # Single deploy job since we're just deploying
@@ -27,10 +31,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    defaults:
-      run:
-        working-directory:
-          ./react
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
