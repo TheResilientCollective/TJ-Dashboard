@@ -1,10 +1,121 @@
+:root {
+  --padding: 11px;
+  --radius: 5px;
+  --white: #fff;
+  --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  --border: 1px solid #a0a0a0;
+  --icon-size: 24px;
+}
+
+.light {
+  --white: #fff;
+}
+
+.dark {
+  --white: #000;
+}
+
 body {
   margin: 0;
   padding: 0;
 }
 
 #map-container {
-  width: 100vw;
+  min-width: 100vw;
   height: 100vh;
   overflow: hidden;
+}
+
+#panel {
+  /* positioning */
+  position: absolute;
+  left: var(--padding);
+  top: var(--padding);
+  width: 800px;
+  max-width: calc(100vw - 2 * var(--padding));
+  height: calc(100vh - 2 * var(--padding));
+  z-index: 10;
+  /* borders */
+  background-color: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: var(--border);
+  overflow-y: auto;
+  /* content */
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding);
+  gap: var(--padding);
+}
+
+#card-group {
+  width: 100%;
+  height: auto;
+  /* content */
+  display: flex;
+  flex-direction: column;
+  gap: var(--padding);
+}
+
+#card {
+  width: calc(100% - 2 * var(--padding));
+  height: auto;
+  /* borders */
+  background-color: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: var(--border);
+  /* content */
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding);
+  gap: var(--padding);
+}
+
+#card .header {
+  width: 100%;
+  height: var(--icon-size);
+  /* content */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--padding);
+  /* padding: var(--padding); */
+}
+
+#card .header h4 {
+  width: 100%;
+}
+
+#card svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+
+#card.expanded .content {
+  display: block;
+}
+
+#card.collapse .content {
+  display: none;
+}
+
+.stoplight {
+  width: calc(4*var(--icon-size));
+  height: var(--icon-size);
+  /* borders */
+  border-radius: calc(var(--icon-size)/2);
+  border: var(--border);
+}
+
+.red {
+  background-color: red;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
 }
