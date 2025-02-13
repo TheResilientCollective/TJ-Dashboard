@@ -1,38 +1,77 @@
 import { IconType } from "react-icons";
 import { FaBeer, FaChevronUp, FaChevronDown } from "react-icons/fa";
+import { useState } from "react";
 
-export function Card(props: {title: string, body?: any, value?: number, icon?: IconType, expanded?: boolean}) {
-  console.log("Card", props);
+interface CardProps {
+    title: string;
+    body?: string;
+    value?: number;
+    icon?: IconType;
+    isExpanded?: boolean;
+    onToggle: () => void;
+}
+
+/**
+ * A rectangular card with drop shadow.
+ * Card expands and collapses when clicked.
+ * Fills container width.
+ * When collapsed, card shows icon, title, stoplight value if provided, and a expand/collapse icon.
+ * When expanded, card shows the above plus body text.
+ */
+export const Card = (props: CardProps) => {
   const Icon = props.icon || FaBeer;
-  const Chevron = props.expanded ? FaChevronUp : FaChevronDown;
-  return <div id="card" className={props.expanded ? "expanded" : "collapse"}>
+  const Chevron = props.isExpanded ? FaChevronUp : FaChevronDown;
+  const Body = props.body || (() => null);
+
+  return <div id="card" className={props.isExpanded ? "expanded" : "collapse"}>
     <div className="header">
         <Icon />
         <h4>{props.title}</h4>
         {props.value && <Stoplight value={props.value} />}
-        <Chevron />
+        <Chevron onClick={props.onToggle} />
     </div>
     <div className="content">
-        {props.body && <p>{props.body}</p>}
+        <Body />
     </div>
   </div>;
 }
 
-export function CardGroup(props: {title: string, children: any[]}) {
+/**
+ * A group of cards with a title.
+ * The group itself doesn't have any styling on it, so padding must be added to card's parent element.
+ * Fills container width.
+ */
+export const CardGroup = (props: {title: string, children: any[]}) => {
+    const [cards, setCards] = useState(props.children.map(child => ({ ...child, isExpanded: child.expanded || false }))); // Initialize isExpanded
+
+    const handleCardToggle = (index: number) => {
+        setCards(prevCards => {
+            const newCards = [...prevCards];
+            newCards[index].isExpanded = !newCards[index].isExpanded;
+            return newCards;
+        });
+    };
+
     return <div id="card-group">
         <h3 id="card-separator">{props.title}</h3>
-        {props.children.map((child) => 
+        {cards.map((card, index) => 
             <Card 
-                title={child.title} 
-                body={child?.body} 
-                value={child?.value} 
-                icon={child?.icon} 
-                expanded={child?.expanded}
+                key={index}
+                title={card.title} 
+                body={card?.body} 
+                value={card?.value} 
+                icon={card?.icon} 
+                isExpanded={card.isExpanded}
+                onToggle={() => handleCardToggle(index)}
             />)}
     </div>;
 }
 
-export function Stoplight(props: {value: number}) {
+/**
+ * A stoplight indicator for values between 0 and 1.
+ * Red for values less than 0.3, yellow for values less than 0.7, and green for values greater than 0.7.
+ */
+export const Stoplight = (props: {value: number}) => {
     if (props.value < 0.3) {
         return <div className="stoplight red"></div>;
     }
