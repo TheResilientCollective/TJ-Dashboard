@@ -1,9 +1,9 @@
 :root {
-  --padding: 11px;
-  --radius: 5px;
+  --padding: 0.75em;
+  --radius: 0.75em;
   --white: #fff;
-  --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  --border: 1px solid #a0a0a0;
+  --shadow: 0px 3px 5px rgba(0, 0, 0, 0.15);
+  --border: 1px solid #00000015;
   --icon-size: 24px;
 }
 
@@ -21,20 +21,38 @@ body {
 }
 
 #map-container {
-  min-width: 100vw;
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
 }
 
+#windows {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100vw - 2 * var(--padding));
+  height: calc(100vh - 2 * var(--padding));
+  display: flex;
+  flex-direction: row;
+  gap: var(--padding);
+  padding: var(--padding);
+  z-index: 10;
+  overflow: hidden;
+  pointer-events: none; /* Allow click-through */
+}
+
+#windows > * {
+  pointer-events: auto; /* Enable pointer events for child elements */
+}
+
+
+/********** SIDE PANEL **********/
+
 #panel {
   /* positioning */
-  position: absolute;
-  left: var(--padding);
-  top: var(--padding);
-  width: 800px;
+  width: 400px;
   max-width: calc(100vw - 2 * var(--padding));
-  height: calc(100vh - 2 * var(--padding));
-  z-index: 10;
+  height: auto;
   /* borders */
   background-color: var(--white);
   border-radius: var(--radius);
@@ -88,6 +106,7 @@ body {
 }
 
 #card svg {
+  /* FIXME: not working on cards with stoplight */
   width: var(--icon-size);
   height: var(--icon-size);
 }
@@ -118,4 +137,42 @@ body {
 
 .green {
   background-color: green;
+}
+
+
+/********** MAP LAYERS **********/
+
+#map-layers {
+  height: min-content;
+  /* content */
+  display: flex;
+  flex-direction: row;
+  gap: calc(2 * var(--padding));
+  overflow-x: auto;
+  padding: 0 var(--padding);
+}
+
+#map-layers .map-layer-toggle {
+  width: auto;
+  height: min-content;
+  /* borders */
+  background-color: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: var(--border);
+  /* content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--padding);
+  padding: var(--padding) calc( 1.5 * var(--padding));
+  white-space: nowrap;
+}
+
+#map-layers .map-layer-toggle.enabled {
+  opacity: unset;
+}
+
+#map-layers .map-layer-toggle.disabled {
+  opacity: 0.5;
 }
