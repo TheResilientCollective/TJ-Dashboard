@@ -106,6 +106,7 @@ export const App = () => {
     //   newState["viewport"] = view;
     //   return newState;
     // });
+    console.log(view) // here to keep vite build from complaining
   }
 
   /**
