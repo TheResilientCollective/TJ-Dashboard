@@ -273,6 +273,7 @@
       line-height: 1.5;
     }
   </style>
+<!--  <script type="module" src="js/fsmap.js"></script>-->
   <script type="module">
     import {createMap} from 'https://corsproxy.io/?key=3d648870&url=https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';
 
@@ -284,8 +285,13 @@
       initialState: {
         publishedMapId: 'ffc494e8-2565-4dfc-be79-bd4d105ee578'
       }
+
     });
+    globalThis.map = map
+
   </script>
+
+
   <script>
     //     <button onclick="toggleLayer(this, 'Beach Closures')">Beach Closures</button>
 
@@ -323,22 +329,7 @@
       }
     }
 
-    // Toggle Layer Function for Top Pills
-    function toggleLayer(button, layer) {
-      button.classList.toggle("active");
-      console.log("Toggled layer:", layer);
-      const layerid = layerInfo.find((l) => l.name == l)
-      const groups = map.getLayerGroups();
-      let targetLayer = groups.find((g) => g.id == layerid)
-      if (targetLayer.isVisible) {
-        targetLayer.isVisible = false;
 
-      } else {
-        targetLayer.isVisible = true;
-
-      }
-
-    }
 
     // When a card is clicked, select the corresponding pill
     function selectCard(layer) {
@@ -355,7 +346,7 @@
     // Dummy play function for time widget
     function playTime(layer, sliderElem) {
       console.log("Playing time for " + layer + ", current value: " + sliderElem.value);
-      // Implement map updates based on time here.
+      // Implement fsmap updates based on time here.
     }
 
     // Initialization on page load
@@ -388,7 +379,7 @@
 </head>
 <body>
 <div id="container">
-  <!-- Map Container with Kepler map configured for San Ysidro (approx 50-mile radius) -->
+  <!-- Map Container with Kepler fsmap configured for San Ysidro (approx 50-mile radius) -->
   <div id="map-container">
   </div>
 
@@ -399,7 +390,7 @@
       <button onclick="toggleLayer(this, 'H₂S Levels')">H₂S Levels</button>
       <button onclick="toggleLayer(this, 'Smell Complaints')">Smell Complaints</button>
       <button onclick="toggleLayer(this, 'Wastewater Spills')">Wastewater Spills</button>
-      <button onclick="toggleLayer(this, 'Odor Complaints')">Odor Complaints</button>
+      <button onclick="toggleRetoggleLayersilentLayer(this, 'Odor Complaints')">Odor Complaints</button>
     </div>
   </div>
 
@@ -480,7 +471,7 @@
       </div>
       <div id="beach-info" class="expandable">
         <p>Bacteria levels along parts of the Tijuana River have led to closures.</p>
-        <a href="#">View closure map</a>
+        <a href="#">View closure fsmap</a>
         <div class="time-widget">
           <span class="time-title">Time Range:</span>
           <input type="range" min="2000" max="2025" value="2010" class="time-slider">
@@ -508,7 +499,7 @@
           <li><strong>Little Italy:</strong> Chemical smell (Chemical)</li>
         </ul>
         </p>
-        <a href="#">View odor complaints map</a>
+        <a href="#">View odor complaints fsmap</a>
         <div class="time-widget">
           <span class="time-title">Time Range:</span>
           <input type="range" min="2000" max="2025" value="2010" class="time-slider">
@@ -573,8 +564,28 @@
 
   // Toggle Layer Function for Top Pills
   function toggleLayer(button, layer) {
-    button.classList.toggle("active");
-    console.log("Toggled layer:", layer);
+    if ( undefined !== map) {
+
+
+      button.classList.toggle("active");
+      console.log("Toggled layer:", layer);
+      const layerid = layerInfo.find((l) => l.name == l)
+      console.log("Toggled layer:"+ layer +" layerid:", layerid);
+      const groups = map.getLayerGroups();
+      console.log("Toggled layer: groups", groups);
+      let targetLayer = groups.find((g) => g.id == layerid)
+      console.log("Toggled layer:", layer);
+      if (targetLayer.isVisible) {
+        targetLayer.isVisible = false;
+
+      } else {
+        targetLayer.isVisible = true;
+
+      }
+    } else {
+      console.log("toggleLayer: no map object: ", layer);
+    }
+
   }
 
   // When a card is clicked, select the corresponding pill
@@ -592,7 +603,7 @@
   // Dummy play function for time widget
   function playTime(layer, sliderElem) {
     console.log("Playing time for " + layer + ", current value: " + sliderElem.value);
-    // Implement map updates based on time here.
+    // Implement fsmap updates based on time here.
   }
 
   // Initialization on page load

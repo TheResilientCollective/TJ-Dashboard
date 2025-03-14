@@ -1,6 +1,6 @@
 # Map SDK basic example
 
-This example demonstrates how to load an empty map.
+This example demonstrates how to load an empty fsmap.
 
 This is an example for Foursquare's [Map SDK](https://location.foursquare.com/developer/docs/studio-map-sdk-introduction) that allows you to programmatically render [Foursquare Studio](https://studio.foursquare.com/) maps within your website and with your own data.
 

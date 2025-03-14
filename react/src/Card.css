@@ -1,0 +1,86 @@
+/* Card Styles */
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  cursor: pointer;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.expand-btn {
+  cursor: pointer;
+  font-size: 18px;
+  color: #007bff;
+  border: none;
+  background: none;
+}
+
+.expandable {
+  display: none;
+  margin-top: 10px;
+}
+
+.expandable a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.expandable a:hover {
+  text-decoration: underline;
+}
+
+.card-data {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.indicator {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.low {
+  background: #4CAF50;
+}
+
+.moderate {
+  background: #FFC107;
+}
+
+.high {
+  background: #FF5722;
+}
+
+.trend-up {
+  color: #4CAF50;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.trend-down {
+  color: #FF5722;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/*# sourceMappingURL=Card.css.map */

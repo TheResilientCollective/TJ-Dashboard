@@ -42,7 +42,7 @@ export const MapLayers = () => {
         });
     }
 
-    // Keep the toggles in sync with the map layers
+    // Keep the toggles in sync with the fsmap layers
     useEffect(() => {
         if (!state || !state.map || state.map.config.visState.layers.length === 0) return;
         console.log("[Layers](MapLayers.useEffect[state]) Map Layers", state);
