@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaWind, FaDroplet, FaCircleExclamation } from 'react-icons/fa6';
 import { useGlobalState } from './GlobalState';
+import "./Layers.css"
 
 interface LayerToggleProps {
     id: string;
@@ -53,13 +54,13 @@ export const MapLayers = () => {
         setLayers(newLayers);
     }, [state]);
 
-    return <div id="map-layers">
+    return <div id="map-layers" className="top-bar-container top-bar">
         {layers.map((layer) => <LayerPill key={layer.id} {...layer} onToggle={() => handleToggle(layer.id)} />)}
     </div>;
 }
 
 export const LayerPill = (props: LayerToggleProps) => {
-    const classes = `map-layer-toggle ${props.isEnabled ? 'enabled' : 'disabled'}`;
+    const classes = `button ${props.isEnabled ? 'enabled' : 'disabled'}`;
     return <div className={classes} onClick={props.onToggle}>
         <span>{props.text}</span>
         <props.icon />
