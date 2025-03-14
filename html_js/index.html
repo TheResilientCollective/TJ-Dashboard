@@ -273,8 +273,30 @@
       line-height: 1.5;
     }
   </style>
+  <script type="module">
+    import {createMap} from 'https://corsproxy.io/?key=3d648870&url=https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';
+
+    const map = await createMap({
+      apiKey: "fsq3CYDP77ybwoo1KtkJigGRj6g0uYyhWVw25jM+zN6ovbI=",
+      container: document.getElementById('map-container'),
+      // this loads a published map
+      // (original url: https://studio.foursquare.com/public/806b95d0-36bb-402c-b16c-24e54af4a761)
+      initialState: {
+        publishedMapId: 'ffc494e8-2565-4dfc-be79-bd4d105ee578'
+      }
+    });
+  </script>
   <script>
+    //     <button onclick="toggleLayer(this, 'Beach Closures')">Beach Closures</button>
+
     // Toggle Sidebar Function
+    const layerInfo = [
+      {name: 'H₂S Levels', id:'8owf0vr'}, // health layer for now
+      {name: 'Smell Complaints', id:'1bqkm36'}, // odor
+      {name: 'Wastewater Spills', id:'5tnuf2g'}, // water
+      {name: 'Odor Complaints', id:'jpqdowy'}, // observations
+    ]
+
     function toggleSidebar() {
       var sidebar = document.getElementById("sidebar");
       var openBtn = document.getElementById("open-sidebar-btn");
@@ -305,12 +327,23 @@
     function toggleLayer(button, layer) {
       button.classList.toggle("active");
       console.log("Toggled layer:", layer);
+      const layerid = layerInfo.find((l) => l.name == l)
+      const groups = map.getLayerGroups();
+      let targetLayer = groups.find((g) => g.id == layerid)
+      if (targetLayer.isVisible) {
+        targetLayer.isVisible = false;
+
+      } else {
+        targetLayer.isVisible = true;
+
+      }
+
     }
 
     // When a card is clicked, select the corresponding pill
     function selectCard(layer) {
       var buttons = document.querySelectorAll("#top-bar button");
-      buttons.forEach(function(btn) {
+      buttons.forEach(function (btn) {
         btn.classList.remove("active");
         if (btn.textContent.trim().toLowerCase() === layer.toLowerCase()) {
           btn.classList.add("active");
@@ -326,7 +359,7 @@
     }
 
     // Initialization on page load
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
       if (window.innerWidth > 768) {
         document.getElementById("sidebar").style.display = "block";
         document.getElementById("open-sidebar-btn").style.display = "none";
@@ -337,7 +370,7 @@
       }
     });
 
-    window.addEventListener("resize", function() {
+    window.addEventListener("resize", function () {
       if (window.innerWidth > 768) {
         document.getElementById("sidebar").style.display = "block";
         document.getElementById("sidebar").classList.remove("open");
@@ -351,25 +384,13 @@
       }
     });
   </script>
-  <script type="module">
-    import {createMap} from 'https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';
 
-    const map = await createMap({
-      apiKey: "fsq3CYDP77ybwoo1KtkJigGRj6g0uYyhWVw25jM+zN6ovbI=",
-      container: document.getElementById('map-container'),
-      // this loads a published map
-      // (original url: https://studio.foursquare.com/public/806b95d0-36bb-402c-b16c-24e54af4a761)
-      initialState: {
-        publishedMapId: 'ffc494e8-2565-4dfc-be79-bd4d105ee578'
-      }
-    });
-  </script>
 </head>
 <body>
 <div id="container">
   <!-- Map Container with Kepler map configured for San Ysidro (approx 50-mile radius) -->
   <div id="map-container">
-    </div>
+  </div>
 
   <!-- Top Pill Container -->
   <div id="top-bar-container">
