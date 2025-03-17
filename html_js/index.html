@@ -276,15 +276,17 @@
   </style>
 <!--  <script type="module" src="js/fsmap.js"></script>-->
   <script type="module">
+    const fs="fsq3CYDP77ybwoo1KtkJigGRj6g0uYyhWVw25jM+zN6ovbI="
+    const mapuid='6ce3b305-7e09-44b3-8725-34dcf59bb56d'
     import {createMap} from 'https://corsproxy.io/?key=3d648870&url=https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';
 
     const map = await createMap({
-      apiKey: "fsq3CYDP77ybwoo1KtkJigGRj6g0uYyhWVw25jM+zN6ovbI=",
+      apiKey: fs ,
       container: document.getElementById('map-container'),
       // this loads a published map
       // (original url: https://studio.foursquare.com/public/806b95d0-36bb-402c-b16c-24e54af4a761)
       initialState: {
-        publishedMapId: 'ffc494e8-2565-4dfc-be79-bd4d105ee578'
+        publishedMapId: mapuid
       }
 
     });
@@ -298,10 +300,12 @@
 
     // Toggle Sidebar Function
     const layerInfo = [
-      {name: 'H₂S Levels', id:'8owf0vr'}, // health layer for now
-      {name: 'Smell Complaints', id:'1bqkm36'}, // odor
-      {name: 'Wastewater Spills', id:'5tnuf2g'}, // water
-      {name: 'Odor Complaints', id:'jpqdowy'}, // observations
+      {label: 'H₂S Levels', id:'g0nrfjd'}, // health layer for now
+      {label: 'Smell Complaints', id:'49rpvvq'}, // odor
+      {label: 'Wastewater Spills', id:'hg4pxs'}, // water
+      {label: 'Beach Closures', id:'dpoomlg'}, // observations
+      {label: 'Streamflow', id:'jpqdowy'},
+
     ]
 
     function toggleSidebar() {
@@ -330,7 +334,32 @@
       }
     }
 
+    // Toggle Layer Function for Top Pills
+    function toggleLayer(button, layer) {
+      if ( undefined !== map) {
 
+
+        button.classList.toggle("active");
+        console.log("Toggled layer:", layer);
+        const layerid = layerInfo.find((l) => l.label == layer)
+        console.log("Toggled layer:"+ layer +" layerid:", layerid);
+        const groups = map.getLayerGroups();
+        console.log("Toggled layer: groups", groups);
+        let targetLayer = groups.find((g) => g.id == layerid.id)
+        console.log("Target layer:", targetLayer);
+        if (targetLayer.isVisible) {
+          targetLayer.isVisible = false;
+
+        } else {
+          targetLayer.isVisible = true;
+
+        }
+        map.updateLayerGroup(targetLayer.id,targetLayer)
+      } else {
+        console.log("toggleLayer: no map object: ", layer);
+      }
+
+    }
 
     // When a card is clicked, select the corresponding pill
     function selectCard(layer) {
@@ -391,7 +420,7 @@
       <button onclick="toggleLayer(this, 'H₂S Levels')">H₂S Levels</button>
       <button onclick="toggleLayer(this, 'Smell Complaints')">Smell Complaints</button>
       <button onclick="toggleLayer(this, 'Wastewater Spills')">Wastewater Spills</button>
-      <button onclick="toggleRetoggleLayersilentLayer(this, 'Odor Complaints')">Odor Complaints</button>
+      <button onclick="toggleLayer(this, 'Streamflow')">Streamflow</button>
     </div>
   </div>
 
@@ -563,31 +592,7 @@
 <!--    }-->
 <!--  }-->
 
-<!--  // Toggle Layer Function for Top Pills-->
-<!--  function toggleLayer(button, layer) {-->
-<!--    if ( undefined !== map) {-->
 
-
-<!--      button.classList.toggle("active");-->
-<!--      console.log("Toggled layer:", layer);-->
-<!--      const layerid = layerInfo.find((l) => l.name == l)-->
-<!--      console.log("Toggled layer:"+ layer +" layerid:", layerid);-->
-<!--      const groups = map.getLayerGroups();-->
-<!--      console.log("Toggled layer: groups", groups);-->
-<!--      let targetLayer = groups.find((g) => g.id == layerid)-->
-<!--      console.log("Toggled layer:", layer);-->
-<!--      if (targetLayer.isVisible) {-->
-<!--        targetLayer.isVisible = false;-->
-
-<!--      } else {-->
-<!--        targetLayer.isVisible = true;-->
-
-<!--      }-->
-<!--    } else {-->
-<!--      console.log("toggleLayer: no map object: ", layer);-->
-<!--    }-->
-
-<!--  }-->
 
 <!--  // When a card is clicked, select the corresponding pill-->
 <!--  function selectCard(layer) {-->
