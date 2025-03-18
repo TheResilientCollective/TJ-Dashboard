@@ -1,0 +1,21 @@
+
+
+Map group id's are at the bottom of the exported json map.
+{"id":"e9u69ps","label":"Base Layers","isVisible":true,"layerOrder":
+
+do not commit the large maps files...
+
+
+Timeline
+https://docs.foursquare.com/developer/docs/studio-map-sdk-api-reference#updatetimeline
+
+"value": [
+1739664000000,
+1740268800000
+],
+
+
+updateTimeline(
+  filterId: string,
+  values: FilterTimelineUpdateProps
+): TimeRangeFilter;

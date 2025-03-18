@@ -273,12 +273,75 @@
       color: #555;
       line-height: 1.5;
     }
+
+    /* Bottom Pill Container */
+    #bottom-bar-container {
+      position: absolute;
+      z-index: 120;
+    }
+    /* Desktop: pills placed to the right of sidebar */
+    @media (min-width: 769px) {
+      #bottom-bar-container {
+        bottom: 15px;
+        left: calc(360px + 20px);
+        right: 20px;
+        text-align: center;
+      }
+      #bottom-bar {
+        display: inline-flex;
+
+        gap: 6px;
+        background: rgba(255,255,255,0.95);
+        border-radius: 50px;
+        padding: 6px 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        overflow-x: auto;
+        white-space: nowrap;
+        justify-content: center;
+      }
+    }
+    /* Mobile: pills centered */
+    @media (max-width: 768px) {
+      #bottom-bar-container {
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        text-align: center;
+      }
+      #bottom-bar {
+        display: flex;
+        justify-content: space-around;
+        gap: 6px;
+        background: rgba(255,255,255,0.95);
+        border-radius: 50px;
+        padding: 6px 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+    #bottom-bar a {
+      background: none;
+      border: none;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-size: 14px;
+      border-radius: 20px;
+      flex: 0 0 auto;
+      transition: background 0.2s;
+    }
+    #top-bar a:hover { background: rgba(0,0,0,0.1); }
+    #top-bar a.active { background: #007bff; color: white; }
   </style>
-<!--  <script type="module" src="js/fsmap.js"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+
+  <!--  <script type="module" src="js/fsmap.js"></script>-->
   <script type="module">
     const fs="fsq3CYDP77ybwoo1KtkJigGRj6g0uYyhWVw25jM+zN6ovbI="
     const mapuid='6ce3b305-7e09-44b3-8725-34dcf59bb56d'
-    import {createMap} from 'https://corsproxy.io/?key=3d648870&url=https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';
+ //   import {createMap} from 'https://corsproxy.io/?key=3d648870&url=https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';
+    import {createMap} from 'https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';
 
     const map = await createMap({
       apiKey: fs ,
@@ -416,11 +479,11 @@
   <!-- Top Pill Container -->
   <div id="top-bar-container">
     <div id="top-bar">
-      <button onclick="toggleLayer(this, 'Beach Closures')">Beach Closures</button>
-      <button onclick="toggleLayer(this, 'H₂S Levels')">H₂S Levels</button>
-      <button onclick="toggleLayer(this, 'Smell Complaints')">Smell Complaints</button>
-      <button onclick="toggleLayer(this, 'Wastewater Spills')">Wastewater Spills</button>
-      <button onclick="toggleLayer(this, 'Streamflow')">Streamflow</button>
+      <button class="active" onclick="toggleLayer(this, 'Beach Closures')">Beach Closures</button>
+      <button class="active" onclick="toggleLayer(this, 'H₂S Levels')">H₂S Levels</button>
+      <button class="active" onclick="toggleLayer(this, 'Smell Complaints')">Smell Complaints</button>
+      <button class="active" onclick="toggleLayer(this, 'Wastewater Spills')">Wastewater Spills</button>
+      <button class="active" onclick="toggleLayer(this, 'Streamflow')">Streamflow</button>
     </div>
   </div>
 
@@ -563,7 +626,13 @@
   <!-- Sidebar Toggle Button (for Desktop) -->
   <button id="open-sidebar-btn" onclick="toggleSidebar()">☰</button>
 </div>
-
+<div id="bottom-bar-container">
+  <div id="bottom-bar">
+    <img src="img/logoCOSD.png" height="24" width="24">
+    <a href="https://www.sandiegocounty.gov/">County of San Diego</a>
+    <a href="https://www.sandiegocounty.gov/deh/">Department of Environmental Health and Quality</a>
+  </div>
+</div>
 <!--<script>-->
 <!--  // Toggle Sidebar Function-->
 <!--  function toggleSidebar() {-->
