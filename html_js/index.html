@@ -493,7 +493,10 @@
     <div id="drawer-handle" onclick="toggleSidebar()"></div>
     <!-- Desktop Close Button -->
     <button id="close-sidebar" onclick="toggleSidebar()">✕</button>
-
+    <div class="card-header">
+          <img src="img/logoCOSD.png" height="24" width="24">
+          <a href="https://www.sandiegocounty.gov/">County of San Diego</a>
+    </div>
     <!-- Card: What We Know (No time widget here) -->
     <div class="card" onclick="selectCard('What We Know')">
       <div class="card-header">
@@ -508,26 +511,26 @@
     </div>
 
     <!-- Card: Air Quality (with time widget inside expandable section) -->
-    <div class="card" onclick="selectCard('Air Quality')">
-      <div class="card-header">
-        <span class="card-title">Air Quality</span>
-        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('aq-info')">⌄</button>
-      </div>
-      <div class="card-data">
-        <span class="indicator moderate"></span>
-        <span>AQI: 42</span>
-        <span class="trend-up">▲ +3%</span>
-      </div>
-      <div id="aq-info" class="expandable">
-        <p>Urban emissions contribute to moderate air quality. Pollutant levels are rising.</p>
-        <a href="#">Check full AQI report</a>
-        <div class="time-widget">
-          <span class="time-title">Time Range:</span>
-          <input type="range" min="2000" max="2025" value="2010" class="time-slider">
-          <button class="time-play" onclick="playTime('Air Quality', this.previousElementSibling)">Play</button>
-        </div>
-      </div>
-    </div>
+<!--    <div class="card" onclick="selectCard('Air Quality')">-->
+<!--      <div class="card-header">-->
+<!--        <span class="card-title">Air Quality</span>-->
+<!--        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('aq-info')">⌄</button>-->
+<!--      </div>-->
+<!--      <div class="card-data">-->
+<!--        <span class="indicator moderate"></span>-->
+<!--        <span>AQI: 42</span>-->
+<!--        <span class="trend-up">▲ +3%</span>-->
+<!--      </div>-->
+<!--      <div id="aq-info" class="expandable">-->
+<!--        <p>Urban emissions contribute to moderate air quality. Pollutant levels are rising.</p>-->
+<!--        <a href="#">Check full AQI report</a>-->
+<!--        <div class="time-widget">-->
+<!--          <span class="time-title">Time Range:</span>-->
+<!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
+<!--          <button class="time-play" onclick="playTime('Air Quality', this.previousElementSibling)">Play</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
 
     <!-- Card: Hydrogen Sulfide Levels (with time widget inside expandable section) -->
     <div class="card" onclick="selectCard('H₂S Levels')">
@@ -536,8 +539,18 @@
         <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('hs-info')">⌄</button>
       </div>
       <div class="card-data">
-        <span class="indicator high"></span>
-        <span>1.2 ppm (Imperial Beach)</span>
+        <span class="indicator moderate"></span>
+        <span>7.4 ppm (Imperial Beach)</span>
+        <span class="trend-down">▼ -0.2 ppm</span>
+      </div>
+      <div class="card-data">
+        <span class="indicator moderate"></span>
+        <span>12.5 ppm (Nestor)</span>
+        <span class="trend-down">▼ -0.2 ppm</span>
+      </div>
+      <div class="card-data">
+        <span class="indicator low"></span>
+        <span>NA (San Ysidro)</span>
         <span class="trend-down">▼ -0.2 ppm</span>
       </div>
       <div id="hs-info" class="expandable">
@@ -559,7 +572,7 @@
       </div>
       <div class="card-data">
         <span class="indicator high"></span>
-        <span>2 Beaches Closed</span>
+        <span>9 Beaches Closed</span>
         <span class="trend-up">▲ +1</span>
       </div>
       <div id="beach-info" class="expandable">
@@ -581,7 +594,7 @@
       </div>
       <div class="card-data">
         <span class="indicator moderate"></span>
-        <span>3 Complaints</span>
+        <span>14 Complaints</span>
         <span class="trend-up">▲ +2</span>
       </div>
       <div id="odor-info" class="expandable">
@@ -626,13 +639,13 @@
   <!-- Sidebar Toggle Button (for Desktop) -->
   <button id="open-sidebar-btn" onclick="toggleSidebar()">☰</button>
 </div>
-<div id="bottom-bar-container">
-  <div id="bottom-bar">
-    <img src="img/logoCOSD.png" height="24" width="24">
-    <a href="https://www.sandiegocounty.gov/">County of San Diego</a>
-    <a href="https://www.sandiegocounty.gov/deh/">Department of Environmental Health and Quality</a>
-  </div>
-</div>
+<!--<div id="bottom-bar-container">-->
+<!--  <div id="bottom-bar">-->
+<!--    <img src="img/logoCOSD.png" height="24" width="24">-->
+<!--    <a href="https://www.sandiegocounty.gov/">County of San Diego</a>-->
+<!--    <a href="https://www.sandiegocounty.gov/deh/">Department of Environmental Health and Quality</a>-->
+<!--  </div>-->
+<!--</div>-->
 <!--<script>-->
 <!--  // Toggle Sidebar Function-->
 <!--  function toggleSidebar() {-->
