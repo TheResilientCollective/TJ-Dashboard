@@ -39,6 +39,12 @@
       width: 100%; height: 100%;
       border: none;
     }
+    #hidepanel {width: 40px;
+    height: 100%;
+    z-index: 11;
+    background-color: grey;
+    position: absolute;
+    }
     /* Top Pill Container */
     #top-bar-container {
       position: absolute;
@@ -214,6 +220,7 @@
       margin-right: 8px;
       display: inline-block;
     }
+    .indeterminate { background: #4CAF50; }
     .low { background: #4CAF50; }
     .moderate { background: #FFC107; }
     .high { background: #FF5722; }
@@ -353,6 +360,10 @@
       }
 
     });
+    // cannot override style sheet. #shadow-root is closed.
+    // var sheet = new CSSStyleSheet
+    // sheet.replaceSync( `.unfolded-root + div + div  {visibility: collapse;}`)
+    // map.shadowRoot.adoptedStyleSheets.push(sheet) // You want to add to stylesheets list
     globalThis.map = map
 
   </script>
@@ -475,7 +486,8 @@
   <!-- Map Container with Kepler fsmap configured for San Ysidro (approx 50-mile radius) -->
   <div id="map-container">
   </div>
-
+  <div id="hidepanel">
+  </div>
   <!-- Top Pill Container -->
   <div id="top-bar-container">
     <div id="top-bar">
@@ -538,21 +550,24 @@
         <span class="card-title">Hydrogen Sulfide Levels</span>
         <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('hs-info')">⌄</button>
       </div>
-      <div class="card-data">
-        <span class="indicator moderate"></span>
-        <span>7.4 ppm (Imperial Beach)</span>
-        <span class="trend-down">▼ -0.2 ppm</span>
+      <div id="h2s_summary">
+        <div class="card-data">
+          <span class="indicator moderate"></span>
+          <span>7.4 ppm (Imperial Beach)</span>
+          <span class="trend-down">▼ -0.2 ppm</span>
+        </div>
+        <div class="card-data">
+          <span class="indicator moderate"></span>
+          <span>12.5 ppm (Nestor)</span>
+          <span class="trend-down">▼ -0.2 ppm</span>
+        </div>
+        <div class="card-data">
+          <span class="indicator low"></span>
+          <span>NA (San Ysidro)</span>
+          <span class="trend-down">▼ -0.2 ppm</span>
+        </div>
       </div>
-      <div class="card-data">
-        <span class="indicator moderate"></span>
-        <span>12.5 ppm (Nestor)</span>
-        <span class="trend-down">▼ -0.2 ppm</span>
-      </div>
-      <div class="card-data">
-        <span class="indicator low"></span>
-        <span>NA (San Ysidro)</span>
-        <span class="trend-down">▼ -0.2 ppm</span>
-      </div>
+
       <div id="hs-info" class="expandable">
         <p>Elevated H₂S detected near the border with variable readings among stations.</p>
         <a href="#">See real-time monitoring</a>
@@ -720,5 +735,62 @@
 <!--    }-->
 <!--  });-->
 <!--</script>-->
+<script>
+  fetch('https://oss.resilientservice.mooo.com/resilentpublic/tijuana/sd_apcd_air/output/warnings/h2s.json')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok: ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(jsonData => {
+      const jsonDiv = document.getElementById('h2s_summary');
+      const h2shead = document.createElement("div")
+      h2shead.innerText = "Recent Events"
+      jsonDiv.innerText = ''
+      jsonDiv.appendChild(h2shead)
+
+      // Convert JSON data to a formatted string for display
+     jsonData.forEach(
+          h2s => {
+            const d = document.createElement("div");
+            d.className = "card-data"
+            const ind = document.createElement("span");
+            switch (h2s['level']) {
+              case 'orange':
+                ind.className = "indicator moderate"
+                break;
+              case 'green':
+                ind.className = "indicator low"
+                break;
+              case 'purple':
+                ind.className = "indicator high"
+                break;
+              default:
+                ind.className = "indicator indeterminate"
+                break;
+            }
+
+            const result = document.createElement("span");
+            result.innerText = h2s['Result']
+            const date = document.createElement("span");
+            let dt = new Date(h2s['Date with time'])
+            //const day = dt.getDay()
+            const tm = dt.toLocaleTimeString("en-US")
+            date.innerText =  tm
+            const name = document.createElement("span");
+            name.innerText = h2s['Site Name']
+            d.appendChild(ind)
+            d.appendChild(result)
+            d.appendChild(date)
+            d.appendChild(name)
+            jsonDiv.appendChild(d)
+           }
+         )
+    })
+    .catch(error => {
+      console.error('Error fetching the JSON:', error);
+    });
+</script>
 </body>
 </html>
