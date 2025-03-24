@@ -220,10 +220,16 @@
       margin-right: 8px;
       display: inline-block;
     }
-    .indeterminate { background: #4CAF50; }
+    .indeterminate { background: white; }
     .low { background: #4CAF50; }
     .moderate { background: #FFC107; }
     .high { background: #FF5722; }
+    /* APCD H2s */
+    .white { background: white; }
+    .green { background: #00E400; }
+    .yellow { background: #ffff00; }
+    .orange { background: #FF7E00; }
+    .purple { background: #CC58DB; }
     .trend-up {
       color: #4CAF50;
       font-size: 16px;
@@ -758,16 +764,19 @@
             const ind = document.createElement("span");
             switch (h2s['level']) {
               case 'orange':
-                ind.className = "indicator moderate"
+                ind.className = "indicator orange"
+                break;
+              case 'yellow':
+                ind.className = "indicator yellow"
                 break;
               case 'green':
-                ind.className = "indicator low"
+                ind.className = "indicator green"
                 break;
               case 'purple':
-                ind.className = "indicator high"
+                ind.className = "indicator purple"
                 break;
               default:
-                ind.className = "indicator indeterminate"
+                ind.className = "indicator white"
                 break;
             }
 
