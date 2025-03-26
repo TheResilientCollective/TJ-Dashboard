@@ -1,6 +1,8 @@
 # TJ River Dashboard Prototype
+Part of the [Resilient Collective](https://resilient.ucsd.edu/)
 
-[HTML Only ](html_js)  [netlify](https://tjdashboard.netlify.app)
+* [HTML Web Page](html_js)
+   * [Netlify Deploy](https://tjdashboard.netlify.app)
 
 typescript vite is [here](foursquarewidget)
 
