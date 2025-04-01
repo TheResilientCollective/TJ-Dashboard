@@ -730,13 +730,13 @@
       </div>
       <div id="odor-info" class="expandable">
 
-        <ul>
-          <li><strong>Downtown:</strong> Strong rotten egg odor (Industrial)</li>
-          <li><strong>Ocean Beach:</strong> Faint sewage odor (Sewage)</li>
-          <li><strong>Little Italy:</strong> Chemical smell (Chemical)</li>
-        </ul>
+<!--        <ul>-->
+<!--          <li><strong>Downtown:</strong> Strong rotten egg odor (Industrial)</li>-->
+<!--          <li><strong>Ocean Beach:</strong> Faint sewage odor (Sewage)</li>-->
+<!--          <li><strong>Little Italy:</strong> Chemical smell (Chemical)</li>-->
+<!--        </ul>-->
 
-        <a href="#">View odor complaints fsmap</a>
+        <a href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df">View SD County Odor Complaints Dashboard</a>
         <div class="time-widget">
           <span class="time-title">Time Range:</span>
           <input type="range" min="2000" max="2025" value="2010" class="time-slider">
@@ -974,9 +974,12 @@
           const result = document.createElement("span");
           result.innerText = h2s['Result']
           const date = document.createElement("span");
-          let dt = new Date(h2s['Date with time'])
+          //let dt = new Date(h2s['Date with time'])
+          let dt = dayjs(h2s['Date with time'])
           //const day = dt.getDay()
-          const tm = dt.toLocaleTimeString("en-US")
+          //const tm = dt.toLocaleTimeString("en-US")
+          //const tm = dt.hour()
+          const tm = dt.format('dddd  h A')
           date.innerText = tm
           const name = document.createElement("span");
           name.innerText = h2s['Site Name']
