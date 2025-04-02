@@ -1,6 +1,7 @@
 import { IconType } from "react-icons";
 import { FaBeer, FaChevronUp, FaChevronDown } from "react-icons/fa";
 import { useState } from "react";
+import './Card.css'
 
 interface CardProps {
     title: string;
@@ -23,14 +24,14 @@ export const Card = (props: CardProps) => {
   const Chevron = props.isExpanded ? FaChevronUp : FaChevronDown;
   const Body = props.body || (() => null);
 
-  return <div id="card" className={props.isExpanded ? "expanded" : "collapse"}>
-    <div className="header">
+  return <div id="card" className={props.isExpanded ? "expanded" : "collapse"} >
+    <div className="card-header" class="card-header">
         <Icon />
         <h4>{props.title}</h4>
         {props.value && <Stoplight value={props.value} />}
         <Chevron onClick={props.onToggle} />
     </div>
-    <div className="content">
+    <div className="content" class="c">
         <Body />
     </div>
   </div>;
@@ -54,13 +55,13 @@ export const CardGroup = (props: {title: string, children: any[]}) => {
 
     return <div id="card-group">
         <h3 id="card-separator">{props.title}</h3>
-        {cards.map((card, index) => 
-            <Card 
+        {cards.map((card, index) =>
+            <Card
                 key={index}
-                title={card.title} 
-                body={card?.body} 
-                value={card?.value} 
-                icon={card?.icon} 
+                title={card.title}
+                body={card?.body}
+                value={card?.value}
+                icon={card?.icon}
                 isExpanded={card.isExpanded}
                 onToggle={() => handleCardToggle(index)}
             />)}

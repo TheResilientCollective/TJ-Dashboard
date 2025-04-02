@@ -243,5 +243,9 @@ textarea {
   h3 {
     page-break-after: avoid;
   }
+  .unfolded-root + div {
+  visibility: hidden;
+
+  }
 }
 

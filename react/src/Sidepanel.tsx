@@ -1,6 +1,7 @@
 import { FaWind, FaDroplet, FaCircleExclamation, FaCircleCheck, FaCircleXmark, FaArrowUpRightDots, FaUser, FaCircleInfo } from 'react-icons/fa6';
 import {CardGroup} from './Card';
 import {useState} from 'react';
+import './Sidepanel.scss'
 
 
 /**
@@ -27,7 +28,7 @@ export const Panel = (props: any) => {
     {title: "Complaints", icon: FaCircleExclamation}
   ]);
 
-  return <div id="panel">
+  return <div id="sidebar" className="sidebar">
     <CardGroup title="Recommendations" children={recommendations} />
     <CardGroup title="Transparency" children={transparency} />
     <CardGroup title="Measurements" children={measurements} />

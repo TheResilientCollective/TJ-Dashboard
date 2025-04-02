@@ -1,5 +1,6 @@
 import {createRoot} from 'react-dom/client';
 import './index.css';
+import './dynamic.css'
 import {App as Map} from './App';
 import {Panel} from './Sidepanel';
 import { MapLayers } from './Layers';

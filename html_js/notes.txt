@@ -1,0 +1,36 @@
+
+
+icons:
+
+https://raw.githubusercontent.com/keplergl/kepler.gl/c0d8b34ba157dae18955f4a204075e0e39f6d4d8/src/layers/icon-layer/svg-icons.json
+
+https://studio-public-data.foursquare.com/statics/keplergl/icons/svg-icons.json
+
+Map group id's are at the bottom of the exported json map.
+{"id":"e9u69ps","label":"Base Layers","isVisible":true,"layerOrder":
+
+do not commit the large maps files...
+
+
+Timeline
+https://docs.foursquare.com/developer/docs/studio-map-sdk-api-reference#updatetimeline
+
+"value": [
+1739664000000,
+1740268800000
+],
+
+
+updateTimeline(
+  filterId: string,
+  values: FilterTimelineUpdateProps
+): TimeRangeFilter;
+
+
+updating icons:
+https://deck.gl/docs/api-reference/layers/icon-layer
+
+https://stackoverflow.com/questions/69086721/how-to-render-custom-svg-in-iconlayer-of-deck-gl
+
+
+county link
