@@ -25,13 +25,13 @@ export const Card = (props: CardProps) => {
   const Body = props.body || (() => null);
 
   return <div id="card" className={props.isExpanded ? "expanded" : "collapse"} >
-    <div className="card-header" class="card-header">
+    <div className="card-header">
         <Icon />
         <h4>{props.title}</h4>
         {props.value && <Stoplight value={props.value} />}
         <Chevron onClick={props.onToggle} />
     </div>
-    <div className="content" class="c">
+    <div className="content c">
         <Body />
     </div>
   </div>;

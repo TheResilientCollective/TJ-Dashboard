@@ -36,10 +36,10 @@ export const App = () => {
       //   exportEnabled: false,
       // },
     });
-    map.setTheme({
+    fsmap.setTheme({
       preset: "light",
     });
-    map.setMapConfig({
+    fsmap.setMapConfig({
       version: "v1",
       config: {
         loaded: false,
@@ -60,18 +60,18 @@ export const App = () => {
         }
       }
     });
-    map
+    fsmap
 
-    map.eventHandlers.onViewUpdate = (view:View) => {
+    fsmap.eventHandlers.onViewUpdate = (view:View) => {
       getMapRegion(view);
     };
 
     // save variables
-    setMap(map);
+    setMap(fsmap);
     // udpate the global state with the fsmap config
     setState((prevState: any) => {
       const newState = {...prevState};
-      newState.map = map?.getMapConfig();
+      newState.map = fsmap?.getMapConfig();
       return newState;
     });
   };
@@ -82,15 +82,15 @@ export const App = () => {
    */
   const updateMap = () => {
     console.log("[App](App.updateMap) data loaded", dataLoaded);
-    if (!map || !state || !dataLoaded) return;
+    if (!fsmap || !state || !dataLoaded) return;
 
     // update the fsmap configuration to match the global state
-    const config = map.getMapConfig() as any;
+    const config = fsmap.getMapConfig() as any;
     const newConfig = {...config};
     newConfig.config.visState = state.map.config.visState;
     // newConfig.uiState = state.fsmap.config.uiState;
     // newConfig.mapStype = state.fsmap.config.mapStyle;
-    map.setMapConfig(newConfig);
+    fsmap.setMapConfig(newConfig);
   };
 
   /**
@@ -120,7 +120,7 @@ export const App = () => {
     let animationFrameId: number;
     const frameLoop = async () => {
       // wait for fsmap to be initialized
-      if (!map) {
+      if (!fsmap) {
         animationFrameId = requestAnimationFrame(frameLoop);
         return;
       }
@@ -132,7 +132,7 @@ export const App = () => {
       }
 
       // Check if the data is loaded
-      const config = map.getMapConfig() as any;
+      const config = fsmap.getMapConfig() as any;
       if (config.config.visState.layers.length === EXPECTED_NUMBER_OF_LAYERS) {
         console.log("[App](App.checkForMapDataLoaded) Data loaded to map", config.config);
         // update the global state with the fsmap data
@@ -162,9 +162,9 @@ export const App = () => {
     initMap();
   }, [ setState, setMap ]);
   // update the fsmap whenever the global state changes
-  useEffect(updateMap, [state, dataLoaded, map]);
+  useEffect(updateMap, [state, dataLoaded, fsmap]);
   // check if the fsmap data has been loaded
-  useEffect(checkForMapDataLoaded, [map, dataLoaded, setDataLoaded, setState]);
+  useEffect(checkForMapDataLoaded, [fsmap, dataLoaded, setDataLoaded, setState]);
 
   return <div id="map-container" ref={containerRef}></div>;
 };
