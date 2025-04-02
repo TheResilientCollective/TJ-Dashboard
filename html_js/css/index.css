@@ -99,15 +99,15 @@ footer {
 #top-bar-container {
     position: absolute;
     z-index: 120;
+    top: var(--p1);
+    text-align: center;
 }
 
 /* Desktop: pills placed to the right of sidebar */
 @media (min-width: 769px) {
     #top-bar-container {
-        top: 15px;
         left: calc(360px + 20px);
         right: 20px;
-        text-align: center;
     }
 
     #top-bar {
@@ -126,11 +126,9 @@ footer {
 /* Mobile: pills centered */
 @media (max-width: 768px) {
     #top-bar-container {
-        top: 15px;
         left: 50%;
         transform: translateX(-50%);
         width: 90%;
-        text-align: center;
     }
 
     #top-bar {
@@ -193,9 +191,10 @@ footer {
     --sidebar-content-padding: var(--p1);
     --icon-padding: var(--p1);
     --border-size: 1px;
+    --top-bar-height: calc(40.5px + var(--p1));
 
     position: absolute;
-    top: var(--p4);
+    top: calc(var(--top-bar-height) + var(--p1));
     right: calc(0px - var(--font-size) - (var(--icon-padding) * 2) + var(--sidebar-content-padding));
 
     padding: var(--p1);
