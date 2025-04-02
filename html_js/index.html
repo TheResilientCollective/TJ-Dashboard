@@ -382,7 +382,16 @@
       color: #555;
       line-height: 1.5;
     }
+    /* this will be the description for a beach about it's sampling */
+    .beach-description  {
+      display: none;
 
+    }
+    /* this will be the description for a beach about it's closure or advisory */
+    .beach-message  {
+      display: none;
+
+    }
     /* Bottom Pill Container */
     #bottom-bar-container {
       position: absolute;
@@ -785,7 +794,7 @@
       </div>
       <div class="card-data">
         <span class="indicator high"></span>
-        <span>11 Beaches Closed</span>
+        <span id="beach-closure-count">11 Beaches Closed</span>
         <span class="trend-up">▲ +1</span>
       </div>
       <div id="beach-info" class="expandable">
@@ -1013,9 +1022,9 @@
       return response.json();
     })
     .then(jsonData => {
-      const jsonDiv = document.getElementById('beach-info');
+      const jsonDiv = document.getElementById('odor-info');
       const h2shead = document.createElement("ul")
-      h2shead.innerText = "Closed Beaches"
+      h2shead.innerText = "Recent Complaints "
       jsonDiv.innerText = ''
       jsonDiv.appendChild(h2shead)
 
@@ -1071,49 +1080,44 @@
       return response.json();
     })
     .then(jsonData => {
-      const jsonDiv = document.getElementById('odor-info');
+      const countSpan= document.getElementById('beach-closure-count')
+      const countClosures = jsonData.length
+      countSpan.innerText = countClosures + " Beaches Closed"
+      const jsonDiv = document.getElementById('beach-info');
       const h2shead = document.createElement("ul")
-      h2shead.innerText = "Recent Events"
+      h2shead.innerText = "Recent Closures"
       jsonDiv.innerText = ''
       jsonDiv.appendChild(h2shead)
 
       // Convert JSON data to a formatted string for display
       jsonData.forEach(
-        h2s => {
+        obj => {
           const d = document.createElement("li");
           d.className = "card-data"
-          const ind = document.createElement("span");
-          switch (h2s['level']) {
-            case 'orange':
-              ind.className = "indicator orange"
-              break;
-            case 'yellow':
-              ind.className = "indicator yellow"
-              break;
-            case 'green':
-              ind.className = "indicator green"
-              break;
-            case 'purple':
-              ind.className = "indicator purple"
-              break;
-            default:
-              ind.className = "indicator white"
-              break;
-          }
+
 
           const result = document.createElement("span");
-          result.innerText = h2s['Result']
-          const date = document.createElement("span");
-          let dt = new Date(h2s['Date with time'])
-          //const day = dt.getDay()
-          const tm = dt.toLocaleTimeString("en-US")
-          date.innerText = tm
-          const name = document.createElement("span");
-          name.innerText = h2s['Site Name']
-          d.appendChild(ind)
+          result.innerText = obj['Name']
+          /* link for description */
+          const descLink = document.createElement("span");
+          descLink.innerText = 'Description'
+          /* content for modal popup for description */
+          const desc = document.createElement("div");
+          desc.className = 'beach-message'
+          desc.innerHTML= obj['Description']
+          /* link for closure/advisory message */
+          const mesgLink = document.createElement("span");
+          mesgLink.innerText = 'Closure'
+          /* content for modal popup for closure/advisory message */
+          const mesg = document.createElement("div");
+          mesg.className = 'beach-message'
+          mesg.innerText = obj['Closure']
+
           d.appendChild(result)
-          d.appendChild(date)
-          d.appendChild(name)
+          d.appendChild(descLink)
+          d.appendChild(mesgLink)
+          d.appendChild(desc)
+          d.appendChild(mesg)
           jsonDiv.appendChild(d)
         }
       )
