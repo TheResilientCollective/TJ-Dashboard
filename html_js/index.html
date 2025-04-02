@@ -465,7 +465,7 @@
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
   <!--  <script type="module" src="js/fsmap.js"></script>-->
   <script type="module">
     const fs = "fsq3CYDP77ybwoo1KtkJigGRj6g0uYyhWVw25jM+zN6ovbI="
@@ -715,9 +715,21 @@
         <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('odor-info')">⌄</button>
       </div>
       <div class="card-data">
-        <span class="indicator moderate"></span>
-        <span>14 Complaints</span>
-        <span class="trend-up">▲ +2</span>
+<!--        <span class="indicator moderate"></span>-->'
+        <div> Odor Complaints</div>
+        <table >
+          <tr>
+            <td>7 Days</td>
+            <td>30 Days</td>
+            <td>Since 2023</td>
+          </tr>
+          <tr>
+            <td id="odor-count-7">Row 2, Column 1</td>
+            <td id="odor-count-30">Row 2, Column 2</td>
+            <td id="odor-count">Row 2, Column 3</td>
+          </tr>
+        </table>
+<!--        <span id="odor-trend" class="trend-up">▲ +2</span>-->
       </div>
       <div id="odor-info" class="expandable">
         <p> The data for this layer is from public input <a href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df">SD County Odor Complaints Dashboard</a> </p>
@@ -872,87 +884,14 @@
 <!-- Sidebar Toggle Button (for Desktop) -->
 <button id="open-sidebar-btn" onclick="toggleSidebar()">☰</button>
 </div>
-<!--<div id="bottom-bar-container">-->
-<!--  <div id="bottom-bar">-->
-<!--    <img src="img/logoCOSD.png" height="24" width="24">-->
-<!--    <a href="https://www.sandiegocounty.gov/">County of San Diego</a>-->
-<!--    <a href="https://www.sandiegocounty.gov/deh/">Department of Environmental Health and Quality</a>-->
-<!--  </div>-->
-<!--</div>-->
-<!--<script>-->
-<!--  // Toggle Sidebar Function-->
-<!--  function toggleSidebar() {-->
-<!--    var sidebar = document.getElementById("sidebar");-->
-<!--    var openBtn = document.getElementById("open-sidebar-btn");-->
-<!--    if (window.innerWidth > 768) {-->
-<!--      if (window.getComputedStyle(sidebar).display !== "none") {-->
-<!--        sidebar.style.display = "none";-->
-<!--        openBtn.style.display = "block";-->
-<!--      } else {-->
-<!--        sidebar.style.display = "block";-->
-<!--        openBtn.style.display = "none";-->
-<!--      }-->
-<!--    } else {-->
-<!--      sidebar.classList.toggle("open");-->
-<!--    }-->
-<!--  }-->
 
-<!--  // Toggle Expand Function for Cards-->
-<!--  function toggleExpand(id) {-->
-<!--    var section = document.getElementById(id);-->
-<!--    if (window.getComputedStyle(section).display === "none") {-->
-<!--      section.style.display = "block";-->
-<!--    } else {-->
-<!--      section.style.display = "none";-->
-<!--    }-->
-<!--  }-->
-
-
-<!--  // When a card is clicked, select the corresponding pill-->
-<!--  function selectCard(layer) {-->
-<!--    var buttons = document.querySelectorAll("#top-bar button");-->
-<!--    buttons.forEach(function(btn) {-->
-<!--      btn.classList.remove("active");-->
-<!--      if (btn.textContent.trim().toLowerCase() === layer.toLowerCase()) {-->
-<!--        btn.classList.add("active");-->
-<!--      }-->
-<!--    });-->
-<!--    console.log("Selected card for layer:", layer);-->
-<!--  }-->
-
-<!--  // Dummy play function for time widget-->
-<!--  function playTime(layer, sliderElem) {-->
-<!--    console.log("Playing time for " + layer + ", current value: " + sliderElem.value);-->
-<!--    // Implement fsmap updates based on time here.-->
-<!--  }-->
-
-<!--  // Initialization on page load-->
-<!--  document.addEventListener("DOMContentLoaded", function() {-->
-<!--    if (window.innerWidth > 768) {-->
-<!--      document.getElementById("sidebar").style.display = "block";-->
-<!--      document.getElementById("open-sidebar-btn").style.display = "none";-->
-<!--      document.getElementById("drawer-handle").style.display = "none";-->
-<!--    } else {-->
-<!--      document.getElementById("sidebar").classList.remove("open");-->
-<!--      document.getElementById("drawer-handle").style.display = "block";-->
-<!--    }-->
-<!--  });-->
-
-<!--  window.addEventListener("resize", function() {-->
-<!--    if (window.innerWidth > 768) {-->
-<!--      document.getElementById("sidebar").style.display = "block";-->
-<!--      document.getElementById("sidebar").classList.remove("open");-->
-<!--      document.getElementById("open-sidebar-btn").style.display = "none";-->
-<!--      document.getElementById("drawer-handle").style.display = "none";-->
-<!--    } else {-->
-<!--      document.getElementById("sidebar").style.display = "block";-->
-<!--      document.getElementById("sidebar").classList.remove("hidden");-->
-<!--      document.getElementById("open-sidebar-btn").style.display = "none";-->
-<!--      document.getElementById("drawer-handle").style.display = "block";-->
-<!--    }-->
-<!--  });-->
-<!--</script>-->
 <script>
+  function parseCustomDate(dateStr) {
+    // Split the string into parts: [year, day, month]
+    const [year, day, month] = dateStr.split('-').map(Number);
+    // Note: in JavaScript, months are 0-indexed (0 = January)
+    return new Date(year, month - 1, day);
+  }
   fetch('https://oss.resilientservice.mooo.com/resilentpublic/tijuana/sd_apcd_air/output/warnings/h2s.json')
     .then(response => {
       if (!response.ok) {
@@ -1022,6 +961,38 @@
       return response.json();
     })
     .then(jsonData => {
+      const now = new Date();
+// Calculate boundaries for the last 7 and 30 days
+      const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+// Filter for items in the last 7 days
+      const last7DaysData = _.chain(jsonData).filter(item => {
+        const itemDate = parseCustomDate(item.date);
+        return itemDate >= sevenDaysAgo && itemDate <= now;
+      }).value();
+
+// Filter for items in the last 30 days
+      const last30DaysData = _.filter(jsonData, item => {
+        const itemDate = parseCustomDate(item.date);
+        return itemDate >= thirtyDaysAgo && itemDate <= now;
+      });
+
+// Sum the count fields for each filtered array
+      const sumLast7Days = _.sumBy(last7DaysData, 'count');
+      const sumLast30Days = _.sumBy(last30DaysData, 'count');
+      const countSpan = document.getElementById('odor-count');
+      /* need to use lodash to parse and filter */
+      const odorCount = _.sumBy(jsonData, 'count');
+      countSpan.innerText =odorCount
+      const countSpan_7 = document.getElementById('odor-count-7');
+      /* need to use lodash to parse and filter */
+
+      countSpan_7.innerText =sumLast7Days
+      const countSpan_30 = document.getElementById('odor-count-30');
+      /* need to use lodash to parse and filter */
+
+      countSpan_30.innerText =sumLast30Days
       const jsonDiv = document.getElementById('odor-info');
       const h2shead = document.createElement("ul")
       h2shead.innerText = "Recent Complaints "
@@ -1029,42 +1000,19 @@
       jsonDiv.appendChild(h2shead)
 
       // Convert JSON data to a formatted string for display
-      jsonData.forEach(
-        h2s => {
+      last7DaysData.forEach(
+        obj => {
           const d = document.createElement("li");
           d.className = "card-data"
-          const ind = document.createElement("span");
-          switch (h2s['RBGColor']) {
-            case 'orange':
-              ind.className = "indicator orange"
-              break;
-            case 'yellow':
-              ind.className = "indicator yellow"
-              break;
-            case 'green':
-              ind.className = "indicator green"
-              break;
-            case 'purple':
-              ind.className = "indicator purple"
-              break;
-            default:
-              ind.className = "indicator white"
-              break;
-          }
 
-          const result = document.createElement("span");
-          result.innerText = h2s['Result']
-          const date = document.createElement("span");
-          let dt = new Date(h2s['Date with time'])
-          //const day = dt.getDay()
-          const tm = dt.toLocaleTimeString("en-US")
-          date.innerText = tm
-          const name = document.createElement("span");
-          name.innerText = h2s['Site Name']
-          d.appendChild(ind)
-          d.appendChild(result)
-          d.appendChild(date)
-          d.appendChild(name)
+
+          const dateSpan = document.createElement("span");
+          result.innerText = obj['date']
+          const countSpan = document.createElement("span");
+
+          d.appendChild(dateSpan)
+          d.appendChild(countSpan)
+
           jsonDiv.appendChild(d)
         }
       )
