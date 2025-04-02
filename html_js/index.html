@@ -4,457 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Environmental Dashboard</title>
-  <style>
-    /* Global Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      width: 100vw;
-      height: 100vh;
-      font-family: 'Roboto', sans-serif;
-      background: #f8f8f8;
-      overflow: hidden;
-    }
-
-    /* hide wrapper */
-    .reportview-container {
-      margin-top: -2em;
-    }
-
-    #MainMenu {
-      visibility: hidden;
-    }
-
-    .stDeployButton {
-      display: none;
-    }
-
-    footer {
-      visibility: hidden;
-    }
-
-    #stDecoration {
-      display: none;
-    }
-
-    /* Main Container */
-    #container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-    }
-
-    /* Map Container */
-    #map-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 10;
-    }
-
-    #map-container  {
-      width: 100%;
-      height: 100%;
-      border: none;
-      left: -44px;
-    }
-
-    #hidepanel {
-      width: 40px;
-      height: 100%;
-      z-index: 11;
-      background-color: grey;
-      position: absolute;
-    }
-
-    /* Top Pill Container */
-    #top-bar-container {
-      position: absolute;
-      z-index: 120;
-    }
-
-    /* Desktop: pills placed to the right of sidebar */
-    @media (min-width: 769px) {
-      #top-bar-container {
-        top: 15px;
-        left: calc(360px + 20px);
-        right: 20px;
-        text-align: center;
-      }
-
-      #top-bar {
-        display: inline-flex;
-        gap: 6px;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 50px;
-        padding: 6px 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        overflow-x: auto;
-        white-space: nowrap;
-        justify-content: center;
-      }
-    }
-
-    /* Mobile: pills centered */
-    @media (max-width: 768px) {
-      #top-bar-container {
-        top: 15px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        text-align: center;
-      }
-
-      #top-bar {
-        display: flex;
-        justify-content: space-around;
-        gap: 6px;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 50px;
-        padding: 6px 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        overflow-x: auto;
-        white-space: nowrap;
-      }
-    }
-
-    #top-bar button {
-      background: none;
-      border: none;
-      padding: 4px 8px;
-      cursor: pointer;
-      font-size: 14px;
-      border-radius: 20px;
-      flex: 0 0 auto;
-      transition: background 0.2s;
-    }
-
-    #top-bar button:hover {
-      background: rgba(0, 0, 0, 0.1);
-    }
-
-    #top-bar button.active {
-      background: #007bff;
-      color: white;
-    }
-
-    /* Desktop Sidebar */
-    @media (min-width: 769px) {
-      #sidebar {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        width: 360px;
-        height: calc(100% - 40px);
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        z-index: 110;
-        overflow-y: auto;
-        padding: 15px;
-      }
-
-      #sidebar.hidden {
-        display: none;
-      }
-
-      #open-sidebar-btn {
-        display: none;
-      }
-    }
-
-    /* Mobile Drawer */
-    @media (max-width: 768px) {
-      #sidebar {
-        position: fixed;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%) translateY(70%);
-        width: 100%;
-        height: 60vh;
-        border-radius: 20px 20px 0 0;
-        background: #fff;
-        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
-        z-index: 110;
-        overflow-y: auto;
-        padding: 15px;
-        transition: transform 0.3s ease-in-out;
-      }
-
-      #sidebar.open {
-        transform: translateX(-50%) translateY(0);
-      }
-
-      /* Drawer Handle */
-      #drawer-handle {
-        width: 50px;
-        height: 5px;
-        background: #ccc;
-        border-radius: 2.5px;
-        margin: 8px auto;
-        cursor: pointer;
-        display: block;
-      }
-
-      #open-sidebar-btn {
-        display: none !important;
-      }
-    }
-
-    /* Sidebar Toggle Button (Desktop) */
-    #open-sidebar-btn {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      z-index: 130;
-      background: #fff;
-      border: none;
-      border-radius: 50%;
-      padding: 10px;
-      font-size: 18px;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Card Styles */
-    .card {
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 12px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      cursor: pointer;
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .card-title {
-      font-size: 16px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    .expand-btn {
-      cursor: pointer;
-      font-size: 18px;
-      color: #007bff;
-      border: none;
-      background: none;
-    }
-
-    .expandable {
-      display: none;
-      margin-top: 10px;
-    }
-
-    .expandable a {
-      color: #007bff;
-      text-decoration: none;
-    }
-
-    .expandable a:hover {
-      text-decoration: underline;
-    }
-
-    .card-data {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 8px;
-    }
-
-    .indicator {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      margin-right: 8px;
-      display: inline-block;
-    }
-
-    .indeterminate {
-      background: white;
-    }
-
-    .low {
-      background: #4CAF50;
-    }
-
-    .moderate {
-      background: #FFC107;
-    }
-
-    .high {
-      background: #FF5722;
-    }
-
-    /* APCD H2s */
-    .white {
-      background: white;
-    }
-
-    .green {
-      background: #00E400;
-    }
-
-    .yellow {
-      background: #ffff00;
-    }
-
-    .orange {
-      background: #FF7E00;
-    }
-
-    .purple {
-      background: #CC58DB;
-    }
-
-    .trend-up {
-      color: #4CAF50;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .trend-down {
-      color: #FF5722;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    /* Time Widget Styles (inside expandable area) */
-    .time-widget {
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .time-widget .time-title {
-      font-size: 14px;
-      color: #333;
-    }
-
-    .time-widget input[type=range] {
-      flex: 1;
-    }
-
-    .time-widget button {
-      background: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    /* Text Card Styles */
-    .text-card {
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 12px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      width: 100%;
-    }
-
-    .text-card h3 {
-      font-size: 16px;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 6px;
-    }
-
-    .text-card p {
-      font-size: 14px;
-      color: #555;
-      line-height: 1.5;
-    }
-
-    /* Bottom Pill Container */
-    #bottom-bar-container {
-      position: absolute;
-      z-index: 120;
-    }
-
-    /* Desktop: pills placed to the right of sidebar */
-    @media (min-width: 769px) {
-      #bottom-bar-container {
-        bottom: 15px;
-        left: calc(360px + 20px);
-        right: 20px;
-        text-align: center;
-      }
-
-      #bottom-bar {
-        display: inline-flex;
-
-        gap: 6px;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 50px;
-        padding: 6px 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        overflow-x: auto;
-        white-space: nowrap;
-        justify-content: center;
-      }
-    }
-
-    /* Mobile: pills centered */
-    @media (max-width: 768px) {
-      #bottom-bar-container {
-        bottom: 15px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        text-align: center;
-      }
-
-      #bottom-bar {
-        display: flex;
-        justify-content: space-around;
-        gap: 6px;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 50px;
-        padding: 6px 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        overflow-x: auto;
-        white-space: nowrap;
-      }
-    }
-
-    #bottom-bar a {
-      background: none;
-      border: none;
-      padding: 4px 8px;
-      cursor: pointer;
-      font-size: 14px;
-      border-radius: 20px;
-      flex: 0 0 auto;
-      transition: background 0.2s;
-    }
-
-    #top-bar a:hover {
-      background: rgba(0, 0, 0, 0.1);
-    }
-
-    #top-bar a.active {
-      background: #007bff;
-      color: white;
-    }
-  </style>
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
 
   <!--  <script type="module" src="js/fsmap.js"></script>-->
@@ -498,18 +49,22 @@
 
     function toggleSidebar() {
       var sidebar = document.getElementById("sidebar");
-      var openBtn = document.getElementById("open-sidebar-btn");
-      if (window.innerWidth > 768) {
-        if (window.getComputedStyle(sidebar).display !== "none") {
-          sidebar.style.display = "none";
-          openBtn.style.display = "block";
-        } else {
-          sidebar.style.display = "block";
-          openBtn.style.display = "none";
-        }
-      } else {
-        sidebar.classList.toggle("open");
-      }
+      var sidebarContents = sidebar.querySelector("#sidebar-content");
+      var sidebarHandle = document.getElementById("sidebar-handle");
+      var sidebarBtn = document.getElementById("sidebar-btn");
+      sidebarContents.classList.toggle("open");
+      sidebarBtn.querySelector("i").classList.toggle("bi-chevron-left");
+      sidebarBtn.querySelector("i").classList.toggle("bi-chevron-right");
+      sidebarBtn.classList.toggle("open");
+      // if (window.innerWidth > 768) {
+      //   if (window.getComputedStyle(sidebar).display !== "none") {
+      //     sidebar.style.display = "none";
+      //   } else {
+      //     sidebar.style.display = "block";
+      //   }
+      // } else {
+      //   sidebar.classList.toggle("open");
+      // }
     }
 
     // Toggle Expand Function for Cards
@@ -571,11 +126,10 @@
     document.addEventListener("DOMContentLoaded", function () {
       if (window.innerWidth > 768) {
         document.getElementById("sidebar").style.display = "block";
-        document.getElementById("open-sidebar-btn").style.display = "none";
-        document.getElementById("drawer-handle").style.display = "none";
+        document.getElementById("sidebar-handle").style.display = "none";
       } else {
         document.getElementById("sidebar").classList.remove("open");
-        document.getElementById("drawer-handle").style.display = "block";
+        document.getElementById("sidebar-handle").style.display = "block";
       }
     });
 
@@ -583,19 +137,17 @@
       if (window.innerWidth > 768) {
         document.getElementById("sidebar").style.display = "block";
         document.getElementById("sidebar").classList.remove("open");
-        document.getElementById("open-sidebar-btn").style.display = "none";
-        document.getElementById("drawer-handle").style.display = "none";
+        document.getElementById("sidebar-handle").style.display = "none";
       } else {
         document.getElementById("sidebar").style.display = "block";
         document.getElementById("sidebar").classList.remove("hidden");
-        document.getElementById("open-sidebar-btn").style.display = "none";
-        document.getElementById("drawer-handle").style.display = "block";
+        document.getElementById("sidebar-handle").style.display = "block";
       }
     });
   </script>
 
 </head>
-<body>
+<body class="light">
 <div id="container">
   <!-- Map Container with Kepler fsmap configured for San Ysidro (approx 50-mile radius) -->
   <div id="map-container">
@@ -615,253 +167,241 @@
 
   <!-- Sidebar / Drawer -->
   <div id="sidebar">
+    <button id="sidebar-btn" class="open" onclick="toggleSidebar()"><i class="bi bi-chevron-left"></i></button>
     <!-- Mobile Drawer Handle -->
-    <div id="drawer-handle" onclick="toggleSidebar()"></div>
-    <!-- Desktop Close Button -->
-    <button id="close-sidebar" onclick="toggleSidebar()">✕</button>
-    <div class="card-header">
-      <img src="img/logoCOSD.png" height="24" width="24">
-      <a href="https://www.sandiegocounty.gov/">County of San Diego</a>
-    </div>
-    <!-- Card: What We Know (No time widget here) -->
-    <div class="card" onclick="selectCard('What We Know')">
-      <div class="card-header">
-        <span class="card-title">What is going on</span>
-        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('know-info')">⌄</button>
-      </div>
-      <p>The following dashboard and mapping tool provide information and metrics from mutiple sources regarding our air and water quality complaints.</p>
-       </p>
-      <div id="know-info" class="expandable">
+    <div id="sidebar-handle" class="open" onclick="toggleSidebar()"></div>
 
-        <p>A combination of several factors has led to the overflow of sewage, causing runoff water and contamination to go into the ocean on both the Mexico and U.S. sides.
+    <div id="sidebar-content" class="open">
+      <div class="card-header">
+        <img src="img/logoCOSD.png" height="24" width="24">
+        <a href="https://www.sandiegocounty.gov/">County of San Diego</a>
+      </div>
+      <!-- Card: What We Know (No time widget here) -->
+      <div class="card" onclick="selectCard('What We Know')">
+        <div class="card-header">
+          <span class="card-title">What is going on</span>
+          <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('know-info')">⌄</button>
+        </div>
+        <p>The following dashboard and mapping tool provide information and metrics from mutiple sources regarding our air and water quality complaints.</p>
         </p>
-        <p>There are multi-agency efforts to address air and water quality issues in the Tijuana River Valley that are impacting San Diego area communities.</p>
-        <p>learn more:</p><a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html">Learn more</a>
-      </div>
-    </div>
-    <!-- Text Card: What You Can Do -->
-    <div class="text-card" class="expandable">
-      <div class="card-header">
-        <span class="card-title">What You Can Do</span>
-        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('you-can-do')">⌄</button>
-      </div>
-      <div>
-        <p>Report unusual conditions to local authorities and share your observations with your community.</p>
-        <a href="#">Submit a report</a>
-      </div>
-      <div id="you-can-do" class="card-data" style="display: none">
+        <div id="know-info" class="expandable">
 
-
-
-
-      </div>
-    </div>
-    <!-- Text Card: What We’re Doing -->
-    <div class="text-card">
-      <div class="card-header">
-        <span class="card-title">What We’re Doing</span>
-        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('doing-info')">⌄</button>
-
-      </div>
-      <p>County of San Diego officials are working with partners and other agencies to assess concerns and impacts from
-        sewage and pollution in the Tijuana River Valley and surrounding communities.
-         </p>
-      <div id="doing-info" class="expandable">
-        <p>
-          There are multi-agency efforts to address air and water quality issues in the Tijuana River Valley that are
-          impacting San Diego area communities. </p>
-            <p>
-              More information about what actions the County is taking to ensure the health and quality of life for South
-              Region residents can be found here: <a
-              href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html">What
-              the County is Doing</a>
-            </p>
-      </div>
-    </div>
-    <!-- Card: Air Quality (with time widget inside expandable section) -->
-    <!--    <div class="card" onclick="selectCard('Air Quality')">-->
-    <!--      <div class="card-header">-->
-    <!--        <span class="card-title">Air Quality</span>-->
-    <!--        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('aq-info')">⌄</button>-->
-    <!--      </div>-->
-    <!--      <div class="card-data">-->
-    <!--        <span class="indicator moderate"></span>-->
-    <!--        <span>AQI: 42</span>-->
-    <!--        <span class="trend-up">▲ +3%</span>-->
-    <!--      </div>-->
-    <!--      <div id="aq-info" class="expandable">-->
-    <!--        <p>Urban emissions contribute to moderate air quality. Pollutant levels are rising.</p>-->
-    <!--        <a href="#">Check full AQI report</a>-->
-    <!--        <div class="time-widget">-->
-    <!--          <span class="time-title">Time Range:</span>-->
-    <!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
-    <!--          <button class="time-play" onclick="playTime('Air Quality', this.previousElementSibling)">Play</button>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </div>-->
-    <!-- Card: Public Odor Complaints (with time widget inside expandable section) -->
-    <div class="card" onclick="selectCard('Odor Complaints')">
-      <div class="card-header">
-        <span class="card-title">Public Odor Complaints</span>
-        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('odor-info')">⌄</button>
-      </div>
-      <div class="card-data">
-        <span class="indicator moderate"></span>
-        <span>14 Complaints</span>
-        <span class="trend-up">▲ +2</span>
-      </div>
-      <div id="odor-info" class="expandable">
-        <p> The data for this layer is from public input <a href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df">SD County Odor Complaints Dashboard</a> </p>
-        <li><a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
-
-          <div class="text-card">
-          <h3>About Air Quality</h3>
-          <p>Reduce your exposure to poor quality air or strong odors by limiting outdoor activity, keeping windows and
-            doors closed, and airing out your home or business when odors are not present
-            If available, use air conditioning or portable indoor air purifiers. Look into whether filters need to be
-            replaced
-            Use certified HEPA filters with activated charcoal
-            If possible, run your air conditioner at your business for 1-2 hours before opening”
+          <p>A combination of several factors has led to the overflow of sewage, causing runoff water and contamination to go into the ocean on both the Mexico and U.S. sides.
           </p>
+          <p>There are multi-agency efforts to address air and water quality issues in the Tijuana River Valley that are impacting San Diego area communities.</p>
+          <p>learn more:</p><a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html">Learn more</a>
         </div>
-        <!--        <ul>-->
-        <!--          <li><strong>Downtown:</strong> Strong rotten egg odor (Industrial)</li>-->
-        <!--          <li><strong>Ocean Beach:</strong> Faint sewage odor (Sewage)</li>-->
-        <!--          <li><strong>Little Italy:</strong> Chemical smell (Chemical)</li>-->
-        <!--        </ul>-->
-
-        <a href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df">View SD County Odor Complaints Dashboard</a>
-<!--        <div class="time-widget">-->
-<!--          <span class="time-title">Time Range:</span>-->
-<!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
-<!--          <button class="time-play" onclick="playTime('Odor Complaints', this.previousElementSibling)">Play</button>-->
-<!--        </div>-->
-      <p> Dataset information: <a href="https://sdbeachinfo.com/">San Diego Beach & Bay Water Quality Program</a></p>
       </div>
-    </div>
-    <!-- Card: Hydrogen Sulfide Levels (with time widget inside expandable section) -->
-    <div class="card" onclick="selectCard('H₂S Levels')">
-      <div class="card-header">
-        <span class="card-title">Hydrogen Sulfide Levels</span>
-        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('hs-info')">⌄</button>
+      <!-- Text Card: What You Can Do -->
+      <div class="text-card" class="expandable">
+        <div class="card-header">
+          <span class="card-title">What You Can Do</span>
+          <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('you-can-do')">⌄</button>
+        </div>
+        <div>
+          <p>Report unusual conditions to local authorities and share your observations with your community.</p>
+          <a href="#">Submit a report</a>
+        </div>
+        <div id="you-can-do" class="card-data" style="display: none">
+        </div>
       </div>
-      <div id="h2s_summary">
+      <!-- Text Card: What We’re Doing -->
+      <div class="text-card">
+        <div class="card-header">
+          <span class="card-title">What We’re Doing</span>
+          <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('doing-info')">⌄</button>
+        </div>
+        <p>County of San Diego officials are working with partners and other agencies to assess concerns and impacts from
+          sewage and pollution in the Tijuana River Valley and surrounding communities.
+          </p>
+        <div id="doing-info" class="expandable">
+          <p>
+            There are multi-agency efforts to address air and water quality issues in the Tijuana River Valley that are
+            impacting San Diego area communities. </p>
+              <p>
+                More information about what actions the County is taking to ensure the health and quality of life for South
+                Region residents can be found here: <a
+                href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html">What
+                the County is Doing</a>
+              </p>
+        </div>
+      </div>
+      <!-- Card: Air Quality (with time widget inside expandable section) -->
+      <!--    <div class="card" onclick="selectCard('Air Quality')">-->
+      <!--      <div class="card-header">-->
+      <!--        <span class="card-title">Air Quality</span>-->
+      <!--        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('aq-info')">⌄</button>-->
+      <!--      </div>-->
+      <!--      <div class="card-data">-->
+      <!--        <span class="indicator moderate"></span>-->
+      <!--        <span>AQI: 42</span>-->
+      <!--        <span class="trend-up">▲ +3%</span>-->
+      <!--      </div>-->
+      <!--      <div id="aq-info" class="expandable">-->
+      <!--        <p>Urban emissions contribute to moderate air quality. Pollutant levels are rising.</p>-->
+      <!--        <a href="#">Check full AQI report</a>-->
+      <!--        <div class="time-widget">-->
+      <!--          <span class="time-title">Time Range:</span>-->
+      <!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
+      <!--          <button class="time-play" onclick="playTime('Air Quality', this.previousElementSibling)">Play</button>-->
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--    </div>-->
+      <!-- Card: Public Odor Complaints (with time widget inside expandable section) -->
+      <div class="card" onclick="selectCard('Odor Complaints')">
+        <div class="card-header">
+          <span class="card-title">Public Odor Complaints</span>
+          <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('odor-info')">⌄</button>
+        </div>
         <div class="card-data">
           <span class="indicator moderate"></span>
-          <span>7.4 ppm (Imperial Beach)</span>
-          <span class="trend-down">▼ -0.2 ppm</span>
+          <span>14 Complaints</span>
+          <span class="trend-up">▲ +2</span>
+        </div>
+        <div id="odor-info" class="expandable">
+          <p> The data for this layer is from public input <a href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df">SD County Odor Complaints Dashboard</a> </p>
+          <li><a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
+
+            <div class="text-card">
+            <h3>About Air Quality</h3>
+            <p>Reduce your exposure to poor quality air or strong odors by limiting outdoor activity, keeping windows and
+              doors closed, and airing out your home or business when odors are not present
+              If available, use air conditioning or portable indoor air purifiers. Look into whether filters need to be
+              replaced
+              Use certified HEPA filters with activated charcoal
+              If possible, run your air conditioner at your business for 1-2 hours before opening”
+            </p>
+          </div>
+          <!--        <ul>-->
+          <!--          <li><strong>Downtown:</strong> Strong rotten egg odor (Industrial)</li>-->
+          <!--          <li><strong>Ocean Beach:</strong> Faint sewage odor (Sewage)</li>-->
+          <!--          <li><strong>Little Italy:</strong> Chemical smell (Chemical)</li>-->
+          <!--        </ul>-->
+
+          <a href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df">View SD County Odor Complaints Dashboard</a>
+  <!--        <div class="time-widget">-->
+  <!--          <span class="time-title">Time Range:</span>-->
+  <!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
+  <!--          <button class="time-play" onclick="playTime('Odor Complaints', this.previousElementSibling)">Play</button>-->
+  <!--        </div>-->
+        <p> Dataset information: <a href="https://sdbeachinfo.com/">San Diego Beach & Bay Water Quality Program</a></p>
+        </div>
+      </div>
+      <!-- Card: Hydrogen Sulfide Levels (with time widget inside expandable section) -->
+      <div class="card" onclick="selectCard('H₂S Levels')">
+        <div class="card-header">
+          <span class="card-title">Hydrogen Sulfide Levels</span>
+          <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('hs-info')">⌄</button>
+        </div>
+        <div id="h2s_summary">
+          <div class="card-data">
+            <span class="indicator moderate"></span>
+            <span>7.4 ppm (Imperial Beach)</span>
+            <span class="trend-down">▼ -0.2 ppm</span>
+          </div>
+          <div class="card-data">
+            <span class="indicator moderate"></span>
+            <span>12.5 ppm (Nestor)</span>
+            <span class="trend-down">▼ -0.2 ppm</span>
+          </div>
+          <div class="card-data">
+            <span class="indicator low"></span>
+            <span>NA (San Ysidro)</span>
+            <span class="trend-down">▼ -0.2 ppm</span>
+          </div>
+        </div>
+
+        <div id="hs-info" class="expandable">
+          <p>Elevated H₂S detected near the border with variable readings among stations.</p>
+          <a
+            href="https://app.powerbigov.us/view?r=eyJrIjoiOGMwYzM2ZGYtZGU4Ny00ZGI5LWE2NWMtMmZlOGEzZTYzMDc3IiwidCI6IjQ1NjNhZjEzLWMwMjktNDFiMy1iNzRjLTk2NWU4ZWVjOGY5NiJ9">See
+            real-time monitoring</a>
+  <!--        <div class="time-widget">-->
+  <!--          <span class="time-title">Time Range:</span>-->
+  <!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
+  <!--          <button class="time-play" onclick="playTime('H₂S Levels', this.previousElementSibling)">Play</button>-->
+  <!--        </div>-->
+        </div>
+        <p>Dataset Information: <a href="https://www.sdapcd.org/">San Diego Air Pollution Control District</a></p>
+      </div>
+      <!-- Card: Beach Closures (with time widget inside expandable section) -->
+      <div class="card" onclick="selectCard('Beach Closures')">
+        <div class="card-header">
+          <span class="card-title">Beach Closures</span>
+          <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('beach-info')">⌄</button>
         </div>
         <div class="card-data">
-          <span class="indicator moderate"></span>
-          <span>12.5 ppm (Nestor)</span>
-          <span class="trend-down">▼ -0.2 ppm</span>
+          <span class="indicator high"></span>
+          <span>11 Beaches Closed</span>
+          <span class="trend-up">▲ +1</span>
         </div>
-        <div class="card-data">
-          <span class="indicator low"></span>
-          <span>NA (San Ysidro)</span>
-          <span class="trend-down">▼ -0.2 ppm</span>
+        <div id="beach-info" class="expandable">
+          <p>Bacteria levels along parts of the Tijuana River have led to closures.</p>
+          <a href="#">View closure fsmap</a>
+  <!--        <div class="time-widget">-->
+  <!--          <span class="time-title">Time Range:</span>-->
+  <!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
+  <!--          <button class="time-play" onclick="playTime('Beach Closures', this.previousElementSibling)">Play</button>-->
+  <!--        </div>-->
+          <div class="text-card">
+            <h3>About Water Quality Issues</h3>
+            <p>Check online to find out which beaches are closed, have health advisories, or are being monitored for water
+              quality. This is especially important after heavy rain
+              Stay away from areas with visible sewage spills
+              Stay out of floodwater
+              Do not swim, go into, or swallow contaminated water sources
+              .</p>
+          </div>
         </div>
       </div>
+      <!-- Text Card: What You Should Do -->
+      <div class="text-card">
+        <h3>What You Should Do</h3>
+        <p>Avoid contact with affected waters, follow local advisories, and stay updated on safety guidelines.</p>
+        <a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns.html">Visit South Region Health Concerns webpage</a>
+      </div>
+      <!-- Text Card: What We Don't Know -->
+  <!--    <div class="text-card">-->
+  <!--      <h3>What We Don't Know</h3>-->
+  <!--      <p>The long-term impact of contaminants and altered river flow remains uncertain.</p>-->
+  <!--      <a href="#">Read current research</a>-->
+  <!--    </div>-->
+      <!-- Text Card: For More Information -->
+      <div class="text-card">
+        <div class="card-header">
+          <span class="card-title">For More Information</span>
 
-      <div id="hs-info" class="expandable">
-        <p>Elevated H₂S detected near the border with variable readings among stations.</p>
-        <a
-          href="https://app.powerbigov.us/view?r=eyJrIjoiOGMwYzM2ZGYtZGU4Ny00ZGI5LWE2NWMtMmZlOGEzZTYzMDc3IiwidCI6IjQ1NjNhZjEzLWMwMjktNDFiMy1iNzRjLTk2NWU4ZWVjOGY5NiJ9">See
-          real-time monitoring</a>
-<!--        <div class="time-widget">-->
-<!--          <span class="time-title">Time Range:</span>-->
-<!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
-<!--          <button class="time-play" onclick="playTime('H₂S Levels', this.previousElementSibling)">Play</button>-->
-<!--        </div>-->
-      </div>
-      <p>Dataset Information: <a href="https://www.sdapcd.org/">San Diego Air Pollution Control District</a></p>
-    </div>
-
-    <!-- Card: Beach Closures (with time widget inside expandable section) -->
-    <div class="card" onclick="selectCard('Beach Closures')">
-      <div class="card-header">
-        <span class="card-title">Beach Closures</span>
-        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('beach-info')">⌄</button>
-      </div>
-      <div class="card-data">
-        <span class="indicator high"></span>
-        <span>11 Beaches Closed</span>
-        <span class="trend-up">▲ +1</span>
-      </div>
-      <div id="beach-info" class="expandable">
-        <p>Bacteria levels along parts of the Tijuana River have led to closures.</p>
-        <a href="#">View closure fsmap</a>
-<!--        <div class="time-widget">-->
-<!--          <span class="time-title">Time Range:</span>-->
-<!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
-<!--          <button class="time-play" onclick="playTime('Beach Closures', this.previousElementSibling)">Play</button>-->
-<!--        </div>-->
+        </div>
         <div class="text-card">
-          <h3>About Water Quality Issues</h3>
-          <p>Check online to find out which beaches are closed, have health advisories, or are being monitored for water
-            quality. This is especially important after heavy rain
-            Stay away from areas with visible sewage spills
-            Stay out of floodwater
-            Do not swim, go into, or swallow contaminated water sources
-            .</p>
+          For details on the County’s response to the sewage crisis and how to protect your health, visit the      <a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns.html">Visit South Region Health Concerns webpage</a>
+
         </div>
-      </div>
-    </div>
-
-
-
-    <!-- Text Card: What You Should Do -->
-    <div class="text-card">
-      <h3>What You Should Do</h3>
-      <p>Avoid contact with affected waters, follow local advisories, and stay updated on safety guidelines.</p>
-      <a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns.html">Visit South Region Health Concerns webpage</a>
-    </div>
-
-    <!-- Text Card: What We Don't Know -->
-<!--    <div class="text-card">-->
-<!--      <h3>What We Don't Know</h3>-->
-<!--      <p>The long-term impact of contaminants and altered river flow remains uncertain.</p>-->
-<!--      <a href="#">Read current research</a>-->
-<!--    </div>-->
-
-
-
-    <!-- Text Card: For More Information -->
-    <div class="text-card">
-      <div class="card-header">
-        <span class="card-title">For More Information</span>
-
-      </div>
-      <div class="text-card">
-        For details on the County’s response to the sewage crisis and how to protect your health, visit the      <a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns.html">Visit South Region Health Concerns webpage</a>
-
-      </div>
-
-    <div class="text-card">
-      <h4>Contact & Feedback </h4>
-      <div>For questions or feedback,</div> please <a href="mailto:phs.southregionhealth.hhsa@sdcounty.ca.gov"
-      >email the Epidemiology Unit</a>
-    </div>
-
 
       <div class="text-card">
-        <h4> For more details about specific datasets, visit:</h4>
-      <ul>
-      <li><a href="https://sdbeachinfo.com/">San Diego Beach & Bay Water Quality Program</a></li>
-        <li> <a href="https://www.sdapcd.org/">San Diego Air Pollution Control District</a></li>
-        <li><a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
-        </li>
-      </ul>
-    </div>
+        <h4>Contact & Feedback </h4>
+        <div>For questions or feedback,</div> please <a href="mailto:phs.southregionhealth.hhsa@sdcounty.ca.gov"
+        >email the Epidemiology Unit</a>
+      </div>
 
 
+        <div class="text-card">
+          <h4> For more details about specific datasets, visit:</h4>
+        <ul>
+        <li><a href="https://sdbeachinfo.com/">San Diego Beach & Bay Water Quality Program</a></li>
+          <li> <a href="https://www.sdapcd.org/">San Diego Air Pollution Control District</a></li>
+          <li><a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
+          </li>
+        </ul>
+      </div>
+
+
+
+      </div>
 
     </div>
   </div>
 
 </div>
-<!-- Sidebar Toggle Button (for Desktop) -->
-<button id="open-sidebar-btn" onclick="toggleSidebar()">☰</button>
 </div>
 <!--<div id="bottom-bar-container">-->
 <!--  <div id="bottom-bar">-->
@@ -922,10 +462,10 @@
 <!--    if (window.innerWidth > 768) {-->
 <!--      document.getElementById("sidebar").style.display = "block";-->
 <!--      document.getElementById("open-sidebar-btn").style.display = "none";-->
-<!--      document.getElementById("drawer-handle").style.display = "none";-->
+<!--      document.getElementById("sidebar-handle").style.display = "none";-->
 <!--    } else {-->
 <!--      document.getElementById("sidebar").classList.remove("open");-->
-<!--      document.getElementById("drawer-handle").style.display = "block";-->
+<!--      document.getElementById("sidebar-handle").style.display = "block";-->
 <!--    }-->
 <!--  });-->
 
@@ -934,12 +474,12 @@
 <!--      document.getElementById("sidebar").style.display = "block";-->
 <!--      document.getElementById("sidebar").classList.remove("open");-->
 <!--      document.getElementById("open-sidebar-btn").style.display = "none";-->
-<!--      document.getElementById("drawer-handle").style.display = "none";-->
+<!--      document.getElementById("sidebar-handle").style.display = "none";-->
 <!--    } else {-->
 <!--      document.getElementById("sidebar").style.display = "block";-->
 <!--      document.getElementById("sidebar").classList.remove("hidden");-->
 <!--      document.getElementById("open-sidebar-btn").style.display = "none";-->
-<!--      document.getElementById("drawer-handle").style.display = "block";-->
+<!--      document.getElementById("sidebar-handle").style.display = "block";-->
 <!--    }-->
 <!--  });-->
 <!--</script>-->
