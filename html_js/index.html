@@ -392,6 +392,14 @@
       display: none;
 
     }
+    /* this border for the table */
+    table.odor-table {
+      border-collapse: collapse;
+    }
+    table.odor-table td,  table.odor-table th {
+      border: 1px solid black;
+    }
+
     /* Bottom Pill Container */
     #bottom-bar-container {
       position: absolute;
@@ -717,7 +725,7 @@
       <div class="card-data">
 <!--        <span class="indicator moderate"></span>-->'
         <div> Odor Complaints</div>
-        <table >
+        <table class="odor-table">
           <tr>
             <td>7 Days</td>
             <td>30 Days</td>
@@ -888,7 +896,7 @@
 <script>
   function parseCustomDate(dateStr) {
     // Split the string into parts: [year, day, month]
-    const [year, day, month] = dateStr.split('-').map(Number);
+    let [year,  month, day] = dateStr.split('-').map(Number);
     // Note: in JavaScript, months are 0-indexed (0 = January)
     return new Date(year, month - 1, day);
   }
@@ -967,16 +975,22 @@
       const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
 // Filter for items in the last 7 days
-      const last7DaysData = _.chain(jsonData).filter(item => {
-        const itemDate = parseCustomDate(item.date);
+      let last7DaysData = _.filter(jsonData,item => {
+        let itemDate = parseCustomDate(item.date);
         return itemDate >= sevenDaysAgo && itemDate <= now;
-      }).value();
+      })
+      last7DaysData = _.orderBy(last7DaysData, [item => parseCustomDate(item.date)], ['desc']);
+      // const last7DaysData = _.chain(jsonData).filter(item => {
+      //   const itemDate = parseCustomDate(item.date);
+      //   return itemDate >= sevenDaysAgo && itemDate <= now;
+      // }).value();
 
 // Filter for items in the last 30 days
-      const last30DaysData = _.filter(jsonData, item => {
-        const itemDate = parseCustomDate(item.date);
+      let last30DaysData = _.filter(jsonData, item => {
+        let itemDate = parseCustomDate(item.date);
         return itemDate >= thirtyDaysAgo && itemDate <= now;
-      });
+      })
+      last30DaysData=_.orderBy(last30DaysData, [item => parseCustomDate(item.date)], ['desc']);
 
 // Sum the count fields for each filtered array
       const sumLast7Days = _.sumBy(last7DaysData, 'count');
@@ -1007,9 +1021,9 @@
 
 
           const dateSpan = document.createElement("span");
-          result.innerText = obj['date']
+          dateSpan.innerText = obj['date']
           const countSpan = document.createElement("span");
-
+          countSpan.innerText = obj['count']
           d.appendChild(dateSpan)
           d.appendChild(countSpan)
 
