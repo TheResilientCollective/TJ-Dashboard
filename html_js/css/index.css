@@ -113,6 +113,10 @@ footer {
     position: absolute;
 }
 
+button.button.map-control-button.button {
+    display: none;
+}
+
 
 
 /* ========= TOP BAR STYLES ========== */
@@ -281,7 +285,7 @@ footer {
     text-align: center;
 
     display: unset;
-    width: 200%;
+    width: 300%;
     height: calc(var(--icon) * 4);
     padding: var(--p-half) var(--p1) var(--p-half) var(--p1);
     border-radius: var(--border-radius);

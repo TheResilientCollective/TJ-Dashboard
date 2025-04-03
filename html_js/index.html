@@ -46,24 +46,47 @@
       initialState: {
         publishedMapId: mapuid
       },
-      uiConfig:
-        {
-          sidePanel: {
-            view: 'hidden'| 'collapsed' | 'visible',
-            isAddLayerVisible: false,
-
-          },
-          sideNav:
-            {isVisible: false}
+      uiConfig: {
+        sidePanel: {
+          view: 'hidden'| 'collapsed' | 'visible',
+          isAddLayerVisible: false,
+        },
+        sideNav: {
+          isVisible: false
+        },
+        mapControls: {
+          isVisible: false,
+          zoom: {
+            isVisible: false
+          }
         }
-
-
+      }
     });
     // cannot override style sheet. #shadow-root is closed.
     // var sheet = new CSSStyleSheet
     // sheet.replaceSync( `.unfolded-root + div + div  {visibility: collapse;}`)
     // map.shadowRoot.adoptedStyleSheets.push(sheet) // You want to add to stylesheets list
     globalThis.map = map
+
+    setTimeout(() => { // Wait a short time for the map to fully render
+      try {
+        const mapContainerDiv = document.getElementById('map-container').querySelector('div'); // Get the inner div
+        if (mapContainerDiv) {
+          // Try to query for the button - this is VERY DOM-structure dependent
+          const hackyButtonTarget = mapContainerDiv.querySelector('.map-control-button.button'); // Adjust selector if needed
+          if (hackyButtonTarget) {
+            hackyButtonTarget.style.display = 'none !important'; // Try to hide it
+            console.warn("HACKY BUTTON HIDING ATTEMPTED - VERY FRAGILE!");
+          } else {
+            console.warn("HACKY BUTTON TARGET NOT FOUND - MAYBE SELECTOR IS WRONG?");
+          }
+        } else {
+          console.warn("HACKY MAP CONTAINER INNER DIV NOT FOUND!");
+        }
+      } catch (error) {
+        console.error("HACKY BUTTON HIDING FAILED:", error);
+      }
+    }, 10000); // 10 second delay - adjust if needed
 
   </script>
 
@@ -166,40 +189,12 @@
       <div id="sidebar-handle"><div class="grip"></div></div>
       <div id="sidebar-header">
         <div><a href="https://www.sandiegocounty.gov/" target="_blank"><img src="img/logoCOSD.png"></a></div> 
-        <div id="sidebar-title"><span>South Bay Region Dashboard</span></div>
+        <div id="sidebar-title"><span>Tijuana River Valley Sewage Crisis Environmental Dashboard</span></div>
         <div><a href="https://www.sandiegocounty.gov/" target="_blank"><img src="img/ResilientLogo.png"></a></div>
       </div>
       
       <div id="sidebar-body">
         <div class="sidebar-card-separator"><span><h2>Ongoing Events</h2></span></div>
-
-        <!-- Text Card: What You Can Do -->
-        <div id="what-you-can-do-card" class="card text-card shadow expandable expanded">
-          <div class="card-header always-expand">
-            <i class="bi bi-person"></i>
-            <h3 class="card-title">What You Can Do</h3>
-            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
-          </div>
-
-          <p class="always-expand">
-            Report unusual conditions (like odors) to local authorities and share you observations with your community.
-          </p>
-
-          <div>
-            Report odor complaints to the San Diego County Air Pollution Control District by:
-            <ul>
-              <li>Mobile app</li>
-              <li>Phone at (858) 586-2650,</li>
-              <li>Email to <a href="mailto:apcdcomp@sdapcd.org">apcdcomp@sdapcd.org,</a> or</li>
-              <li>Visit <a href="http://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html" target="_blank">online.</a> </li>
-            </ul>
-          </div>
-
-          <div class="card-footer">
-            <span></span>
-            <a></a>
-          </div>
-        </div>
 
         <!-- Card: What We Know (No time widget here) -->
         <div class="card shadow expandable expanded" onclick="selectCard('What We Know')">
@@ -224,6 +219,46 @@
             <a></a>
           </div>
         </div>
+
+        <!-- Text Card: What You Can Do -->
+        <div id="what-you-can-do-card" class="card text-card shadow expandable expanded">
+          <div class="card-header always-expand">
+            <i class="bi bi-person"></i>
+            <h3 class="card-title">What You Can Do</h3>
+            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+          </div>
+
+          <p class="always-expand">
+            Report unusual conditions (like odors) to local authorities and share you observations with your community.
+          </p>
+
+          <div>
+            Report odor complaints to the San Diego County Air Pollution Control District by:
+            <ul>
+              <li>Mobile app</li>
+              <li>Phone at (858) 586-2650,</li>
+              <li>Email to <a href="mailto:apcdcomp@sdapcd.org">apcdcomp@sdapcd.org,</a> or</li>
+              <li>Visit <a href="http://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html" target="_blank">online.</a> </li>
+            </ul>
+          </div>
+
+          <br>
+          <p>
+            When filing a report, the following information will assist us in investigating your concern: 
+            <ul>
+              <li>Your name, address, and telephone number</li>
+              <li>The time and date the air quality concern occurred and whether it is still continuing</li>
+              <li>The nature of the air quality concern (smoke, dust, odor, or other)</li>
+              <li>The name and address of the alleged source and the type of operation causing it (if known)</li>
+            </ul>
+          </p>
+
+          <div class="card-footer">
+            <span></span>
+            <a></a>
+          </div>
+        </div>
+
 
         <!-- Text Card: What We Don't Know -->
         <!-- <div class="card text-card shadow expandable">
@@ -296,7 +331,7 @@
         <!--      </div>-->
         <!--    </div>-->
 
-        <div class="sidebar-card-separator"><span><h2>Reports</h2></span></div>
+        <div class="sidebar-card-separator"><span><h2>Environmental Concerns</h2></span></div>
 
         <!-- Card: Hydrogen Sulfide Levels (with time widget inside expandable section) -->
         <div id="h2s-card" class="card shadow expandable expanded" onclick="selectCard('H₂S Levels')">
@@ -470,7 +505,7 @@
           </div>
         </div>
 
-        <div class="sidebar-card-separator"><span><h2>Health Concerns Report</h2></span></div>
+        <div class="sidebar-card-separator"><span><h2>Health Concerns</h2></span></div>
 
         <!-- Gastrointestinal -->
         <div id="gastrointestinal-card" class="card text-card shadow expandable expanded">
