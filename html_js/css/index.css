@@ -384,10 +384,6 @@ footer {
     max-width: var(--card-inner-size);
 }
 
-.card:not(.expanded) > :not(.card-header) {
-    display: none;
-}
-
 
 .card-header .card-title {
     width: 100%;
@@ -503,14 +499,8 @@ footer {
 .expandable.expanded .card-header .expand-btn {
     transform: rotate(180deg);
 }
-
-.expandable a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.expandable a:hover {
-    text-decoration: underline;
+.expandable:not(.expanded) > :not(.always-expand) {
+    display: none;
 }
 
 .indicator {
@@ -612,6 +602,15 @@ footer {
 #bottom-bar-container {
     position: absolute;
     z-index: 120;
+}
+
+.card ul {
+    margin-left: var(--p3);
+    margin-top: var(--p1);
+}
+
+hr {
+    color: #808080;
 }
 
 /* Desktop: pills placed to the right of sidebar */

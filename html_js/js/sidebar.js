@@ -1,28 +1,18 @@
-var sidebarContainer;
-var sidebarContent;
-var sidebarBody;
-var sidebarHeader;
-var sidebarHandle;
+var sidebarContainer = document.querySelector('#sidebar-container');
+var sidebarContent = sidebarContainer.querySelector('#sidebar');
+var sidebarBody = sidebarContent.querySelector('#sidebar-body');
+var sidebarHeader = sidebarContent.querySelector('#sidebar-header');
+var sidebarHandle = sidebarContent.querySelector('#sidebar-handle');
 var minHeight;
 var maxHeight;
 var middleHeight;
 
-document.addEventListener("DOMContentLoaded", function() {
-    sidebarContainer = document.querySelector('#sidebar-container');
-    sidebarContent = sidebarContainer.querySelector('#sidebar');
-    sidebarHeader = sidebarContent.querySelector('#sidebar-header');
-    sidebarBody = sidebarContent.querySelector('#sidebar-body');
-    sidebarHandle = sidebarContent.querySelector('#sidebar-handle');
+sidebar_setHeight();
+setupSidebarHandle();
 
-    // Set initial height
-    const initialHeight = sidebarContainer.getBoundingClientRect().height;
-    sidebar_setHeight(initialHeight);
-
+window.addEventListener('resize', function() {
+    sidebar_setHeight();
     setupSidebarHandle();
-    // Update minHeight, maxHeight, and middleHeight on window resize
-    window.addEventListener('resize', function() {
-        setupSidebarHandle();
-    });
 });
 
 function clearSidebarHandle() {
@@ -46,9 +36,9 @@ function clearSidebarHandle() {
 
 function setupSidebarHandle() {
     clearSidebarHandle();
-    console.log("Cleared sidebar handle");
     // only apply in mobile view
     if (window.innerWidth > 768) {
+        sidebar_setHeight();
         return;
     }
 
@@ -142,11 +132,15 @@ function sidebar_mouseUpHandlerDown() {
     sidebar_setHeight(closestHeight);
 }
 
-function sidebar_setHeight(height) {
-    const paddingString = getComputedStyle(document.body).getPropertyValue("--p1");
+function sidebar_setHeight(height=-1) {
+    if (height < 0) {
+        height = sidebarContainer.getBoundingClientRect().height;
+    }
+    
     sidebarContainer.style.height = `${height}px`;
     sidebarContent.style.height = `${height}px`;
-    sidebarBody.style.height = `calc(${height}px - ${sidebarHeader.getBoundingClientRect().height}px - ${paddingString} * 2)`;
+    const heightString =  `calc(${height}px - ${sidebarHeader.getBoundingClientRect().height}px - (var(--p1) * 4))`;
+    sidebarBody.style.height = heightString;
 }
 
 function toggleSidebar() {
