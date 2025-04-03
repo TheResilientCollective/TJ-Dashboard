@@ -151,4 +151,11 @@ function toggleSidebar() {
     sidebarBtn.querySelector("i").classList.toggle("bi-chevron-left");
     sidebarBtn.querySelector("i").classList.toggle("bi-chevron-right");
     sidebarBtn.classList.toggle("open");
+
+    if (sidebarContents.classList.contains("open")) {
+        document.querySelector("#top-bar-container").style.left = "";
+    }
+    else {
+        document.querySelector("#top-bar-container").style.left = "var(--p2)";
+    }
 }

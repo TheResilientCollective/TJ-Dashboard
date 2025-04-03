@@ -96,6 +96,8 @@
 
 
         button.classList.toggle("active");
+        button.querySelector("i").classList.toggle("bi-check-square-fill");
+        button.querySelector("i").classList.toggle("bi-x-square");
         console.log("Toggled layer:", layer);
         const layerid = layerInfo.find((l) => l.label == layer)
         console.log("Toggled layer:" + layer + " layerid:", layerid);
@@ -147,11 +149,11 @@
   <!-- Top Pill Container -->
   <div id="top-bar-container">
     <div id="top-bar">
-      <button class="active" onclick="toggleLayer(this, 'Beach Closures')">Beach Closures</button>
-      <button class="active" onclick="toggleLayer(this, 'H₂S Levels')">H₂S Levels</button>
-      <button class="active" onclick="toggleLayer(this, 'Smell Complaints')">Smell Complaints</button>
-      <button class="active" onclick="toggleLayer(this, 'Wastewater Spills')">Wastewater Spills</button>
-      <button onclick="toggleLayer(this, 'River Basin')">River Basin</button>
+      <button class="active" onclick="toggleLayer(this, 'Beach Closures')"><i class="bi bi-check-square-fill"></i>Beach Closures</button>
+      <button class="active" onclick="toggleLayer(this, 'H₂S Levels')"><i class="bi bi-check-square-fill"></i>H₂S Levels</button>
+      <button class="active" onclick="toggleLayer(this, 'Smell Complaints')"><i class="bi bi-check-square-fill"></i>Smell Complaints</button>
+      <button class="active" onclick="toggleLayer(this, 'Wastewater Spills')"><i class="bi bi-check-square-fill"></i>Wastewater Spills</button>
+      <button onclick="toggleLayer(this, 'River Basin')"><i class="bi bi-x-square"></i>River Basin</button>
     </div>
   </div>
 
