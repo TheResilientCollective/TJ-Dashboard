@@ -47,6 +47,10 @@ body.dark {
     border: var(--shadow-border);
 }
 
+i {
+    width: var(--icon);
+}
+
 /* hide wrapper */
 .reportview-container {
     margin-top: -2em;
@@ -362,6 +366,10 @@ footer {
     padding: var(--p2);
 }
 
+.card > h1, .card > h2, .card > h3, .card > h4, .card > h5, .card > h6 {
+    text-align: left;
+}
+
 .card-header {
     display: flex;
     /* justify-content: space-between; */
@@ -392,9 +400,61 @@ footer {
 }
 
 .card-data {
-    display: flex;
+    /* display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; */
+    /* display: block !important; */
+    width:100%;
+    align-items: unset !important;
+    justify-content: unset !important;
+    max-width:unset !important;
+}
+
+#h2s_summary table tr td:first-child{
+    width: 30%;
+}
+
+#h2s_summary table tr td:nth-child(2){
+    width: 25%;
+}
+
+#beach-closure-data tr td:last-child {
+    width: 20%;
+}
+
+.card-data table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: var(--p-half) var(--p1);
+}
+
+.card-data table tr {
+    display:table-row;
+}
+
+.card-data table tr td {
+    display:table-cell;
+    white-space: nowrap;
+    overflow-x: hidden;
+    /* overflow-x: auto; */
+    text-overflow: clip;
+    /* text-overflow: ellipsis; */
+}
+
+.card-data table tr td * {
+    margin-right:var(--p-half);
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.card-data table tr td *:last-child {
+    margin-right:0;
+}
+
+.card-data table tr td:first-child {
+    padding-left: 0;
+    font-weight:bold;
 }
 
 .text-card {
@@ -402,10 +462,19 @@ footer {
 }
 
 .card-footer {
+    padding-top: var(--p2);
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     color: #808080;
     font-weight: normal;
     font-size: 0.8em;
+}
+
+@media (max-width: 768px) {
+    .card-data table tr td i {
+        display: none;
+    }
 }
 
 
@@ -436,12 +505,17 @@ footer {
 }
 
 .indicator {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    margin-right: 8px;
+    width: var(--icon);
+    height: var(--icon);
+    border-radius: calc(var(--icon) / 2);
     display: inline-block;
 }
+
+/* @media (max-width: 768px) {
+    .indicator {
+        height: 100%;
+    }
+} */
 
 .indeterminate {
     background: white;
