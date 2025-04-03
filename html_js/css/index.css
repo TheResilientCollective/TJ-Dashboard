@@ -388,6 +388,7 @@ button.button.map-control-button.button {
 }
 
 .card > :not(.card-header) {
+    width: 100%;
     max-width: var(--card-inner-size);
 }
 
