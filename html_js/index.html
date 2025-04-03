@@ -31,6 +31,7 @@
   </style>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script src="./js/health-concerns.js"></script>
   <!--  <script type="module" src="js/fsmap.js"></script>-->
   <script type="module">
     const fs = "fsq3CYDP77ybwoo1KtkJigGRj6g0uYyhWVw25jM+zN6ovbI="
@@ -38,11 +39,12 @@
     //   import {createMap} from 'https://corsproxy.io/?key=3d648870&url=https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';
     import {createMap} from 'https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';
 
+    // map.setTheme({
+    //   preset: "light",
+    // });
     const map = await createMap({
       apiKey: fs,
       container: document.getElementById('map-container'),
-      // this loads a published map
-      // (original url: https://studio.foursquare.com/public/806b95d0-36bb-402c-b16c-24e54af4a761)
       initialState: {
         publishedMapId: mapuid
       },
@@ -67,6 +69,27 @@
     // sheet.replaceSync( `.unfolded-root + div + div  {visibility: collapse;}`)
     // map.shadowRoot.adoptedStyleSheets.push(sheet) // You want to add to stylesheets list
     globalThis.map = map
+    map.setMapConfig({
+      version: "v1",
+      config: {
+        loaded: false,
+        mapStyle: {
+          // styleType: "light",
+          topLayerGroups: {},
+          visibleLayerGroups: {
+            label: true,
+            road: true,
+            border: true,
+            building: false,
+            water: true,
+            land: true,
+            "3d building": false
+          },
+          mapStyles: {
+          }
+        }
+      }
+    });
 
     setTimeout(() => { // Wait a short time for the map to fully render
       try {
@@ -521,7 +544,17 @@
 
           <div class="card-footer">
             <span></span>
-            <a target="_blank" href="https://www.sandiegocounty.gov/content/dam/sdc/hhsa/programs/phs/Epidemiology/south-region-gi-illness/Surveillance%20Bulletin%20South%20Region%20Health%20Concerns_03122025.pdf">More info</a>
+            <a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">More info</a>
+            <script>
+              getHealthConcernsInfo().then((data) => {
+                if (!data) {
+                  return;
+                }
+                console.log("Latest PDF data: ", data);
+                document.querySelector('#gastrointestinal-card .card-footer span').innerText = `Updated ${data.date.format('MMMM D')}`; 
+                document.querySelector('#gastrointestinal-card .card-footer a').href = data.url;
+              });
+            </script>
           </div>
         </div>
 
@@ -539,7 +572,17 @@
 
           <div class="card-footer">
             <span></span>
-            <a target="_blank" href="https://www.sandiegocounty.gov/content/dam/sdc/hhsa/programs/phs/Epidemiology/south-region-gi-illness/Surveillance%20Bulletin%20South%20Region%20Health%20Concerns_03122025.pdf">More info</a>
+            <a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">More info</a>
+            <script>
+              getHealthConcernsInfo().then((data) => {
+                if (!data) {
+                  return;
+                }
+                console.log("Latest PDF data: ", data);
+                document.querySelector('#gastrointestinal-card .card-footer span').innerText = `Updated ${data.date.format('MMMM D')}`; 
+                document.querySelector('#gastrointestinal-card .card-footer a').href = data.url;
+              });
+            </script>
           </div>
         </div>
 
@@ -558,7 +601,17 @@
           
           <div class="card-footer">
             <span></span>
-            <a></a>
+            <a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">More info</a>
+            <script>
+              getHealthConcernsInfo().then((data) => {
+                if (!data) {
+                  return;
+                }
+                console.log("Latest PDF data: ", data);
+                document.querySelector('#gastrointestinal-card .card-footer span').innerText = `Updated ${data.date.format('MMMM D')}`; 
+                document.querySelector('#gastrointestinal-card .card-footer a').href = data.url;
+              });
+            </script>
           </div>
         </div>
 
