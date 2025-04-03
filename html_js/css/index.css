@@ -422,6 +422,15 @@ footer {
     width: 20%;
 }
 
+#odor-complaint-data tr td:first-child {
+    width: 35%;
+}
+
+#odor-complaint-data tr td:last-child{
+    width: 60%;
+    float:right;
+}
+
 .card-data table {
     width: 100%;
     table-layout: fixed;

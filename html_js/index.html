@@ -372,7 +372,7 @@
                 <tr>
                   <td>
                     <span class="indicator moderate"></span>
-                    <span id="beach-closure-count">8 Beaches Closed</span>
+                    <span id="beach-closure-count">-3 Beaches Closed</span>
                   </td>
                   <td>
                     <i class="bi bi-graph-up-arrow trend-up"></i>
@@ -423,57 +423,53 @@
             <h3 class="card-title">Public Odor Complaints</h3>
             <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
           </div>
-          
-          <div class="card-data card shadow">
-    <!--        <span class="indicator moderate"></span>-->'
-            <div> Odor Complaints</div>
-            <table class="odor-table">
-              <tr>
-                <td>7 Days</td>
-                <td>30 Days</td>
-                <td>Since 2023</td>
-              </tr>
-              <tr>
-                <td id="odor-count-7">Row 2, Column 1</td>
-                <td id="odor-count-30">Row 2, Column 2</td>
-                <td id="odor-count">Row 2, Column 3</td>
-              </tr>
+
+          <div id="odor-complaint-data-overview" class="card-data">
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <span class="indicator moderate"></span>
+                    <span id="odor-complaint-count">-3 Beaches Closed</span>
+                  </td>
+                  <td>
+                    <i class="bi bi-graph-up-arrow trend-up"></i>
+                    <span class="trend-up"> +100 from last week</span>
+                  </td>
+                </tr>
+              </tbody>
             </table>
-    <!--        <span id="odor-trend" class="trend-up">▲ +2</span>-->
           </div>
 
-          <div id="odor-info" class="card shadow expandable expanded">
-            <p> The data for this layer is from public input <a target="_blank" href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df">SD County Odor Complaints Dashboard</a> </p>
-            <li><a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
+          <h4>About Air Quality</h4>
+          <p>
+            Reduce your exposure to poor quality air or strong odors by limiting outdoor activity, keeping windows and
+            doors closed, and airing out your home or business when odors are not present
+            If available, use air conditioning or portable indoor air purifiers. Look into whether filters need to be
+            replaced
+            Use certified HEPA filters with activated charcoal
+            If possible, run your air conditioner at your business for 1-2 hours before opening”
+          </p>
+          <p> 
+            Dataset information: <a target="_blank" href="https://sdbeachinfo.com/">San Diego Beach & Bay Water Quality Program</a>
+            <br>
+            <a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
+          </p>
 
-            <div class="text-card">
-              <h3>About Air Quality</h3>
-              <p>Reduce your exposure to poor quality air or strong odors by limiting outdoor activity, keeping windows and
-                doors closed, and airing out your home or business when odors are not present
-                If available, use air conditioning or portable indoor air purifiers. Look into whether filters need to be
-                replaced
-                Use certified HEPA filters with activated charcoal
-                If possible, run your air conditioner at your business for 1-2 hours before opening”
-              </p>
-            </div>
-                <!--        <ul>-->
-                <!--          <li><strong>Downtown:</strong> Strong rotten egg odor (Industrial)</li>-->
-                <!--          <li><strong>Ocean Beach:</strong> Faint sewage odor (Sewage)</li>-->
-                <!--          <li><strong>Little Italy:</strong> Chemical smell (Chemical)</li>-->
-                <!--        </ul>-->
-
-                <a target="_blank" href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df">View SD County Odor Complaints Dashboard</a>
-        <!--        <div class="time-widget">-->
-        <!--          <span class="time-title">Time Range:</span>-->
-        <!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
-        <!--          <button class="time-play" onclick="playTime('Odor Complaints', this.previousElementSibling)">Play</button>-->
-        <!--        </div>-->
-              <p> Dataset information: <a target="_blank" href="https://sdbeachinfo.com/">San Diego Beach & Bay Water Quality Program</a></p>
+          <div id="odor-complaint-data" class="card-data">
+            <span>Complaints in the last 7 days</span>
+            <table>
+              <tbody>
+                <tr>
+                  
+                </tr>
+              </tbody>
+            </table>
           </div>
 
           <div class="card-footer">
             <span></span>
-            <a></a>
+            <a target="_blank" href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df">More data</a>
           </div>
         </div>
 
@@ -610,23 +606,7 @@
 
           // value
           const colorIndicatorElm = document.createElement("span");
-          switch (h2s['level']) {
-            case 'orange':
-              colorIndicatorElm.className = "indicator orange"
-              break;
-            case 'yellow':
-              colorIndicatorElm.className = "indicator yellow"
-              break;
-            case 'green':
-              colorIndicatorElm.className = "indicator green"
-              break;
-            case 'purple':
-              colorIndicatorElm.className = "indicator purple"
-              break;
-            default:
-              colorIndicatorElm.className = "indicator white"
-              break;
-          }
+          colorIndicatorElm.classList.add("indicator", getIndicatorLevelForH2SRating(h2s['level']));
           const result = document.createElement("span");
           result.innerText = h2s['Result'] + " ppb";
           valueCell.appendChild(colorIndicatorElm)
@@ -675,6 +655,11 @@
       return response.json();
     })
     .then(jsonData => {
+      console.log("Odor Complaints Data: ", jsonData);
+
+
+
+
       const now = new Date();
       // Calculate boundaries for the last 7 and 30 days
       const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -691,6 +676,13 @@
       //   return itemDate >= sevenDaysAgo && itemDate <= now;
       // }).value();
 
+      // Filter for items in the 7 days before that
+      let previous7DaysData = _.filter(jsonData, item => {
+        let itemDate = parseCustomDate(item.date);
+        return itemDate >= thirtyDaysAgo && itemDate < sevenDaysAgo;
+      })
+      previous7DaysData = _.orderBy(previous7DaysData, [item => parseCustomDate(item.date)], ['desc']);
+
       // Filter for items in the last 30 days
       let last30DaysData = _.filter(jsonData, item => {
         let itemDate = parseCustomDate(item.date);
@@ -700,41 +692,81 @@
 
       // Sum the count fields for each filtered array
       const sumLast7Days = _.sumBy(last7DaysData, 'count');
+      const sumPrevious7Days = _.sumBy(previous7DaysData, 'count');
       const sumLast30Days = _.sumBy(last30DaysData, 'count');
-      const countSpan = document.getElementById('odor-count');
-      /* need to use lodash to parse and filter */
-      const odorCount = _.sumBy(jsonData, 'count');
-      countSpan.innerText =odorCount
-      const countSpan_7 = document.getElementById('odor-count-7');
-      /* need to use lodash to parse and filter */
+      const sumAllDays = _.sumBy(jsonData, 'count');
 
-      countSpan_7.innerText =sumLast7Days
-      const countSpan_30 = document.getElementById('odor-count-30');
-      /* need to use lodash to parse and filter */
 
-      countSpan_30.innerText =sumLast30Days
-      const jsonDiv = document.getElementById('odor-info');
-      const h2shead = document.createElement("ul")
-      h2shead.innerText = "Recent Complaints "
-      jsonDiv.innerText = ''
-      jsonDiv.appendChild(h2shead)
+      // update high level text
+      const countSpan = document.getElementById('odor-complaint-count');
+      console.log("Odor Complaints Count span", countSpan);
+      const countIndicator = countSpan.parentElement.querySelector(".indicator");
+      console.log("Odor Complaints Count indicator", countIndicator);
+      countSpan.innerText = sumLast7Days + " Complaints"
+      // FIXME: these numbers are arbitrary
+      countIndicator.classList.remove("low", "intermediate", "moderate", "high");
+      countIndicator.classList.add(getIndicatorLevelForOdorComplaints(sumLast7Days, 7));
+
+      console.log("Update Odor Complaints Count: ", sumLast7Days);
+
+      const countComplaintsChange = sumLast7Days - sumPrevious7Days;
+      console.log("Odor Complaints Change: ", countComplaintsChange);
+      const changeContainer = document.querySelector("#odor-complaint-data-overview tr td:last-child");
+      const changeSpan = changeContainer.querySelector("span");
+      const changeIcon = changeContainer.querySelector("i");
+      changeSpan.innerText = `${(countComplaintsChange > 0 ? "+":"")} ${countComplaintsChange} from last week`;
+      if (countComplaintsChange > 0) {
+        changeIcon.classList.remove("trend-up", "trend-down", "trend-flat", "bi-graph-up-arrow", "bi-graph-down-arrow");
+        changeSpan.classList.remove("trend-up", "trend-down", "trend-flat");
+        changeIcon.classList.add("trend-down", "bi-graph-up-arrow");
+        changeSpan.classList.add("trend-down");
+      }
+      else if (countComplaintsChange < 0) {
+        changeIcon.classList.remove("trend-up", "trend-down", "trend-flat", "bi-graph-up-arrow", "bi-graph-down-arrow");
+        changeSpan.classList.remove("trend-up", "trend-down", "trend-flat");
+        changeIcon.classList.add("trend-up", "bi-graph-down-arrow");
+        changeSpan.classList.add("trend-up");
+      }
+      else {
+        changeIcon.classList.remove("trend-up", "trend-down", "trend-flat", "bi-graph-up-arrow", "bi-graph-down-arrow");
+        changeSpan.classList.remove("trend-up", "trend-down", "trend-flat");
+        changeIcon.classList.add("bi bi-graph-up-arrow");
+        changeSpan.classList.add("trend-flat");
+      }
+
+      // clear old data and build new table
+      const jsonDiv = document.querySelector('#odor-complaint-data tbody');
+      jsonDiv.innerHTML = "";
 
       // Convert JSON data to a formatted string for display
       last7DaysData.forEach(
         obj => {
-          const d = document.createElement("li");
-          d.className = "card-data"
+          const rowElm = document.createElement("tr");
+          rowElm.classList.add("card-data");
+          const dateCell = document.createElement("td");
+          const countCell = document.createElement("td");
+          rowElm.appendChild(dateCell);
+          rowElm.appendChild(countCell);
+          jsonDiv.appendChild(rowElm);
 
+          // date
+          const dateIcon = document.createElement("i");
+          dateIcon.className = "bi bi-clock";
+          const dateElm = document.createElement("span");
+          let date = dayjs(obj['date'])
+          const dateString = date.format("DD MMM YYYY");
+          dateElm.innerText = dateString;
+          dateCell.appendChild(dateIcon)
+          dateCell.appendChild(dateElm)
 
-          const dateSpan = document.createElement("span");
-          dateSpan.innerText = obj['date']
+          // count
+          const countIndicatorElm = document.createElement("span");
           const countSpan = document.createElement("span");
-          countSpan.innerText = obj['count']
-          d.appendChild(dateSpan)
-          d.appendChild(countSpan)
-
-          jsonDiv.appendChild(d)
-        })
+          countIndicatorElm.classList.add("indicator", getIndicatorLevelForOdorComplaints(obj['count']));
+          countSpan.innerText = obj['count'] + " complaints";
+          countCell.appendChild(countIndicatorElm)
+          countCell.appendChild(countSpan)
+      });
       
       // update card footer
       const cardFooter = document.querySelector("#odor-complaints-card .card-footer");
@@ -765,12 +797,8 @@
       const countClosures = jsonData.length
       countSpan.innerText = countClosures + " Beaches Closed"
       // TODO: set the indicator color based on the count
-      if (countClosures > 0) {
-        countIndicator.classList.add("moderate");
-      }
-      else {
-        countIndicator.classList.remove("moderate");
-      }
+      countIndicator.classList.remove("low", "intermediate", "moderate", "high");
+      countIndicator.classList.add(getIndicatorLevelForBeachClosures(countClosures));
 
       const countClosuresChange = 0; // TODO: calculate the change from last week
       const changeContainer = document.querySelector("#beach-closure-data-overview tr td:last-child");
@@ -854,6 +882,59 @@
     .catch(error => {
       console.error('Error fetching the JSON:', error);
     });
+
+
+    /**
+     * .indicator elements are colored based on a number.
+     * @param {number} count - the number of odor complaints
+     * @param {number} [accumulatedOverDays=1] - the number of days over which the count is accumulated
+     * @returns {string} - the color class name corresponding to that number of odor complaints
+     */
+    function getIndicatorLevelForOdorComplaints(count, accumulatedOverDays=1) {
+      // FIXME: Tommy just made up these numbers
+      if (count < 3 * accumulatedOverDays) {
+        return "low";
+      }
+      else if (count < 7 * accumulatedOverDays) {
+        return "moderate";
+      }
+      else {
+        return "high";
+      }
+    }
+
+    /**
+     * .indicator elements are colored based on a number.
+     * @param {number} count - the number of beach closures
+     * @returns {string} - the color class name corresponding to that number of beach closures
+     */
+    function getIndicatorLevelForBeachClosures(count) {
+      if (count < 5) {
+        return "low";
+      }
+      else if (count < 10) {
+        return "moderate";
+      }
+      else {
+        return "high";
+      }
+    }
+
+    function getIndicatorLevelForH2SRating(rating) {
+      switch (rating) {
+        case 'orange':
+          return "orange";
+        case 'yellow':
+          return "yellow";
+        case 'green':
+          return "green";
+        case 'purple':
+          return "purple";
+        default:
+          return "white";
+      }
+    }
+
     </script>
 </body>
 </html>
