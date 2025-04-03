@@ -778,25 +778,21 @@
       const changeIcon = changeContainer.querySelector("i");
       changeSpan.innerText = `${(countClosuresChange > 0 ? "+":"")} ${countClosuresChange} from last week`;
       if (countClosuresChange > 0) {
-        changeIcon.classList.add("trend-down");
-        changeIcon.classList.remove("trend-up");
-        changeIcon.classList.remove("bi-graph-down-arrow");
-        changeIcon.classList.add("bi-graph-up-arrow");
+        changeIcon.classList.remove("trend-up", "trend-down", "trend-flat", "bi-graph-up-arrow", "bi-graph-down-arrow");
+        changeSpan.classList.remove("trend-up", "trend-down", "trend-flat");
+        changeIcon.classList.add("trend-down", "bi-graph-up-arrow");
         changeSpan.classList.add("trend-down");
-        changeSpan.classList.remove("trend-up");
       }
       else if (countClosuresChange < 0) {
-        changeIcon.classList.add("trend-up");
-        changeIcon.classList.remove("trend-down");
-        changeIcon.classList.remove("bi-graph-up-arrow");
-        changeIcon.classList.add("bi-graph-down-arrow");
+        changeIcon.classList.remove("trend-up", "trend-down", "trend-flat", "bi-graph-up-arrow", "bi-graph-down-arrow");
+        changeSpan.classList.remove("trend-up", "trend-down", "trend-flat");
+        changeIcon.classList.add("trend-up", "bi-graph-down-arrow");
         changeSpan.classList.add("trend-up");
-        changeSpan.classList.remove("trend-down");
       }
       else {
-        changeIcon.classList.remove("trend-up", "trend-down");
-        changeIcon.classList.remove("bi-graph-up-arrow", "bi-graph-down-arrow");
-        changeSpan.classList.remove("trend-up", "trend-down");
+        changeIcon.classList.remove("trend-up", "trend-down", "trend-flat", "bi-graph-up-arrow", "bi-graph-down-arrow");
+        changeSpan.classList.remove("trend-up", "trend-down", "trend-flat");
+        changeSpan.classList.add("trend-flat");
         changeSpan.innerText = "same as last week";
       }
 

@@ -566,6 +566,12 @@ footer {
     font-weight: bold;
 }
 
+.trend-flat {
+    color: #808080;
+    font-size: 16px;
+    font-weight:lighter;
+}
+
 /* Time Widget Styles (inside expandable area) */
 .time-widget {
     margin-top: 8px;
