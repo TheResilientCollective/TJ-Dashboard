@@ -5,6 +5,9 @@
     --p3: calc(var(--p1) * 3);
     --p4: calc(var(--p1) * 4);
 
+    --icon: 1rem;
+    --icon2: calc(var(--icon) * 2);
+
     --shadow: 0 4px 4px 0 rgba(0, 0, 0, .25);
     --shadow-reverse: 0 -4px 4px 0 rgba(0, 0, 0, .25);
     --shadow-border: 1px solid #D9D9D9;
@@ -201,7 +204,7 @@ footer {
     width: 100%;
 }
 
-#sidebar-header a {
+#sidebar-header>div:last-child  {
     text-align: right;
     float: right;
 }
@@ -233,14 +236,37 @@ footer {
 }
 
 /* Drawer Handle */
-#sidebar-header #sidebar-handle {
+#sidebar-handle {
+    display: block;
+    height: var(--p2);
+}
+
+.grip {
     width: 5rem;
     height: var(--p-half);
     background: #ccc;
     border-radius: 2.5px;
     margin: 8px auto;
     cursor: pointer;
-    display: block;
+}
+
+#sidebar-header #sidebar-title {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+
+    display: unset;
+    width: 200%;
+    height: calc(var(--icon) * 4);
+    padding: var(--p-half) var(--p1) var(--p-half) var(--p1);
+    border-radius: var(--border-radius);
+}
+
+#sidebar-header img {
+    width: calc(var(--icon) * 4);
 }
 
 /* Desktop Sidebar */
@@ -249,7 +275,7 @@ footer {
         position: absolute;
         top: 0;
         left: 0;
-        max-width: 25rem;
+        max-width: 28rem;
         max-height: 100%;
     }
 
@@ -276,6 +302,10 @@ footer {
     #sidebar-handle {
         display: none !important;
     }
+    
+    #sidebar-header #sidebar-title {
+        display:flex !important;
+    }
 }
 
 /* Mobile Drawer */
@@ -297,6 +327,10 @@ footer {
     #sidebar-btn {
         display: none;
     }
+
+    /* #sidebar-header #sidebar-title {
+        display: none;
+    } */
 }
 
 

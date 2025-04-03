@@ -1,8 +1,8 @@
-
 var sidebarContainer;
 var sidebarContent;
 var sidebarBody;
 var sidebarHeader;
+var sidebarHandle;
 var minHeight;
 var maxHeight;
 var middleHeight;
@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     sidebarContent = sidebarContainer.querySelector('#sidebar');
     sidebarHeader = sidebarContent.querySelector('#sidebar-header');
     sidebarBody = sidebarContent.querySelector('#sidebar-body');
+    sidebarHandle = sidebarContent.querySelector('#sidebar-handle');
 
     // Set initial height
     const initialHeight = sidebarContainer.getBoundingClientRect().height;
@@ -25,10 +26,10 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function clearSidebarHandle() {
-    sidebarHeader.removeEventListener('mousedown', sidebar_startDragUp);
-    sidebarHeader.removeEventListener('touchstart', sidebar_startDragUp);
-    sidebarHeader.removeEventListener('mousedown', sidebar_startDragDown);
-    sidebarHeader.removeEventListener('touchstart', sidebar_startDragDown);
+    sidebarHandle.removeEventListener('mousedown', sidebar_startDragUp);
+    sidebarHandle.removeEventListener('touchstart', sidebar_startDragUp);
+    sidebarHandle.removeEventListener('mousedown', sidebar_startDragDown);
+    sidebarHandle.removeEventListener('touchstart', sidebar_startDragDown);
     sidebarContainer.removeEventListener('mousemove', sidebar_mouseMoveHandler);
     sidebarContainer.removeEventListener('touchmove', sidebar_mouseMoveHandler);
     sidebarContainer.removeEventListener('mouseup', sidebar_mouseUpHandler);
@@ -51,20 +52,21 @@ function setupSidebarHandle() {
         return;
     }
 
-    // Calculate minHeight including the header's padding
-    const headerStyles = window.getComputedStyle(sidebarHeader);
-    const headerPadding = parseFloat(headerStyles.paddingTop) + parseFloat(headerStyles.paddingBottom);
-    minHeight = sidebarHeader.getBoundingClientRect().height + headerPadding;
+    // Calculate minHeight including the handle's padding
+    const handleStyles = window.getComputedStyle(sidebarHandle);
+    const handlePadding = parseFloat(handleStyles.paddingTop) + parseFloat(handleStyles.paddingBottom);
+    const headerPadding = parseFloat(getComputedStyle(sidebarHeader).paddingTop) + parseFloat(getComputedStyle(sidebarHeader).paddingBottom);
+    minHeight = sidebarHeader.getBoundingClientRect().height + sidebarHandle.getBoundingClientRect().height + handlePadding + headerPadding;
     maxHeight = window.innerHeight;
     middleHeight = (maxHeight + minHeight) / 2;
 
-    // allow dragging on the header to expand the sidebar upwards
-    sidebarHeader.addEventListener('mousedown', sidebar_startDragUp);
-    sidebarHeader.addEventListener('touchstart', sidebar_startDragUp, { passive: false });
+    // allow dragging on the handle to expand the sidebar upwards
+    sidebarHandle.addEventListener('mousedown', sidebar_startDragUp);
+    sidebarHandle.addEventListener('touchstart', sidebar_startDragUp, { passive: false });
 
-    // allow dragging on the header to expand the sidebar downwards
-    sidebarHeader.addEventListener('mousedown', sidebar_startDragDown);
-    sidebarHeader.addEventListener('touchstart', sidebar_startDragDown, { passive: false });
+    // allow dragging on the handle to expand the sidebar downwards
+    sidebarHandle.addEventListener('mousedown', sidebar_startDragDown);
+    sidebarHandle.addEventListener('touchstart', sidebar_startDragDown, { passive: false });
 }
 
 // Helper function to get the Y-coordinate from mouse or touch events
@@ -74,7 +76,7 @@ function sidebar_getEventY(event) {
 
 function sidebar_startDragUp(e) {
     // Prevent dragging if the target is a clickable link
-    if (e.target.tagName === 'A') return;
+    if (e.target.tagName === 'IMG') return;
 
     e.preventDefault();
     document.addEventListener('mousemove', sidebar_mouseMoveHandler);
@@ -108,7 +110,7 @@ function sidebar_mouseUpHandler() {
 
 function sidebar_startDragDown(e) {
     // Prevent dragging if the target is a clickable link
-    if (e.target.tagName === 'A') return;
+    if (e.target.tagName === 'IMG') return;
 
     e.preventDefault();
     document.addEventListener('mousemove', sidebar_mouseMoveHandlerDown);
@@ -150,7 +152,6 @@ function sidebar_setHeight(height) {
 function toggleSidebar() {
     var sidebar = document.querySelector("#sidebar-container");
     var sidebarContents = sidebar.querySelector("#sidebar");
-    var sidebarHandle = document.querySelector("#sidebar-handle");
     var sidebarBtn = document.querySelector("#sidebar-btn");
     sidebarContents.classList.toggle("open");
     sidebarBtn.querySelector("i").classList.toggle("bi-chevron-left");
