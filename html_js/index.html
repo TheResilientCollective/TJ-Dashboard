@@ -399,7 +399,19 @@
     table.odor-table td,  table.odor-table th {
       border: 1px solid black;
     }
-
+    /* quick try to chart */
+    .odor-chart {
+      display: flex;
+    }
+    /* quick try to chart */
+    .odor-chart .active-chart {
+      display: flex;
+      visibility: visible;
+    }
+    .odor-chart .hidden-chart {
+      display: flex;
+      visibility: hidden;
+    }
     /* Bottom Pill Container */
     #bottom-bar-container {
       position: absolute;
@@ -474,6 +486,7 @@
   </style>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>
   <!--  <script type="module" src="js/fsmap.js"></script>-->
   <script type="module">
     const fs = "fsq3CYDP77ybwoo1KtkJigGRj6g0uYyhWVw25jM+zN6ovbI="
@@ -492,7 +505,7 @@
       uiConfig:
         {
           sidePanel: {
-            view: 'hidden'| 'collapsed' | 'visible',
+            view: 'hidden',
             isAddLayerVisible: false,
 
           },
@@ -743,22 +756,30 @@
       </div>
       <div class="card-data">
 <!--        <span class="indicator moderate"></span>-->'
-        <div> Odor Complaints</div>
-        <table class="odor-table">
-          <tr>
-            <td>7 Days</td>
-            <td>30 Days</td>
-            <td>Since 2023</td>
-          </tr>
-          <tr>
-            <td id="odor-count-7">Row 2, Column 1</td>
-            <td id="odor-count-30">Row 2, Column 2</td>
-            <td id="odor-count">Row 2, Column 3</td>
-          </tr>
-        </table>
+        <p> Odor Complaints</p>
+        <div id="odor-count-header">Loading Public Complaints</div>
+<!--        <table class="odor-table">-->
+<!--          <tr>-->
+<!--            <td>7 Days</td>-->
+<!--            <td>30 Days</td>-->
+<!--            <td>Since 2023</td>-->
+<!--          </tr>-->
+<!--          <tr>-->
+<!--            <td id="odor-count-7">Row 2, Column 1</td>-->
+<!--            <td id="odor-count-30">Row 2, Column 2</td>-->
+<!--            <td id="odor-count">Row 2, Column 3</td>-->
+<!--          </tr>-->
+<!--        </table>-->
 <!--        <span id="odor-trend" class="trend-up">▲ +2</span>-->
       </div>
       <div id="odor-info" class="expandable">
+        <div id="odor-data"></div>
+        <div class="odor-chart">
+          <div id="odor-chart-7days" class="active-chart"></div>
+          <div id="odor-chart-30days" class="hidden-chart"></div>
+          <div id="odor-chart-all" class="hidden-chart"></div>
+        </div>
+
         <p> The data for this layer is from public input <a href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df">SD County Odor Complaints Dashboard</a> </p>
         <li><a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
 
@@ -919,6 +940,28 @@
     // Note: in JavaScript, months are 0-indexed (0 = January)
     return new Date(year, month - 1, day);
   }
+  function odorChart(divId, data){
+    // Prepare arrays for dates and counts
+    const dates = data.map(item => item.date);
+    const counts = data.map(item => item.count);
+
+    // Define the trace for the bar chart
+    const trace = {
+      x: dates,
+      y: counts,
+      type: 'bar'
+    };
+
+    // Define the layout for the chart
+    const layout = {
+      title: 'Counts by Date for the Last 7 Days',
+      xaxis: { title: 'Date' },
+      yaxis: { title: 'Count' }
+    };
+
+    // Create the bar chart using Plotly
+    Plotly.newPlot(divId, [trace], layout, {responsive: true});
+  }
   fetch('https://oss.resilientservice.mooo.com/resilentpublic/tijuana/sd_apcd_air/output/warnings/h2s.json')
     .then(response => {
       if (!response.ok) {
@@ -1014,41 +1057,45 @@
 // Sum the count fields for each filtered array
       const sumLast7Days = _.sumBy(last7DaysData, 'count');
       const sumLast30Days = _.sumBy(last30DaysData, 'count');
-      const countSpan = document.getElementById('odor-count');
-      /* need to use lodash to parse and filter */
-      const odorCount = _.sumBy(jsonData, 'count');
-      countSpan.innerText =odorCount
-      const countSpan_7 = document.getElementById('odor-count-7');
-      /* need to use lodash to parse and filter */
-
-      countSpan_7.innerText =sumLast7Days
-      const countSpan_30 = document.getElementById('odor-count-30');
+      // const countSpan = document.getElementById('odor-count');
+      // /* need to use lodash to parse and filter */
+      // const odorCount = _.sumBy(jsonData, 'count');
+      // countSpan.innerText =odorCount
+      const countSpan_7 = document.getElementById('odor-count-header');
       /* need to use lodash to parse and filter */
 
-      countSpan_30.innerText =sumLast30Days
-      const jsonDiv = document.getElementById('odor-info');
+      countSpan_7.innerText = sumLast7Days + " Public Complaints"
+
+      // const countSpan_30 = document.getElementById('odor-count-30');
+      // /* need to use lodash to parse and filter */
+      //
+      // countSpan_30.innerText =sumLast30Days
+      const jsonDiv = document.getElementById('odor-data');
       const h2shead = document.createElement("ul")
       h2shead.innerText = "Recent Complaints "
       jsonDiv.innerText = ''
       jsonDiv.appendChild(h2shead)
 
-      // Convert JSON data to a formatted string for display
-      last7DaysData.forEach(
-        obj => {
-          const d = document.createElement("li");
-          d.className = "card-data"
-
-
-          const dateSpan = document.createElement("span");
-          dateSpan.innerText = obj['date']
-          const countSpan = document.createElement("span");
-          countSpan.innerText = obj['count']
-          d.appendChild(dateSpan)
-          d.appendChild(countSpan)
-
-          jsonDiv.appendChild(d)
-        }
-      )
+      // // Convert JSON data to a formatted string for display
+      // last7DaysData.forEach(
+      //   obj => {
+      //     const d = document.createElement("li");
+      //     d.className = "card-data"
+      //
+      //
+      //     const dateSpan = document.createElement("span");
+      //     dateSpan.innerText = obj['date']
+      //     const countSpan = document.createElement("span");
+      //     countSpan.innerText = obj['count']
+      //     d.appendChild(dateSpan)
+      //     d.appendChild(countSpan)
+      //
+      //     jsonDiv.appendChild(d)
+      //   }
+      // )
+      odorChart('odor-chart-7days', last7DaysData)
+      odorChart('odor-chart-30days', last30DaysData)
+      odorChart('odor-chart-all', jsonData)
     })
     .catch(error => {
       console.error('Error fetching the JSON:', error);
