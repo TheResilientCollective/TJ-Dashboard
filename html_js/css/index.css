@@ -96,11 +96,13 @@ footer {
     z-index: 10;
 }
 
+/* offset container to hide the foursquare sidebar */
 #map-container {
-    width: 100%;
+    --foursquare-sidebar-width: 44px;
+    width: calc(100% + var(--foursquare-sidebar-width));
     height: 100%;
     border: none;
-    left: -44px;
+    left: calc(var(--foursquare-sidebar-width) * -1);
 }
 
 #hidepanel {
