@@ -82,13 +82,12 @@
     ]
 
     // Toggle Expand Function for Cards
-    function toggleExpand(id) {
-      var section = document.getElementById(id);
-      if (window.getComputedStyle(section).display === "none") {
-        section.style.display = "block";
-      } else {
-        section.style.display = "none";
+    function toggleExpand(ev) {
+      let section = ev.target;
+      while (!section.classList.contains("expandable")) {
+        section = section.parentElement;
       }
+      section.classList.toggle("expanded");
     }
 
     // Toggle Layer Function for Top Pills
@@ -142,8 +141,7 @@
 <body class="light">
 <div id="container">
   <!-- Map Container with Kepler fsmap configured for San Ysidro (approx 50-mile radius) -->
-  <div id="map-container">
-  </div>
+  <div id="map-container"></div>
 <!--  <div id="hidepanel">-->
 <!--  </div>-->
   <!-- Top Pill Container -->
@@ -171,148 +169,151 @@
       </div>
       
       <div id="sidebar-body">
-    <!-- Card: What We Know (No time widget here) -->
-    <div class="card" onclick="selectCard('What We Know')">
-      <div class="card-header">
-        <span class="card-title">What is going on</span>
-        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('know-info')">⌄</button>
-      </div>
-      <p>A combination of several factors has led to the overflow of sewage, causing runoff water and contamination to go into the ocean on both the Mexico and U.S. sides.</p>
-      <div id="know-info" class="expandable">
+        <div class="sidebar-card-separator"><span><h2>Ongoing Events</h2></span></div>
 
-        <p>There are multi-agency efforts to address air and water quality issues in the Tijuana River Valley that are impacting San Diego area communities.
-          <a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html">Learn more</a>
-        </p>
-        <p>This dashboard and mapping tool provides information from multiple sources about the air and water quality in San Diego.</p>
-        </div>
-    </div>
-    <!-- Text Card: What You Can Do -->
-    <div class="text-card" class="expandable">
-      <div class="card-header">
-        <span class="card-title">What You Can Do</span>
-        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('you-can-do')">⌄</button>
-      </div>
-      <div>
-        <p>Report unusual conditions (like odors) to local authorities and share you observations with your community.</p>
-
-
-      </div>
-      <div id="you-can-do" class="card-data" style="display: none">
-        Report odor complaints to the San Diego County Air Pollution Control District by:
-        <ul>
-          <li>Mobile app</li>
-          <li>Phone at (858) 586-2650,</li>
-          <li>Email to <a href="mailto:apcdcomp@sdapcd.org">apcdcomp@sdapcd.org,</a> or</li>
-          <li>Visit <a href="http://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html">online.</a> </li>
-        </ul>
-
-
-
-      </div>
-    </div>
-    <!-- Text Card: What We’re Doing -->
-    <div class="text-card">
-      <div class="card-header">
-        <span class="card-title">What We’re Doing</span>
-        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('doing-info')">⌄</button>
-
-      </div>
-      <p>For details on the County's response to the sewage crisis and how to protect your health,
-        visit our page about <a
-          href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html">
-          South Region Health Concerns </a>
-        </p>
-      <div id="doing-info" class="expandable">
-        <div class="text-card">
-          <h4> For more details about specific datasets, visit:</h4>
-          <ul>
-            <li><a href="https://sdbeachinfo.com/">San Diego Beach & Bay Water Quality Program</a></li>
-            <li> <a href="https://www.sdapcd.org/">San Diego Air Pollution Control District</a></li>
-            <li><a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <!-- Card: Air Quality (with time widget inside expandable section) -->
-    <!--    <div class="card" onclick="selectCard('Air Quality')">-->
-    <!--      <div class="card-header">-->
-    <!--        <span class="card-title">Air Quality</span>-->
-    <!--        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('aq-info')">⌄</button>-->
-    <!--      </div>-->
-    <!--      <div class="card-data">-->
-    <!--        <span class="indicator moderate"></span>-->
-    <!--        <span>AQI: 42</span>-->
-    <!--        <span class="trend-up">▲ +3%</span>-->
-    <!--      </div>-->
-    <!--      <div id="aq-info" class="expandable">-->
-    <!--        <p>Urban emissions contribute to moderate air quality. Pollutant levels are rising.</p>-->
-    <!--        <a href="#">Check full AQI report</a>-->
-    <!--        <div class="time-widget">-->
-    <!--          <span class="time-title">Time Range:</span>-->
-    <!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
-    <!--          <button class="time-play" onclick="playTime('Air Quality', this.previousElementSibling)">Play</button>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </div>-->
-    <!-- Card: Public Odor Complaints (with time widget inside expandable section) -->
-    <div class="card" onclick="selectCard('Odor Complaints')">
-      <div class="card-header">
-        <span class="card-title">Public Odor Complaints</span>
-        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('odor-info')">⌄</button>
-      </div>
-      <div class="card-data">
-<!--        <span class="indicator moderate"></span>-->'
-        <div> Odor Complaints</div>
-        <table class="odor-table">
-          <tr>
-            <td>7 Days</td>
-            <td>30 Days</td>
-            <td>Since 2023</td>
-          </tr>
-          <tr>
-            <td id="odor-count-7">Row 2, Column 1</td>
-            <td id="odor-count-30">Row 2, Column 2</td>
-            <td id="odor-count">Row 2, Column 3</td>
-          </tr>
-        </table>
-<!--        <span id="odor-trend" class="trend-up">▲ +2</span>-->
-      </div>
-      <div id="odor-info" class="expandable">
-        <p> The data for this layer is from public input <a href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df">SD County Odor Complaints Dashboard</a> </p>
-        <li><a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
-
-              <div class="text-card">
-              <h3>About Air Quality</h3>
-              <p>Reduce your exposure to poor quality air or strong odors by limiting outdoor activity, keeping windows and
-                doors closed, and airing out your home or business when odors are not present
-                If available, use air conditioning or portable indoor air purifiers. Look into whether filters need to be
-                replaced
-                Use certified HEPA filters with activated charcoal
-                If possible, run your air conditioner at your business for 1-2 hours before opening”
-              </p>
-            </div>
-            <!--        <ul>-->
-            <!--          <li><strong>Downtown:</strong> Strong rotten egg odor (Industrial)</li>-->
-            <!--          <li><strong>Ocean Beach:</strong> Faint sewage odor (Sewage)</li>-->
-            <!--          <li><strong>Little Italy:</strong> Chemical smell (Chemical)</li>-->
-            <!--        </ul>-->
-
-            <a href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df">View SD County Odor Complaints Dashboard</a>
-    <!--        <div class="time-widget">-->
-    <!--          <span class="time-title">Time Range:</span>-->
-    <!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
-    <!--          <button class="time-play" onclick="playTime('Odor Complaints', this.previousElementSibling)">Play</button>-->
-    <!--        </div>-->
-          <p> Dataset information: <a href="https://sdbeachinfo.com/">San Diego Beach & Bay Water Quality Program</a></p>
-          </div>
-        </div>
-        <!-- Card: Hydrogen Sulfide Levels (with time widget inside expandable section) -->
-        <div class="card" onclick="selectCard('H₂S Levels')">
+        <!-- Card: What We Know (No time widget here) -->
+        <div class="card shadow expandable expanded" onclick="selectCard('What We Know')">
           <div class="card-header">
-            <span class="card-title">Hydrogen Sulfide Levels</span>
-            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('hs-info')">⌄</button>
+            <i class="bi bi-info-circle"></i>
+            <h3 class="card-title">What We Know</h3>
+            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
           </div>
+
+          <p>A combination of several factors has led to the overflow of sewage, causing runoff water and contamination to go into the ocean on both the Mexico and U.S. sides.</p>
+          <div id="know-info" class="expandable">
+            <p>There are multi-agency efforts to address air and water quality issues in the Tijuana River Valley that are impacting San Diego area communities.
+              <a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html">Learn more</a>
+            </p>
+            <p>This dashboard and mapping tool provides information from multiple sources about the air and water quality in San Diego.</p>
+          </div>
+          
+          <div class="card-footer">
+            <span></span>
+          </div>
+        </div>
+
+        <!-- Text Card: What You Can Do -->
+        <div class="card text-card shadow expandable expanded" class="expandable">
+          <div class="card-header">
+            <i class="bi bi-person"></i>
+            <h3 class="card-title">What You Can Do</h3>
+            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+          </div>
+
+          <div>
+            <p>Report unusual conditions (like odors) to local authorities and share you observations with your community.</p>
+          </div>
+          <div id="you-can-do" class="card-data" style="display: none">
+            Report odor complaints to the San Diego County Air Pollution Control District by:
+            <ul>
+              <li>Mobile app</li>
+              <li>Phone at (858) 586-2650,</li>
+              <li>Email to <a href="mailto:apcdcomp@sdapcd.org">apcdcomp@sdapcd.org,</a> or</li>
+              <li>Visit <a href="http://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html">online.</a> </li>
+            </ul>
+          </div>
+
+          <div class="card-footer">
+            <span></span>
+          </div>
+        </div>
+
+        <!-- Text Card: What We Don't Know -->
+        <!-- <div class="card text-card shadow expandable">
+          <div class="card-header">
+            <i class="bi bi-person-walking"></i>
+            <span class="card-question-circle">What We Don't Know</span>
+            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+          </div>
+
+          <p>For details on the County's response to the sewage crisis and how to protect your health,
+            visit our page about <a target="_blank" 
+              href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html">
+              South Region Health Concerns </a>
+            </p>
+          <div id="doing-info" class="expandable">
+            <div class="text-card">
+              <h4> For more details about specific datasets, visit:</h4>
+              <ul>
+                <li><a target="_blank" href="https://sdbeachinfo.com/">San Diego Beach & Bay Water Quality Program</a></li>
+                <li> <a target="_blank" href="https://www.sdapcd.org/">San Diego Air Pollution Control District</a></li>
+                <li><a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- Text Card: What We’re Doing -->
+        <div class="card text-card shadow expandable expanded">
+          <div class="card-header">
+            <i class="bi bi-person-walking"></i>
+            <h3 class="card-title">What We're Doing</h3>
+            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+          </div>
+
+          <p>For details on the County's response to the sewage crisis and how to protect your health,
+            visit our page about <a target="_blank" 
+              href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html">
+              South Region Health Concerns </a>
+            </p>
+          <div id="doing-info" class="expandable expanded">
+            <div class="text-card">
+              <h4> For more details about specific datasets, visit:</h4>
+              <ul>
+                <li><a target="_blank" href="https://sdbeachinfo.com/">San Diego Beach & Bay Water Quality Program</a></li>
+                <li> <a target="_blank" href="https://www.sdapcd.org/">San Diego Air Pollution Control District</a></li>
+                <li><a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span></span>
+          </div>
+        </div>
+
+        <!-- Card: Air Quality (with time widget inside expandable section) -->
+        <!--    <div class="card shadow expandable expanded" onclick="selectCard('Air Quality')">-->
+        <!--      <div class="card-header">-->
+        <!--        <h3 class="card-title">Air Quality</h3>-->
+        <!--        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)">⌄</button>-->
+        <!--      </div>-->
+        <!--      <div class="card-data">-->
+        <!--        <span class="indicator moderate"></span>-->
+        <!--        <span>AQI: 42</span>-->
+        <!--        <span class="trend-up">▲ +3%</span>-->
+        <!--      </div>-->
+        <!--      <div id="aq-info" class="expandable">-->
+        <!--        <p>Urban emissions contribute to moderate air quality. Pollutant levels are rising.</p>-->
+        <!--        <a target="_blank" href="#">Check full AQI report</a>-->
+        <!--        <div class="time-widget">-->
+        <!--          <span class="time-title">Time Range:</span>-->
+        <!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
+        <!--          <button class="time-play" onclick="playTime('Air Quality', this.previousElementSibling)">Play</button>-->
+        <!--        </div>-->
+        <!--      </div>-->
+        <!--    </div>-->
+
+        <div class="sidebar-card-separator"><span><h2>Reports</h2></span></div>
+
+        <!-- Card: Hydrogen Sulfide Levels (with time widget inside expandable section) -->
+        <div class="card shadow expandable expanded" onclick="selectCard('H₂S Levels')">
+          <div class="card-header">
+            <i class="bi bi-wind"></i>
+            <h3 class="card-title">Hydrogen Sulfide</h3>
+            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+          </div>
+
+          <p>
+            Hydrogen Sulfide is currently mediocre. Limit outdoor activity today. If you have a known respiratory sensitivity, consider wearing a mask or bringing other protection with you today. 
+            <br><br>
+            Elevated H₂S detected near the border with variable readings among stations.
+            <br>
+            <li><a href="https://app.powerbigov.us/view?r=eyJrIjoiOGMwYzM2ZGYtZGU4Ny00ZGI5LWE2NWMtMmZlOGEzZTYzMDc3IiwidCI6IjQ1NjNhZjEzLWMwMjktNDFiMy1iNzRjLTk2NWU4ZWVjOGY5NiJ9" target="_blank">See real time monitoring</a></li>
+          </p>
+
           <div id="h2s_summary">
             <div class="card-data">
               <span class="indicator moderate"></span>
@@ -331,105 +332,211 @@
             </div>
           </div>
 
-      <div id="hs-info" class="expandable">
-        <p>Elevated H₂S detected near the border with variable readings among stations.</p>
-        <a
-          href="https://app.powerbigov.us/view?r=eyJrIjoiOGMwYzM2ZGYtZGU4Ny00ZGI5LWE2NWMtMmZlOGEzZTYzMDc3IiwidCI6IjQ1NjNhZjEzLWMwMjktNDFiMy1iNzRjLTk2NWU4ZWVjOGY5NiJ9">See
-          real-time monitoring</a>
-<!--        <div class="time-widget">-->
-<!--          <span class="time-title">Time Range:</span>-->
-<!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
-<!--          <button class="time-play" onclick="playTime('H₂S Levels', this.previousElementSibling)">Play</button>-->
-<!--        </div>-->
-      </div>
-      <p>Dataset Information: <a href="https://www.sdapcd.org/">San Diego Air Pollution Control District</a></p>
-    </div>
+          <div id="hs-info" class="expandable expanded">
+            <p>Elevated H₂S detected near the border with variable readings among stations.</p>
+            <a target="_blank"
+              href="https://app.powerbigov.us/view?r=eyJrIjoiOGMwYzM2ZGYtZGU4Ny00ZGI5LWE2NWMtMmZlOGEzZTYzMDc3IiwidCI6IjQ1NjNhZjEzLWMwMjktNDFiMy1iNzRjLTk2NWU4ZWVjOGY5NiJ9">See
+              real-time monitoring</a>
+    <!--        <div class="time-widget">-->
+    <!--          <span class="time-title">Time Range:</span>-->
+    <!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
+    <!--          <button class="time-play" onclick="playTime('H₂S Levels', this.previousElementSibling)">Play</button>-->
+    <!--        </div>-->
+          </div>
+          <p>Dataset Information: <a target="_blank" href="https://www.sdapcd.org/">San Diego Air Pollution Control District</a></p>
 
-    <!-- Card: Beach Closures (with time widget inside expandable section) -->
-    <div class="card" onclick="selectCard('Beach Closures')">
-      <div class="card-header">
-        <span class="card-title">Beach Closures</span>
-        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand('beach-info')">⌄</button>
-      </div>
-      <div class="card-data">
-        <span class="indicator high"></span>
-        <span id="beach-closure-count">11 Beaches Closed</span>
-        <span class="trend-up">▲ +1</span>
-      </div>
-      <div id="beach-info" class="expandable">
-        <p>Bacteria levels along parts of the Tijuana River have led to closures.</p>
-        <a href="#">View closure fsmap</a>
-<!--        <div class="time-widget">-->
-<!--          <span class="time-title">Time Range:</span>-->
-<!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
-<!--          <button class="time-play" onclick="playTime('Beach Closures', this.previousElementSibling)">Play</button>-->
-<!--        </div>-->
-        <div class="text-card">
-          <h3>About Water Quality Issues</h3>
-          <p>Check online to find out which beaches are closed, have health advisories, or are being monitored for water
-            quality. This is especially important after heavy rain
-            Stay away from areas with visible sewage spills
-            Stay out of floodwater
-            Do not swim, go into, or swallow contaminated water sources
-            .</p>
+          <div class="card-footer">
+            <span></span>
+          </div>
         </div>
-      </div>
-    </div>
 
-
-
-    <!-- Text Card: What You Should Do -->
-    <div class="text-card">
-      <h3>What You Should Do</h3>
-      <p>Avoid contact with affected waters, follow local advisories, and stay updated on safety guidelines.</p>
-      <a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns.html">Visit South Region Health Concerns webpage</a>
-    </div>
-
-    <!-- Text Card: What We Don't Know -->
-<!--    <div class="text-card">-->
-<!--      <h3>What We Don't Know</h3>-->
-<!--      <p>The long-term impact of contaminants and altered river flow remains uncertain.</p>-->
-<!--      <a href="#">Read current research</a>-->
-<!--    </div>-->
-
-
-
-    <!-- Text Card: For More Information -->
-    <div class="text-card">
-      <div class="card-header">
-        <span class="card-title">For More Information</span>
-
+        <!-- Card: Beach Closures (with time widget inside expandable section) -->
+        <div class="card shadow expandable expanded" onclick="selectCard('Beach Closures')">
+          <div class="card-header">
+            <i class="bi bi-water"></i>
+            <h3 class="card-title">Beach Closures</h3>
+            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
           </div>
+
+          <div class="card-data">
+            <span class="indicator high"></span>
+            <span id="beach-closure-count">11 Beaches Closed</span>
+            <span class="trend-up">▲ +1</span>
+          </div>
+          <div id="beach-info" class="expandable expanded">
+            <p>Bacteria levels along parts of the Tijuana River have led to closures.</p>
+            <a target="_blank" href="#">View closure fsmap</a>
+    <!--        <div class="time-widget">-->
+    <!--          <span class="time-title">Time Range:</span>-->
+    <!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
+    <!--          <button class="time-play" onclick="playTime('Beach Closures', this.previousElementSibling)">Play</button>-->
+    <!--        </div>-->
+            <div class="text-card">
+              <h3>About Water Quality Issues</h3>
+              <p>Check online to find out which beaches are closed, have health advisories, or are being monitored for water
+                quality. This is especially important after heavy rain
+                Stay away from areas with visible sewage spills
+                Stay out of floodwater
+                Do not swim, go into, or swallow contaminated water sources
+                .</p>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span></span>
+          </div>
+        </div>
+
+        <!-- Card: Public Odor Complaints (with time widget inside expandable section) -->
+        <div class="card shadow expandable expanded" onclick="selectCard('Odor Complaints')">
+          <div class="card-header">
+            <i class="bi bi-exclamation-circle"></i>
+            <h3 class="card-title">Public Odor Complaints</h3>
+            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+          </div>
+          
+          <div class="card-data card shadow">
+    <!--        <span class="indicator moderate"></span>-->'
+            <div> Odor Complaints</div>
+            <table class="odor-table">
+              <tr>
+                <td>7 Days</td>
+                <td>30 Days</td>
+                <td>Since 2023</td>
+              </tr>
+              <tr>
+                <td id="odor-count-7">Row 2, Column 1</td>
+                <td id="odor-count-30">Row 2, Column 2</td>
+                <td id="odor-count">Row 2, Column 3</td>
+              </tr>
+            </table>
+    <!--        <span id="odor-trend" class="trend-up">▲ +2</span>-->
+          </div>
+
+          <div id="odor-info" class="card shadow expandable expanded">
+            <p> The data for this layer is from public input <a target="_blank" href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df">SD County Odor Complaints Dashboard</a> </p>
+            <li><a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
+
+            <div class="text-card">
+              <h3>About Air Quality</h3>
+              <p>Reduce your exposure to poor quality air or strong odors by limiting outdoor activity, keeping windows and
+                doors closed, and airing out your home or business when odors are not present
+                If available, use air conditioning or portable indoor air purifiers. Look into whether filters need to be
+                replaced
+                Use certified HEPA filters with activated charcoal
+                If possible, run your air conditioner at your business for 1-2 hours before opening”
+              </p>
+            </div>
+                <!--        <ul>-->
+                <!--          <li><strong>Downtown:</strong> Strong rotten egg odor (Industrial)</li>-->
+                <!--          <li><strong>Ocean Beach:</strong> Faint sewage odor (Sewage)</li>-->
+                <!--          <li><strong>Little Italy:</strong> Chemical smell (Chemical)</li>-->
+                <!--        </ul>-->
+
+                <a target="_blank" href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df">View SD County Odor Complaints Dashboard</a>
+        <!--        <div class="time-widget">-->
+        <!--          <span class="time-title">Time Range:</span>-->
+        <!--          <input type="range" min="2000" max="2025" value="2010" class="time-slider">-->
+        <!--          <button class="time-play" onclick="playTime('Odor Complaints', this.previousElementSibling)">Play</button>-->
+        <!--        </div>-->
+              <p> Dataset information: <a target="_blank" href="https://sdbeachinfo.com/">San Diego Beach & Bay Water Quality Program</a></p>
+          </div>
+
+          <div class="card-footer">
+            <span></span>
+          </div>
+        </div>
+
+        <div class="sidebar-card-separator"><span><h2>Health Concerns Report</h2></span></div>
+
+        <!-- Gastrointestinal -->
+        <div class="card text-card shadow expandable expanded">
+          <div class="card-header">
+            <i class="bi bi-sun"></i>
+            <h3 class="card-title">Gastrointestinal</h3>
+            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+          </div>
+
+          <p>
+            Gastrointestinal symptoms are symptoms such as diarrhea and vomiting. Gastrointestinal symptoms emergency department visits in San Diego County and the South Region area has been gradually declining over the past three months with some short-term fluctuations. The South Region area consistently has fewer visits than the San Diego County.
+            <br><br>
+            See <a target="_blank" href="https://www.sandiegocounty.gov/content/dam/sdc/hhsa/programs/phs/Epidemiology/south-region-gi-illness/Surveillance%20Bulletin%20South%20Region%20Health%20Concerns_03122025.pdf">County Health Report</a> for more information
+          </p>
+          <div class="card-footer">
+            <span></span>
+          </div>
+        </div>
+
+        <!-- Asthma and COPD -->
+        <div class="card text-card shadow expandable expanded">
+          <div class="card-header">
+            <i class="bi bi-sun"></i>
+            <h3 class="card-title">Asthma and COPD</h3>
+            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+          </div>
+
+          <p>
+            Asthma or chronic obstructive pulmonary disease (COPD) symptoms are symptoms such as reactive airway disease, wheezing, and bronchospasm. Asthma and COPD symptoms emergency department visits in San Diego County and the South Region area showed an increasing trend through mid-February but is currently in a gradual decline. South Region visits are consistently lower than the overall San Diego county visits.
+            <br><br>
+            See <a target="_blank" href="https://www.sandiegocounty.gov/content/dam/sdc/hhsa/programs/phs/Epidemiology/south-region-gi-illness/Surveillance%20Bulletin%20South%20Region%20Health%20Concerns_03122025.pdf">County Health Report</a> for more information
+          </p>
+          <div class="card-footer">
+            <span></span>
+          </div>
+        </div>
+
+
+        <!-- South Region Health Concerns -->
+        <div class="card text-card shadow expandable expanded">
+          <div class="card-header">
+            <i class="bi bi-graph-up-arrow"></i>
+            <h3 class="card-title">South Region Health Concerns</h3>
+            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+          </div>
+
+          <p>
+            TODO:
+          </p>
+          <div class="card-footer">
+            <span></span>
+          </div>
+        </div>
+
+        <div class="sidebar-card-separator"><span><h2>---</h2></span></div>
+
+        <!-- Text Card: For More Information -->
+        <div class="text-card card shadow expandable expanded">
+          <div class="card-header">
+            <i class="bi bi-info-circle"></i>
+            <h3 class="card-title">For More Information</h3>
+            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+          </div>
+
           <div class="text-card">
-            For details on the County’s response to the sewage crisis and how to protect your health, visit the      <a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns.html">Visit South Region Health Concerns webpage</a>
-
+            For details on the County’s response to the sewage crisis and how to protect your health, visit the      <a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns.html">Visit South Region Health Concerns webpage</a>
           </div>
 
-    <div class="text-card">
-      <h4>Contact & Feedback </h4>
-      <div>For questions or to provide feedback,</div> please <a href="mailto:phs.southregionhealth.hhsa@sdcounty.ca.gov"
-      >email the Epidemiology Unit</a>
-    </div>
+          <div class="text-card">
+            <h4>Contact & Feedback </h4>
+            <div>For questions or to provide feedback,</div> please <a target="_blank" href="mailto:phs.southregionhealth.hhsa@sdcounty.ca.gov"
+            >email the Epidemiology Unit</a>
+          </div>
 
 
           <div class="text-card">
             <h4> For more details about specific datasets, visit:</h4>
-          <ul>
-          <li><a href="https://sdbeachinfo.com/">San Diego Beach & Bay Water Quality Program</a></li>
-            <li> <a href="https://www.sdapcd.org/">San Diego Air Pollution Control District</a></li>
-            <li><a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
-            </li>
-          </ul>
+            <ul>
+              <li><a target="_blank" href="https://sdbeachinfo.com/">San Diego Beach & Bay Water Quality Program</a></li>
+              <li> <a target="_blank" href="https://www.sdapcd.org/">San Diego Air Pollution Control District</a></li>
+              <li><a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
+              </li>
+            </ul>
+          </div>
         </div>
-        </div>
 
-
-
-        
-      </div>
-  </div>
-
-</div>
+      </div> <!-- End of Sidebar Body -->
+    </div> <!-- End of Sidebar -->
+  </div> <!-- End of Sidebar Container -->
 </div>
 
 <script>
@@ -439,6 +546,9 @@
     // Note: in JavaScript, months are 0-indexed (0 = January)
     return new Date(year, month - 1, day);
   }
+
+
+  /***** Hydrogen Sulfide Data *****/
   fetch('https://oss.resilientservice.mooo.com/resilentpublic/tijuana/sd_apcd_air/output/warnings/h2s.json')
     .then(response => {
       if (!response.ok) {
@@ -496,10 +606,20 @@
           jsonDiv.appendChild(d)
         }
       )
+
+      // update card footer
+      const cardFooter = jsonDiv.parentElement.querySelector(".card-footer span");
+      if (cardFooter) {
+        const humanReadableDate = dayjs(jsonData[0]['Date with time']).format('h:mm A, MMMM D');
+        cardFooter.innerText = "Updated " + humanReadableDate;
+      }
     })
     .catch(error => {
       console.error('Error fetching the JSON:', error);
     });
+
+
+  /***** Odor Complaints Data *****/
   fetch('https://oss.resilientservice.mooo.com/resilentpublic/tijuana/sd_complaints/output/complaints_by_date.json')
     .then(response => {
       if (!response.ok) {
@@ -509,11 +629,11 @@
     })
     .then(jsonData => {
       const now = new Date();
-// Calculate boundaries for the last 7 and 30 days
+      // Calculate boundaries for the last 7 and 30 days
       const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
       const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
-// Filter for items in the last 7 days
+      // Filter for items in the last 7 days
       let last7DaysData = _.filter(jsonData,item => {
         let itemDate = parseCustomDate(item.date);
         return itemDate >= sevenDaysAgo && itemDate <= now;
@@ -524,14 +644,14 @@
       //   return itemDate >= sevenDaysAgo && itemDate <= now;
       // }).value();
 
-// Filter for items in the last 30 days
+      // Filter for items in the last 30 days
       let last30DaysData = _.filter(jsonData, item => {
         let itemDate = parseCustomDate(item.date);
         return itemDate >= thirtyDaysAgo && itemDate <= now;
       })
       last30DaysData=_.orderBy(last30DaysData, [item => parseCustomDate(item.date)], ['desc']);
 
-// Sum the count fields for each filtered array
+      // Sum the count fields for each filtered array
       const sumLast7Days = _.sumBy(last7DaysData, 'count');
       const sumLast30Days = _.sumBy(last30DaysData, 'count');
       const countSpan = document.getElementById('odor-count');
@@ -567,12 +687,21 @@
           d.appendChild(countSpan)
 
           jsonDiv.appendChild(d)
-        }
-      )
+        })
+      
+      // update card footer
+      const cardFooter = jsonDiv.parentElement.querySelector(".card-footer span");
+      if (cardFooter) {
+        const humanReadableDate = dayjs(jsonData[0]['date']).format('h:mm A, MMMM D');
+        cardFooter.innerText = "Updated " + humanReadableDate;
+      }
     })
     .catch(error => {
       console.error('Error fetching the JSON:', error);
     });
+
+
+  /***** Beach Closures Data *****/
   fetch('https://oss.resilientservice.mooo.com/resilentpublic/tijuana/beachwatch/output/beachwatch_closure_simple.json')
     .then(response => {
       if (!response.ok) {
@@ -620,12 +749,18 @@
           d.appendChild(desc)
           d.appendChild(mesg)
           jsonDiv.appendChild(d)
-        }
-      )
+        });
+      
+      // update card footer
+      const cardFooter = jsonDiv.parentElement.querySelector(".card-footer span");
+      if (cardFooter) {
+        const humanReadableDate = dayjs(jsonData[0]['Date']).format('h:mm A, MMMM D');
+        cardFooter.innerText = "Updated " + humanReadableDate;
+      }
     })
     .catch(error => {
       console.error('Error fetching the JSON:', error);
     });
-</script>
+    </script>
 </body>
 </html>
