@@ -714,7 +714,56 @@
         color: var(--grey);
         font-size: 0.75rem;
       }
+
+      .marker {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        width: var(--icon2);
+        height: var(--icon2);
+        
+        background-color: orange;
+        border-radius: calc(var(--icon2)/2);
+        padding: 0;
+        margin: 0;
+      }
+
+      .marker * {
+        display: block;
+
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        align-content: center;
+        text-align: center;
+      }
+
+      .marker.beach.closed {
+        background-color: #FFB300;
+      }
+      
+      .marker.beach.open {
+        background-color: #4caf50;
+      }
+
+      .marker.wastewater {
+        background-color: brown;
+        color: white;
+      }
+
+      .marker.h2s {
+        background-color: #FFB300;
+      }
+
+      .marker.odor {
+        background-color: #06B0F0;
+      }
+
     </style>
+
 
     <!-- Beach Closure Tooltip -->
     <div class="tooltip">
@@ -728,6 +777,13 @@
         <div class="indicator moderate"></div>
         <span>Beach closed</span>
       </div>
+    </div>
+
+    <div class="marker beach closed" style="position:absolute; left:-3rem;">
+      <i class="bi bi-water"></i>
+    </div>
+    <div class="marker beach open" style="position:absolute; left:-3rem; top:3rem;">
+      <i class="bi bi-water"></i>
     </div>
 
     <!-- Wastewater Spill Tooltip -->
@@ -748,6 +804,10 @@
         <span>date:</span>
         <span>3 March 2025</span>
       </div>
+    </div>
+
+    <div class="marker wastewater" style="position:absolute; left:-3rem; top: 7rem;">
+      <i class="bi bi-droplet"></i>
     </div>
 
     <!-- H2S Measurement Tooltip -->
@@ -773,6 +833,10 @@
       </div>
     </div>
 
+    <div class="marker h2s" style="position:absolute; left:-3rem; top: 18rem;">
+      <i class="bi bi-wind"></i>
+    </div>
+
     <!-- A stack of odor complaints -->
     <div class="tooltip">
       <div class="tooltip-header">
@@ -788,6 +852,10 @@
       </div>
     </div>
 
+    <div class="marker odor" style="position:absolute; left:-3rem; top: 30rem;">
+      <span>3</span>
+    </div>
+
     <!-- A single odor complaint -->
     <div class="tooltip">
       <div class="tooltip-header">
@@ -801,6 +869,10 @@
       <div class="tooltip-footer">
         <span>*since midnight. Does not include data for today.</span>
       </div>
+    </div>
+
+    <div class="marker odor" style="position:absolute; left:-3rem; top: 37rem;">
+      <span>1</span>
     </div>
 
   </div>
