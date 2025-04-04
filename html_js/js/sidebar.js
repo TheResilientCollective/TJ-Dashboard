@@ -154,8 +154,10 @@ function toggleSidebar() {
 
     if (sidebarContents.classList.contains("open")) {
         document.querySelector("#top-bar-container").style.left = "";
+        document.querySelector("#map-disclaimers").style.left = "calc(var(--p2) + var(--sidebar-desktop-width))";
     }
     else {
         document.querySelector("#top-bar-container").style.left = "var(--p2)";
+        document.querySelector("#map-disclaimers").style.left = "var(--p2)";
     }
 }

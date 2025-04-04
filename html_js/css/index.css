@@ -636,6 +636,36 @@ button.button.map-control-button.button {
     cursor: pointer;
 }
 
+@media (min-width: 769px) {
+    #map-disclaimers {
+        display: block;
+        position: absolute;
+        bottom: var(--p1);
+        left: calc(var(--p2) + var(--sidebar-desktop-width));
+        right: var(--p2);
+        padding: var(--p1);
+        z-index: 100;
+
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+
+        font-size: 0.75rem;
+        color: var(--grey);
+        text-align: center;
+
+
+        
+        display:none;
+    }
+}
+
+@media (max-width: 768px) {
+    #map-disclaimers {
+        display: none;
+    }
+}
+
 /* Bottom Pill Container */
 #bottom-bar-container {
     position: absolute;
