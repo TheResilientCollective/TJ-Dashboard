@@ -117,7 +117,7 @@ map.on('load', function () {
     });
   });
 
-  // beachwatch
+  // spills
   map.loadImage('img/sewer-icon.png', function(error, image) {
     if (error) throw error;
     // Add the image with SDF enabled so it can be tinted dynamically
@@ -164,5 +164,50 @@ map.on('load', function () {
 
   });
 
+// h2s
+  map.loadImage('img/cloud.png', function(error, image) {
+    if (error) throw error;
+    // Add the image with SDF enabled so it can be tinted dynamically
+    map.addImage('cloud', image, { sdf: true });
 
+    // Add your GeoJSON source containing beach status
+    map.addSource('h2s', {
+      type: 'geojson',
+      data: `${urlbase}tijuana/sd_apcd_air/output/lastvalue_h2s.geojson`
+    });
+
+    // Create a symbol layer using the custom pin icon
+    map.addLayer({
+      id: 'h2s',
+      type: 'symbol',
+      source: 'h2s',
+      layout: {
+        'icon-image': 'cloud',
+        'icon-size': .5,
+        'icon-allow-overlap': true,
+        // Offset the icon so the tip of the pin points to the location
+        'icon-offset': [0, 0]
+      },
+      // paint: {
+      //   // Use the RGBcolor property to tint the pin
+      //   'icon-color': ['get', 'RBGColor']
+      // }
+    });
+
+    // Add a popup when a pin is clicked
+    map.on('click', 'h2s', function(e) {
+      var feature = e.features[0];
+      var coordinates = feature.geometry.coordinates.slice();
+      var name = feature.properties.Name;
+      var description = feature.properties.Description;
+      var popupContent = `<h3>${name}</h3>${description}`;
+
+      new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(popupContent)
+        .addTo(map);
+    });
+
+
+  });
 });
