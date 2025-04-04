@@ -637,6 +637,173 @@
       Markers on map are not meant to show the area of impact, but rather the location of the data source.
     </p>
   </div>
+  <div id="example-elements" style="position:absolute; width:40vh; height:40vh; left:50vw; top:15vh; z-index:200; display:flex; flex-direction:column; gap:1rem;">
+    <style>
+      .tooltip {
+        --p1: calc(1rem/2);
+        --p-half: calc(var(--p1) / 2);
+        --p2: calc(var(--p1) * 2);
+        --p3: calc(var(--p1) * 3);
+        --p4: calc(var(--p1) * 4);
+
+        --icon: 1rem;
+        --icon2: calc(var(--icon) * 2);
+
+        --shadow: 0 4px 4px 0 rgba(0, 0, 0, .25);
+        --shadow-reverse: 0 -4px 4px 0 rgba(0, 0, 0, .25);
+        --shadow-border: 1px solid #D9D9D9;
+        --border-radius: var(--p1);
+
+        --card-inner-size: 300px;
+        --sidebar-desktop-width: 28rem;
+
+        --white: #ffffff;
+        --black: #000000;
+        --grey: #808080;
+        --light-grey: #d9d9d9;
+        --shadow-border: 1px solid var(--light-grey);
+
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: var(--p1);
+        padding-top: var(--p2);
+        padding-bottom: var(--p2);
+        padding-left: var(--p3);
+        padding-right: var(--p3);
+
+        background-color: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        border: var(--shadow-border);
+
+        max-width: 30vw;
+      }
+
+      .tooltip > * {
+        width: 100%;
+      }
+
+      .tooltip .tooltip-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: left;
+        gap: var(--p1);
+      }
+
+      .tooltip .tooltip-header span {
+        width: 100%;
+      }
+
+      .tooltip .tooltip-header i {
+        width: var(--icon);
+        height: var(--icon);
+      }
+
+      .tooltip .tooltip-line {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--p1);
+      }
+
+      .tooltip .tooltip-footer {
+        color: var(--grey);
+        font-size: 0.75rem;
+      }
+    </style>
+
+    <!-- Beach Closure Tooltip -->
+    <div class="tooltip">
+      <div class="tooltip-header">
+        <div>
+          <i class="bi bi-water"></i>
+          <span>Coronado Beach - W of the Big Bridge</span>
+        </div>
+      </div>
+      <div class="tooltip-line">
+        <div class="indicator moderate"></div>
+        <span>Beach closed</span>
+      </div>
+    </div>
+
+    <!-- Wastewater Spill Tooltip -->
+    <div class="tooltip">
+      <div class="tooltip-header">
+        <i class="bi bi-droplet"></i>
+        <span>Wastewater Spill</span>
+      </div>
+      <div class="tooltip-line">
+        <span>location:</span>
+        <span>Smuggler's Gulch</span>
+      </div>
+      <div class="tooltip-line">
+        <span>approximate volume:</span>
+        <span>3 million gallons</span>
+      </div>
+      <div class="tooltip-line">
+        <span>date:</span>
+        <span>3 March 2025</span>
+      </div>
+    </div>
+
+    <!-- H2S Measurement Tooltip -->
+    <div class="tooltip">
+      <div class="tooltip-header">
+        <i class="bi bi-wind"></i>
+        <span>Hydrogen Sulfide Measurement</span>
+      </div>
+      <div class="tooltip-line">
+        <span>location:</span>
+        <span>NESTOR</span>
+      </div>
+      <div class="tooltip-line">
+        <span>measurement:</span>
+        <span>60.9 ppb</span>
+      </div>
+      <div class="tooltip-line">
+        <span>last update:</span>
+        <span>3:00pm</span>
+      </div>
+      <div class="tooltip-footer">
+        <span>ppb: parts per billion</span>
+      </div>
+    </div>
+
+    <!-- A stack of odor complaints -->
+    <div class="tooltip">
+      <div class="tooltip-header">
+        <i class="bi bi-exclamation-circle"></i>
+        <span>3 Odor Complaints</span>
+      </div>
+      <div class="tooltip-line">
+        <span>time:</span>
+        <span>within the previous 3 days*</span>
+      </div>
+      <div class="tooltip-footer">
+        <span>*since midnight. Does not include data for today.</span>
+      </div>
+    </div>
+
+    <!-- A single odor complaint -->
+    <div class="tooltip">
+      <div class="tooltip-header">
+        <i class="bi bi-exclamation-circle"></i>
+        <span>Odor Complaint</span>
+      </div>
+      <div class="tooltip-line">
+        <span>time:</span>
+        <span>within the previous 3 days*</span>
+      </div>
+      <div class="tooltip-footer">
+        <span>*since midnight. Does not include data for today.</span>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <script>
@@ -658,119 +825,119 @@
     })
     .then(jsonData => {
 
-      const fakeData = [
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "NESTOR - BES",
-          "Date with time": "2025-04-03T00:00:00",
-          "Result": 38.8,
-          "Qualifier": "",
-          "Original Value": "38.8",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "EL CAJON LES",
-          "Date with time": "2025-04-03T00:30:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "EL CAJON LES",
-          "Date with time": "2025-04-03T02:30:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "IB CIVIC CTR",
-          "Date with time": "2025-04-03T00:45:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "NESTOR - BES",
-          "Date with time": "2025-04-03T04:00:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "IB CIVIC CTR",
-          "Date with time": "2025-04-03T04:45:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "EL CAJON LES",
-          "Date with time": "2025-04-03T04:30:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "IB CIVIC CTR",
-          "Date with time": "2025-04-03T06:45:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "NESTOR - BES",
-          "Date with time": "2025-04-03T06:00:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "NESTOR - BES",
-          "Date with time": "2025-04-03T07:00:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "NESTOR - BES",
-          "Date with time": "2025-04-03T08:00:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        }
-      ]
-      jsonData = fakeData;
+      // const fakeData = [
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "NESTOR - BES",
+      //     "Date with time": "2025-04-03T00:00:00",
+      //     "Result": 38.8,
+      //     "Qualifier": "",
+      //     "Original Value": "38.8",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "EL CAJON LES",
+      //     "Date with time": "2025-04-03T00:30:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "EL CAJON LES",
+      //     "Date with time": "2025-04-03T02:30:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "IB CIVIC CTR",
+      //     "Date with time": "2025-04-03T00:45:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "NESTOR - BES",
+      //     "Date with time": "2025-04-03T04:00:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "IB CIVIC CTR",
+      //     "Date with time": "2025-04-03T04:45:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "EL CAJON LES",
+      //     "Date with time": "2025-04-03T04:30:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "IB CIVIC CTR",
+      //     "Date with time": "2025-04-03T06:45:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "NESTOR - BES",
+      //     "Date with time": "2025-04-03T06:00:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "NESTOR - BES",
+      //     "Date with time": "2025-04-03T07:00:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "NESTOR - BES",
+      //     "Date with time": "2025-04-03T08:00:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   }
+      // ]
+      // jsonData = fakeData;
 
       // filter data to only take the 3 most recent measurements from each location
       let groupedData = _.groupBy(jsonData, 'Site Name');
