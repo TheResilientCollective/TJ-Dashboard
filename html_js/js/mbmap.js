@@ -117,5 +117,52 @@ map.on('load', function () {
     });
   });
 
+  // beachwatch
+  map.loadImage('img/sewer-icon.png', function(error, image) {
+    if (error) throw error;
+    // Add the image with SDF enabled so it can be tinted dynamically
+    map.addImage('sewage', image, { sdf: true });
+
+    // Add your GeoJSON source containing beach status
+    map.addSource('sewage', {
+      type: 'geojson',
+      data: `${urlbase}tijuana/ibwc/output/spills_last_by_site.geojson`
+    });
+
+    // Create a symbol layer using the custom pin icon
+    map.addLayer({
+      id: 'sewage',
+      type: 'symbol',
+      source: 'sewage',
+      layout: {
+        'icon-image': 'sewage',
+        'icon-size': .1,
+        'icon-allow-overlap': true,
+        // Offset the icon so the tip of the pin points to the location
+        'icon-offset': [0, 0]
+      },
+      // paint: {
+      //   // Use the RGBcolor property to tint the pin
+      //   'icon-color': ['get', 'RBGColor']
+      // }
+    });
+
+    // Add a popup when a pin is clicked
+    map.on('click', 'sewage', function(e) {
+      var feature = e.features[0];
+      var coordinates = feature.geometry.coordinates.slice();
+      var name = feature.properties.Name;
+      var description = feature.properties.Description;
+      var popupContent = `<h3>${name}</h3>${description}`;
+
+      new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(popupContent)
+        .addTo(map);
+    });
+
+
+  });
+
 
 });
