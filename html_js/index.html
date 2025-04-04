@@ -172,10 +172,38 @@
   <!-- Top Pill Container -->
   <div id="top-bar-container">
     <div id="top-bar">
-      <button class="active" onclick="toggleLayer(this, 'Beach Closures')"><i class="bi bi-check-square-fill"></i>Beach Closures</button>
-      <button class="active" onclick="toggleLayer(this, 'H₂S Levels')"><i class="bi bi-check-square-fill"></i>H₂S Levels</button>
-      <button class="active" onclick="toggleLayer(this, 'Smell Complaints')"><i class="bi bi-check-square-fill"></i>Smell Complaints</button>
-      <button class="active" onclick="toggleLayer(this, 'Wastewater Spills')"><i class="bi bi-check-square-fill"></i>Wastewater Spills</button>
+      <button class="active" onclick="toggleLayer(this, 'Beach Closures')">
+        <i class="bi bi-check-square-fill"></i>
+        <div>
+          Beach Closures
+          <br>
+          <span class="trend-flat sublabel">current data</span>
+        </div>
+      </button>
+      <button class="active" onclick="toggleLayer(this, 'H₂S Levels')">
+        <i class="bi bi-check-square-fill"></i>
+        <div>
+          H₂S Levels
+          <br>
+          <span class="trend-flat sublabel">current data</span>
+        </div>
+      </button>
+      <button class="active" onclick="toggleLayer(this, 'Smell Complaints')">
+        <i class="bi bi-check-square-fill"></i>
+        <div>
+          Smell Complaints
+          <br>
+          <span class="trend-flat sublabel">previous 3 days</span>
+        </div>
+      </button>
+      <button class="active" onclick="toggleLayer(this, 'Wastewater Spills')">
+        <i class="bi bi-check-square-fill"></i>
+        <div>
+          Wastewater Spills
+          <br>
+          <span class="trend-flat sublabel">previous 30 days</span>
+        </div>
+      </button>
       <button onclick="toggleLayer(this, 'River Basin')"><i class="bi bi-x-square"></i>River Basin</button>
     </div>
   </div>

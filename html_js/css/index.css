@@ -177,6 +177,11 @@ button.button.map-control-button.button {
     margin-right: var(--p1);
 }
 
+#top-bar button div {
+    display:inline-block;
+    line-height: calc(var(--p-half)*3);
+}
+
 /* Desktop: pills placed to the right of sidebar */
 @media (min-width: 769px) {
     #top-bar-container {
@@ -184,8 +189,19 @@ button.button.map-control-button.button {
     }
 
     #top-bar button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--p1);
+    
         padding: var(--p1) var(--p2);
         font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #top-bar button div .sublabel {
+        display:none; /* conserve space */
     }
 }
 
@@ -439,8 +455,8 @@ button.button.map-control-button.button {
     float:right;
 }
 
-#odor-complaint-data-overview .sublabel {
-    font-size: .75em;
+.sublabel {
+    font-size: .75rem !important;
     width: 100%;
     text-align: center;
 }
