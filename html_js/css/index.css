@@ -422,6 +422,10 @@ button.button.map-control-button.button {
     width: 25%;
 }
 
+#h2s_summary table tr.row-break:last-child {
+    display: none;
+}
+
 #beach-closure-data tr td:last-child {
     width: 20%;
 }
@@ -433,6 +437,12 @@ button.button.map-control-button.button {
 #odor-complaint-data tr td:last-child{
     width: 60%;
     float:right;
+}
+
+#odor-complaint-data-overview .sublabel {
+    font-size: .75em;
+    width: 100%;
+    text-align: center;
 }
 
 .card-data table {
@@ -468,6 +478,10 @@ button.button.map-control-button.button {
 .card-data table tr td:first-child {
     padding-left: 0;
     font-weight:bold;
+}
+
+.card-data table tr.row-break {
+    height: var(--p-half);
 }
 
 .text-card {
