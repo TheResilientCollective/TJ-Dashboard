@@ -9,7 +9,7 @@
   <!-- jquery -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <style>
-    
+
     /* this will be the description for a beach about it's sampling */
     .beach-description  {
       display: none;
@@ -31,64 +31,76 @@
   </style>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.js"></script>
+
   <!--  <script type="module" src="js/fsmap.js"></script>-->
-  <script type="module">
-    const fs = "fsq3CYDP77ybwoo1KtkJigGRj6g0uYyhWVw25jM+zN6ovbI="
-    const mapuid = '6ce3b305-7e09-44b3-8725-34dcf59bb56d'
-    //   import {createMap} from 'https://corsproxy.io/?key=3d648870&url=https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';
-    import {createMap} from 'https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';
+<!--  <script type="module">-->
+<!--    const fs = "fsq3CYDP77ybwoo1KtkJigGRj6g0uYyhWVw25jM+zN6ovbI="-->
+<!--    const mapuid = '6ce3b305-7e09-44b3-8725-34dcf59bb56d'-->
+<!--    //   import {createMap} from 'https://corsproxy.io/?key=3d648870&url=https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';-->
+<!--    import {createMap} from 'https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';-->
 
-    const map = await createMap({
-      apiKey: fs,
-      container: document.getElementById('map-container'),
-      // this loads a published map
-      // (original url: https://studio.foursquare.com/public/806b95d0-36bb-402c-b16c-24e54af4a761)
-      initialState: {
-        publishedMapId: mapuid
-      },
-      uiConfig: {
-        sidePanel: {
-          view: 'hidden'| 'collapsed' | 'visible',
-          isAddLayerVisible: false,
-        },
-        sideNav: {
-          isVisible: false
-        },
-        mapControls: {
-          isVisible: false,
-          zoom: {
-            isVisible: false
-          }
-        }
-      }
-    });
-    // cannot override style sheet. #shadow-root is closed.
-    // var sheet = new CSSStyleSheet
-    // sheet.replaceSync( `.unfolded-root + div + div  {visibility: collapse;}`)
-    // map.shadowRoot.adoptedStyleSheets.push(sheet) // You want to add to stylesheets list
-    globalThis.map = map
+<!--    const map = await createMap({-->
+<!--      apiKey: fs,-->
+<!--      container: document.getElementById('map-container'),-->
+<!--      // this loads a published map-->
+<!--      // (original url: https://studio.foursquare.com/public/806b95d0-36bb-402c-b16c-24e54af4a761)-->
+<!--      initialState: {-->
+<!--        publishedMapId: mapuid-->
+<!--      },-->
+<!--      uiConfig: {-->
+<!--        sidePanel: {-->
+<!--          view: 'hidden',-->
+<!--          isAddLayerVisible: false,-->
+<!--        },-->
+<!--        sideNav: {-->
+<!--          isVisible: false-->
+<!--        },-->
+<!--        mapControls: {-->
+<!--          isVisible: false,-->
+<!--          zoom: {-->
+<!--            isVisible: false-->
+<!--          }-->
+<!--        }-->
+<!--      },-->
+<!--      mapState: {-->
+<!--        globe: {-->
+<!--          enabled: false,-->
+<!--        }-->
+<!--      }-->
 
-    setTimeout(() => { // Wait a short time for the map to fully render
-      try {
-        const mapContainerDiv = document.getElementById('map-container').querySelector('div'); // Get the inner div
-        if (mapContainerDiv) {
-          // Try to query for the button - this is VERY DOM-structure dependent
-          const hackyButtonTarget = mapContainerDiv.querySelector('.map-control-button.button'); // Adjust selector if needed
-          if (hackyButtonTarget) {
-            hackyButtonTarget.style.display = 'none !important'; // Try to hide it
-            console.warn("HACKY BUTTON HIDING ATTEMPTED - VERY FRAGILE!");
-          } else {
-            console.warn("HACKY BUTTON TARGET NOT FOUND - MAYBE SELECTOR IS WRONG?");
-          }
-        } else {
-          console.warn("HACKY MAP CONTAINER INNER DIV NOT FOUND!");
-        }
-      } catch (error) {
-        console.error("HACKY BUTTON HIDING FAILED:", error);
-      }
-    }, 10000); // 10 second delay - adjust if needed
+<!--    });-->
+<!--  &lt;!&ndash;  map.setMapControlVisibility(&ndash;&gt;-->
+  <!--    {legend:false,toggle_3d:false,split_map:false, map_draw:false}-->
+  <!--  )-->
+  <!--  // cannot override style sheet. #shadow-root is closed.-->
+  <!--  // var sheet = new CSSStyleSheet-->
+  <!--  // sheet.replaceSync( `.unfolded-root + div + div  {visibility: collapse;}`)-->
+  <!--  // map.shadowRoot.adoptedStyleSheets.push(sheet) // You want to add to stylesheets list-->
+  <!--  globalThis.map = map-->
 
-  </script>
+  <!--  setTimeout(() => { // Wait a short time for the map to fully render-->
+  <!--    try {-->
+  <!--      const mapContainerDiv = document.getElementById('map-container').querySelector('div'); // Get the inner div-->
+  <!--      if (mapContainerDiv) {-->
+  <!--        // Try to query for the button - this is VERY DOM-structure dependent-->
+  <!--        const hackyButtonTarget = mapContainerDiv.querySelector('.map-control-button.button'); // Adjust selector if needed-->
+  <!--        if (hackyButtonTarget) {-->
+  <!--          hackyButtonTarget.style.display = 'none !important'; // Try to hide it-->
+  <!--          console.warn("HACKY BUTTON HIDING ATTEMPTED - VERY FRAGILE!");-->
+  <!--        } else {-->
+  <!--          console.warn("HACKY BUTTON TARGET NOT FOUND - MAYBE SELECTOR IS WRONG?");-->
+  <!--        }-->
+  <!--      } else {-->
+  <!--        console.warn("HACKY MAP CONTAINER INNER DIV NOT FOUND!");-->
+  <!--      }-->
+  <!--    } catch (error) {-->
+  <!--      console.error("HACKY BUTTON HIDING FAILED:", error);-->
+  <!--    }-->
+  <!--  }, 10000); // 10 second delay - adjust if needed-->
+
+  <!--</script>-->
 
 
   <script>
@@ -188,11 +200,11 @@
     <div id="sidebar" class="open">
       <div id="sidebar-handle"><div class="grip"></div></div>
       <div id="sidebar-header">
-        <div><a href="https://www.sandiegocounty.gov/" target="_blank"><img src="img/logoCOSD.png"></a></div> 
+        <div><a href="https://www.sandiegocounty.gov/" target="_blank"><img src="img/logoCOSD.png"></a></div>
         <div id="sidebar-title"><span>Tijuana River Valley Sewage Crisis Environmental Dashboard</span></div>
         <div><a href="https://www.sandiegocounty.gov/" target="_blank"><img src="img/ResilientLogo.png"></a></div>
       </div>
-      
+
       <div id="sidebar-body">
         <div class="sidebar-card-separator"><span><h2>Ongoing Events</h2></span></div>
 
@@ -213,7 +225,7 @@
           <p>
             This dashboard and mapping tool provides information from multiple sources about the air and water quality in San Diego.
           </p>
-          
+
           <div class="card-footer">
             <span></span>
             <a></a>
@@ -244,7 +256,7 @@
 
           <br>
           <p>
-            When filing a report, the following information will assist us in investigating your concern: 
+            When filing a report, the following information will assist us in investigating your concern:
             <ul>
               <li>Your name, address, and telephone number</li>
               <li>The time and date the air quality concern occurred and whether it is still continuing</li>
@@ -269,7 +281,7 @@
           </div>
 
           <p>For details on the County's response to the sewage crisis and how to protect your health,
-            visit our page about <a target="_blank" 
+            visit our page about <a target="_blank"
               href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html">
               South Region Health Concerns </a>
             </p>
@@ -482,7 +494,7 @@
             Use certified HEPA filters with activated charcoal
             If possible, run your air conditioner at your business for 1-2 hours before opening”
           </p>
-          <p> 
+          <p>
             Dataset information: <a target="_blank" href="https://sdbeachinfo.com/">San Diego Beach & Bay Water Quality Program</a>
             <br>
             <a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns Public Health Data</a>
@@ -493,7 +505,7 @@
             <table>
               <tbody>
                 <tr>
-                  
+
                 </tr>
               </tbody>
             </table>
@@ -555,7 +567,7 @@
           <p>
             TODO:
           </p>
-          
+
           <div class="card-footer">
             <span></span>
             <a></a>
@@ -578,7 +590,7 @@
           <h4>Contact & Feedback </h4>
           <p>
             For questions or to provide feedback, please <a href="mailto:phs.southregionhealth.hhsa@sdcounty.ca.gov">email the Epidemiology Unit</a>
-          </p> 
+          </p>
           <p>
             For more details about specific datasets, visit:
             <ul>
@@ -595,7 +607,129 @@
     </div> <!-- End of Sidebar -->
   </div> <!-- End of Sidebar Container -->
 </div>
+<script>
+  const s3base = "https://oss.resilientservice.mooo.com/"
+  const bucket = 'test'
+  const urlbase = `${s3base}${bucket}/`
+  mapboxgl.accessToken = 'pk.eyJ1IjoidmFsZW50aW5lZHd2IiwiYSI6ImNra215Y2QydDExd3oycHF0d2VvM2pwYXoifQ.sODwFshU0owiFxw6SKLeKg';
+  const map = new mapboxgl.Map({
+    container: 'map-container', // container ID
+    center: [-117.11, 32.58], // 32.58,-117.11 starting position [lng, lat]. Note that lat must be set between -90 and 90
+    zoom: 12 // starting zoom
+  });
+  map.on('load', function () {
+    // Add the GeoJSON source with clustering enabled
+    map.addSource('points', {
+      type: 'geojson',
+      data: `${urlbase}tijuana/sd_complaints/raw/complaints.json`, // update the path or URL to your GeoJSON file
+      cluster: true,
+      clusterMaxZoom: 14, // max zoom to cluster points
+      clusterRadius: 50   // radius of each cluster when clustering points (in pixels)
+    });
 
+    // Layer for clusters (as circles)
+    map.addLayer({
+      id: 'clusters',
+      type: 'circle',
+      source: 'points',
+      filter: ['has', 'point_count'],
+      paint: {
+        'circle-color': '#51bbd6',
+        'circle-radius': [
+          'step',
+          ['get', 'point_count'],
+          20,   // circle radius when count is less than first step
+          100,  // first step threshold
+          30,   // circle radius for count >= 100
+          750,  // second step threshold
+          40    // circle radius for count >= 750
+        ]
+      }
+    });
+
+    // Layer for cluster count labels
+    map.addLayer({
+      id: 'cluster-count',
+      type: 'symbol',
+      source: 'points',
+      filter: ['has', 'point_count'],
+      layout: {
+        'text-field': '{point_count_abbreviated}',
+        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+        'text-size': 12
+      }
+    });
+
+    // Layer for unclustered individual points
+    map.addLayer({
+      id: 'unclustered-point',
+      type: 'circle',
+      source: 'points',
+      filter: ['!', ['has', 'point_count']],
+      paint: {
+        'circle-color': '#11b4da',
+        'circle-radius': 4,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#fff'
+      }
+    });
+
+    // beachwatch
+    map.loadImage('img/vecteezy_elegant-classic-a-single-drop-of-water-with-a-miniature_59434453.png', function(error, image) {
+      if (error) throw error;
+      // Add the image with SDF enabled so it can be tinted dynamically
+      map.addImage('pin', image, { sdf: true });
+
+      // Add your GeoJSON source containing beach status
+      map.addSource('beaches', {
+        type: 'geojson',
+        data: `${urlbase}tijuana/beachwatch/output/beachwatch_closures.geojson`
+      });
+
+      // Create a symbol layer using the custom pin icon
+      map.addLayer({
+        id: 'beaches',
+        type: 'symbol',
+        source: 'beaches',
+        layout: {
+          'icon-image': 'pin',
+          'icon-size': 5,
+          'icon-allow-overlap': true,
+          // Offset the icon so the tip of the pin points to the location
+          'icon-offset': [0, -15]
+        },
+        paint: {
+          // Use the RGBcolor property to tint the pin
+          'icon-color': ['get', 'RBGColor']
+        }
+      });
+
+      // Add a popup when a pin is clicked
+      map.on('click', 'beaches', function(e) {
+        var feature = e.features[0];
+        var coordinates = feature.geometry.coordinates.slice();
+        var name = feature.properties.Name;
+        var description = feature.properties.Description;
+        var popupContent = `<h3>${name}</h3>${description}`;
+
+        new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(popupContent)
+          .addTo(map);
+      });
+
+      // Change the cursor to a pointer when over the pins.
+      map.on('mouseenter', 'beaches', function() {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'beaches', function() {
+        map.getCanvas().style.cursor = '';
+      });
+    });
+
+
+  });
+</script>
 <script>
   function parseCustomDate(dateStr) {
     // Split the string into parts: [year, day, month]
@@ -794,7 +928,7 @@
           countCell.appendChild(countIndicatorElm)
           countCell.appendChild(countSpan)
       });
-      
+
       // update card footer
       const cardFooter = document.querySelector("#odor-complaints-card .card-footer");
       if (cardFooter) {
@@ -896,7 +1030,7 @@
           beachStatusCell.appendChild(statusIcon);
           beachStatusCell.appendChild(beachStatusElm);
         });
-      
+
       // update card footer
       const cardFooter = document.querySelector("#beach-closures-card .card-footer");
       if (cardFooter) {
