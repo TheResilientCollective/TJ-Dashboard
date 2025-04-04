@@ -485,6 +485,7 @@ button.button.map-control-button.button {
     display:table-cell;
     white-space: nowrap;
     overflow-x: hidden;
+    overflow-y: hidden;
     /* overflow-x: auto; */
     text-overflow: clip;
     /* text-overflow: ellipsis; */
