@@ -56,6 +56,11 @@ body.dark {
 
 i {
     width: var(--icon);
+    height: var(--icon);
+}
+
+a { 
+    color: var(--grey);
 }
 
 /* hide wrapper */
@@ -177,6 +182,11 @@ button.button.map-control-button.button {
     margin-right: var(--p1);
 }
 
+#top-bar button div {
+    display:inline-block;
+    line-height: calc(var(--p-half)*3);
+}
+
 /* Desktop: pills placed to the right of sidebar */
 @media (min-width: 769px) {
     #top-bar-container {
@@ -184,8 +194,19 @@ button.button.map-control-button.button {
     }
 
     #top-bar button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--p1);
+    
         padding: var(--p1) var(--p2);
         font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #top-bar button div .sublabel {
+        display:none; /* conserve space */
     }
 }
 
@@ -392,6 +413,10 @@ button.button.map-control-button.button {
     max-width: var(--card-inner-size);
 }
 
+.card-header img, .card-header i {
+    /* width: var(--icon); */
+    height: var(--icon);
+}
 
 .card-header .card-title {
     width: 100%;
@@ -422,6 +447,10 @@ button.button.map-control-button.button {
     width: 25%;
 }
 
+#h2s_summary table tr.row-break:last-child {
+    display: none;
+}
+
 #beach-closure-data tr td:last-child {
     width: 20%;
 }
@@ -433,6 +462,12 @@ button.button.map-control-button.button {
 #odor-complaint-data tr td:last-child{
     width: 60%;
     float:right;
+}
+
+.sublabel {
+    font-size: .75rem !important;
+    width: 100%;
+    text-align: center;
 }
 
 .card-data table {
@@ -450,6 +485,7 @@ button.button.map-control-button.button {
     display:table-cell;
     white-space: nowrap;
     overflow-x: hidden;
+    overflow-y: hidden;
     /* overflow-x: auto; */
     text-overflow: clip;
     /* text-overflow: ellipsis; */
@@ -468,6 +504,10 @@ button.button.map-control-button.button {
 .card-data table tr td:first-child {
     padding-left: 0;
     font-weight:bold;
+}
+
+.card-data table tr.row-break {
+    height: var(--p-half);
 }
 
 .text-card {
@@ -604,6 +644,36 @@ button.button.map-control-button.button {
     padding: 2px 6px;
     font-size: 12px;
     cursor: pointer;
+}
+
+@media (min-width: 769px) {
+    #map-disclaimers {
+        display: block;
+        position: absolute;
+        bottom: var(--p1);
+        left: calc(var(--p2) + var(--sidebar-desktop-width));
+        right: var(--p2);
+        padding: var(--p1);
+        z-index: 100;
+
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+
+        font-size: 0.75rem;
+        color: var(--grey);
+        text-align: center;
+
+
+
+        /* display:none; */
+    }
+}
+
+@media (max-width: 768px) {
+    #map-disclaimers {
+        display: none;
+    }
 }
 
 /* Bottom Pill Container */
