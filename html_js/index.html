@@ -10,7 +10,7 @@
   <!-- jquery -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <style>
-    
+
     /* this will be the description for a beach about it's sampling */
     .beach-description  {
       display: none;
@@ -176,7 +176,7 @@
       <button class="active" onclick="toggleLayer(this, 'Beach Closures')">
         <i class="bi bi-check-square-fill"></i>
         <div>
-          Beach Closures
+          Beach Status
           <br>
           <span class="trend-flat sublabel">current data</span>
         </div>
@@ -217,11 +217,11 @@
     <div id="sidebar" class="open">
       <div id="sidebar-handle"><div class="grip"></div></div>
       <div id="sidebar-header">
-        <div><a href="https://www.sandiegocounty.gov/" target="_blank"><img src="img/logoCOSD.png"></a></div> 
+        <div><a href="https://www.sandiegocounty.gov/" target="_blank"><img src="img/logoCOSD.png"></a></div>
         <div id="sidebar-title"><span>Tijuana River Valley Sewage Crisis Environmental Dashboard</span></div>
         <div><a href="https://www.sandiegocounty.gov/" target="_blank"><img src="img/ResilientLogo.png"></a></div>
       </div>
-      
+
       <div id="sidebar-body">
         <div class="sidebar-card-separator"><span><h2>Ongoing Events</h2></span></div>
 
@@ -243,7 +243,7 @@
           <p>
             This dashboard and mapping tool provide information from multiple sources about the air and beach/river water quality in San Diego related to this issue.
           </p>
-          
+
           <div class="card-footer">
             <span></span>
             <a></a>
@@ -269,7 +269,7 @@
           </div>
 
           <p>
-            When filing a report, the following information will assist us in investigating your concern: 
+            When filing a report, the following information will assist us in investigating your concern:
             <ul>
               <li>Your name, address, and telephone number</li>
               <li>The time and date the air quality concern occurred and whether it is still continuing</li>
@@ -279,24 +279,24 @@
           </p>
 
           <p>
-            Recommendations based on current Hydrogen Sulfide levels can be found here: 
+            Recommendations based on current Hydrogen Sulfide levels can be found here:
             <a href="https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/tjrv-air-quality-monitoring.html" target="_blank">Air Quality Monitoring</a>
           </p>
 
           <p>
-            You can reduce your exposure to poor quality air or strong odors by limiting outdoor activity, keeping windows and doors closed, and airing out your home or business when odors are not present. 
-            If available, use air conditioning or portable indoor air purifiers. 
-            Look into whether filters need to be replaced. 
-            Use certified HEPA filters with activated charcoal. 
+            You can reduce your exposure to poor quality air or strong odors by limiting outdoor activity, keeping windows and doors closed, and airing out your home or business when odors are not present.
+            If available, use air conditioning or portable indoor air purifiers.
+            Look into whether filters need to be replaced.
+            Use certified HEPA filters with activated charcoal.
             If possible, run your air conditioner at your business for 1-2 hours before opening.
           </p>
 
           <br>
           <p>
-            Don't make direct physical contact with beach water at any closed beach. 
-            This is especially important after heavy rain. 
-            Stay away from areas with visible sewage spills. 
-            Stay out of floodwater. 
+            Don't make direct physical contact with beach water at any closed beach.
+            This is especially important after heavy rain.
+            Stay away from areas with visible sewage spills.
+            Stay out of floodwater.
             Do not swim, go into, or swallow contaminated beach water sources.
           </p>
 
@@ -316,7 +316,7 @@
           </div>
 
           <p>For details on the County's response to the sewage crisis and how to protect your health,
-            visit our page about <a target="_blank" 
+            visit our page about <a target="_blank"
               href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html">
               South Region Health Concerns </a>
             </p>
@@ -531,7 +531,7 @@
             <table>
               <tbody>
                 <tr>
-                  
+
                 </tr>
               </tbody>
             </table>
@@ -593,7 +593,7 @@
           <p>
             County of San Diego is tracking trends in gastrointestinal and respiratory conditions in the south region. For more information and details, go to the <a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">South Region Health Concerns page</a>.
           </p>
-          
+
           <div class="card-footer">
             <span></span>
             <!-- <a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html">More info</a> -->
@@ -616,7 +616,7 @@
           <h4>Contact & Feedback </h4>
           <p>
             For questions or to provide feedback, please <a href="mailto:phs.southregionhealth.hhsa@sdcounty.ca.gov">email the Epidemiology Unit</a>
-          </p> 
+          </p>
           <p>
             For more details about specific datasets, visit:
             <ul>
@@ -640,6 +640,7 @@
 </div>
 
 <script>
+  const resilientUrlBase = 'https://oss.resilientservice.mooo.com/resilentpublic/'
   function parseCustomDate(dateStr) {
     // Split the string into parts: [year, day, month]
     let [year,  month, day] = dateStr.split('-').map(Number);
@@ -649,7 +650,7 @@
 
 
   /***** Hydrogen Sulfide Data *****/
-  fetch('https://oss.resilientservice.mooo.com/resilentpublic/tijuana/sd_apcd_air/output/warnings/h2s.json')
+  fetch(`${resilientUrlBase}tijuana/sd_apcd_air/output/hs2_lastday.records.json`)
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok: ' + response.statusText);
@@ -658,124 +659,124 @@
     })
     .then(jsonData => {
 
-      const fakeData = [
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "NESTOR - BES",
-          "Date with time": "2025-04-03T00:00:00",
-          "Result": 38.8,
-          "Qualifier": "",
-          "Original Value": "38.8",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "EL CAJON LES",
-          "Date with time": "2025-04-03T00:30:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "EL CAJON LES",
-          "Date with time": "2025-04-03T02:30:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "IB CIVIC CTR",
-          "Date with time": "2025-04-03T00:45:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "NESTOR - BES",
-          "Date with time": "2025-04-03T04:00:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "IB CIVIC CTR",
-          "Date with time": "2025-04-03T04:45:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "EL CAJON LES",
-          "Date with time": "2025-04-03T04:30:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "IB CIVIC CTR",
-          "Date with time": "2025-04-03T06:45:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "NESTOR - BES",
-          "Date with time": "2025-04-03T06:00:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "NESTOR - BES",
-          "Date with time": "2025-04-03T07:00:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        },
-        {
-          "Parameter": "07 H2S PPB",
-          "Site Name": "NESTOR - BES",
-          "Date with time": "2025-04-03T08:00:00",
-          "Result": 31.4,
-          "Qualifier": "",
-          "Original Value": "31.4",
-          "Icons": "place",
-          "level": "orange"
-        }
-      ]
-      jsonData = fakeData;
+      // const fakeData = [
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "NESTOR - BES",
+      //     "Date with time": "2025-04-03T00:00:00",
+      //     "Result": 38.8,
+      //     "Qualifier": "",
+      //     "Original Value": "38.8",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "EL CAJON LES",
+      //     "Date with time": "2025-04-03T00:30:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "EL CAJON LES",
+      //     "Date with time": "2025-04-03T02:30:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "IB CIVIC CTR",
+      //     "Date with time": "2025-04-03T00:45:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "NESTOR - BES",
+      //     "Date with time": "2025-04-03T04:00:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "IB CIVIC CTR",
+      //     "Date with time": "2025-04-03T04:45:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "EL CAJON LES",
+      //     "Date with time": "2025-04-03T04:30:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "IB CIVIC CTR",
+      //     "Date with time": "2025-04-03T06:45:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "NESTOR - BES",
+      //     "Date with time": "2025-04-03T06:00:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "NESTOR - BES",
+      //     "Date with time": "2025-04-03T07:00:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   },
+      //   {
+      //     "Parameter": "07 H2S PPB",
+      //     "Site Name": "NESTOR - BES",
+      //     "Date with time": "2025-04-03T08:00:00",
+      //     "Result": 31.4,
+      //     "Qualifier": "",
+      //     "Original Value": "31.4",
+      //     "Icons": "place",
+      //     "level": "orange"
+      //   }
+      // ]
+      // jsonData = fakeData;
 
       // filter data to only take the 3 most recent measurements from each location
       let groupedData = _.groupBy(jsonData, 'Site Name');
       groupedData = _.map(groupedData, (h2sArray) => {
-        return _.orderBy(h2sArray, ['Date with time'], ['desc']).slice(0, 3);
+        return _.orderBy(h2sArray, ['Date with time'], ['desc']).slice(0, 3); // desc descending
       });
       console.log("Grouped Data: ", groupedData);
 
@@ -832,7 +833,7 @@
       if (cardFooter) {
         const span = cardFooter.querySelector("span");
         const link = cardFooter.querySelector("a");
-        const humanReadableDate = dayjs(jsonData[0]['Date with time']).format('h:mm A, MMMM D');
+        const humanReadableDate = dayjs(jsonData[jsonData.length-1]['Date with time']).format('h:mm A, MMMM D');
         span.innerText = "Updated " + humanReadableDate;
       }
     })
@@ -842,7 +843,7 @@
 
 
   /***** Odor Complaints Data *****/
-  fetch('https://oss.resilientservice.mooo.com/resilentpublic/tijuana/sd_complaints/output/complaints_by_date.json')
+  fetch(`${resilientUrlBase}tijuana/sd_complaints/output/complaints_by_date.json`)
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok: ' + response.statusText);
@@ -962,7 +963,7 @@
           countCell.appendChild(countIndicatorElm)
           countCell.appendChild(countSpan)
       });
-      
+
       // update card footer
       const cardFooter = document.querySelector("#odor-complaints-card .card-footer");
       if (cardFooter) {
@@ -978,7 +979,7 @@
 
 
   /***** Beach Closures Data *****/
-  fetch('https://oss.resilientservice.mooo.com/resilentpublic/tijuana/beachwatch/output/beachwatch_closure_simple.json')
+  fetch(`${resilientUrlBase}tijuana/beachwatch/output/beachwatch_closure_simple.json`)
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok: ' + response.statusText);
@@ -1064,7 +1065,7 @@
           beachStatusCell.appendChild(statusIcon);
           beachStatusCell.appendChild(beachStatusElm);
         });
-      
+
       // update card footer
       const cardFooter = document.querySelector("#beach-closures-card .card-footer");
       if (cardFooter) {
