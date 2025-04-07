@@ -107,6 +107,7 @@
 
     // Toggle Expand Function for Cards
     function toggleExpand(ev) {
+      ev.stopPropagation();
       let section = ev.target;
       while (!section.classList.contains("expandable")) {
         section = section.parentElement;
@@ -160,6 +161,14 @@
       console.log("Playing time for " + layer + ", current value: " + sliderElem.value);
       // Implement fsmap updates based on time here.
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".card-header").forEach(function (card) {
+        card.addEventListener('click', function (e) {
+          toggleExpand(e);
+        });
+      });
+    });
   </script>
 
   <script defer src="./js/sidebar.js"></script>
@@ -230,7 +239,7 @@
           <div class="card-header always-expand">
             <i class="bi bi-info-circle"></i>
             <h3 class="card-title">What We Know</h3>
-            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
           </div>
 
 
@@ -255,7 +264,7 @@
           <div class="card-header always-expand">
             <i class="bi bi-person"></i>
             <h3 class="card-title">What You Can Do</h3>
-            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
           </div>
 
           <div>
@@ -312,7 +321,7 @@
           <div class="card-header always-expand">
             <i class="bi bi-person-walking"></i>
             <span class="card-question-circle">What We Don't Know</span>
-            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
           </div>
 
           <p>For details on the County's response to the sewage crisis and how to protect your health,
@@ -338,7 +347,7 @@
           <div class="card-header always-expand">
             <i class="icon-action"></i>
             <h3 class="card-title">What We're Doing</h3>
-            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
           </div>
 
           <p>
@@ -360,7 +369,7 @@
         <!--    <div class="card shadow expandable expanded" onclick="selectCard('Air Quality')">-->
         <!--      <div class="card-header always-expand">-->
         <!--        <h3 class="card-title">Air Quality</h3>-->
-        <!--        <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)">⌄</button>-->
+        <!--        <button class="expand-btn">⌄</button>-->
         <!--      </div>-->
         <!--      <div class="card-data">-->
         <!--        <span class="indicator moderate"></span>-->
@@ -385,7 +394,7 @@
           <div class="card-header always-expand">
             <i class="bi bi-wind"></i>
             <h3 class="card-title">Hydrogen Sulfide</h3>
-            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
           </div>
 
           <p>
@@ -444,7 +453,7 @@
           <div class="card-header always-expand">
             <i class="bi bi-water"></i>
             <h3 class="card-title">Beach Closures</h3>
-            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
           </div>
 
           <div id="beach-closure-data-overview" class="card-data always-expand">
@@ -501,7 +510,7 @@
           <div class="card-header always-expand">
             <i class="bi bi-exclamation-circle"></i>
             <h3 class="card-title">Public Odor Complaints</h3>
-            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
           </div>
 
           <div id="odor-complaint-data-overview" class="card-data always-expand">
@@ -550,7 +559,7 @@
           <div class="card-header always-expand">
             <i class="bi bi-sun"></i>
             <h3 class="card-title">Gastrointestinal</h3>
-            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
           </div>
 
           <p>
@@ -568,7 +577,7 @@
           <div class="card-header always-expand">
             <i class="bi bi-sun"></i>
             <h3 class="card-title">Asthma and COPD</h3>
-            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
           </div>
 
           <p>
@@ -587,7 +596,7 @@
           <div class="card-header always-expand">
             <i class="bi bi-graph-up-arrow"></i>
             <h3 class="card-title">South Region Health Concerns</h3>
-            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
           </div>
 
           <p>
@@ -607,7 +616,7 @@
           <div class="card-header always-expand">
             <i class="bi bi-info-circle"></i>
             <h3 class="card-title">For More Information</h3>
-            <button class="expand-btn" onclick="event.stopPropagation(); toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
           </div>
 
           <p>
