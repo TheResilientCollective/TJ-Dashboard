@@ -107,12 +107,22 @@
   <script>
     //     <button onclick="toggleLayer(this, 'Beach Closures')">Beach Closures</button>
 
+    const layerGroupInfo = [
+      {label: 'H₂S Levels', id: 'h2s_group' , layers: ['h2s','h2s-name', 'h2s-value']}, // health layer for now
+      {label: 'Odor Complaints', id: 'odor_group' , layers: ['clusters','cluster-count','unclustered-point']}, // odor
+      {label: 'Wastewater Spills', id: 'spill_group' , layers: ['spills']}, // water
+      {label: 'Beach Status', id: 'beach_group' , layers: ['beaches']}, // observations
+      {label: 'River Basin', id: 'water_group' , layers: []},
+
+    ]
+
+
     // Toggle Sidebar Function
     const layerInfo = [
       {label: 'H₂S Levels', id: 'g0nrfjd'}, // health layer for now
       {label: 'Smell Complaints', id: '49rpvvq'}, // odor
       {label: 'Wastewater Spills', id: 'hg4pxs'}, // water
-      {label: 'Beach Closures', id: 'dpoomlg'}, // observations
+      {label: 'Beach Status', id: 'dpoomlg'}, // observations
       {label: 'River Basin', id: '6n6ymt9'},
 
     ]
@@ -126,34 +136,65 @@
       section.classList.toggle("expanded");
     }
 
+    function setGroupVisibility(map, layerInfo, visibility) {
+      layerInfo.layers.forEach(layerId => {
+        // Ensure the layer exists before attempting to change it
+        if (map.getLayer(layerId)) {
+          map.setLayoutProperty(layerId, 'visibility', visibility);
+        }
+      });
+    }
     // Toggle Layer Function for Top Pills
     function toggleLayer(button, layer) {
       if (undefined !== map) {
 
 
-        button.classList.toggle("active");
+        let visibility = 'none'
+        if ( button.classList.toggle("active") ) {
+          console.log("toggled active: true");
+          visibility = 'visible'
+        } else {
+          console.log("toggled active: false");
+        }
         button.querySelector("i").classList.toggle("bi-check-square-fill");
         button.querySelector("i").classList.toggle("bi-x-square");
-        console.log("Toggled layer:", layer);
-        const layerid = layerInfo.find((l) => l.label == layer)
-        console.log("Toggled layer:" + layer + " layerid:", layerid);
-        const groups = map.getLayerGroups();
-        console.log("Toggled layer: groups", groups);
-        let targetLayer = groups.find((g) => g.id == layerid.id)
-        console.log("Target layer:", targetLayer);
-        if (targetLayer.isVisible) {
-          targetLayer.isVisible = false;
-
-        } else {
-          targetLayer.isVisible = true;
-
-        }
-        map.updateLayerGroup(targetLayer.id, targetLayer)
+        console.log("Toggled layer group:", layer);
+        const layerinfo = layerGroupInfo.find((l) => l.label === layer)
+        console.log("Toggled layer group:" + layer + " layerid:", layerinfo);
+        console.log("Toggled layer: groups", layerinfo.layers);
+        setGroupVisibility(map,layerinfo,visibility)
       } else {
         console.log("toggleLayer: no map object: ", layer);
       }
 
     }
+    // function toggleLayer(button, layer) {
+    //   if (undefined !== map) {
+    //
+    //
+    //     button.classList.toggle("active");
+    //     button.querySelector("i").classList.toggle("bi-check-square-fill");
+    //     button.querySelector("i").classList.toggle("bi-x-square");
+    //     console.log("Toggled layer:", layer);
+    //     const layerid = layerInfo.find((l) => l.label == layer)
+    //     console.log("Toggled layer:" + layer + " layerid:", layerid);
+    //     const groups = map.getLayerGroups();
+    //     console.log("Toggled layer: groups", groups);
+    //     let targetLayer = groups.find((g) => g.id == layerid.id)
+    //     console.log("Target layer:", targetLayer);
+    //     if (targetLayer.isVisible) {
+    //       targetLayer.isVisible = false;
+    //
+    //     } else {
+    //       targetLayer.isVisible = true;
+    //
+    //     }
+    //     map.updateLayerGroup(targetLayer.id, targetLayer)
+    //   } else {
+    //     console.log("toggleLayer: no map object: ", layer);
+    //   }
+    //
+    // }
 
     // When a card is clicked, select the corresponding pill
     function selectCard(layer) {
@@ -185,7 +226,7 @@
   <!-- Top Pill Container -->
   <div id="top-bar-container">
     <div id="top-bar">
-      <button class="active" onclick="toggleLayer(this, 'Beach Closures')">
+      <button class="active" onclick="toggleLayer(this, 'Beach Status')">
         <i class="bi bi-check-square-fill"></i>
         <div>
           Beach Status
@@ -201,7 +242,7 @@
           <span class="trend-flat sublabel">current data</span>
         </div>
       </button>
-      <button class="active" onclick="toggleLayer(this, 'Smell Complaints')">
+      <button class="active" onclick="toggleLayer(this, 'Odor Complaints')">
         <i class="bi bi-check-square-fill"></i>
         <div>
           Smell Complaints
@@ -651,129 +692,7 @@
   </div>
 </div>
 <script src="js/mbmap.js"></script>
-<!--<script>-->
-<!--  const s3base = "https://oss.resilientservice.mooo.com/"-->
-<!--  const bucket = 'test'-->
-<!--  const urlbase = `${s3base}${bucket}/`-->
-<!--  mapboxgl.accessToken = 'pk.eyJ1IjoidmFsZW50aW5lZHd2IiwiYSI6ImNra215Y2QydDExd3oycHF0d2VvM2pwYXoifQ.sODwFshU0owiFxw6SKLeKg';-->
-<!--  const map = new mapboxgl.Map({-->
-<!--    container: 'map-container', // container ID-->
-<!--    center: [-117.11, 32.58], // 32.58,-117.11 starting position [lng, lat]. Note that lat must be set between -90 and 90-->
-<!--    zoom: 12 // starting zoom-->
-<!--  });-->
-<!--  map.on('load', function () {-->
-<!--    // Add the GeoJSON source with clustering enabled-->
-<!--    map.addSource('points', {-->
-<!--      type: 'geojson',-->
-<!--      data: `${urlbase}tijuana/sd_complaints/raw/complaints.json`, // update the path or URL to your GeoJSON file-->
-<!--      cluster: true,-->
-<!--      clusterMaxZoom: 14, // max zoom to cluster points-->
-<!--      clusterRadius: 50   // radius of each cluster when clustering points (in pixels)-->
-<!--    });-->
 
-<!--    // Layer for clusters (as circles)-->
-<!--    map.addLayer({-->
-<!--      id: 'clusters',-->
-<!--      type: 'circle',-->
-<!--      source: 'points',-->
-<!--      filter: ['has', 'point_count'],-->
-<!--      paint: {-->
-<!--        'circle-color': '#51bbd6',-->
-<!--        'circle-radius': [-->
-<!--          'step',-->
-<!--          ['get', 'point_count'],-->
-<!--          20,   // circle radius when count is less than first step-->
-<!--          100,  // first step threshold-->
-<!--          30,   // circle radius for count >= 100-->
-<!--          750,  // second step threshold-->
-<!--          40    // circle radius for count >= 750-->
-<!--        ]-->
-<!--      }-->
-<!--    });-->
-
-<!--    // Layer for cluster count labels-->
-<!--    map.addLayer({-->
-<!--      id: 'cluster-count',-->
-<!--      type: 'symbol',-->
-<!--      source: 'points',-->
-<!--      filter: ['has', 'point_count'],-->
-<!--      layout: {-->
-<!--        'text-field': '{point_count_abbreviated}',-->
-<!--        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],-->
-<!--        'text-size': 12-->
-<!--      }-->
-<!--    });-->
-
-<!--    // Layer for unclustered individual points-->
-<!--    map.addLayer({-->
-<!--      id: 'unclustered-point',-->
-<!--      type: 'circle',-->
-<!--      source: 'points',-->
-<!--      filter: ['!', ['has', 'point_count']],-->
-<!--      paint: {-->
-<!--        'circle-color': '#11b4da',-->
-<!--        'circle-radius': 4,-->
-<!--        'circle-stroke-width': 1,-->
-<!--        'circle-stroke-color': '#fff'-->
-<!--      }-->
-<!--    });-->
-
-<!--    // beachwatch-->
-<!--    map.loadImage('img/vecteezy_elegant-classic-a-single-drop-of-water-with-a-miniature_59434453.png', function(error, image) {-->
-<!--      if (error) throw error;-->
-<!--      // Add the image with SDF enabled so it can be tinted dynamically-->
-<!--      map.addImage('pin', image, { sdf: true });-->
-
-<!--      // Add your GeoJSON source containing beach status-->
-<!--      map.addSource('beaches', {-->
-<!--        type: 'geojson',-->
-<!--        data: `${urlbase}tijuana/beachwatch/output/beachwatch_closures.geojson`-->
-<!--      });-->
-
-<!--      // Create a symbol layer using the custom pin icon-->
-<!--      map.addLayer({-->
-<!--        id: 'beaches',-->
-<!--        type: 'symbol',-->
-<!--        source: 'beaches',-->
-<!--        layout: {-->
-<!--          'icon-image': 'pin',-->
-<!--          'icon-size': 5,-->
-<!--          'icon-allow-overlap': true,-->
-<!--          // Offset the icon so the tip of the pin points to the location-->
-<!--          'icon-offset': [0, -15]-->
-<!--        },-->
-<!--        paint: {-->
-<!--          // Use the RGBcolor property to tint the pin-->
-<!--          'icon-color': ['get', 'RBGColor']-->
-<!--        }-->
-<!--      });-->
-
-<!--      // Add a popup when a pin is clicked-->
-<!--      map.on('click', 'beaches', function(e) {-->
-<!--        var feature = e.features[0];-->
-<!--        var coordinates = feature.geometry.coordinates.slice();-->
-<!--        var name = feature.properties.Name;-->
-<!--        var description = feature.properties.Description;-->
-<!--        var popupContent = `<h3>${name}</h3>${description}`;-->
-
-<!--        new mapboxgl.Popup()-->
-<!--          .setLngLat(coordinates)-->
-<!--          .setHTML(popupContent)-->
-<!--          .addTo(map);-->
-<!--      });-->
-
-<!--      // Change the cursor to a pointer when over the pins.-->
-<!--      map.on('mouseenter', 'beaches', function() {-->
-<!--        map.getCanvas().style.cursor = 'pointer';-->
-<!--      });-->
-<!--      map.on('mouseleave', 'beaches', function() {-->
-<!--        map.getCanvas().style.cursor = '';-->
-<!--      });-->
-<!--    });-->
-
-
-<!--  });-->
-<!--</script>-->
 <script>
   const resilientUrlBase = 'https://oss.resilientservice.mooo.com/resilentpublic/'
   function parseCustomDate(dateStr) {
@@ -794,119 +713,6 @@
     })
     .then(jsonData => {
 
-      // const fakeData = [
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "NESTOR - BES",
-      //     "Date with time": "2025-04-03T00:00:00",
-      //     "Result": 38.8,
-      //     "Qualifier": "",
-      //     "Original Value": "38.8",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "EL CAJON LES",
-      //     "Date with time": "2025-04-03T00:30:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "EL CAJON LES",
-      //     "Date with time": "2025-04-03T02:30:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "IB CIVIC CTR",
-      //     "Date with time": "2025-04-03T00:45:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "NESTOR - BES",
-      //     "Date with time": "2025-04-03T04:00:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "IB CIVIC CTR",
-      //     "Date with time": "2025-04-03T04:45:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "EL CAJON LES",
-      //     "Date with time": "2025-04-03T04:30:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "IB CIVIC CTR",
-      //     "Date with time": "2025-04-03T06:45:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "NESTOR - BES",
-      //     "Date with time": "2025-04-03T06:00:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "NESTOR - BES",
-      //     "Date with time": "2025-04-03T07:00:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "NESTOR - BES",
-      //     "Date with time": "2025-04-03T08:00:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   }
-      // ]
-      // jsonData = fakeData;
 
       // filter data to only take the 3 most recent measurements from each location
       let groupedData = _.groupBy(jsonData, 'Site Name');

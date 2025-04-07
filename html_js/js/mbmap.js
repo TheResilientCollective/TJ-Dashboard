@@ -9,7 +9,7 @@ const map = new mapboxgl.Map({
 });
 map.on('load', function () {
   // Add the GeoJSON source with clustering enabled
-  map.addSource('points', {
+  map.addSource('complaints', {
     type: 'geojson',
     data: `${urlbase}tijuana/sd_complaints/raw/complaints.json`, // update the path or URL to your GeoJSON file
     cluster: true,
@@ -21,7 +21,7 @@ map.on('load', function () {
   map.addLayer({
     id: 'clusters',
     type: 'circle',
-    source: 'points',
+    source: 'complaints',
     filter: ['has', 'point_count'],
     paint: {
       'circle-color': '#51bbd6',
@@ -41,7 +41,7 @@ map.on('load', function () {
   map.addLayer({
     id: 'cluster-count',
     type: 'symbol',
-    source: 'points',
+    source: 'complaints',
     filter: ['has', 'point_count'],
     layout: {
       'text-field': '{point_count_abbreviated}',
@@ -54,7 +54,7 @@ map.on('load', function () {
   map.addLayer({
     id: 'unclustered-point',
     type: 'circle',
-    source: 'points',
+    source: 'complaints',
     filter: ['!', ['has', 'point_count']],
     paint: {
       'circle-color': '#11b4da',
@@ -124,16 +124,16 @@ map.on('load', function () {
     map.addImage('sewage', image, { sdf: true });
 
     // Add your GeoJSON source containing beach status
-    map.addSource('sewage', {
+    map.addSource('spills', {
       type: 'geojson',
       data: `${urlbase}tijuana/ibwc/output/spills_last_by_site.geojson`
     });
 
     // Create a symbol layer using the custom pin icon
     map.addLayer({
-      id: 'sewage',
+      id: 'spills',
       type: 'symbol',
-      source: 'sewage',
+      source: 'spills',
       layout: {
         'icon-image': 'sewage',
         'icon-size': .1,
@@ -188,10 +188,10 @@ map.on('load', function () {
         // Offset the icon so the tip of the pin points to the location
         'icon-offset': [0, 0]
       },
-      // paint: {
-      //   // Use the RGBcolor property to tint the pin
-      //   'icon-color': ['get', 'RBGColor']
-      // }
+      paint: {
+        // Use the level property to tint the pin
+        'icon-color': ['get', 'level']
+      }
     });
 
     // Add a popup when a pin is clicked
@@ -208,6 +208,34 @@ map.on('load', function () {
         .addTo(map);
     });
 
+    map.addLayer({
+      id: 'h2s-value',
+      type: 'symbol',
+      source: 'h2s',
 
+      layout: {
+        'text-field': ['get', 'Original Value'],
+        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+        'text-size': 12
+      },
+      paint: {
+        'text-color': '#000'
+      }
+    });
+    map.addLayer({
+      id: 'h2s-name',
+      type: 'symbol',
+      source: 'h2s',
+
+      layout: {
+        'text-field': ['get', 'LongName'],
+        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+        'text-size': 12,
+        'text-offset': [0,3]
+      },
+      paint: {
+        'text-color': '#000'
+      }
+    });
   });
 });
