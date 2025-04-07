@@ -370,6 +370,14 @@ button.button.map-control-button.button {
     #sidebar-btn {
         display: none;
     }
+
+    #sidebar-header #sidebar-title {
+        width:400%;
+    }
+
+    #sidebar-header img {
+        width: calc(var(--icon) * 3.5);
+    }
 }
 
 
