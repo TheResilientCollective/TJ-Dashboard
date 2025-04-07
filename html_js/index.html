@@ -32,75 +32,97 @@
   </style>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.js"></script>
+
   <!--  <script type="module" src="js/fsmap.js"></script>-->
-  <script type="module">
-    const fs = "fsq3CYDP77ybwoo1KtkJigGRj6g0uYyhWVw25jM+zN6ovbI="
-    const mapuid = '6ce3b305-7e09-44b3-8725-34dcf59bb56d'
-    //   import {createMap} from 'https://corsproxy.io/?key=3d648870&url=https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';
-    import {createMap} from 'https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';
+<!--  <script type="module">-->
+<!--    const fs = "fsq3CYDP77ybwoo1KtkJigGRj6g0uYyhWVw25jM+zN6ovbI="-->
+<!--    const mapuid = '6ce3b305-7e09-44b3-8725-34dcf59bb56d'-->
+<!--    //   import {createMap} from 'https://corsproxy.io/?key=3d648870&url=https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';-->
+<!--    import {createMap} from 'https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';-->
 
-    const map = await createMap({
-      apiKey: fs,
-      container: document.getElementById('map-container'),
-      // this loads a published map
-      // (original url: https://studio.foursquare.com/public/806b95d0-36bb-402c-b16c-24e54af4a761)
-      initialState: {
-        publishedMapId: mapuid
-      },
-      uiConfig: {
-        sidePanel: {
-          view: 'hidden'| 'collapsed' | 'visible',
-          isAddLayerVisible: false,
-        },
-        sideNav: {
-          isVisible: false
-        },
-        mapControls: {
-          isVisible: false,
-          zoom: {
-            isVisible: false
-          }
-        }
-      }
-    });
-    // cannot override style sheet. #shadow-root is closed.
-    // var sheet = new CSSStyleSheet
-    // sheet.replaceSync( `.unfolded-root + div + div  {visibility: collapse;}`)
-    // map.shadowRoot.adoptedStyleSheets.push(sheet) // You want to add to stylesheets list
-    globalThis.map = map
+<!--    const map = await createMap({-->
+<!--      apiKey: fs,-->
+<!--      container: document.getElementById('map-container'),-->
+<!--      // this loads a published map-->
+<!--      // (original url: https://studio.foursquare.com/public/806b95d0-36bb-402c-b16c-24e54af4a761)-->
+<!--      initialState: {-->
+<!--        publishedMapId: mapuid-->
+<!--      },-->
+<!--      uiConfig: {-->
+<!--        sidePanel: {-->
+<!--          view: 'hidden',-->
+<!--          isAddLayerVisible: false,-->
+<!--        },-->
+<!--        sideNav: {-->
+<!--          isVisible: false-->
+<!--        },-->
+<!--        mapControls: {-->
+<!--          isVisible: false,-->
+<!--          zoom: {-->
+<!--            isVisible: false-->
+<!--          }-->
+<!--        }-->
+<!--      },-->
+<!--      mapState: {-->
+<!--        globe: {-->
+<!--          enabled: false,-->
+<!--        }-->
+<!--      }-->
 
-    setTimeout(() => { // Wait a short time for the map to fully render
-      try {
-        const mapContainerDiv = document.getElementById('map-container').querySelector('div'); // Get the inner div
-        if (mapContainerDiv) {
-          // Try to query for the button - this is VERY DOM-structure dependent
-          const hackyButtonTarget = mapContainerDiv.querySelector('.map-control-button.button'); // Adjust selector if needed
-          if (hackyButtonTarget) {
-            hackyButtonTarget.style.display = 'none !important'; // Try to hide it
-            console.warn("HACKY BUTTON HIDING ATTEMPTED - VERY FRAGILE!");
-          } else {
-            console.warn("HACKY BUTTON TARGET NOT FOUND - MAYBE SELECTOR IS WRONG?");
-          }
-        } else {
-          console.warn("HACKY MAP CONTAINER INNER DIV NOT FOUND!");
-        }
-      } catch (error) {
-        console.error("HACKY BUTTON HIDING FAILED:", error);
-      }
-    }, 10000); // 10 second delay - adjust if needed
+<!--    });-->
+<!--  &lt;!&ndash;  map.setMapControlVisibility(&ndash;&gt;-->
+  <!--    {legend:false,toggle_3d:false,split_map:false, map_draw:false}-->
+  <!--  )-->
+  <!--  // cannot override style sheet. #shadow-root is closed.-->
+  <!--  // var sheet = new CSSStyleSheet-->
+  <!--  // sheet.replaceSync( `.unfolded-root + div + div  {visibility: collapse;}`)-->
+  <!--  // map.shadowRoot.adoptedStyleSheets.push(sheet) // You want to add to stylesheets list-->
+  <!--  globalThis.map = map-->
 
-  </script>
+  <!--  setTimeout(() => { // Wait a short time for the map to fully render-->
+  <!--    try {-->
+  <!--      const mapContainerDiv = document.getElementById('map-container').querySelector('div'); // Get the inner div-->
+  <!--      if (mapContainerDiv) {-->
+  <!--        // Try to query for the button - this is VERY DOM-structure dependent-->
+  <!--        const hackyButtonTarget = mapContainerDiv.querySelector('.map-control-button.button'); // Adjust selector if needed-->
+  <!--        if (hackyButtonTarget) {-->
+  <!--          hackyButtonTarget.style.display = 'none !important'; // Try to hide it-->
+  <!--          console.warn("HACKY BUTTON HIDING ATTEMPTED - VERY FRAGILE!");-->
+  <!--        } else {-->
+  <!--          console.warn("HACKY BUTTON TARGET NOT FOUND - MAYBE SELECTOR IS WRONG?");-->
+  <!--        }-->
+  <!--      } else {-->
+  <!--        console.warn("HACKY MAP CONTAINER INNER DIV NOT FOUND!");-->
+  <!--      }-->
+  <!--    } catch (error) {-->
+  <!--      console.error("HACKY BUTTON HIDING FAILED:", error);-->
+  <!--    }-->
+  <!--  }, 10000); // 10 second delay - adjust if needed-->
+
+  <!--</script>-->
 
 
   <script>
     //     <button onclick="toggleLayer(this, 'Beach Closures')">Beach Closures</button>
+
+    const layerGroupInfo = [
+      {label: 'H₂S Levels', id: 'h2s_group' , layers: ['h2s','h2s-name', 'h2s-value']}, // health layer for now
+      {label: 'Odor Complaints', id: 'odor_group' , layers: ['clusters','cluster-count','unclustered-point']}, // odor
+      {label: 'Wastewater Spills', id: 'spill_group' , layers: ['spills']}, // water
+      {label: 'Beach Status', id: 'beach_group' , layers: ['beaches']}, // observations
+      {label: 'River Basin', id: 'water_group' , layers: []},
+
+    ]
+
 
     // Toggle Sidebar Function
     const layerInfo = [
       {label: 'H₂S Levels', id: 'g0nrfjd'}, // health layer for now
       {label: 'Smell Complaints', id: '49rpvvq'}, // odor
       {label: 'Wastewater Spills', id: 'hg4pxs'}, // water
-      {label: 'Beach Closures', id: 'dpoomlg'}, // observations
+      {label: 'Beach Status', id: 'dpoomlg'}, // observations
       {label: 'River Basin', id: '6n6ymt9'},
 
     ]
@@ -115,34 +137,65 @@
       section.classList.toggle("expanded");
     }
 
+    function setGroupVisibility(map, layerInfo, visibility) {
+      layerInfo.layers.forEach(layerId => {
+        // Ensure the layer exists before attempting to change it
+        if (map.getLayer(layerId)) {
+          map.setLayoutProperty(layerId, 'visibility', visibility);
+        }
+      });
+    }
     // Toggle Layer Function for Top Pills
     function toggleLayer(button, layer) {
       if (undefined !== map) {
 
 
-        button.classList.toggle("active");
+        let visibility = 'none'
+        if ( button.classList.toggle("active") ) {
+          console.log("toggled active: true");
+          visibility = 'visible'
+        } else {
+          console.log("toggled active: false");
+        }
         button.querySelector("i").classList.toggle("bi-check-square-fill");
         button.querySelector("i").classList.toggle("bi-x-square");
-        console.log("Toggled layer:", layer);
-        const layerid = layerInfo.find((l) => l.label == layer)
-        console.log("Toggled layer:" + layer + " layerid:", layerid);
-        const groups = map.getLayerGroups();
-        console.log("Toggled layer: groups", groups);
-        let targetLayer = groups.find((g) => g.id == layerid.id)
-        console.log("Target layer:", targetLayer);
-        if (targetLayer.isVisible) {
-          targetLayer.isVisible = false;
-
-        } else {
-          targetLayer.isVisible = true;
-
-        }
-        map.updateLayerGroup(targetLayer.id, targetLayer)
+        console.log("Toggled layer group:", layer);
+        const layerinfo = layerGroupInfo.find((l) => l.label === layer)
+        console.log("Toggled layer group:" + layer + " layerid:", layerinfo);
+        console.log("Toggled layer: groups", layerinfo.layers);
+        setGroupVisibility(map,layerinfo,visibility)
       } else {
         console.log("toggleLayer: no map object: ", layer);
       }
 
     }
+    // function toggleLayer(button, layer) {
+    //   if (undefined !== map) {
+    //
+    //
+    //     button.classList.toggle("active");
+    //     button.querySelector("i").classList.toggle("bi-check-square-fill");
+    //     button.querySelector("i").classList.toggle("bi-x-square");
+    //     console.log("Toggled layer:", layer);
+    //     const layerid = layerInfo.find((l) => l.label == layer)
+    //     console.log("Toggled layer:" + layer + " layerid:", layerid);
+    //     const groups = map.getLayerGroups();
+    //     console.log("Toggled layer: groups", groups);
+    //     let targetLayer = groups.find((g) => g.id == layerid.id)
+    //     console.log("Target layer:", targetLayer);
+    //     if (targetLayer.isVisible) {
+    //       targetLayer.isVisible = false;
+    //
+    //     } else {
+    //       targetLayer.isVisible = true;
+    //
+    //     }
+    //     map.updateLayerGroup(targetLayer.id, targetLayer)
+    //   } else {
+    //     console.log("toggleLayer: no map object: ", layer);
+    //   }
+    //
+    // }
 
     // When a card is clicked, select the corresponding pill
     function selectCard(layer) {
@@ -182,7 +235,7 @@
   <!-- Top Pill Container -->
   <div id="top-bar-container">
     <div id="top-bar">
-      <button class="active" onclick="toggleLayer(this, 'Beach Closures')">
+      <button class="active" onclick="toggleLayer(this, 'Beach Status')">
         <i class="bi bi-check-square-fill"></i>
         <div>
           Beach Status
@@ -198,7 +251,7 @@
           <span class="trend-flat sublabel">current data</span>
         </div>
       </button>
-      <button class="active" onclick="toggleLayer(this, 'Smell Complaints')">
+      <button class="active" onclick="toggleLayer(this, 'Odor Complaints')">
         <i class="bi bi-check-square-fill"></i>
         <div>
           Smell Complaints
@@ -647,6 +700,7 @@
     </p>
   </div>
 </div>
+<script src="js/mbmap.js"></script>
 
 <script>
   const resilientUrlBase = 'https://oss.resilientservice.mooo.com/resilentpublic/'
@@ -668,119 +722,6 @@
     })
     .then(jsonData => {
 
-      // const fakeData = [
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "NESTOR - BES",
-      //     "Date with time": "2025-04-03T00:00:00",
-      //     "Result": 38.8,
-      //     "Qualifier": "",
-      //     "Original Value": "38.8",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "EL CAJON LES",
-      //     "Date with time": "2025-04-03T00:30:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "EL CAJON LES",
-      //     "Date with time": "2025-04-03T02:30:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "IB CIVIC CTR",
-      //     "Date with time": "2025-04-03T00:45:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "NESTOR - BES",
-      //     "Date with time": "2025-04-03T04:00:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "IB CIVIC CTR",
-      //     "Date with time": "2025-04-03T04:45:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "EL CAJON LES",
-      //     "Date with time": "2025-04-03T04:30:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "IB CIVIC CTR",
-      //     "Date with time": "2025-04-03T06:45:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "NESTOR - BES",
-      //     "Date with time": "2025-04-03T06:00:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "NESTOR - BES",
-      //     "Date with time": "2025-04-03T07:00:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   },
-      //   {
-      //     "Parameter": "07 H2S PPB",
-      //     "Site Name": "NESTOR - BES",
-      //     "Date with time": "2025-04-03T08:00:00",
-      //     "Result": 31.4,
-      //     "Qualifier": "",
-      //     "Original Value": "31.4",
-      //     "Icons": "place",
-      //     "level": "orange"
-      //   }
-      // ]
-      // jsonData = fakeData;
 
       // filter data to only take the 3 most recent measurements from each location
       let groupedData = _.groupBy(jsonData, 'Site Name');
