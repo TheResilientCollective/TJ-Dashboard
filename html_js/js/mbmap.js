@@ -21,7 +21,7 @@ map.on('load', function () {
     clusterRadius: 50   // radius of each cluster when clustering points (in pixels)
   });
 
-  // Layer for clusters (as circles)
+  // Layer for clusters (as circles) for all
   map.addLayer({
     id: 'clusters',
     type: 'circle',
