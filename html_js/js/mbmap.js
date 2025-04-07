@@ -83,7 +83,14 @@ map.on('load', function () {
       source: 'beaches',
       layout: {
         'icon-image': 'pin',
-        'icon-size': .5,
+        'icon-size': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          5, .1,  // At zoom level 5, text size 10
+          12, .3,  // At zoom level 12, text size 18
+          14, .5
+        ],
         'icon-allow-overlap': true,
         // Offset the icon so the tip of the pin points to the location
         'icon-offset': [0, 0]
@@ -136,7 +143,15 @@ map.on('load', function () {
       source: 'spills',
       layout: {
         'icon-image': 'sewage',
-        'icon-size': .1,
+        //'icon-size': .1,
+        'icon-size': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          5, .05,  // At zoom level 5, text size 10
+          12, .07,  // At zoom level 12, text size 18
+          14, .1
+        ],
         'icon-allow-overlap': true,
         // Offset the icon so the tip of the pin points to the location
         'icon-offset': [0, 0]
@@ -148,12 +163,13 @@ map.on('load', function () {
     });
 
     // Add a popup when a pin is clicked
-    map.on('click', 'sewage', function(e) {
+    map.on('click', 'spills', function(e) {
       var feature = e.features[0];
       var coordinates = feature.geometry.coordinates.slice();
-      var name = feature.properties.Name;
-      var description = feature.properties.Description;
-      var popupContent = `<h3>${name}</h3>${description}`;
+      var name = feature.properties['Discharge Location'];
+      var dates = feature.properties['Start Date'] + 'to ' +  feature.properties['End Date'];
+      var volume = feature.properties['Approximate Discharge Volume'];
+      var popupContent = `<h3>${name}</h3><div>${dates}</div>${volume}`;
 
       new mapboxgl.Popup()
         .setLngLat(coordinates)
@@ -183,7 +199,14 @@ map.on('load', function () {
       source: 'h2s',
       layout: {
         'icon-image': 'cloud',
-        'icon-size': .5,
+        'icon-size': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          5, .3,  // At zoom level 5, text size 10
+          12, .4,  // At zoom level 12, text size 18
+          14, .5
+        ],
         'icon-allow-overlap': true,
         // Offset the icon so the tip of the pin points to the location
         'icon-offset': [0, 0]
@@ -198,9 +221,10 @@ map.on('load', function () {
     map.on('click', 'h2s', function(e) {
       var feature = e.features[0];
       var coordinates = feature.geometry.coordinates.slice();
-      var name = feature.properties.Name;
-      var description = feature.properties.Description;
-      var popupContent = `<h3>${name}</h3>${description}`;
+      var name = feature.properties['Site Name'];
+      var description = feature.properties.Result;
+      var airnow_link = `https://www.airnow.gov/?city=${feature.properties['Site Name']}&state=CA&country=USA`
+      var popupContent = `<h3 xmlns="http://www.w3.org/1999/html">${name}</h3>${description}<div><a href="${airnow_link}"/>AirNow</a></div>`;
 
       new mapboxgl.Popup()
         .setLngLat(coordinates)
