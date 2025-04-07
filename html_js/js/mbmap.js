@@ -4,8 +4,12 @@ const urlbase = `${s3base}${bucket}/`
 mapboxgl.accessToken = 'pk.eyJ1IjoidmFsZW50aW5lZHd2IiwiYSI6ImNra215Y2QydDExd3oycHF0d2VvM2pwYXoifQ.sODwFshU0owiFxw6SKLeKg';
 const map = new mapboxgl.Map({
   container: 'map-container', // container ID
-  center: [-117.11, 32.58], // 32.58,-117.11 starting position [lng, lat]. Note that lat must be set between -90 and 90
-  zoom: 12 // starting zoom
+  center: [-117.13, 32.56], // 32.58,-117.11 starting position [lng, lat]. Note that lat must be set between -90 and 90
+  zoom: 12 , // starting zoom
+  maxBounds: [
+    [-118, 32], // Southwest coordinates
+    [-116, 34]  // Northeast coordinates
+  ]
 });
 map.on('load', function () {
   // Add the GeoJSON source with clustering enabled
