@@ -11,63 +11,155 @@ const map = new mapboxgl.Map({
     [-116, 34]  // Northeast coordinates
   ]
 });
-map.on('load', function () {
-  // Add the GeoJSON source with clustering enabled
-  map.addSource('complaints', {
-    type: 'geojson',
-    data: `${urlbase}tijuana/sd_complaints/raw/complaints.json`, // update the path or URL to your GeoJSON file
-    cluster: true,
-    clusterMaxZoom: 14, // max zoom to cluster points
-    clusterRadius: 50   // radius of each cluster when clustering points (in pixels)
-  });
 
-  // Layer for clusters (as circles) for all
-  map.addLayer({
-    id: 'clusters',
-    type: 'circle',
-    source: 'complaints',
-    filter: ['has', 'point_count'],
-    paint: {
-      'circle-color': '#51bbd6',
-      'circle-radius': [
-        'step',
-        ['get', 'point_count'],
-        20,   // circle radius when count is less than first step
-        100,  // first step threshold
-        30,   // circle radius for count >= 100
-        750,  // second step threshold
-        40    // circle radius for count >= 750
-      ]
+function setGroupVisibility(map, layerInfo, visibility) {
+  layerInfo.layers.forEach(layerId => {
+    // Ensure the layer exists before attempting to change it
+    if (map.getLayer(layerId)) {
+      map.setLayoutProperty(layerId, 'visibility', visibility);
     }
   });
+}
 
-  // Layer for cluster count labels
-  map.addLayer({
-    id: 'cluster-count',
-    type: 'symbol',
-    source: 'complaints',
-    filter: ['has', 'point_count'],
-    layout: {
-      'text-field': '{point_count_abbreviated}',
-      'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-      'text-size': 12
-    }
+function complaints_layer(){
+  fetch(`${urlbase}tijuana/sd_complaints/output/complaints.geojson`)// update the path or URL to your GeoJSON file
+    .then(response => response.json())
+    .then(data => {
+      map.addSource('complaints', {
+      type: 'geojson',
+      data: data,
+      cluster: true,
+      clusterMaxZoom: 14, // max zoom to cluster points
+      clusterRadius: 50   // radius of each cluster when clustering points (in pixels)
+    });
+      const threeDaysAgo = dayjs().subtract(3, 'day');
+      console.log('days ago date: ' , threeDaysAgo)
+      // Filter features where the "Date Recieved" is within the last three days.
+      // Adjust the date parsing if your format differs.
+      var filteredFeatures = data.features.filter(feature => {
+        var dateReceived = new Date(feature.properties['date_received']);
+        return dateReceived >= threeDaysAgo;
+      });
+      console.log('complaints after filter: ' , filteredFeatures.length)
+
+      // Create a new FeatureCollection with filtered features
+      var filteredData = {
+        type: 'FeatureCollection',
+        features: filteredFeatures
+      };
+      console.log('features:', filteredData)
+      map.addSource('complaints_lastdays', {
+        type: 'geojson',
+        data: filteredData,
+        cluster: true,
+        clusterMaxZoom: 14, // max zoom to cluster points
+        clusterRadius: 50   // radius of each cluster when clustering points (in pixels)
+      });
+    // Layer for clusters (as circles) for all
+    map.addLayer({
+      id: 'clusters-all',
+      layout: { visibility: 'none',},
+      type: 'circle',
+      source: 'complaints',
+      filter: ['has', 'point_count'],
+      paint: {
+        'circle-color': '#51bbd6',
+        'circle-radius': [
+          'step',
+          ['get', 'point_count'],
+          20,   // circle radius when count is less than first step
+          100,  // first step threshold
+          30,   // circle radius for count >= 100
+          750,  // second step threshold
+          40    // circle radius for count >= 750
+        ]
+      }
+    });
+
+    // Layer for cluster count labels
+    map.addLayer({
+      id: 'cluster-count-all',
+
+      type: 'symbol',
+      source: 'complaints',
+      filter: ['has', 'point_count'],
+      layout: {
+        visibility: 'none',
+        'text-field': '{point_count_abbreviated}',
+        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+        'text-size': 12
+      }
+    });
+
+    // Layer for unclustered individual points
+    map.addLayer({
+      id: 'unclustered-point-all',
+      layout: { visibility: 'none',},
+      type: 'circle',
+      source: 'complaints',
+      filter: ['!', ['has', 'point_count']],
+      paint: {
+        'circle-color': '#11b4da',
+        'circle-radius': 4,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#fff'
+      }
+    });
+    // Layer for clusters (as circles) for all
+
+    map.addLayer({
+      id: 'clusters',
+      type: 'circle',
+      source: 'complaints_lastdays',
+      filter: ['has', 'point_count'],
+      paint: {
+        'circle-color': '#51bbd6',
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#fff',
+        'circle-radius': [
+          'step',
+          ['get', 'point_count'],
+          20,   // circle radius when count is less than first step
+          100,  // first step threshold
+          30,   // circle radius for count >= 100
+          750,  // second step threshold
+          40    // circle radius for count >= 750
+        ]
+      }
+    });
+
+    // Layer for cluster count labels
+    map.addLayer({
+      id: 'cluster-count',
+      type: 'symbol',
+      source: 'complaints_lastdays',
+      filter:  ['has', 'point_count'],
+      layout: {
+        'text-field': '{point_count_abbreviated}',
+        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+        'text-size': 12
+      }
+    });
+
+    // Layer for unclustered individual points
+    map.addLayer({
+      id: 'unclustered-point',
+      type: 'circle',
+      source: 'complaints_lastdays',
+      filter:
+        ['!', ['has', 'point_count']],
+      paint: {
+        'circle-color': '#11b4da',
+        'circle-radius': 4,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#fff'
+      }
+    });
   });
 
-  // Layer for unclustered individual points
-  map.addLayer({
-    id: 'unclustered-point',
-    type: 'circle',
-    source: 'complaints',
-    filter: ['!', ['has', 'point_count']],
-    paint: {
-      'circle-color': '#11b4da',
-      'circle-radius': 4,
-      'circle-stroke-width': 1,
-      'circle-stroke-color': '#fff'
-    }
-  });
+}
 
+function beach_layer(){
   // beachwatch
   map.loadImage('img/droplet.png', function(error, image) {
     if (error) throw error;
@@ -127,7 +219,9 @@ map.on('load', function () {
       map.getCanvas().style.cursor = '';
     });
   });
+}
 
+function spills_layer(){
   // spills
   map.loadImage('img/sewer-icon.png', function(error, image) {
     if (error) throw error;
@@ -139,12 +233,16 @@ map.on('load', function () {
       type: 'geojson',
       data: `${urlbase}tijuana/ibwc/output/spills_last_by_site.geojson`
     });
-
+    const thirtyDaysAgo = dayjs().subtract(30, 'day').toISOString();
     // Create a symbol layer using the custom pin icon
     map.addLayer({
       id: 'spills',
       type: 'symbol',
       source: 'spills',
+      filter:['any' ,
+      ['>=', ['get', 'End Time'], thirtyDaysAgo] ,
+        ['>=', ['get', 'Start Time'], thirtyDaysAgo] ,
+      ],
       layout: {
         'icon-image': 'sewage',
         //'icon-size': .1,
@@ -183,8 +281,9 @@ map.on('load', function () {
 
 
   });
+}
 
-// h2s
+function h2s_layer(){
   map.loadImage('img/cloud.png', function(error, image) {
     if (error) throw error;
     // Add the image with SDF enabled so it can be tinted dynamically
@@ -266,4 +365,18 @@ map.on('load', function () {
       }
     });
   });
+}
+map.on('load', function () {
+  // Add the GeoJSON source with clustering enabled
+  beach_layer()
+  spills_layer()
+  complaints_layer()
+  h2s_layer()
+
+
+
+
+
+// h2s
+
 });
