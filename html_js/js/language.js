@@ -121,3 +121,41 @@ function setLanguage(lang) {
 
 // Initialize i18next (this will also trigger initial data fetch)
 initializeI18next();
+
+// Setup the language selector
+const languageSelector = document.querySelectorAll(".language-selector");
+const languageContainer = document.querySelectorAll(".language-selector-container");
+
+// Set the initial flag
+const updateFlag = () => {
+    const selectedOption = languageSelector.forEach(selector => selector.options[languageSelector.selectedIndex]);
+    languageContainer.forEach(container => container.setAttribute("data-flag", selectedOption.textContent.trim().split(" ")[0]));
+};
+
+// Update the flag when the language changes
+languageSelector.forEach(selector => selector.addEventListener("change", (event) => {
+    setLanguage(event.target.value); // Call the existing setLanguage function
+    updateFlag();
+}));
+
+// Show full language name when the select is focused (opened)
+languageSelector.forEach(selector => selector.addEventListener("focus", (event) => {
+    Array.from(event.target.options).forEach((option) => {
+        const flag = option.textContent.trim().split(" ")[0];
+        const language = option.getAttribute("data-language");
+        option.textContent = `${flag} ${language}`;
+        option.style.fontSize = ""; // Reset font size
+        option.style.lineHeight = ""; // Reset line height
+    });
+}));
+
+// Show only the flag when the select is blurred (closed)
+languageSelector.forEach(selector => selector.addEventListener("blur", (event) => {
+    Array.from(event.target.options).forEach((option) => {
+        const flag = option.textContent.trim().split(" ")[0];
+        option.textContent = flag;
+    });
+}));
+
+// Initialize the flag
+updateFlag();

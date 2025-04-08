@@ -289,11 +289,14 @@ button.button.map-control-button.button {
 
 /* Drawer Handle */
 #sidebar-handle {
-    display: block;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
     height: var(--p2);
 }
 
 .grip {
+    grid-column:2;
     width: 5rem;
     height: var(--p-half);
     background: #ccc;
@@ -661,32 +664,40 @@ button.button.map-control-button.button {
     cursor: pointer;
 }
 
-@media (min-width: 769px) {
-    #map-disclaimers {
-        display: block;
-        position: absolute;
-        bottom: var(--p1);
-        left: calc(var(--p2) + var(--sidebar-desktop-width));
-        right: var(--p2);
-        padding: var(--p1);
-        z-index: 100;
+#map-footer-bar {
+    position: absolute;
+    display: flex;
 
-        background-color: var(--white);
-        border-radius: var(--border-radius);
-        box-shadow: var(--shadow);
+    bottom: var(--p1);
+    left: calc(var(--p2) + var(--sidebar-desktop-width));
+    right: var(--p2);
+    z-index: 100;
 
-        font-size: 0.75rem;
-        color: var(--grey);
-        text-align: center;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: var(--p1);
 
+    font-size: 0.75rem;
+    color: var(--grey);
+    text-align: center;
+}
 
+#map-footer-bar > * {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow-x: hidden;
+    overflow-y: hidden;
+    text-wrap: nowrap;
 
-        /* display:none; */
-    }
+    padding: var(--p1);
+    min-width: calc(33.5px + var(--p1) * 2 + 2px);
+    height: calc(var(--p1)*2 + 2ex + 2px);
 }
 
 @media (max-width: 768px) {
-    #map-disclaimers {
+    #map-footer-bar {
         display: none;
     }
 }

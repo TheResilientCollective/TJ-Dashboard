@@ -6,6 +6,7 @@
   <title data-i18n="pageTitle">Tijuana River Valley Sewage Crisis Environmental Dashboard</title>
   <link rel="stylesheet" href="./css/index.css">
   <link rel="stylesheet" href="./css/iconography.css">
+  <link rel="stylesheet" href="./css/language.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
   <!-- jquery -->
@@ -289,24 +290,26 @@
     <button id="sidebar-btn" class="open" onclick="toggleSidebar()"><i class="bi bi-chevron-left"></i></button>
 
     <div id="sidebar" class="open">
-      <div id="sidebar-handle"><div class="grip"></div></div>
+      <div id="sidebar-handle">
+        <div class="grip"></div>
+        <div class="language-selector-container" data-flag="🇺🇸" style="font-size:1.5em">
+          <select class="language-selector">
+            <option value="en" data-language="English">🇺🇸</option>
+            <option value="es" data-language="Español">🇲🇽</option>
+            <option value="tl" data-language="Tagalog">🇵🇭</option>
+            <option value="vi" data-language="Tiếng Việt">🇻🇳</option>
+            <option value="ar" data-language="العربية">🇸🇦</option>
+            <option value="zh" data-language="中文">🇨🇳</option>
+            <option value="fr" data-language="Français">🇫🇷</option>
+            <option value="pt" data-language="Português">🇧🇷</option>
+          </select>
+        </div>
+      </div>
+
       <div id="sidebar-header">
         <div><a href="https://www.sandiegocounty.gov/" target="_blank"><img src="img/logoCOSD.png"></a></div>
         <div id="sidebar-title"><span data-i18n="sidebar.title">Tijuana River Valley Sewage Crisis Environmental Dashboard</span></div>
         <div><a href="https://www.sandiegocounty.gov/" target="_blank"><img src="img/ResilientLogo.png"></a></div>
-      </div>
-
-      <div id="language-selector-container">
-        <select id="language-selector">
-          <option value="en">🇺🇸 English</option>
-          <option value="es">🇲🇽 Español</option>
-          <option value="tl">🇵🇭 Tagalog</option>
-          <option value="vi">🇻🇳 Tiếng Việt</option>
-          <option value="ar">🇸🇦 العربية</option>
-          <option value="zh">🇨🇳 中文</option>
-          <option value="fr">🇫🇷 Français</option>
-          <option value="pt">🇧🇷 Português</option>
-        </select>
       </div>
 
       <div id="sidebar-body">
@@ -720,10 +723,24 @@
       </div> <!-- End of Sidebar Body -->
     </div> <!-- End of Sidebar -->
   </div> <!-- End of Sidebar Container -->
-  <div id="map-disclaimers">
+  <div id="map-footer-bar">
     <p data-i18n="mapDisclaimers.p1">
       Markers on map are not meant to show the area of impact, but rather the location of the data source.
     </p>
+
+    <div class="language-selector-container" data-flag="🇺🇸">
+      <select class="language-selector">
+        <option value="en" data-language="English">🇺🇸</option>
+        <option value="es" data-language="Español">🇲🇽</option>
+        <option value="tl" data-language="Tagalog">🇵🇭</option>
+        <option value="vi" data-language="Tiếng Việt">🇻🇳</option>
+        <option value="ar" data-language="العربية">🇸🇦</option>
+        <option value="zh" data-language="中文">🇨🇳</option>
+        <option value="fr" data-language="Français">🇫🇷</option>
+        <option value="pt" data-language="Português">🇧🇷</option>
+      </select>
+    </div>
+    </div>
   </div>
 </div>
 <script src="js/mbmap.js"></script>
