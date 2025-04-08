@@ -1,0 +1,181 @@
+{
+    "pageTitle": "Panel Ambiental de la Crisis de Aguas Residuales del Valle del Río Tijuana",
+    "sidebar": {
+        "title": "Panel Ambiental de la Crisis de Aguas Residuales del Valle del Río Tijuana",
+        "sections": {
+            "ongoing": "Eventos Actuales",
+            "environmental": "Preocupaciones Ambientales",
+            "health": "Preocupaciones de Salud"
+        },
+        "cards": {
+            "whatWeKnow": {
+                "title": "Lo Que Sabemos",
+                "p1": "Una combinación de varios factores ha provocado el desbordamiento de aguas residuales, causando que las aguas de escorrentía y la contaminación lleguen al océano tanto en el lado mexicano como en el estadounidense de la frontera.",
+                "p2": "Existen esfuerzos multiinstitucionales para abordar los problemas de calidad del aire y del agua en el Valle del Río Tijuana que están afectando a las comunidades del área de San Diego.",
+                "p3": "Este panel y herramienta de mapeo proporcionan información de múltiples fuentes sobre la calidad del aire y del agua de playas/ríos en San Diego relacionada con este problema.",
+                "footer": {
+                    "text": "",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            },
+            "whatYouCanDo": {
+                "title": "Lo Que Usted Puede Hacer",
+                "reportOdor": "Reporte quejas por olores al Distrito de Control de la Contaminación del Aire del Condado de San Diego mediante:",
+                "reportOptions": {
+                    "app": "Aplicación móvil",
+                    "phone": "Teléfono al (858) 586-2650,",
+                    "email": "Correo electrónico a <a href='mailto:apcdcomp@sdapcd.org'>apcdcomp@sdapcd.org</a>, o",
+                    "online": "Visite en línea"
+                },
+                "reportInfoNeeded": "Al presentar un reporte, la siguiente información nos ayudará a investigar su preocupación:",
+                "infoItems": {
+                    "name": "Su nombre, dirección y número de teléfono",
+                    "time": "La hora y fecha en que ocurrió el problema de calidad del aire y si aún continúa",
+                    "nature": "La naturaleza del problema de calidad del aire (humo, polvo, olor u otro)",
+                    "source": "El nombre y la dirección de la presunta fuente y el tipo de operación que la causa (si se conoce)"
+                },
+                "h2sLink": {
+                    "label": "Las recomendaciones basadas en los niveles actuales de Sulfuro de Hidrógeno se pueden encontrar aquí:",
+                    "link": {
+                        "text": "Monitoreo de la Calidad del Aire",
+                        "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/tjrv-air-quality-monitoring.html"
+                    }
+                },
+                "reduceAirExposure": "Puede reducir su exposición al aire de mala calidad o a olores fuertes limitando la actividad al aire libre, manteniendo ventanas y puertas cerradas, y ventilando su hogar o negocio cuando no haya olores presentes. Si están disponibles, use aire acondicionado o purificadores de aire portátiles para interiores. Verifique si es necesario reemplazar los filtros. Use filtros HEPA certificados con carbón activado. Si es posible, encienda el aire acondicionado de su negocio durante 1-2 horas antes de abrir.",
+                "beachSafety": "No tenga contacto físico directo con el agua de ninguna playa cerrada. Esto es especialmente importante después de lluvias intensas. Manténgase alejado de áreas con derrames de aguas residuales visibles. Manténgase fuera del agua de inundación. No nade, no entre ni trague agua de fuentes de playa contaminadas.",
+                "footer": {
+                    "text": "",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            },
+            "whatWereDoing": {
+                "title": "Lo Que Estamos Haciendo",
+                "p1": "Los funcionarios del Condado de San Diego están trabajando con socios y otras agencias para evaluar las preocupaciones y los impactos de las aguas residuales y la contaminación en el Valle del Río Tijuana y las comunidades circundantes.",
+                "p2": "Puede encontrar más información sobre las acciones que el Condado está tomando para garantizar la salud y la calidad de vida de los residentes de la Región Sur aquí:",
+                "link": {
+                    "text": "Lo que está haciendo el condado",
+                    "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html"
+                },
+                "footer": {
+                    "text": "",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            },
+            "h2s": {
+                "title": "Sulfuro de Hidrógeno",
+                "p1": "El sulfuro de hidrógeno (H₂S) es un gas incoloro con un olor característico a huevos podridos. El sulfuro de hidrógeno se mide en ppb (partes por billón) - cuanto más bajo, mejor.",
+                "p2": "Se puede encontrar información de monitoreo a más largo plazo aquí:",
+                "link": {
+                    "text": "Monitoreo de Sulfuro de Hidrógeno",
+                    "url": "https://app.powerbigov.us/view?r=eyJrIjoiOGMwYzM2ZGYtZGU4Ny00ZGI5LWE2NWMtMmZlOGEzZTYzMDc3IiwidCI6IjQ1NjNhZjEzLWMwMjktNDFiMy1iNzRjLTk2NWU4ZWVjOGY5NiJ9"
+                },
+                "tableLabel": "Mediciones Recientes",
+                "valueUnit": "{{value}} ppb",
+                 "footer": {
+                    "text": "Actualizado el {{date}}",
+                    "link": {
+                        "text": "Más Información",
+                        "url": "https://www.sdapcd.org/"
+                    }
+                }
+            },
+            "beachClosures": {
+                "title": "Cierres de Playas",
+                "overview": {
+                    "count_one": "{{count}} Playa Cerrada",
+                    "count_other": "{{count}} Playas Cerradas",
+                    "trend": "{{change}} desde la semana pasada",
+                    "trend_positive": "+{{change}} desde la semana pasada",
+                    "trend_same": "igual que la semana pasada"
+                },
+                "p1": {
+                    "body": "La contaminación por aguas residuales ha provocado cierres de playas. Se pueden encontrar advertencias y avisos adicionales aquí:",
+                    "link": {
+                        "text": "Programa de Calidad del Agua de Playas y Bahías de San Diego",
+                        "url": "https://www.sdbeachinfo.com/"
+                    }
+                },
+                "p2": "Las siguientes playas están actualmente cerradas.",
+                "tableLabel": "Cierres Recientes",
+                 "status": {
+                    "closed": "cerrada"
+                 },
+                "footer": {
+                    "text": "Actualizado el {{date}}",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            },
+            "odorComplaints": {
+                "title": "Quejas Públicas por Olores",
+                "overview": {
+                    "count_one": "{{count}} Queja",
+                    "count_other": "{{count}} Quejas",
+                    "sampleDuration": "en los últimos 7 días",
+                    "trend": "{{change}} desde la semana pasada",
+                    "trend_positive": "+{{change}} desde la semana pasada",
+                    "trend_same": "igual que la semana pasada"
+                },
+                "p1": "Las siguientes son quejas públicas sobre olores que han sido reportadas al SDAPCD.",
+                "tableLabel": "Quejas en los últimos 7 días",
+                "dailyCount_one": "{{count}} queja",
+                "dailyCount_other": "{{count}} quejas",
+                "footer": {
+                    "text": "Actualizado el {{date}}",
+                    "link": {
+                        "text": "Más datos",
+                        "url": "https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df"
+                    }
+                }
+            },
+            "healthConcerns": {
+                "title": "Preocupaciones de Salud en la Región Sur",
+                "p1": {
+                    "body": "El Condado de San Diego está rastreando tendencias en condiciones gastrointestinales y respiratorias en la región sur. Para obtener más información y detalles, visite la ",
+                    "link": {
+                        "text": "página de Preocupaciones de Salud de la Región Sur",
+                        "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html"
+                    }
+                },
+                "tableLabel": "Preocupaciones de Salud Recientes",
+                "footer": {
+                    "text": "",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            }
+        }
+    },
+    "topbar": {
+        "beaches": "Estado de Playas",
+        "h2sLevels": "Niveles de H₂S",
+        "odorComplaints": "Quejas por Olores",
+        "wastewaterSpills": "Derrames de Aguas Residuales",
+        "riverBasin": "Cuenca del Río",
+        "currentData": "datos actuales",
+        "prev3days": "últimos 3 días",
+        "prev30days": "últimos 30 días"
+    },
+    "mapDisclaimers": {
+        "p1": "Los marcadores en el mapa no pretenden mostrar el área de impacto, sino la ubicación de la fuente de datos."
+    },
+    "dateTimeFormats": {
+        "shortDate": "D [de] MMM",
+        "shortTime": "h:mm a",
+        "shortDateTime": "D [de] MMM, h:mm a",
+        "dayHour": "ddd h a"
+    }
+}

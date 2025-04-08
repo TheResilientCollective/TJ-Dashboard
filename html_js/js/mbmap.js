@@ -21,6 +21,17 @@ function setGroupVisibility(map, layerInfo, visibility) {
   });
 }
 
+function setMapLanguage(){
+  console.log(
+    "[language.js] Updating map for language:",
+    i18next.language
+  );
+  map.addControl(new MapboxLanguage({
+    defaultLanguage: i18next.language
+  }));
+  // FIXME: update tooltip language
+}
+
 function complaints_layer(complaint_days){
   fetch(`${urlbase}tijuana/sd_complaints/output/complaints.geojson`)// update the path or URL to your GeoJSON file
     .then(response => response.json())
@@ -366,13 +377,14 @@ function h2s_layer(){
     });
   });
 }
+
 map.on('load', function () {
   // Add the GeoJSON source with clustering enabled
   beach_layer()
   spills_layer(spill_days)
   complaints_layer(complaint_days)
   h2s_layer()
-
+  setMapLanguage()
 
 
 

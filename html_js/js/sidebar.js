@@ -93,7 +93,7 @@ function sidebar_getEventY(event) {
 function sidebar_startDrag(e) {
     // Prevent dragging if the target is interactive (like an image potentially inside the title)
     // Adjust this check if necessary (e.g., check for buttons, links etc.)
-    if (e.target.tagName === 'IMG' || e.target.tagName === 'A' || e.target.tagName === 'BUTTON') {
+    if (e.target.tagName === 'IMG' || e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT' || e.target.tagName === "SELECT") {
         return; // Don't start drag on interactive elements
     }
 
@@ -191,7 +191,7 @@ function toggleSidebar() {
 
     // Adjust adjacent elements based on sidebar state
     const topBar = document.querySelector("#top-bar-container");
-    const mapDisclaimers = document.querySelector("#map-disclaimers");
+    const mapDisclaimers = document.querySelector("#map-footer-bar");
 
     if (sidebarContents.classList.contains("open")) {
         if (topBar) topBar.style.left = ""; // Reset to default (likely CSS defined)
