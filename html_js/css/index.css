@@ -168,6 +168,11 @@ button.button.map-control-button.button {
     color: var(--white);
 }
 
+#top-bar button:hover .sublabel{
+    color: var(--white);
+    transition: color 0.2s;
+}
+
 #top-bar button.active {
     background: var(--white);
     color: var(--black);
@@ -475,7 +480,9 @@ button.button.map-control-button.button {
 .sublabel {
     font-size: .75rem !important;
     width: 100%;
+    color: var(--grey);
     text-align: center;
+    transition: color 0.2s;
 }
 
 .card-data table {
