@@ -35,81 +35,25 @@
   <link href="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.css" rel="stylesheet">
   <script src="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.js"></script>
 
-  <!--  <script type="module" src="js/fsmap.js"></script>-->
-<!--  <script type="module">-->
-<!--    const fs = "fsq3CYDP77ybwoo1KtkJigGRj6g0uYyhWVw25jM+zN6ovbI="-->
-<!--    const mapuid = '6ce3b305-7e09-44b3-8725-34dcf59bb56d'-->
-<!--    //   import {createMap} from 'https://corsproxy.io/?key=3d648870&url=https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';-->
-<!--    import {createMap} from 'https://cdn.jsdelivr.net/npm/@foursquare/map-sdk@latest/dist/index.js';-->
 
-<!--    const map = await createMap({-->
-<!--      apiKey: fs,-->
-<!--      container: document.getElementById('map-container'),-->
-<!--      // this loads a published map-->
-<!--      // (original url: https://studio.foursquare.com/public/806b95d0-36bb-402c-b16c-24e54af4a761)-->
-<!--      initialState: {-->
-<!--        publishedMapId: mapuid-->
-<!--      },-->
-<!--      uiConfig: {-->
-<!--        sidePanel: {-->
-<!--          view: 'hidden',-->
-<!--          isAddLayerVisible: false,-->
-<!--        },-->
-<!--        sideNav: {-->
-<!--          isVisible: false-->
-<!--        },-->
-<!--        mapControls: {-->
-<!--          isVisible: false,-->
-<!--          zoom: {-->
-<!--            isVisible: false-->
-<!--          }-->
-<!--        }-->
-<!--      },-->
-<!--      mapState: {-->
-<!--        globe: {-->
-<!--          enabled: false,-->
-<!--        }-->
-<!--      }-->
-
-<!--    });-->
-<!--  &lt;!&ndash;  map.setMapControlVisibility(&ndash;&gt;-->
-  <!--    {legend:false,toggle_3d:false,split_map:false, map_draw:false}-->
-  <!--  )-->
-  <!--  // cannot override style sheet. #shadow-root is closed.-->
-  <!--  // var sheet = new CSSStyleSheet-->
-  <!--  // sheet.replaceSync( `.unfolded-root + div + div  {visibility: collapse;}`)-->
-  <!--  // map.shadowRoot.adoptedStyleSheets.push(sheet) // You want to add to stylesheets list-->
-  <!--  globalThis.map = map-->
-
-  <!--  setTimeout(() => { // Wait a short time for the map to fully render-->
-  <!--    try {-->
-  <!--      const mapContainerDiv = document.getElementById('map-container').querySelector('div'); // Get the inner div-->
-  <!--      if (mapContainerDiv) {-->
-  <!--        // Try to query for the button - this is VERY DOM-structure dependent-->
-  <!--        const hackyButtonTarget = mapContainerDiv.querySelector('.map-control-button.button'); // Adjust selector if needed-->
-  <!--        if (hackyButtonTarget) {-->
-  <!--          hackyButtonTarget.style.display = 'none !important'; // Try to hide it-->
-  <!--          console.warn("HACKY BUTTON HIDING ATTEMPTED - VERY FRAGILE!");-->
-  <!--        } else {-->
-  <!--          console.warn("HACKY BUTTON TARGET NOT FOUND - MAYBE SELECTOR IS WRONG?");-->
-  <!--        }-->
-  <!--      } else {-->
-  <!--        console.warn("HACKY MAP CONTAINER INNER DIV NOT FOUND!");-->
-  <!--      }-->
-  <!--    } catch (error) {-->
-  <!--      console.error("HACKY BUTTON HIDING FAILED:", error);-->
-  <!--    }-->
-  <!--  }, 10000); // 10 second delay - adjust if needed-->
-
-  <!--</script>-->
 
 
   <script>
+    // Create a URLSearchParams object from the query string
+    const params = new URLSearchParams(window.location.search);
+
+    // Get the value of the "id" parameter
+    const complaint_days = params.get('complaint')?? 3;
+    // Get the value of the "name" parameter
+    const spill_days = params.get('spill')?? 30;
+    console.log('complaint', complaint_days)
+    console.log('spills', spill_days)
     //     <button onclick="toggleLayer(this, 'Beach Closures')">Beach Closures</button>
 
     const layerGroupInfo = [
       {label: 'H₂S Levels', id: 'h2s_group' , layers: ['h2s','h2s-name', 'h2s-value']}, // health layer for now
       {label: 'Odor Complaints', id: 'odor_group' , layers: ['clusters','cluster-count','unclustered-point']}, // odor
+      {label: 'Odor Complaints All', id: 'odor_3day_group' , layers: ['clusters-all','cluster-count-all','unclustered-point-all']}, // odor
       {label: 'Wastewater Spills', id: 'spill_group' , layers: ['spills']}, // water
       {label: 'Beach Status', id: 'beach_group' , layers: ['beaches']}, // observations
       {label: 'River Basin', id: 'water_group' , layers: []},
@@ -137,14 +81,6 @@
       section.classList.toggle("expanded");
     }
 
-    function setGroupVisibility(map, layerInfo, visibility) {
-      layerInfo.layers.forEach(layerId => {
-        // Ensure the layer exists before attempting to change it
-        if (map.getLayer(layerId)) {
-          map.setLayoutProperty(layerId, 'visibility', visibility);
-        }
-      });
-    }
     // Toggle Layer Function for Top Pills
     function toggleLayer(button, layer) {
       if (undefined !== map) {
