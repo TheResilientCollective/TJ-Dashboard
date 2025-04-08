@@ -15,7 +15,7 @@ function setMapLanguage(){
   map.addControl(new MapboxLanguage({
     defaultLanguage: i18next.language
   }));
-
+  // FIXME: update tooltip language
 }
 map.on('load', function () {
   setMapLanguage()

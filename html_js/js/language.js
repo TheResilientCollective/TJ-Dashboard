@@ -94,8 +94,8 @@ function updateContent() {
         renderBeachClosures(window.latestBeachData);
     }
 
-    // --- Update map elements (if applicable) ---
-    // updateMapElements(); // Example function call
+    // --- Update map ---
+    setMapLanguage();
 }
 
 /**
@@ -112,7 +112,6 @@ function setLanguage(lang) {
             document.documentElement.lang = i18next.language;
             document.documentElement.dir = i18next.dir(i18next.language); // Set text direction (ltr/rtl)
             updateContent();
-            setMapLanguage();
         })
         .catch((err) => {
             console.error("[language.js] Error changing language:", err);
