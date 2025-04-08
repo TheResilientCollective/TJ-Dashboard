@@ -1,4 +1,4 @@
-const resilientUrlBase = 'https://oss.resilientservice.mooo.com/test/'
+const resilientUrlBase = 'https://oss.resilientservice.mooo.com/resilentpublic/'
 
 let latestH2SData = null;
 let latestOdorData = null;
