@@ -21,7 +21,7 @@ function setGroupVisibility(map, layerInfo, visibility) {
   });
 }
 
-function complaints_layer(){
+function complaints_layer(complaint_days){
   fetch(`${urlbase}tijuana/sd_complaints/output/complaints.geojson`)// update the path or URL to your GeoJSON file
     .then(response => response.json())
     .then(data => {
@@ -32,7 +32,7 @@ function complaints_layer(){
       clusterMaxZoom: 14, // max zoom to cluster points
       clusterRadius: 50   // radius of each cluster when clustering points (in pixels)
     });
-      const threeDaysAgo = dayjs().subtract(3, 'day');
+      const threeDaysAgo = dayjs().subtract(complaint_days, 'day');
       console.log('days ago date: ' , threeDaysAgo)
       // Filter features where the "Date Recieved" is within the last three days.
       // Adjust the date parsing if your format differs.
@@ -221,7 +221,7 @@ function beach_layer(){
   });
 }
 
-function spills_layer(){
+function spills_layer(spill_days){
   // spills
   map.loadImage('img/sewer-icon.png', function(error, image) {
     if (error) throw error;
@@ -233,7 +233,7 @@ function spills_layer(){
       type: 'geojson',
       data: `${urlbase}tijuana/ibwc/output/spills_last_by_site.geojson`
     });
-    const thirtyDaysAgo = dayjs().subtract(30, 'day').toISOString();
+    const thirtyDaysAgo = dayjs().subtract(spill_days, 'day').toISOString();
     // Create a symbol layer using the custom pin icon
     map.addLayer({
       id: 'spills',
@@ -369,8 +369,8 @@ function h2s_layer(){
 map.on('load', function () {
   // Add the GeoJSON source with clustering enabled
   beach_layer()
-  spills_layer()
-  complaints_layer()
+  spills_layer(spill_days)
+  complaints_layer(complaint_days)
   h2s_layer()
 
 
