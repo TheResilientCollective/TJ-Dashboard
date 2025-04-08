@@ -30,7 +30,6 @@ async function initializeI18next() {
 
     // --- Apply translations AFTER init ---
     updateContent();
-
     // --- Fetch initial data AFTER i18next is ready ---
     fetchH2SData();
     fetchOdorData();
@@ -113,6 +112,7 @@ function setLanguage(lang) {
             document.documentElement.lang = i18next.language;
             document.documentElement.dir = i18next.dir(i18next.language); // Set text direction (ltr/rtl)
             updateContent(); // Re-render all content
+           setMapLanguage()
         })
         .catch((err) => {
             console.error("[language.js] Error changing language:", err);
