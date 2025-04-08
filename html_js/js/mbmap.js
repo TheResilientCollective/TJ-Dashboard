@@ -7,7 +7,18 @@ const map = new mapboxgl.Map({
   center: [-117.11, 32.58], // 32.58,-117.11 starting position [lng, lat]. Note that lat must be set between -90 and 90
   zoom: 12 // starting zoom
 });
+function setMapLanguage(){
+  console.log(
+    "[language.js] Updating map for language:",
+    i18next.language
+  );
+  map.addControl(new MapboxLanguage({
+    defaultLanguage: i18next.language
+  }));
+
+}
 map.on('load', function () {
+  setMapLanguage()
   // Add the GeoJSON source with clustering enabled
   map.addSource('complaints', {
     type: 'geojson',
