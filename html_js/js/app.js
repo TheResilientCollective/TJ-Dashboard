@@ -444,6 +444,22 @@ function getIndicatorLevelForBeachClosures(count) {
     }
 }
 
+function getIndicatorLevelForBeach(beachStatus) {
+    beachStatus = beachStatus.toLowerCase();
+    if (beachStatus === "closed")
+        return "beach-closure";
+    else if (beachStatus === "open")
+        return "beach-open";
+    else if (beachStatus.indexOf("warn") > -1)
+        return "beach-warning"
+    else if (beachStatus.indexOf("advis") > -1)
+        return "beach-advisory";
+    else if (beachStatus === "outfall")
+        return "beach-outfall";       
+    else
+        return "indeterminate";
+}
+
 function getIndicatorLevelForH2SRating(rating) {
     // Use lowercase for consistency
     switch (

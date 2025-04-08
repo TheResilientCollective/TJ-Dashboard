@@ -211,12 +211,48 @@ function beach_layer(){
     // Add a popup when a pin is clicked
     map.on('click', 'beaches', function(e) {
       var feature = e.features[0];
+      console.log("beach feature properties", feature.properties);
       var coordinates = feature.geometry.coordinates.slice();
-      var name = feature.properties.Name;
+      
+      const beachData = parseBeachData(feature.properties);
+      const indicatorClass = getIndicatorLevelForBeach(beachData.beachStatus);
       var description = feature.properties.Description;
-      var popupContent = `<h3>${name}</h3>${description}`;
+      console.log("[mbmap.js] beachData", beachData);
 
-      new mapboxgl.Popup()
+      var popupContent = `
+      <div class="tooltip">
+        <div class="tooltip-header">
+          <div>
+            <i class="bi bi-water"></i>
+            <span>${beachData.name}</span>
+            ${
+              (beachData.nameDetails) ?
+              `<span>${beachData.nameDetails}</span>`
+              : ""
+            }
+          </div>
+        </div>
+        <div class="tooltip-line beach-status">
+          <div class="indicator ${indicatorClass}"></div>
+          <span>Beach ${beachData.beachStatus}</span>
+        </div>
+        ${
+          (beachData.statusSince) ? 
+            `<div class="tooltip-line beach-status-since">
+              <span>since ${beachData.statusSince}</span>
+            </div>`
+            : ""
+        }
+        ${
+          (beachData.statusNote) ? 
+            `<div class="tooltip-line beach-status-note">
+              <span>${beachData.statusNote}</span>
+            </div>`
+            : ""
+        }
+      </div>`
+
+      new mapboxgl.Popup({ className: "mapbox-tooltip beach-tooltip" })
         .setLngLat(coordinates)
         .setHTML(popupContent)
         .addTo(map);
@@ -280,11 +316,39 @@ function spills_layer(spill_days){
       var feature = e.features[0];
       var coordinates = feature.geometry.coordinates.slice();
       var name = feature.properties['Discharge Location'];
-      var dates = feature.properties['Start Date'] + 'to ' +  feature.properties['End Date'];
+      var dates = {
+        start: dayjs(feature.properties['Start Date']),
+        end: dayjs(feature.properties['End Date'])
+      };
+      let dateStr;
+      if (dates.start.isSame(dates.end, 'day')) {
+        dateStr = `${dates.start.format("MMM D")}`;
+      }
+      else {
+        dateStr = `${dates.start.format("MMM D")} - ${dates.end.format("MMM D")}`;
+      }
       var volume = feature.properties['Approximate Discharge Volume'];
-      var popupContent = `<h3>${name}</h3><div>${dates}</div>${volume}`;
+      var popupContent = `
+      <div class="tooltip">
+        <div class="tooltip-header">
+          <i class="bi bi-droplet"></i>
+          <span>Wastewater Spill</span>
+        </div>
+        <div class="tooltip-line tooltip-table">
+          <span>location:</span>
+          <span>${name}</span>
+        </div>
+        <div class="tooltip-line tooltip-table">
+          <span>date:</span>
+          <span>${dateStr}</span>
+        </div>
+        <div class="tooltip-line tooltip-table">
+          <span>approx. volume:</span>
+          <span>${volume}</span>
+        </div>
+      </div>`
 
-      new mapboxgl.Popup()
+      new mapboxgl.Popup({ className: "mapbox-tooltip spill-tooltip" })
         .setLngLat(coordinates)
         .setHTML(popupContent)
         .addTo(map);
@@ -333,14 +397,38 @@ function h2s_layer(){
 
     // Add a popup when a pin is clicked
     map.on('click', 'h2s', function(e) {
+      console.log('h2s click', e);
       var feature = e.features[0];
       var coordinates = feature.geometry.coordinates.slice();
       var name = feature.properties['Site Name'];
       var description = feature.properties.Result;
+      let date = dayjs(feature.properties['Date with time']);
+      console.log('h2s feature properties', feature.properties);
       var airnow_link = `https://www.airnow.gov/?city=${feature.properties['Site Name']}&state=CA&country=USA`
-      var popupContent = `<h3 xmlns="http://www.w3.org/1999/html">${name}</h3>${description}<div><a href="${airnow_link}"/>AirNow</a></div>`;
+      var popupContent = `
+      <div class="tooltip">
+        <div class="tooltip-header">
+          <i class="bi bi-wind"></i>
+          <span>Hydrogen Sulfide Measurement</span>
+        </div>
+        <div class="tooltip-line tooltip-table">
+          <span>location:</span>
+          <span>${name.split(" - ")[0]}</span>
+        </div>
+        <div class="tooltip-line tooltip-table">
+          <span>measurement:</span>
+          <span>${description} ppb</span>
+        </div>
+        <div class="tooltip-line tooltip-table">
+          <span>last update:</span>
+          <span>${date.format("h:mma")}</span>
+        </div>
+        <div class="tooltip-footer">
+          <span>ppb: parts per billion</span>
+        </div>
+      </div>`
 
-      new mapboxgl.Popup()
+      new mapboxgl.Popup({ className: "mapbox-tooltip h2s-tooltip" })
         .setLngLat(coordinates)
         .setHTML(popupContent)
         .addTo(map);
@@ -376,6 +464,108 @@ function h2s_layer(){
       }
     });
   });
+}
+
+function parseBeachData(beachTooltipProperties) {
+  console.log("[mbmap.js] beachTooltipProperties", beachTooltipProperties);
+  // beach name into a human friendly format
+  const nameParts = beachTooltipProperties.Name.replace(/\([A-Z]{2}\-[0-9]+\)/g, "").split(/( - | at )/);
+  console.log(nameParts);
+  const name = nameParts[0].trim();
+  const nameDetails = nameParts[2] ? nameParts[2].trim() : "";
+
+  // Get the beach status from the properties
+  const closureNotice = beachTooltipProperties.Closure;
+  const advisoryNotice = beachTooltipProperties.Advisory;
+  let beachStatus = "open";
+  let statusSince = "";
+  let statusNote = "";
+  if (closureNotice && closureNotice.length > 0) {
+    const noticeInfo = parseBeachNotice(closureNotice);
+    beachStatus = noticeInfo.beachStatus;
+    statusSince = noticeInfo.statusSince;
+    statusNote = noticeInfo.statusNote;
+  }
+  else if (advisoryNotice && advisoryNotice.length > 0) {
+    const noticeInfo = parseBeachNotice(advisoryNotice);
+    beachStatus = noticeInfo.beachStatus;
+    statusSince = noticeInfo.statusSince;
+    statusNote = noticeInfo.statusNote;
+  }
+
+  // handle outfall
+  if (beachTooltipProperties.RBGColor === "Outfall") {
+    beachStatus = "outfall";
+    statusSince = "";
+    statusNote = beachTooltipProperties.Description;
+  }
+
+  // clean up and return
+  let ret = {
+    name: name,
+    nameDetails: nameDetails,
+    beachStatus: beachStatus,
+    statusSince: statusSince,
+    statusNote: statusNote
+  }
+  if (!ret.statusSince || ret.statusSince === "") {
+    delete ret.statusSince;
+  }
+  if (!ret.statusNote || ret.statusNote === "") {
+    delete ret.statusNote;
+  }
+  if (!ret.nameDetails || ret.nameDetails === "") {
+    delete ret.nameDetails;
+  }
+  return ret;
+}
+
+function parseBeachNotice(html) {
+  console.log("[mbmap.js] parsing beach notice", html);
+  let beachStatus = "";
+  let statusSince = "";
+  let statusNote = "";
+
+  try {
+    beachStatus = html.match(/(?<=<strong>)(Closure|Advisory)/g)[0]; // TODO: Closure|Advisory|Warning|Open|Outfall
+    console.log("[mbmap.js] beachStatus", beachStatus);
+    if (beachStatus == "Closure")
+      beachStatus = "closed";
+    else if (beachStatus == "Advisory")
+      beachStatus = "under advisory";
+    else
+      beachStatus = "unknown";
+  }
+  catch (e) {
+    beachStatus = "unknown";
+    console.error("[mbmap.js] error parsing beach status", e, "parsing html", html);
+  }
+
+  try {
+    statusSince = html.match(/(?<=<strong>Status Since[: ]*?<\/strong>[: ]*?).*(?=<br ?\/>)/g)[0];
+    statusSince = dayjs(statusSince).format("MMM D");
+    console.log("[mbmap.js] statusSince", statusSince);
+  }
+  catch (e) {
+    statusSince = "";
+    console.error("[mbmap.js] error parsing beach status since", e, "parsing html", html);
+  }
+
+  try {
+    const emboldenedText = html.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g);
+    statusNote = emboldenedText ? emboldenedText[emboldenedText.length - 1] : "";
+    console.log("[mbmap.js] statusNote", statusNote);
+  }
+  catch (e) {
+    statusNote = "";
+    console.error("[mbmap.js] error parsing beach status note", e, "parsing html", html);
+  }
+
+  return {
+    beachStatus,
+    statusSince,
+    statusNote
+  };
 }
 
 map.on('load', function () {

@@ -598,6 +598,26 @@ button.button.map-control-button.button {
     background: #ff5722;
 }
 
+.beach-closure {
+    background: #DF1E25;
+}
+
+.beach-warning {
+    background: #EEAB23;
+}
+
+.beach-advisory {
+    background: #FFFF29;
+}
+
+.beach-open {
+    background: #33DB17;
+}
+
+.beach-outfall {
+    background: #000;
+}
+
 /* APCD H2s */
 .white {
     background: white;
