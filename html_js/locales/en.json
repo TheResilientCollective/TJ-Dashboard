@@ -27,7 +27,7 @@
                 "reportOptions": {
                     "app": "Mobile app",
                     "phone": "Phone at (858) 586-2650,",
-                    "email": "Email to <a href='mailto:apcdcomp@sdapcd.org' data-i18n='sidebar.cards.whatYouCanDo.reportOptions.email'>apcdcomp@sdapcd.org</a>, or",
+                    "email": "Email to <a href='mailto:apcdcomp@sdapcd.org'>apcdcomp@sdapcd.org</a>, or",
                     "online": "Visit online"
                 },
                 "reportInfoNeeded": "When filing a report, the following information will assist us in investigating your concern:",
@@ -79,8 +79,9 @@
                     "url": "https://app.powerbigov.us/view?r=eyJrIjoiOGMwYzM2ZGYtZGU4Ny00ZGI5LWE2NWMtMmZlOGEzZTYzMDc3IiwidCI6IjQ1NjNhZjEzLWMwMjktNDFiMy1iNzRjLTk2NWU4ZWVjOGY5NiJ9"
                 },
                 "tableLabel": "Recent Measurements",
-                "footer": {
-                    "text": "",
+                "valueUnit": "{{value}} ppb",
+                 "footer": {
+                    "text": "Updated {{date}}",
                     "link": {
                         "text": "More Info",
                         "url": "https://www.sdapcd.org/"
@@ -90,8 +91,11 @@
             "beachClosures": {
                 "title": "Beach Closures",
                 "overview": {
-                    "count": "{{count}} Beaches Closed",
-                    "trend":"{{change}} from last week"
+                    "count_one": "{{count}} Beach Closed",
+                    "count_other": "{{count}} Beaches Closed",
+                    "trend": "-{{change}} from last week",
+                    "trend_positive": "+{{change}} from last week",
+                    "trend_same": "same as last week"
                 },
                 "p1": {
                     "body": "Sewage contamination has led to beach closures. Additional warnings and advisories can be found here:",
@@ -102,8 +106,11 @@
                 },
                 "p2": "The following beaches are currently closed.",
                 "tableLabel": "Recent Closures",
+                 "status": {
+                    "closed": "closed"
+                 },
                 "footer": {
-                    "text": "",
+                    "text": "Updated {{date}}",
                     "link": {
                         "text": "",
                         "url": ""
@@ -113,14 +120,19 @@
             "odorComplaints": {
                 "title": "Public Odor Complaints",
                 "overview": {
-                    "count": "{{count}} Beaches Closed",
+                    "count_one": "{{count}} Complaint",
+                    "count_other": "{{count}} Complaints",
                     "sampleDuration": "in the last 7 days",
-                    "trend":"{{change}} from last week"
+                    "trend": "-{{change}} from last week",
+                    "trend_positive": "+{{change}} from last week",
+                    "trend_same": "same as last week"
                 },
                 "p1": "The following are public complaints about odors that have been reported to SDAPCD.",
                 "tableLabel": "Complaints in the last 7 days",
+                "dailyCount_one": "{{count}} complaint",
+                "dailyCount_other": "{{count}} complaints",
                 "footer": {
-                    "text": "",
+                    "text": "Updated {{date}}",
                     "link": {
                         "text": "More data",
                         "url": "https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df"
@@ -159,5 +171,11 @@
     },
     "mapDisclaimers": {
         "p1": "Markers on map are not meant to show the area of impact, but rather the location of the data source."
+    },
+    "dateTimeFormats": {
+        "shortDate": "MMM D",
+        "shortTime": "h:mm A",
+        "shortDateTime": "MMM D, h:mm A",
+        "dayHour": "ddd h A"
     }
 }
