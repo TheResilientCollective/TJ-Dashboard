@@ -186,6 +186,9 @@ function complaints_layer(complaint_days){
           // Offset the icon so the tip of the pin points to the location
           'icon-offset': [0, 0]
         },
+        paint:{
+          'icon-color': '#51bbd6'
+        }
       });
     map.on('click', 'complaint-unclustered', function(e) {
       var feature = e.features[0];
