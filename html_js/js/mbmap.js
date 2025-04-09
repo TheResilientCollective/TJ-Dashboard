@@ -89,7 +89,7 @@ function complaints_layer(complaint_days){
 
     // Layer for cluster count labels
     map.addLayer({
-      id: 'cluster-count-all',
+      id: 'complaint-cluster-count-all',
 
       type: 'symbol',
       source: 'complaints',
@@ -104,7 +104,7 @@ function complaints_layer(complaint_days){
 
     // Layer for unclustered individual points
     map.addLayer({
-      id: 'unclustered-point-all',
+      id: 'complaint-unclustered-point-all',
       layout: { visibility: 'none',},
       type: 'circle',
       source: 'complaints',
@@ -119,7 +119,7 @@ function complaints_layer(complaint_days){
     // Layer for clusters (as circles) for all
 
     map.addLayer({
-      id: 'clusters',
+      id: 'complaint-clusters',
       type: 'circle',
       source: 'complaints_lastdays',
       filter: ['has', 'point_count'],
@@ -141,7 +141,7 @@ function complaints_layer(complaint_days){
 
     // Layer for cluster count labels
     map.addLayer({
-      id: 'cluster-count',
+      id: 'complaint-cluster-count',
       type: 'symbol',
       source: 'complaints_lastdays',
       filter:  ['has', 'point_count'],
@@ -153,21 +153,41 @@ function complaints_layer(complaint_days){
     });
 
     // Layer for unclustered individual points
-    map.addLayer({
-      id: 'unclustered-point',
-      type: 'circle',
-      source: 'complaints_lastdays',
-      filter:
-        ['!', ['has', 'point_count']],
-      paint: {
-        'circle-color': '#11b4da',
-        'circle-radius': 4,
-        'circle-stroke-width': 1,
-        'circle-stroke-color': '#fff'
-      }
-    });
+    // map.addLayer({
+    //   id: 'unclustered-point',
+    //   type: 'circle',
+    //   source: 'complaints_lastdays',
+    //   filter:
+    //     ['!', ['has', 'point_count']],
+    //   paint: {
+    //     'circle-color': '#11b4da',
+    //     'circle-radius': 4,
+    //     'circle-stroke-width': 1,
+    //     'circle-stroke-color': '#fff'
+    //   }
+    // });
+      map.addLayer({
 
-    map.on('click', 'unclustered-point', function(e) {
+        id: 'complaint-unclustered',
+        type: 'symbol',
+        source: 'complaints_lastdays',
+        filter: ['!', ['has', 'point_count']],
+        layout: {
+          'icon-image': 'complaint_icon',
+          'icon-size': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            5, .1,  // At zoom level 5, text size 10
+            12, .2,  // At zoom level 12, text size 18
+            14, .4
+          ],
+          'icon-allow-overlap': true,
+          // Offset the icon so the tip of the pin points to the location
+          'icon-offset': [0, 0]
+        },
+      });
+    map.on('click', 'complaint-unclustered', function(e) {
       var feature = e.features[0];
       var coordinates = feature.geometry.coordinates.slice();
       console.log(feature);
@@ -191,7 +211,7 @@ function complaints_layer(complaint_days){
         .addTo(map);
     });
 
-    map.on('click', 'cluster-count', function(e) {
+    map.on('click', 'complaint-cluster-count', function(e) {
       var feature = e.features[0];
       var coordinates = feature.geometry.coordinates.slice();
       const complaintCount = e.features[0].properties.point_count;
@@ -225,15 +245,11 @@ function complaints_layer(complaint_days){
 
 function beach_layer(){
   // beachwatch
-  map.loadImage('img/marker-beach.png', function(error, image) {
-    if (error) throw error;
-    // Add the image with SDF enabled so it can be tinted dynamically
-    map.addImage('pin', image, { sdf: true });
 
     // Add your GeoJSON source containing beach status
     map.addSource('beaches', {
       type: 'geojson',
-      data: `${urlbase}tijuana/beachwatch/output/beachwatch_closures.geojson`
+      data: `${urlbase}tijuana/beachwatch/output/current/sdbeachinfo_status.geojson`
     });
 
     // Create a symbol layer using the custom pin icon
@@ -241,9 +257,9 @@ function beach_layer(){
       id: 'beaches',
       type: 'symbol',
       source: 'beaches',
-      filter: [ '!=', ['get' , 'TypeID'], 2],
+      filter: [ '!=', ['get' , 'LocationType'], "Outfall"],
       layout: {
-        'icon-image': 'pin',
+        'icon-image': 'beach_icon',
         'icon-size': [
           'interpolate',
           ['linear'],
@@ -259,21 +275,22 @@ function beach_layer(){
       paint: {
         // Use the RGBcolor property to tint the pin
         'icon-color': ['get', 'RBGColor']
+
       }
     });
     map.addLayer({
-      id: 'outfall',
+      id: 'outfalls',
       type: 'symbol',
       source: 'beaches',
-      filter: [ '==', ['get' , 'TypeID'], 2],
+      filter: [ '==', ['get' , 'LocationType'], "Outfall"],
       layout: {
-        'icon-image': 'pin',
+        'icon-image': 'outfall_icon',
         'icon-size': [
           'interpolate',
           ['linear'],
           ['zoom'],
-          5, .1,  // At zoom level 5, text size 10
-          12, .3,  // At zoom level 12, text size 18
+          5, 0,  // At zoom level 5, text size 10
+          12, 0,  // At zoom level 12, text size 18
           14, .5
         ],
         'icon-allow-overlap': true,
@@ -334,7 +351,46 @@ function beach_layer(){
         .setHTML(popupContent)
         .addTo(map);
     });
+  map.on('click', 'outfalls', function(e) {
+    var feature = e.features[0];
+    var coordinates = feature.geometry.coordinates.slice();
 
+    const beachData = parseBeachData(feature.properties);
+    const indicatorClass = getIndicatorLevelForBeach(beachData.beachStatus);
+    const beachStatus = window.i18next.t("tooltips.beach.status." + beachData.beachStatus);
+    const beachStatusSince = beachData.statusSince ? window.i18next.t("tooltips.beach.since", {date: beachData.statusSince.locale(window.i18next.language).format("MMM D")}) : undefined;
+    console.log("[mbmap.js] beachData", beachData);
+
+    var popupContent = `
+      <div class="tooltip">
+        <div class="tooltip-header">
+          <div>
+            <i class="bi bi-water"></i>
+            <span>${beachData.name}</span>
+            ${
+      (beachData.nameDetails) ?
+        `<span>${beachData.nameDetails}</span>`
+        : ""
+    }
+          </div>
+        </div>
+        <div class="tooltip-line beach-status labelled-indicator">
+          <div class="indicator beach-outfall></div>
+          <span data-i18n="${"tooltips.beach.status." + beachData.beachStatus}">Outfall</span>
+        </div>
+
+        <div class="tooltip-line beach-status-note">
+              <span>Beach users are urged to avoid contact with runoff and recreational waters within at least 75 feet from where runoff enters the ocean.</span>
+            </div>
+
+
+      </div>`
+
+    new mapboxgl.Popup({ className: "mapbox-tooltip beach-tooltip" })
+      .setLngLat(coordinates)
+      .setHTML(popupContent)
+      .addTo(map);
+  });
     // Change the cursor to a pointer when over the pins.
     map.on('mouseenter', 'beaches', function() {
       map.getCanvas().style.cursor = 'pointer';
@@ -342,16 +398,12 @@ function beach_layer(){
     map.on('mouseleave', 'beaches', function() {
       map.getCanvas().style.cursor = '';
     });
-  });
+
 }
+
 
 function spills_layer(spill_days){
   // spills
-
-  map.loadImage('img/marker-spill.png', function(error, image) {
-    if (error) throw error;
-    // Add the image with SDF enabled so it can be tinted dynamically
-    map.addImage('sewage', image, { sdf: true });
 
     // Add your GeoJSON source containing beach status
     map.addSource('spills', {
@@ -369,7 +421,7 @@ function spills_layer(spill_days){
         ['>=', ['get', 'Start Time'], thirtyDaysAgo] ,
       ],
       layout: {
-        'icon-image': 'sewage',
+        'icon-image': 'spill_icon',
         //'icon-size': .1,
         'icon-size': [
           'interpolate',
@@ -438,14 +490,10 @@ function spills_layer(spill_days){
     });
 
 
-  });
+
 }
 
 function h2s_layer(){
-  map.loadImage('img/marker-h2s.png', function(error, image) {
-    if (error) throw error;
-    // Add the image with SDF enabled so it can be tinted dynamically
-    map.addImage('cloud', image, { sdf: true });
 
     // Add your GeoJSON source containing beach status
     map.addSource('h2s', {
@@ -459,7 +507,7 @@ function h2s_layer(){
       type: 'symbol',
       source: 'h2s',
       layout: {
-        'icon-image': 'cloud',
+        'icon-image': 'h2s_icon',
         'icon-size': [
           'interpolate',
           ['linear'],
@@ -525,10 +573,9 @@ function h2s_layer(){
         'text-field': ['get', 'Original Value'],
         'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
         'text-size': 12,
-        'text-offset': [-2,0]
-      },
-      paint: {
-        'text-color':  ['get', 'level']
+        'text-offset': [-2,0],
+      },paint: {
+        'text-color': '#000'
       }
     });
     map.addLayer({
@@ -546,7 +593,7 @@ function h2s_layer(){
         'text-color': '#000'
       }
     });
-  });
+
 }
 
 function parseBeachData(beachTooltipProperties) {
@@ -661,12 +708,43 @@ function parseBeachNotice(html) {
 }
 
 map.on('load', function () {
-  // Add the GeoJSON source with clustering enabled
-  beach_layer()
-  spills_layer(spill_days)
-  complaints_layer(complaint_days)
-  h2s_layer()
-  setMapLanguage()
+  const icons = [
+    { id: 'spill_icon', url: 'img/marker-spill.png' },
+    { id: 'outfall_icon', url: 'img/sewer-icon.png' },
+    { id: 'beach_icon', url: 'img/marker-beach.png' },
+    { id: 'complaint_icon', url: 'img/marker-complaint.png' },
+    { id: 'h2s_icon', url: 'img/marker-h2s.png' },
+    { id: 'river_icon', url: 'img/river.png' },
+
+  ];
+
+// A counter to track when all icons have loaded
+  let iconsLoaded = 0;
+
+  icons.forEach(icon => {
+    map.loadImage(icon.url, (error, image) => {
+      if (error) {
+        console.error(`Error loading ${icon.id}`, error);
+        return;
+      }
+      // Add the icon to the map
+      map.addImage(icon.id, image, { sdf: true });
+      iconsLoaded++;
+
+      // Once all icons have loaded, you can proceed to add your layers.
+      if (iconsLoaded === icons.length) {
+
+         spills_layer(spill_days)
+         beach_layer()
+         complaints_layer(complaint_days)
+         h2s_layer()
+         setMapLanguage()
+      }
+    });
+  });
+
+
+
 
 
 
