@@ -27,6 +27,7 @@ async function initializeI18next() {
                 escapeValue: false
             }
         });
+    window.i18next = i18next;
 
     // --- Apply translations AFTER init ---
     updateContent();
@@ -35,18 +36,19 @@ async function initializeI18next() {
     fetchOdorData();
     fetchBeachData();
 
+
     // --- Optional: Language Switcher ---
     // (Keep existing language switcher code)
     // Example: Assuming you have a <select> with id="language-selector"
-    const selector = document.getElementById("language-selector");
-    if (selector) {
-        // Set selector value to current language
-        selector.value = i18next.language.split("-")[0]; // Use base language (e.g., 'en' from 'en-US')
+    // const selector = document.getElementById("language-selector");
+    // if (selector) {
+    //     // Set selector value to current language
+    //     selector.value = i18next.language.split("-")[0]; // Use base language (e.g., 'en' from 'en-US')
 
-        selector.addEventListener("change", (e) => {
-            setLanguage(e.target.value);
-        });
-    }
+    //     selector.addEventListener("change", (e) => {
+    //         setLanguage(e.target.value);
+    //     });
+    // }
 }
 
 function updateContent() {
@@ -118,58 +120,87 @@ function setLanguage(lang) {
         });
 }
 
-// Initialize i18next (this will also trigger initial data fetch)
-initializeI18next();
 
-// Setup the language selector
-const languageSelector = document.querySelectorAll(".language-selector");
-const languageContainer = document.querySelectorAll(
-    ".language-selector-container"
-);
+document.addEventListener("DOMContentLoaded", async () => {
+    // Initialize i18next (this will also trigger initial data fetch)
+    await initializeI18next();
 
-// Set the initial flag
-const updateFlag = () => {
-    const selectedOption = languageSelector.forEach(
-        (selector) => selector.options[languageSelector.selectedIndex]
+    // Setup the language selector
+    const languageSelectors = document.querySelectorAll(".language-selector");
+    const languageContainers = document.querySelectorAll(
+        ".language-selector-container"
     );
-    languageContainer.forEach((container) =>
-        container.setAttribute(
-            "data-flag",
-            selectedOption.textContent.trim().split(" ")[0]
-        )
+
+    // Set the initial flag
+    function updateFlag(languageCode) {
+        languageContainers.forEach((container) => {
+            const selector = container.querySelector(".language-selector");
+            const selectedOption = Array.from(selector.options).find(
+                (option) => option.value === languageCode
+            );
+            if (!selectedOption) {
+                console.warn(
+                    `[language.js] No option found for language code: ${languageCode}`
+                );
+                return;
+            }
+    
+            // just show the flag
+            container.setAttribute(
+                "data-flag",
+                selectedOption.textContent.trim().split(" ")[0]
+            );
+        });
+    };
+
+    // Update the flag when the language changes
+    languageSelectors.forEach((selector) =>
+        selector.addEventListener("change", (event) => {
+            setLanguage(event.target.value);
+            updateFlag(event.target.value);
+        })
     );
-};
 
-// Update the flag when the language changes
-languageSelector.forEach((selector) =>
-    selector.addEventListener("change", (event) => {
-        setLanguage(event.target.value); // Call the existing setLanguage function
-        updateFlag();
-    })
-);
+    // Show full language name when the select is focused (opened)
+    languageSelectors.forEach((selector) =>
+        selector.addEventListener("focus", (event) => {
+            Array.from(event.target.options).forEach((option) => {
+                const flag = option.textContent.trim().split(" ")[0];
+                const language = option.getAttribute("data-language");
+                option.textContent = `${flag} ${language}`;
+                option.style.fontSize = ""; // Reset font size
+                option.style.lineHeight = ""; // Reset line height
+            });
+        })
+    );
 
-// Show full language name when the select is focused (opened)
-languageSelector.forEach((selector) =>
-    selector.addEventListener("focus", (event) => {
-        Array.from(event.target.options).forEach((option) => {
-            const flag = option.textContent.trim().split(" ")[0];
-            const language = option.getAttribute("data-language");
-            option.textContent = `${flag} ${language}`;
-            option.style.fontSize = ""; // Reset font size
-            option.style.lineHeight = ""; // Reset line height
-        });
-    })
-);
-
-// Show only the flag when the select is blurred (closed)
-languageSelector.forEach((selector) =>
-    selector.addEventListener("blur", (event) => {
-        Array.from(event.target.options).forEach((option) => {
-            const flag = option.textContent.trim().split(" ")[0];
-            option.textContent = flag;
-        });
-    })
-);
-
-// Initialize the flag
-updateFlag();
+    // Show only the flag when the select is blurred (closed)
+    languageSelectors.forEach((selector) =>
+        selector.addEventListener("blur", (event) => {
+            Array.from(event.target.options).forEach((option) => {
+                const flag = option.textContent.trim().split(" ")[0];
+                option.textContent = flag;
+            });
+        })
+    );
+    
+    // Set selectors to align with currently selected language
+    const currentLanguage = window.i18next.language.split("-")[0];
+    const defaultOption = languageSelectors[0].options[0];
+    
+    languageSelectors.forEach((selector) => {
+        // Set the selected option
+        const foundOption = Array.from(selector.options).find(
+            (option) => option.value === currentLanguage
+        );
+        if (foundOption) {
+            selector.value = foundOption.value;
+            selector.selectedIndex = foundOption.index;
+            updateFlag(foundOption.value);
+        } else {
+            selector.value = defaultOption.value;
+            selector.selectedIndex = defaultOption.index;
+            updateFlag(defaultOption.value);
+        }
+    });
+});

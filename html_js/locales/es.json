@@ -177,5 +177,19 @@
         "shortTime": "h:mm a",
         "shortDateTime": "D [de] MMM, h:mm a",
         "dayHour": "ddd h a"
+    },
+    "tooltips": {
+        "complaint": {
+            "title": "Queja por Olor",
+            "time": "{{date}}"
+        },
+        "complaintMultiple": {
+            "title": "{{count}} Quejas por Olores",
+            "time": {
+                "label": "hora:",
+                "value": "dentro de los últimos 3 días*"
+            },
+            "footer": "*No incluye datos de hoy."
+        }
     }
 }

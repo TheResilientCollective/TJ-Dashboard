@@ -166,6 +166,59 @@ function complaints_layer(complaint_days){
         'circle-stroke-color': '#fff'
       }
     });
+
+    map.on('click', 'unclustered-point', function(e) {
+      var feature = e.features[0];
+      var coordinates = feature.geometry.coordinates.slice();
+      console.log(feature);
+      const dateReceived = dayjs(feature.properties['date']);
+      const dateString = dateReceived.format("MMM D, YYYY");
+
+      var popupContent = `
+      <div class="tooltip">
+        <div class="tooltip-header">
+          <i class="bi bi-exclamation-circle"></i>
+          <span data-i18n="tooltips.complaint.title">${window.i18next.t("tooltips.complaint.title")}</span>
+        </div>
+        <div class="tooltip-line">
+          <span data-i18n="tooltips.complaint.time.value" data-i18n-options='{"date": "${dateString}"}'>${window.i18next.t("tooltips.complaint.time", {date: dateString})}</span>
+        </div>
+      </div>`
+
+      new mapboxgl.Popup({ className: "mapbox-tooltip complaint-tooltip" })
+        .setLngLat(coordinates)
+        .setHTML(popupContent)
+        .addTo(map);
+    });
+
+    map.on('click', 'cluster-count', function(e) {
+      var feature = e.features[0];
+      var coordinates = feature.geometry.coordinates.slice();
+      const complaintCount = e.features[0].properties.point_count;
+      console.log("[mbmap.js] complaint count", complaintCount);
+
+      // window.i18next.t("tooltips.complaintMultiple.title", { count: String(complaintCount) })}
+
+      var popupContent = `
+      <div class="tooltip">
+        <div class="tooltip-header">
+          <i class="bi bi-exclamation-circle"></i>
+          <span data-i18n="tooltips.complaintMultiple.title" data-i18n-options='{"count": "${complaintCount}"}'>${window.i18next.t("tooltips.complaintMultiple.title", { count: String(complaintCount) })}</span>
+        </div>
+        <div class="tooltip-line tooltip-table">
+          <span data-i18n="tooltips.complaintMultiple.time.label">${window.i18next.t("tooltips.complaintMultiple.time.label")}</span>
+          <span data-i18n="tooltips.complaintMultiple.time.value">${window.i18next.t("tooltips.complaintMultiple.time.value")}</span>
+        </div>
+        <div class="tooltip-footer">
+          <span data-i18n="tooltips.complaintMultiple.footer">${window.i18next.t("tooltips.complaintMultiple.footer")}</span>
+        </div>
+      </div>`
+
+      new mapboxgl.Popup({ className: "mapbox-tooltip complaint-tooltip" })
+        .setLngLat(coordinates)
+        .setHTML(popupContent)
+        .addTo(map);
+    });
   });
 
 }
@@ -235,13 +288,12 @@ function beach_layer(){
     // Add a popup when a pin is clicked
     map.on('click', 'beaches', function(e) {
       var feature = e.features[0];
-      console.log("beach feature properties", feature.properties);
       var coordinates = feature.geometry.coordinates.slice();
 
       const beachData = parseBeachData(feature.properties);
       const indicatorClass = getIndicatorLevelForBeach(beachData.beachStatus);
       var description = feature.properties.Description;
-      console.log("[mbmap.js] beachData", beachData);
+      // console.log("[mbmap.js] beachData", beachData);
 
       var popupContent = `
       <div class="tooltip">
@@ -422,13 +474,11 @@ function h2s_layer(){
 
     // Add a popup when a pin is clicked
     map.on('click', 'h2s', function(e) {
-      console.log('h2s click', e);
       var feature = e.features[0];
       var coordinates = feature.geometry.coordinates.slice();
       var name = feature.properties['Site Name'];
       var description = feature.properties.Result;
       let date = dayjs(feature.properties['Date with time']);
-      console.log('h2s feature properties', feature.properties);
       var airnow_link = `https://www.airnow.gov/?city=${feature.properties['Site Name']}&state=CA&country=USA`
       var popupContent = `
       <div class="tooltip">
@@ -493,10 +543,9 @@ function h2s_layer(){
 }
 
 function parseBeachData(beachTooltipProperties) {
-  console.log("[mbmap.js] beachTooltipProperties", beachTooltipProperties);
   // beach name into a human friendly format
   const nameParts = beachTooltipProperties.Name.replace(/\([A-Z]{2}\-[0-9]+\)/g, "").split(/( - | at )/);
-  console.log(nameParts);
+  // console.log(nameParts);
   const name = nameParts[0].trim();
   const nameDetails = nameParts[2] ? nameParts[2].trim() : "";
 
@@ -547,14 +596,14 @@ function parseBeachData(beachTooltipProperties) {
 }
 
 function parseBeachNotice(html) {
-  console.log("[mbmap.js] parsing beach notice", html);
+  // console.log("[mbmap.js] parsing beach notice", html);
   let beachStatus = "";
   let statusSince = "";
   let statusNote = "";
 
   try {
     beachStatus = html.match(/(?<=<strong>)(Closure|Advisory)/g)[0]; // TODO: Closure|Advisory|Warning|Open|Outfall
-    console.log("[mbmap.js] beachStatus", beachStatus);
+    // console.log("[mbmap.js] beachStatus", beachStatus);
     if (beachStatus == "Closure")
       beachStatus = "closed";
     else if (beachStatus == "Advisory")
@@ -570,7 +619,7 @@ function parseBeachNotice(html) {
   try {
     statusSince = html.match(/(?<=<strong>Status Since[: ]*?<\/strong>[: ]*?).*(?=<br ?\/>)/g)[0];
     statusSince = dayjs(statusSince).format("MMM D");
-    console.log("[mbmap.js] statusSince", statusSince);
+    // console.log("[mbmap.js] statusSince", statusSince);
   }
   catch (e) {
     statusSince = "";
@@ -580,7 +629,7 @@ function parseBeachNotice(html) {
   try {
     const emboldenedText = html.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g);
     statusNote = emboldenedText ? emboldenedText[emboldenedText.length - 1] : "";
-    console.log("[mbmap.js] statusNote", statusNote);
+    // console.log("[mbmap.js] statusNote", statusNote);
   }
   catch (e) {
     statusNote = "";

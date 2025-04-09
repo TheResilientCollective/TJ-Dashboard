@@ -159,7 +159,7 @@
 
 
 
-
+/* Tooltips with "label: value" format */
 .tooltip-line.tooltip-table span:first-child {
     color: var(--grey);
     overflow-x: hidden;
@@ -169,9 +169,6 @@
     .tooltip-line.tooltip-table span:first-child {
         display: none;
     }
-}
-
-.beach-tooltip {
 }
 
 /* Beach tooltip */
@@ -203,4 +200,9 @@
 
 .beach-tooltip .tooltip-header > div i {
     margin-right: var(--p-half);
+}
+
+/* Complaint tooltip */
+.complaint-tooltip .tooltip-line span {
+    /* margin-left: calc(var(--icon) + var(--p1)); */
 }

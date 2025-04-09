@@ -1,10 +1,10 @@
-var sidebarContainer = document.querySelector('#sidebar-container');
-var sidebarContent = sidebarContainer.querySelector('#sidebar');
-var sidebarBody = sidebarContent.querySelector('#sidebar-body');
-var sidebarHeader = sidebarContent.querySelector('#sidebar-header');
-var sidebarHandle = sidebarContent.querySelector('#sidebar-handle');
-var sidebarTitle = sidebarContent.querySelector('#sidebar-title');
-const grippables = [sidebarHandle, sidebarHeader];
+var sidebarContainer;
+var sidebarContent;
+var sidebarBody;
+var sidebarHeader;
+var sidebarHandle;
+var sidebarTitle;
+var grippables;
 
 // Variables to store drag state
 var isDraggingSidebar = false;
@@ -16,15 +16,25 @@ var minHeight;
 var maxHeight;
 var middleHeight;
 
-// Initial setup
-sidebar_setHeight();
-setupSidebarHandle();
-sidebar_setHeight();
+document.addEventListener('DOMContentLoaded', function() {
+    sidebarContainer = document.querySelector('#sidebar-container');
+    sidebarContent = sidebarContainer.querySelector('#sidebar');
+    sidebarBody = sidebarContent.querySelector('#sidebar-body');
+    sidebarHeader = sidebarContent.querySelector('#sidebar-header');
+    sidebarHandle = sidebarContent.querySelector('#sidebar-handle');
+    sidebarTitle = sidebarContent.querySelector('#sidebar-title');
+    grippables = [sidebarHandle, sidebarHeader];
 
-window.addEventListener('resize', function() {
+    // Initial setup
     sidebar_setHeight();
     setupSidebarHandle();
     sidebar_setHeight();
+
+    window.addEventListener('resize', function() {
+        sidebar_setHeight();
+        setupSidebarHandle();
+        sidebar_setHeight();
+    });
 });
 
 function clearSidebarHandle() {
