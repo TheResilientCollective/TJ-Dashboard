@@ -178,7 +178,7 @@ function complaints_layer(complaint_days){
             'interpolate',
             ['linear'],
             ['zoom'],
-            5, .1,  // At zoom level 5, text size 10
+            5, 0,  // At zoom level 5, text size 10
             12, .2,  // At zoom level 12, text size 18
             14, .4
           ],
