@@ -172,7 +172,7 @@ function complaints_layer(complaint_days){
 
 function beach_layer(){
   // beachwatch
-  map.loadImage('img/droplet.png', function(error, image) {
+  map.loadImage('img/marker-beach.png', function(error, image) {
     if (error) throw error;
     // Add the image with SDF enabled so it can be tinted dynamically
     map.addImage('pin', image, { sdf: true });
@@ -213,7 +213,7 @@ function beach_layer(){
       var feature = e.features[0];
       console.log("beach feature properties", feature.properties);
       var coordinates = feature.geometry.coordinates.slice();
-      
+
       const beachData = parseBeachData(feature.properties);
       const indicatorClass = getIndicatorLevelForBeach(beachData.beachStatus);
       var description = feature.properties.Description;
@@ -237,14 +237,14 @@ function beach_layer(){
           <span>Beach ${beachData.beachStatus}</span>
         </div>
         ${
-          (beachData.statusSince) ? 
+          (beachData.statusSince) ?
             `<div class="tooltip-line beach-status-since">
               <span>since ${beachData.statusSince}</span>
             </div>`
             : ""
         }
         ${
-          (beachData.statusNote) ? 
+          (beachData.statusNote) ?
             `<div class="tooltip-line beach-status-note">
               <span>${beachData.statusNote}</span>
             </div>`
@@ -270,7 +270,8 @@ function beach_layer(){
 
 function spills_layer(spill_days){
   // spills
-  map.loadImage('img/sewer-icon.png', function(error, image) {
+
+  map.loadImage('img/marker-spill.png', function(error, image) {
     if (error) throw error;
     // Add the image with SDF enabled so it can be tinted dynamically
     map.addImage('sewage', image, { sdf: true });
@@ -297,9 +298,9 @@ function spills_layer(spill_days){
           'interpolate',
           ['linear'],
           ['zoom'],
-          5, .05,  // At zoom level 5, text size 10
-          12, .07,  // At zoom level 12, text size 18
-          14, .1
+          5, .2,  // At zoom level 5, text size 10
+          12, .4,  // At zoom level 12, text size 18
+          14, .5,
         ],
         'icon-allow-overlap': true,
         // Offset the icon so the tip of the pin points to the location
@@ -359,7 +360,7 @@ function spills_layer(spill_days){
 }
 
 function h2s_layer(){
-  map.loadImage('img/cloud.png', function(error, image) {
+  map.loadImage('img/marker-h2s.png', function(error, image) {
     if (error) throw error;
     // Add the image with SDF enabled so it can be tinted dynamically
     map.addImage('cloud', image, { sdf: true });
@@ -442,10 +443,11 @@ function h2s_layer(){
       layout: {
         'text-field': ['get', 'Original Value'],
         'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-        'text-size': 12
+        'text-size': 12,
+        'text-offset': [-2,0]
       },
       paint: {
-        'text-color': '#000'
+        'text-color':  ['get', 'level']
       }
     });
     map.addLayer({
