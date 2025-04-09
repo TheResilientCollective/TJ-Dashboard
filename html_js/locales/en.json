@@ -190,6 +190,18 @@
                 "value": "within the previous 3 days*"
             },
             "footer": "*Does not include data for today."
+        },
+        "beach": {
+            "statusText": "Beach {{status}}",
+            "status": {
+                "Closure": "closed",
+                "Open": "open",
+                "Warning": "warning",
+                "Advisory": "under advisory",
+                "Outfall": "outfall",
+                "unknown": "unknown"
+            },
+            "since": "since {{date}}"
         }
     }
 }

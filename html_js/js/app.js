@@ -462,16 +462,15 @@ function getIndicatorLevelForBeachClosures(count) {
 }
 
 function getIndicatorLevelForBeach(beachStatus) {
-    beachStatus = beachStatus.toLowerCase();
-    if (beachStatus === "closed")
+    if (beachStatus == "Closure")
         return "beach-closure";
-    else if (beachStatus === "open")
+    else if (beachStatus === "Open")
         return "beach-open";
-    else if (beachStatus.indexOf("warn") > -1)
+    else if (beachStatus === "Warning")
         return "beach-warning"
-    else if (beachStatus.indexOf("advis") > -1)
+    else if (beachStatus === "Advisory")
         return "beach-advisory";
-    else if (beachStatus === "outfall")
+    else if (beachStatus === "Outfall")
         return "beach-outfall";       
     else
         return "indeterminate";

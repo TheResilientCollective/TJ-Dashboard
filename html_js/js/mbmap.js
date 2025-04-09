@@ -292,8 +292,9 @@ function beach_layer(){
 
       const beachData = parseBeachData(feature.properties);
       const indicatorClass = getIndicatorLevelForBeach(beachData.beachStatus);
-      var description = feature.properties.Description;
-      // console.log("[mbmap.js] beachData", beachData);
+      const beachStatus = window.i18next.t("tooltips.beach.statusText", {status: window.i18next.t("tooltips.beach.status." + beachData.beachStatus)});
+      const beachStatusSince = beachData.statusSince ? window.i18next.t("tooltips.beach.since", {date: beachData.statusSince.format("MMM D")}) : undefined;
+      console.log("[mbmap.js] beachData", beachData);
 
       var popupContent = `
       <div class="tooltip">
@@ -310,12 +311,12 @@ function beach_layer(){
         </div>
         <div class="tooltip-line beach-status">
           <div class="indicator ${indicatorClass}"></div>
-          <span>Beach ${beachData.beachStatus}</span>
+          <span>${beachStatus}</span>
         </div>
         ${
-          (beachData.statusSince) ?
+          (beachStatusSince) ?
             `<div class="tooltip-line beach-status-since">
-              <span>since ${beachData.statusSince}</span>
+              <span>${beachStatusSince}</span>
             </div>`
             : ""
         }
@@ -543,6 +544,7 @@ function h2s_layer(){
 }
 
 function parseBeachData(beachTooltipProperties) {
+  console.log("[mbmap.js] parsing beach data", beachTooltipProperties);
   // beach name into a human friendly format
   const nameParts = beachTooltipProperties.Name.replace(/\([A-Z]{2}\-[0-9]+\)/g, "").split(/( - | at )/);
   // console.log(nameParts);
@@ -550,9 +552,18 @@ function parseBeachData(beachTooltipProperties) {
   const nameDetails = nameParts[2] ? nameParts[2].trim() : "";
 
   // Get the beach status from the properties
-  const closureNotice = beachTooltipProperties.Closure;
-  const advisoryNotice = beachTooltipProperties.Advisory;
-  let beachStatus = "open";
+  let closureNotice;
+  let advisoryNotice;
+  if (window.i18next.language !== "en" && (beachTooltipProperties["Closure_" + window.i18next.language] || beachTooltipProperties["Advisory_" + window.i18next.language])) {
+    closureNotice = beachTooltipProperties["Closure_" + window.i18next.language];
+    advisoryNotice = beachTooltipProperties["Advisory_" + window.i18next.language];
+  }
+  else {
+    closureNotice = beachTooltipProperties.Closure;
+    advisoryNotice = beachTooltipProperties.Advisory;
+  }
+
+  let beachStatus = "Open";
   let statusSince = "";
   let statusNote = "";
   if (closureNotice && closureNotice.length > 0) {
@@ -570,9 +581,14 @@ function parseBeachData(beachTooltipProperties) {
 
   // handle outfall
   if (beachTooltipProperties.RBGColor === "Outfall") {
-    beachStatus = "outfall";
+    beachStatus = "Outfall";
     statusSince = "";
-    statusNote = beachTooltipProperties.Description;
+    if (window.i18next.language !== "en" && beachTooltipProperties["Description_" + window.i18next.language]) {
+      statusNote = beachTooltipProperties["Description_"+window.i18next.language];
+    }
+    else {
+      statusNote = beachTooltipProperties["Description"];
+    }
   }
 
   // clean up and return
@@ -604,12 +620,6 @@ function parseBeachNotice(html) {
   try {
     beachStatus = html.match(/(?<=<strong>)(Closure|Advisory)/g)[0]; // TODO: Closure|Advisory|Warning|Open|Outfall
     // console.log("[mbmap.js] beachStatus", beachStatus);
-    if (beachStatus == "Closure")
-      beachStatus = "closed";
-    else if (beachStatus == "Advisory")
-      beachStatus = "under advisory";
-    else
-      beachStatus = "unknown";
   }
   catch (e) {
     beachStatus = "unknown";
@@ -618,7 +628,7 @@ function parseBeachNotice(html) {
 
   try {
     statusSince = html.match(/(?<=<strong>Status Since[: ]*?<\/strong>[: ]*?).*(?=<br ?\/>)/g)[0];
-    statusSince = dayjs(statusSince).format("MMM D");
+    statusSince = dayjs(statusSince)
     // console.log("[mbmap.js] statusSince", statusSince);
   }
   catch (e) {
@@ -627,6 +637,7 @@ function parseBeachNotice(html) {
   }
 
   try {
+    // text should already be in english/spanish
     const emboldenedText = html.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g);
     statusNote = emboldenedText ? emboldenedText[emboldenedText.length - 1] : "";
     // console.log("[mbmap.js] statusNote", statusNote);

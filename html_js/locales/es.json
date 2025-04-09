@@ -190,6 +190,18 @@
                 "value": "dentro de los últimos 3 días*"
             },
             "footer": "*No incluye datos de hoy."
+        },
+        "beach": {
+            "statusText": "Playa {{status}}",
+            "status": {
+                "Closure": "cerrada",
+                "Open": "abierta",
+                "Warning": "advertencia",
+                "Advisory": "bajo asesoría",
+                "Outfall": "desagüe",
+                "unknown": "desconocido"
+            },
+            "since": "desde {{date}}"
         }
     }
 }
