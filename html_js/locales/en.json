@@ -192,16 +192,23 @@
             "footer": "*Does not include data for today."
         },
         "beach": {
-            "statusText": "Beach {{status}}",
             "status": {
-                "Closure": "closed",
-                "Open": "open",
-                "Warning": "warning",
-                "Advisory": "under advisory",
-                "Outfall": "outfall",
+                "Closure": "Beach closed",
+                "Open": "Beach open",
+                "Warning": "Beach has warning",
+                "Advisory": "Beach under advisory",
+                "Outfall": "Beach outfall",
                 "unknown": "unknown"
             },
             "since": "since {{date}}"
+        },
+        "wastewater": {
+            "title": "Wastewater Spill",
+            "duration": "{{start}} - {{end}}",
+            "time": "{{date}}",
+            "location": "location:",
+            "date": "date:",
+            "volume": "approx. volume:"
         }
     }
 }

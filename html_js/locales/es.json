@@ -192,16 +192,23 @@
             "footer": "*No incluye datos de hoy."
         },
         "beach": {
-            "statusText": "Playa {{status}}",
             "status": {
-                "Closure": "cerrada",
-                "Open": "abierta",
-                "Warning": "advertencia",
-                "Advisory": "bajo asesoría",
-                "Outfall": "desagüe",
+                "Closure": "Playa cerrada",
+                "Open": "Playa abierta",
+                "Warning": "Playa con advertencia",
+                "Advisory": "Playa con aviso",
+                "Outfall": "Playa con desagüe",
                 "unknown": "desconocido"
             },
             "since": "desde {{date}}"
+        },
+        "wastewater": {
+            "title": "Derrame de Aguas Residuales",
+            "duration": "{{start}} - {{end}}",
+            "time": "{{date}}",
+            "location": "ubicación:",
+            "date": "fecha:",
+            "volume": "volumen aproximado:"
         }
     }
 }

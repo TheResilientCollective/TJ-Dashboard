@@ -292,8 +292,8 @@ function beach_layer(){
 
       const beachData = parseBeachData(feature.properties);
       const indicatorClass = getIndicatorLevelForBeach(beachData.beachStatus);
-      const beachStatus = window.i18next.t("tooltips.beach.statusText", {status: window.i18next.t("tooltips.beach.status." + beachData.beachStatus)});
-      const beachStatusSince = beachData.statusSince ? window.i18next.t("tooltips.beach.since", {date: beachData.statusSince.format("MMM D")}) : undefined;
+      const beachStatus = window.i18next.t("tooltips.beach.status." + beachData.beachStatus);
+      const beachStatusSince = beachData.statusSince ? window.i18next.t("tooltips.beach.since", {date: beachData.statusSince.locale(window.i18next.language).format("MMM D")}) : undefined;
       console.log("[mbmap.js] beachData", beachData);
 
       var popupContent = `
@@ -311,12 +311,12 @@ function beach_layer(){
         </div>
         <div class="tooltip-line beach-status">
           <div class="indicator ${indicatorClass}"></div>
-          <span>${beachStatus}</span>
+          <span data-i18n="${"tooltips.beach.status." + beachData.beachStatus}">${beachStatus}</span>
         </div>
         ${
           (beachStatusSince) ?
             `<div class="tooltip-line beach-status-since">
-              <span>${beachStatusSince}</span>
+              <span data-i18n="tooltips.beach.since" data-i18n-options='{"date": "${beachData.statusSince.locale(window.i18next.language).format("MMM D")}"}'>${beachStatusSince}</span>
             </div>`
             : ""
         }
@@ -400,28 +400,33 @@ function spills_layer(spill_days){
       };
       let dateStr;
       if (dates.start.isSame(dates.end, 'day')) {
-        dateStr = `${dates.start.format("MMM D")}`;
+        dateStr = window.i18next.t("tooltips.wastewater.time", {
+          date: dates.start.locale(window.i18next.language).format("MMM D")
+        });
       }
       else {
-        dateStr = `${dates.start.format("MMM D")} - ${dates.end.format("MMM D")}`;
+        dateStr = window.i18next.t("tooltips.wastewater.duration", {
+          start: dates.start.locale(window.i18next.language).format("MMM D"),
+          end: dates.end.locale(window.i18next.language).format("MMM D")
+        });
       }
       var volume = feature.properties['Approximate Discharge Volume'];
       var popupContent = `
       <div class="tooltip">
         <div class="tooltip-header">
           <i class="bi bi-droplet"></i>
-          <span>Wastewater Spill</span>
+          <span data-i18n="tooltips.wastewater.title">${window.i18next.t("tooltips.wastewater.title")}</span>
         </div>
         <div class="tooltip-line tooltip-table">
-          <span>location:</span>
+          <span data-i18n="tooltips.wastewater.location">${window.i18next.t("tooltips.wastewater.location")}</span>
           <span>${name}</span>
         </div>
         <div class="tooltip-line tooltip-table">
-          <span>date:</span>
+          <span data-i18n="tooltips.wastewater.date">${window.i18next.t("tooltips.wastewater.date")}</span>
           <span>${dateStr}</span>
         </div>
         <div class="tooltip-line tooltip-table">
-          <span>approx. volume:</span>
+          <span data-i18n="tooltips.wastewater.volume">${window.i18next.t("tooltips.wastewater.volume")}</span>
           <span>${volume}</span>
         </div>
       </div>`
