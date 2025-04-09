@@ -206,3 +206,12 @@
 .complaint-tooltip .tooltip-line span {
     /* margin-left: calc(var(--icon) + var(--p1)); */
 }
+
+/* Hydrogen sulfide tooltip */
+.h2s-tooltip .tooltip-line span.labelled-indicator {
+    display: flex;
+    flex-direction: row;
+    gap: var(--p1);
+    align-items: center;
+    justify-content: right;
+}

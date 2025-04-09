@@ -309,7 +309,7 @@ function beach_layer(){
             }
           </div>
         </div>
-        <div class="tooltip-line beach-status">
+        <div class="tooltip-line beach-status labelled-indicator">
           <div class="indicator ${indicatorClass}"></div>
           <span data-i18n="${"tooltips.beach.status." + beachData.beachStatus}">${beachStatus}</span>
         </div>
@@ -486,6 +486,7 @@ function h2s_layer(){
       var description = feature.properties.Result;
       let date = dayjs(feature.properties['Date with time']);
       var airnow_link = `https://www.airnow.gov/?city=${feature.properties['Site Name']}&state=CA&country=USA`
+      var indicatorClass = getIndicatorLevelForH2SValue(description);
       var popupContent = `
       <div class="tooltip">
         <div class="tooltip-header">
@@ -498,7 +499,7 @@ function h2s_layer(){
         </div>
         <div class="tooltip-line tooltip-table">
           <span data-i18n="tooltips.h2s.labels.measurement">${window.i18next.t("tooltips.h2s.labels.measurement")}</span>
-          <span>${description} ppb</span>
+          <span class="labelled-indicator"><span class="indicator ${indicatorClass}"></span><span>${description} ppB</span></span>
         </div>
         <div class="tooltip-line tooltip-table">
           <span data-i18n="tooltips.h2s.labels.updated">${window.i18next.t("tooltips.h2s.labels.updated")}</span>

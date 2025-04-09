@@ -48,7 +48,7 @@ function renderH2STable(jsonData) {
       const colorIndicatorElm = document.createElement("span");
       colorIndicatorElm.classList.add(
         "indicator",
-        getIndicatorLevelForH2SRating(h2s["level"])
+        getIndicatorLevelForH2SValue(h2s["Result"])
       );
       const result = document.createElement("span");
       // Use i18next for the unit label
@@ -326,6 +326,7 @@ function renderBeachClosures(jsonData) {
 
   jsonData.data.forEach((obj) => {
     const name = obj["Name"];
+    console.log("[app.js] Beach closure entry:", obj);
     // Assuming name doesn't need translation, but cleaning it up
     const humanReadableName = name
       .replace(/\([A-Z]{2}\-[0-9]+\)/g, "")
@@ -350,8 +351,9 @@ function renderBeachClosures(jsonData) {
     // beach status (using i18next)
     const statusIcon = document.createElement("span");
     // Assuming 'Red' color means moderate/closed indicator
+    const status = 
     statusIcon.className = `indicator ${
-      obj.RBGColor === "Red" ? "moderate" : "low"
+        getIndicatorLevelForBeach(parseBeachData(obj).beachStatus)
     }`; // Example mapping
     const beachStatusElm = document.createElement("span");
     // Use i18next for the status text
@@ -492,6 +494,17 @@ function getIndicatorLevelForH2SRating(rating) {
     default:
       return "white"; // Default or unknown
   }
+}
+
+function getIndicatorLevelForH2SValue(value) {
+    if (value < 5)
+        return "green";
+    else if (value < 30)
+        return "yellow";
+    else if (value < 27000)
+        return "orange";
+    else
+        return "purple";
 }
 
 function parseCustomDate(dateStr) {
