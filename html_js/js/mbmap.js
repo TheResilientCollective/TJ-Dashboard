@@ -188,6 +188,7 @@ function beach_layer(){
       id: 'beaches',
       type: 'symbol',
       source: 'beaches',
+      filter: [ '!=', ['get' , 'TypeID'], 2],
       layout: {
         'icon-image': 'pin',
         'icon-size': [
@@ -207,7 +208,30 @@ function beach_layer(){
         'icon-color': ['get', 'RBGColor']
       }
     });
-
+    map.addLayer({
+      id: 'outfall',
+      type: 'symbol',
+      source: 'beaches',
+      filter: [ '==', ['get' , 'TypeID'], 2],
+      layout: {
+        'icon-image': 'pin',
+        'icon-size': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          5, .1,  // At zoom level 5, text size 10
+          12, .3,  // At zoom level 12, text size 18
+          14, .5
+        ],
+        'icon-allow-overlap': true,
+        // Offset the icon so the tip of the pin points to the location
+        'icon-offset': [0, 0]
+      },
+      paint: {
+        // Use the RGBcolor property to tint the pin
+        'icon-color': '#000000'
+      }
+    });
     // Add a popup when a pin is clicked
     map.on('click', 'beaches', function(e) {
       var feature = e.features[0];
