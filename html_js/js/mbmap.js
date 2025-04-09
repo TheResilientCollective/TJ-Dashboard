@@ -490,22 +490,22 @@ function h2s_layer(){
       <div class="tooltip">
         <div class="tooltip-header">
           <i class="bi bi-wind"></i>
-          <span>Hydrogen Sulfide Measurement</span>
+          <span data-i18n="tooltips.h2s.title">${window.i18next.t("tooltips.h2s.title")}</span>
         </div>
         <div class="tooltip-line tooltip-table">
-          <span>location:</span>
+          <span data-i18n="tooltips.h2s.labels.location">${window.i18next.t("tooltips.h2s.labels.location")}</span>
           <span>${name.split(" - ")[0]}</span>
         </div>
         <div class="tooltip-line tooltip-table">
-          <span>measurement:</span>
+          <span data-i18n="tooltips.h2s.labels.measurement">${window.i18next.t("tooltips.h2s.labels.measurement")}</span>
           <span>${description} ppb</span>
         </div>
         <div class="tooltip-line tooltip-table">
-          <span>last update:</span>
-          <span>${date.format("h:mma")}</span>
+          <span data-i18n="tooltips.h2s.labels.updated">${window.i18next.t("tooltips.h2s.labels.updated")}</span>
+          <span>${date.locale(window.i18next.language).format("h:mma")}</span>
         </div>
         <div class="tooltip-footer">
-          <span>ppb: parts per billion</span>
+          <span data-i18n="tooltips.h2s.ppb">${window.i18next.t("tooltips.h2s.ppb")}</span>
         </div>
       </div>`
 

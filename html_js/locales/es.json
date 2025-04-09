@@ -209,6 +209,15 @@
             "location": "ubicación:",
             "date": "fecha:",
             "volume": "volumen aproximado:"
+        },
+        "h2s": {
+            "title": "Medición de Sulfuro de Hidrógeno",
+            "labels": {
+                "location": "ubicación:",
+                "measurement": "medición:",
+                "updated": "última actualización:"
+            },
+            "ppb": "ppb: partes por billón"
         }
     }
 }

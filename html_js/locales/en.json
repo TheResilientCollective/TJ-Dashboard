@@ -209,6 +209,15 @@
             "location": "location:",
             "date": "date:",
             "volume": "approx. volume:"
+        },
+        "h2s": {
+            "title" : "Hydrogen Sulfide Measurement",
+            "labels": {
+                "location": "location:",
+                "measurement": "measurement:",
+                "updated": "last update:"
+            },
+            "ppb": "ppb: parts per billion"
         }
     }
 }
