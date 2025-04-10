@@ -1,8 +1,10 @@
+
 //const resilientUrlBase = 'https://oss.resilientservice.mooo.com/resilentpublic/'
 const s3base = "https://oss.resilientservice.mooo.com/"
 //const bucket = 'test'
 const bucket = 'resilentpublic'
 const resilientUrlBase = `${s3base}${bucket}/`
+
 
 
 let latestH2SData = null;
@@ -433,7 +435,7 @@ function fetchOdorData() {
 
 function fetchBeachData() {
   fetch(
-    `${resilientUrlBase}tijuana/beachwatch/output/beachwatch_closure_simple.json`
+    `${resilientUrlBase}tijuana/beachwatch/output/current/sdbeachinfo_status_simple.json`
   )
     .then((response) =>
       response.ok ? response.json() : Promise.reject(response.statusText)
