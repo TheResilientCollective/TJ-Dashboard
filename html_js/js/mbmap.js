@@ -1,6 +1,7 @@
 // const s3base = "https://oss.resilientservice.mooo.com/"
 // //const bucket = 'test'
 // const bucket = 'resilentpublic'
+// s3base and bucket defined in app.js
 const urlbase = `${s3base}${bucket}/`
 mapboxgl.accessToken = 'pk.eyJ1IjoidmFsZW50aW5lZHd2IiwiYSI6ImNra215Y2QydDExd3oycHF0d2VvM2pwYXoifQ.sODwFshU0owiFxw6SKLeKg';
 const map = new mapboxgl.Map({
