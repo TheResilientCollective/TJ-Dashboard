@@ -383,7 +383,7 @@ try {
           </div>
         </div>
         <div class="tooltip-line beach-status labelled-indicator">
-          <div class="indicator beach-outfall></div>
+          <div class="indicator beach-outfall"></div>
           <span data-i18n="${"tooltips.beach.status." + beachData.beachStatus}">Outfall</span>
         </div>
 
