@@ -1,4 +1,9 @@
-const resilientUrlBase = 'https://oss.resilientservice.mooo.com/resilentpublic/'
+//const resilientUrlBase = 'https://oss.resilientservice.mooo.com/resilentpublic/'
+const s3base = "https://oss.resilientservice.mooo.com/"
+//const bucket = 'test'
+const bucket = 'resilentpublic'
+const resilientUrlBase = `${s3base}${bucket}/`
+
 
 let latestH2SData = null;
 let latestOdorData = null;
@@ -351,7 +356,7 @@ function renderBeachClosures(jsonData) {
     // beach status (using i18next)
     const statusIcon = document.createElement("span");
     // Assuming 'Red' color means moderate/closed indicator
-    const status = 
+    const status =
     statusIcon.className = `indicator ${
         getIndicatorLevelForBeach(parseBeachData(obj).beachStatus)
     }`; // Example mapping
@@ -473,7 +478,7 @@ function getIndicatorLevelForBeach(beachStatus) {
     else if (beachStatus === "Advisory")
         return "beach-advisory";
     else if (beachStatus === "Outfall")
-        return "beach-outfall";       
+        return "beach-outfall";
     else
         return "indeterminate";
 }
