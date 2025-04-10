@@ -59,7 +59,7 @@ i {
     height: var(--icon);
 }
 
-a { 
+a {
     color: var(--grey);
 }
 
@@ -156,7 +156,7 @@ button.button.map-control-button.button {
     border-radius: var(--border-radius);
     cursor: pointer;
     pointer-events: all;
-    
+
     background: var(--white);
     color: var(--grey);
     transition: background 0.2s, color 0.2s;
@@ -203,7 +203,7 @@ button.button.map-control-button.button {
         align-items: center;
         justify-content: center;
         gap: var(--p1);
-    
+
         padding: var(--p1) var(--p2);
         font-size: 1rem;
     }
@@ -529,7 +529,7 @@ button.button.map-control-button.button {
 }
 
 .text-card {
-    
+
 }
 
 .card-footer {
@@ -615,7 +615,7 @@ button.button.map-control-button.button {
 }
 
 .beach-outfall {
-    background: #000;
+    background: #000000;
 }
 
 /* APCD H2s */
