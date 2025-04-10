@@ -435,7 +435,7 @@ function fetchOdorData() {
 
 function fetchBeachData() {
   fetch(
-    `${resilientUrlBase}tijuana/beachwatch/output/current/sdbeachinfo_status_simple.json`
+    `${resilientUrlBase}tijuana/beachwatch/output/current/sdbeachinfo_status_translated.records.json`
   )
     .then((response) =>
       response.ok ? response.json() : Promise.reject(response.statusText)

@@ -35,171 +35,172 @@ function setMapLanguage(){
 }
 
 function complaints_layer(complaint_days){
-  fetch(`${urlbase}tijuana/sd_complaints/output/complaints.geojson`)// update the path or URL to your GeoJSON file
-    .then(response => response.json())
-    .then(data => {
-      map.addSource('complaints', {
-      type: 'geojson',
-      data: data,
-      cluster: true,
-      clusterMaxZoom: 14, // max zoom to cluster points
-      clusterRadius: 50   // radius of each cluster when clustering points (in pixels)
-    });
-      const threeDaysAgo = dayjs().subtract(complaint_days, 'day');
-      console.log('days ago date: ' , threeDaysAgo)
-      // Filter features where the "Date Recieved" is within the last three days.
-      // Adjust the date parsing if your format differs.
-      var filteredFeatures = data.features.filter(feature => {
-        var dateReceived = new Date(feature.properties['date_received']);
-        return dateReceived >= threeDaysAgo;
-      });
-      console.log('complaints after filter: ' , filteredFeatures.length)
+  try {
+    fetch(`${urlbase}tijuana/sd_complaints/output/complaints.geojson`)// update the path or URL to your GeoJSON file
+      .then(response => response.json())
+      .then(data => {
+        map.addSource('complaints', {
+          type: 'geojson',
+          data: data,
+          cluster: true,
+          clusterMaxZoom: 14, // max zoom to cluster points
+          clusterRadius: 50   // radius of each cluster when clustering points (in pixels)
+        });
+        const threeDaysAgo = dayjs().subtract(complaint_days, 'day');
+        console.log('days ago date: ', threeDaysAgo)
+        // Filter features where the "Date Recieved" is within the last three days.
+        // Adjust the date parsing if your format differs.
+        var filteredFeatures = data.features.filter(feature => {
+          var dateReceived = new Date(feature.properties['date_received']);
+          return dateReceived >= threeDaysAgo;
+        });
+        console.log('complaints after filter: ', filteredFeatures.length)
 
-      // Create a new FeatureCollection with filtered features
-      var filteredData = {
-        type: 'FeatureCollection',
-        features: filteredFeatures
-      };
-      console.log('features:', filteredData)
-      map.addSource('complaints_lastdays', {
-        type: 'geojson',
-        data: filteredData,
-        cluster: true,
-        clusterMaxZoom: 14, // max zoom to cluster points
-        clusterRadius: 50   // radius of each cluster when clustering points (in pixels)
-      });
-    // Layer for clusters (as circles) for all
-    map.addLayer({
-      id: 'clusters-all',
-      layout: { visibility: 'none',},
-      type: 'circle',
-      source: 'complaints',
-      filter: ['has', 'point_count'],
-      paint: {
-        'circle-color': '#51bbd6',
-        'circle-radius': [
-          'step',
-          ['get', 'point_count'],
-          20,   // circle radius when count is less than first step
-          100,  // first step threshold
-          30,   // circle radius for count >= 100
-          750,  // second step threshold
-          40    // circle radius for count >= 750
-        ]
-      }
-    });
+        // Create a new FeatureCollection with filtered features
+        var filteredData = {
+          type: 'FeatureCollection',
+          features: filteredFeatures
+        };
+        console.log('features:', filteredData)
+        map.addSource('complaints_lastdays', {
+          type: 'geojson',
+          data: filteredData,
+          cluster: true,
+          clusterMaxZoom: 14, // max zoom to cluster points
+          clusterRadius: 50   // radius of each cluster when clustering points (in pixels)
+        });
+        // Layer for clusters (as circles) for all
+        map.addLayer({
+          id: 'clusters-all',
+          layout: {visibility: 'none',},
+          type: 'circle',
+          source: 'complaints',
+          filter: ['has', 'point_count'],
+          paint: {
+            'circle-color': '#51bbd6',
+            'circle-radius': [
+              'step',
+              ['get', 'point_count'],
+              20,   // circle radius when count is less than first step
+              100,  // first step threshold
+              30,   // circle radius for count >= 100
+              750,  // second step threshold
+              40    // circle radius for count >= 750
+            ]
+          }
+        });
 
-    // Layer for cluster count labels
-    map.addLayer({
-      id: 'complaint-cluster-count-all',
+        // Layer for cluster count labels
+        map.addLayer({
+          id: 'complaint-cluster-count-all',
 
-      type: 'symbol',
-      source: 'complaints',
-      filter: ['has', 'point_count'],
-      layout: {
-        visibility: 'none',
-        'text-field': '{point_count_abbreviated}',
-        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-        'text-size': 12
-      }
-    });
+          type: 'symbol',
+          source: 'complaints',
+          filter: ['has', 'point_count'],
+          layout: {
+            visibility: 'none',
+            'text-field': '{point_count_abbreviated}',
+            'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+            'text-size': 12
+          }
+        });
 
-    // Layer for unclustered individual points
-    map.addLayer({
-      id: 'complaint-unclustered-point-all',
-      layout: { visibility: 'none',},
-      type: 'circle',
-      source: 'complaints',
-      filter: ['!', ['has', 'point_count']],
-      paint: {
-        'circle-color': '#11b4da',
-        'circle-radius': 4,
-        'circle-stroke-width': 1,
-        'circle-stroke-color': '#fff'
-      }
-    });
-    // Layer for clusters (as circles) for all
+        // Layer for unclustered individual points
+        map.addLayer({
+          id: 'complaint-unclustered-point-all',
+          layout: {visibility: 'none',},
+          type: 'circle',
+          source: 'complaints',
+          filter: ['!', ['has', 'point_count']],
+          paint: {
+            'circle-color': '#11b4da',
+            'circle-radius': 4,
+            'circle-stroke-width': 1,
+            'circle-stroke-color': '#fff'
+          }
+        });
+        // Layer for clusters (as circles) for all
 
-    map.addLayer({
-      id: 'complaint-clusters',
-      type: 'circle',
-      source: 'complaints_lastdays',
-      filter: ['has', 'point_count'],
-      paint: {
-        'circle-color': '#51bbd6',
-        'circle-stroke-width': 1,
-        'circle-stroke-color': '#fff',
-        'circle-radius': [
-          'step',
-          ['get', 'point_count'],
-          20,   // circle radius when count is less than first step
-          100,  // first step threshold
-          30,   // circle radius for count >= 100
-          750,  // second step threshold
-          40    // circle radius for count >= 750
-        ]
-      }
-    });
+        map.addLayer({
+          id: 'complaint-clusters',
+          type: 'circle',
+          source: 'complaints_lastdays',
+          filter: ['has', 'point_count'],
+          paint: {
+            'circle-color': '#51bbd6',
+            'circle-stroke-width': 1,
+            'circle-stroke-color': '#fff',
+            'circle-radius': [
+              'step',
+              ['get', 'point_count'],
+              20,   // circle radius when count is less than first step
+              100,  // first step threshold
+              30,   // circle radius for count >= 100
+              750,  // second step threshold
+              40    // circle radius for count >= 750
+            ]
+          }
+        });
 
-    // Layer for cluster count labels
-    map.addLayer({
-      id: 'complaint-cluster-count',
-      type: 'symbol',
-      source: 'complaints_lastdays',
-      filter:  ['has', 'point_count'],
-      layout: {
-        'text-field': '{point_count_abbreviated}',
-        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-        'text-size': 12
-      }
-    });
+        // Layer for cluster count labels
+        map.addLayer({
+          id: 'complaint-cluster-count',
+          type: 'symbol',
+          source: 'complaints_lastdays',
+          filter: ['has', 'point_count'],
+          layout: {
+            'text-field': '{point_count_abbreviated}',
+            'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+            'text-size': 12
+          }
+        });
 
-    // Layer for unclustered individual points
-    // map.addLayer({
-    //   id: 'unclustered-point',
-    //   type: 'circle',
-    //   source: 'complaints_lastdays',
-    //   filter:
-    //     ['!', ['has', 'point_count']],
-    //   paint: {
-    //     'circle-color': '#11b4da',
-    //     'circle-radius': 4,
-    //     'circle-stroke-width': 1,
-    //     'circle-stroke-color': '#fff'
-    //   }
-    // });
-      map.addLayer({
+        // Layer for unclustered individual points
+        // map.addLayer({
+        //   id: 'unclustered-point',
+        //   type: 'circle',
+        //   source: 'complaints_lastdays',
+        //   filter:
+        //     ['!', ['has', 'point_count']],
+        //   paint: {
+        //     'circle-color': '#11b4da',
+        //     'circle-radius': 4,
+        //     'circle-stroke-width': 1,
+        //     'circle-stroke-color': '#fff'
+        //   }
+        // });
+        map.addLayer({
 
-        id: 'complaint-unclustered',
-        type: 'symbol',
-        source: 'complaints_lastdays',
-        filter: ['!', ['has', 'point_count']],
-        layout: {
-          'icon-image': 'complaint_icon',
-          'icon-size': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            5, 0,  // At zoom level 5, text size 10
-            12, .2,  // At zoom level 12, text size 18
-            14, .4
-          ],
-          'icon-allow-overlap': true,
-          // Offset the icon so the tip of the pin points to the location
-          'icon-offset': [0, 0]
-        },
-        paint:{
-          'icon-color': '#51bbd6'
-        }
-      });
-    map.on('click', 'complaint-unclustered', function(e) {
-      var feature = e.features[0];
-      var coordinates = feature.geometry.coordinates.slice();
-      console.log(feature);
-      const dateReceived = dayjs(feature.properties['date']);
-      const dateString = dateReceived.format("MMM D, YYYY");
+          id: 'complaint-unclustered',
+          type: 'symbol',
+          source: 'complaints_lastdays',
+          filter: ['!', ['has', 'point_count']],
+          layout: {
+            'icon-image': 'complaint_icon',
+            'icon-size': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              5, 0,  // At zoom level 5, text size 10
+              12, .2,  // At zoom level 12, text size 18
+              14, .4
+            ],
+            'icon-allow-overlap': true,
+            // Offset the icon so the tip of the pin points to the location
+            'icon-offset': [0, 0]
+          },
+          paint: {
+            'icon-color': '#51bbd6'
+          }
+        });
+        map.on('click', 'complaint-unclustered', function (e) {
+          var feature = e.features[0];
+          var coordinates = feature.geometry.coordinates.slice();
+          console.log(feature);
+          const dateReceived = dayjs(feature.properties['date']);
+          const dateString = dateReceived.format("MMM D, YYYY");
 
-      var popupContent = `
+          var popupContent = `
       <div class="tooltip">
         <div class="tooltip-header">
           <i class="bi bi-exclamation-circle"></i>
@@ -210,25 +211,25 @@ function complaints_layer(complaint_days){
         </div>
       </div>`
 
-      new mapboxgl.Popup({ className: "mapbox-tooltip complaint-tooltip" })
-        .setLngLat(coordinates)
-        .setHTML(popupContent)
-        .addTo(map);
-    });
+          new mapboxgl.Popup({className: "mapbox-tooltip complaint-tooltip"})
+            .setLngLat(coordinates)
+            .setHTML(popupContent)
+            .addTo(map);
+        });
 
-    map.on('click', 'complaint-cluster-count', function(e) {
-      var feature = e.features[0];
-      var coordinates = feature.geometry.coordinates.slice();
-      const complaintCount = e.features[0].properties.point_count;
-      console.log("[mbmap.js] complaint count", complaintCount);
+        map.on('click', 'complaint-cluster-count', function (e) {
+          var feature = e.features[0];
+          var coordinates = feature.geometry.coordinates.slice();
+          const complaintCount = e.features[0].properties.point_count;
+          console.log("[mbmap.js] complaint count", complaintCount);
 
-      // window.i18next.t("tooltips.complaintMultiple.title", { count: String(complaintCount) })}
+          // window.i18next.t("tooltips.complaintMultiple.title", { count: String(complaintCount) })}
 
-      var popupContent = `
+          var popupContent = `
       <div class="tooltip">
         <div class="tooltip-header">
           <i class="bi bi-exclamation-circle"></i>
-          <span data-i18n="tooltips.complaintMultiple.title" data-i18n-options='{"count": "${complaintCount}"}'>${window.i18next.t("tooltips.complaintMultiple.title", { count: String(complaintCount) })}</span>
+          <span data-i18n="tooltips.complaintMultiple.title" data-i18n-options='{"count": "${complaintCount}"}'>${window.i18next.t("tooltips.complaintMultiple.title", {count: String(complaintCount)})}</span>
         </div>
         <div class="tooltip-line tooltip-table">
           <span data-i18n="tooltips.complaintMultiple.time.label">${window.i18next.t("tooltips.complaintMultiple.time.label")}</span>
@@ -239,96 +240,98 @@ function complaints_layer(complaint_days){
         </div>
       </div>`
 
-      new mapboxgl.Popup({ className: "mapbox-tooltip complaint-tooltip" })
-        .setLngLat(coordinates)
-        .setHTML(popupContent)
-        .addTo(map);
-    });
-  });
-
+          new mapboxgl.Popup({className: "mapbox-tooltip complaint-tooltip"})
+            .setLngLat(coordinates)
+            .setHTML(popupContent)
+            .addTo(map);
+        });
+      });
+  } catch {
+    console.log('Error creating complaints map layer')
+  }
 }
 
 function beach_layer(){
   // beachwatch
+try {
+  // Add your GeoJSON source containing beach status
+  map.addSource('beaches', {
+    type: 'geojson',
+    data: `${urlbase}tijuana/beachwatch/output/current/sdbeachinfo_status_translated.geojson`
+  });
 
-    // Add your GeoJSON source containing beach status
-    map.addSource('beaches', {
-      type: 'geojson',
-      data: `${urlbase}tijuana/beachwatch/output/current/sdbeachinfo_status.geojson`
-    });
+  // Create a symbol layer using the custom pin icon
+  map.addLayer({
+    id: 'beaches',
+    type: 'symbol',
+    source: 'beaches',
+    filter: ['!=', ['get', 'LocationType'], "Outfall"],
+    layout: {
+      'icon-image': 'beach_icon',
+      'icon-size': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        5, .1,  // At zoom level 5, text size 10
+        12, .3,  // At zoom level 12, text size 18
+        14, .5
+      ],
+      'icon-allow-overlap': true,
+      // Offset the icon so the tip of the pin points to the location
+      'icon-offset': [0, 0]
+    },
+    paint: {
+      // Use the RGBcolor property to tint the pin
+      'icon-color': ['get', 'RBGColor']
 
-    // Create a symbol layer using the custom pin icon
-    map.addLayer({
-      id: 'beaches',
-      type: 'symbol',
-      source: 'beaches',
-      filter: [ '!=', ['get' , 'LocationType'], "Outfall"],
-      layout: {
-        'icon-image': 'beach_icon',
-        'icon-size': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          5, .1,  // At zoom level 5, text size 10
-          12, .3,  // At zoom level 12, text size 18
-          14, .5
-        ],
-        'icon-allow-overlap': true,
-        // Offset the icon so the tip of the pin points to the location
-        'icon-offset': [0, 0]
-      },
-      paint: {
-        // Use the RGBcolor property to tint the pin
-        'icon-color': ['get', 'RBGColor']
+    }
+  });
+  map.addLayer({
+    id: 'outfalls',
+    type: 'symbol',
+    source: 'beaches',
+    filter: ['==', ['get', 'LocationType'], "Outfall"],
+    layout: {
+      'icon-image': 'outfall_icon',
+      'icon-size': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        5, 0,  // At zoom level 5, text size 10
+        12, 0,  // At zoom level 12, text size 18
+        14, .5
+      ],
+      'icon-allow-overlap': true,
+      // Offset the icon so the tip of the pin points to the location
+      'icon-offset': [0, 0]
+    },
+    paint: {
+      // Use the RGBcolor property to tint the pin
+      'icon-color': '#000000'
+    }
+  });
+  // Add a popup when a pin is clicked
+  map.on('click', 'beaches', function (e) {
+    var feature = e.features[0];
+    var coordinates = feature.geometry.coordinates.slice();
 
-      }
-    });
-    map.addLayer({
-      id: 'outfalls',
-      type: 'symbol',
-      source: 'beaches',
-      filter: [ '==', ['get' , 'LocationType'], "Outfall"],
-      layout: {
-        'icon-image': 'outfall_icon',
-        'icon-size': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          5, 0,  // At zoom level 5, text size 10
-          12, 0,  // At zoom level 12, text size 18
-          14, .5
-        ],
-        'icon-allow-overlap': true,
-        // Offset the icon so the tip of the pin points to the location
-        'icon-offset': [0, 0]
-      },
-      paint: {
-        // Use the RGBcolor property to tint the pin
-        'icon-color': '#000000'
-      }
-    });
-    // Add a popup when a pin is clicked
-    map.on('click', 'beaches', function(e) {
-      var feature = e.features[0];
-      var coordinates = feature.geometry.coordinates.slice();
+    const beachData = parseBeachData(feature.properties);
+    const indicatorClass = getIndicatorLevelForBeach(beachData.beachStatus);
+    const beachStatus = window.i18next.t("tooltips.beach.status." + beachData.beachStatus);
+    const beachStatusSince = beachData.statusSince ? window.i18next.t("tooltips.beach.since", {date: beachData.statusSince.locale(window.i18next.language).format("MMM D")}) : undefined;
+    console.log("[mbmap.js] beachData", beachData);
 
-      const beachData = parseBeachData(feature.properties);
-      const indicatorClass = getIndicatorLevelForBeach(beachData.beachStatus);
-      const beachStatus = window.i18next.t("tooltips.beach.status." + beachData.beachStatus);
-      const beachStatusSince = beachData.statusSince ? window.i18next.t("tooltips.beach.since", {date: beachData.statusSince.locale(window.i18next.language).format("MMM D")}) : undefined;
-      console.log("[mbmap.js] beachData", beachData);
-
-      var popupContent = `
+    var popupContent = `
       <div class="tooltip">
         <div class="tooltip-header">
           <div>
             <i class="bi bi-water"></i>
             <span>${beachData.name}</span>
             ${
-              (beachData.nameDetails) ?
-              `<span>${beachData.nameDetails}</span>`
-              : ""
-            }
+      (beachData.nameDetails) ?
+        `<span>${beachData.nameDetails}</span>`
+        : ""
+    }
           </div>
         </div>
         <div class="tooltip-line beach-status labelled-indicator">
@@ -336,27 +339,27 @@ function beach_layer(){
           <span data-i18n="${"tooltips.beach.status." + beachData.beachStatus}">${beachStatus}</span>
         </div>
         ${
-          (beachStatusSince) ?
-            `<div class="tooltip-line beach-status-since">
+      (beachStatusSince) ?
+        `<div class="tooltip-line beach-status-since">
               <span data-i18n="tooltips.beach.since" data-i18n-options='{"date": "${beachData.statusSince.locale(window.i18next.language).format("MMM D")}"}'>${beachStatusSince}</span>
             </div>`
-            : ""
-        }
+        : ""
+    }
         ${
-          (beachData.statusNote) ?
-            `<div class="tooltip-line beach-status-note">
+      (beachData.statusNote) ?
+        `<div class="tooltip-line beach-status-note">
               <span>${beachData.statusNote}</span>
             </div>`
-            : ""
-        }
+        : ""
+    }
       </div>`
 
-      new mapboxgl.Popup({ className: "mapbox-tooltip beach-tooltip" })
-        .setLngLat(coordinates)
-        .setHTML(popupContent)
-        .addTo(map);
-    });
-  map.on('click', 'outfalls', function(e) {
+    new mapboxgl.Popup({className: "mapbox-tooltip beach-tooltip"})
+      .setLngLat(coordinates)
+      .setHTML(popupContent)
+      .addTo(map);
+  });
+  map.on('click', 'outfalls', function (e) {
     var feature = e.features[0];
     var coordinates = feature.geometry.coordinates.slice();
 
@@ -391,84 +394,85 @@ function beach_layer(){
 
       </div>`
 
-    new mapboxgl.Popup({ className: "mapbox-tooltip beach-tooltip" })
+    new mapboxgl.Popup({className: "mapbox-tooltip beach-tooltip"})
       .setLngLat(coordinates)
       .setHTML(popupContent)
       .addTo(map);
   });
-    // Change the cursor to a pointer when over the pins.
-    map.on('mouseenter', 'beaches', function() {
-      map.getCanvas().style.cursor = 'pointer';
-    });
-    map.on('mouseleave', 'beaches', function() {
-      map.getCanvas().style.cursor = '';
-    });
-
+  // Change the cursor to a pointer when over the pins.
+  map.on('mouseenter', 'beaches', function () {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+  map.on('mouseleave', 'beaches', function () {
+    map.getCanvas().style.cursor = '';
+  });
+} catch {
+  console.log('error creating beaches map layers')
+}
 }
 
 
 function spills_layer(spill_days){
   // spills
-
-    // Add your GeoJSON source containing beach status
-    map.addSource('spills', {
-      type: 'geojson',
-      data: `${urlbase}tijuana/ibwc/output/spills_last_by_site.geojson`
-    });
-    const thirtyDaysAgo = dayjs().subtract(spill_days, 'day').toISOString();
-    // Create a symbol layer using the custom pin icon
-    map.addLayer({
-      id: 'spills',
-      type: 'symbol',
-      source: 'spills',
-      filter:['any' ,
-      ['>=', ['get', 'End Time'], thirtyDaysAgo] ,
-        ['>=', ['get', 'Start Time'], thirtyDaysAgo] ,
+try {
+  // Add your GeoJSON source containing beach status
+  map.addSource('spills', {
+    type: 'geojson',
+    data: `${urlbase}tijuana/ibwc/output/spills_last_by_site.geojson`
+  });
+  const thirtyDaysAgo = dayjs().subtract(spill_days, 'day').toISOString();
+  // Create a symbol layer using the custom pin icon
+  map.addLayer({
+    id: 'spills',
+    type: 'symbol',
+    source: 'spills',
+    filter: ['any',
+      ['>=', ['get', 'End Time'], thirtyDaysAgo],
+      ['>=', ['get', 'Start Time'], thirtyDaysAgo],
+    ],
+    layout: {
+      'icon-image': 'spill_icon',
+      //'icon-size': .1,
+      'icon-size': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        5, .2,  // At zoom level 5, text size 10
+        12, .4,  // At zoom level 12, text size 18
+        14, .5,
       ],
-      layout: {
-        'icon-image': 'spill_icon',
-        //'icon-size': .1,
-        'icon-size': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          5, .2,  // At zoom level 5, text size 10
-          12, .4,  // At zoom level 12, text size 18
-          14, .5,
-        ],
-        'icon-allow-overlap': true,
-        // Offset the icon so the tip of the pin points to the location
-        'icon-offset': [0, 0]
-      },
-      // paint: {
-      //   // Use the RGBcolor property to tint the pin
-      //   'icon-color': ['get', 'RBGColor']
-      // }
-    });
+      'icon-allow-overlap': true,
+      // Offset the icon so the tip of the pin points to the location
+      'icon-offset': [0, 0]
+    },
+    // paint: {
+    //   // Use the RGBcolor property to tint the pin
+    //   'icon-color': ['get', 'RBGColor']
+    // }
+  });
 
-    // Add a popup when a pin is clicked
-    map.on('click', 'spills', function(e) {
-      var feature = e.features[0];
-      var coordinates = feature.geometry.coordinates.slice();
-      var name = feature.properties['Discharge Location'];
-      var dates = {
-        start: dayjs(feature.properties['Start Date']),
-        end: dayjs(feature.properties['End Date'])
-      };
-      let dateStr;
-      if (dates.start.isSame(dates.end, 'day')) {
-        dateStr = window.i18next.t("tooltips.wastewater.time", {
-          date: dates.start.locale(window.i18next.language).format("MMM D")
-        });
-      }
-      else {
-        dateStr = window.i18next.t("tooltips.wastewater.duration", {
-          start: dates.start.locale(window.i18next.language).format("MMM D"),
-          end: dates.end.locale(window.i18next.language).format("MMM D")
-        });
-      }
-      var volume = feature.properties['Approximate Discharge Volume'];
-      var popupContent = `
+  // Add a popup when a pin is clicked
+  map.on('click', 'spills', function (e) {
+    var feature = e.features[0];
+    var coordinates = feature.geometry.coordinates.slice();
+    var name = feature.properties['Discharge Location'];
+    var dates = {
+      start: dayjs(feature.properties['Start Date']),
+      end: dayjs(feature.properties['End Date'])
+    };
+    let dateStr;
+    if (dates.start.isSame(dates.end, 'day')) {
+      dateStr = window.i18next.t("tooltips.wastewater.time", {
+        date: dates.start.locale(window.i18next.language).format("MMM D")
+      });
+    } else {
+      dateStr = window.i18next.t("tooltips.wastewater.duration", {
+        start: dates.start.locale(window.i18next.language).format("MMM D"),
+        end: dates.end.locale(window.i18next.language).format("MMM D")
+      });
+    }
+    var volume = feature.properties['Approximate Discharge Volume'];
+    var popupContent = `
       <div class="tooltip">
         <div class="tooltip-header">
           <i class="bi bi-droplet"></i>
@@ -488,59 +492,62 @@ function spills_layer(spill_days){
         </div>
       </div>`
 
-      new mapboxgl.Popup({ className: "mapbox-tooltip spill-tooltip" })
-        .setLngLat(coordinates)
-        .setHTML(popupContent)
-        .addTo(map);
-    });
+    new mapboxgl.Popup({className: "mapbox-tooltip spill-tooltip"})
+      .setLngLat(coordinates)
+      .setHTML(popupContent)
+      .addTo(map);
+  });
 
+} catch {
+  console.log(' error creating spills map layers ')
+}
 
 
 }
 
 function h2s_layer(){
+try {
+  // Add your GeoJSON source containing beach status
+  map.addSource('h2s', {
+    type: 'geojson',
+    data: `${urlbase}tijuana/sd_apcd_air/output/lastvalue_h2s.geojson`
+  });
 
-    // Add your GeoJSON source containing beach status
-    map.addSource('h2s', {
-      type: 'geojson',
-      data: `${urlbase}tijuana/sd_apcd_air/output/lastvalue_h2s.geojson`
-    });
+  // Create a symbol layer using the custom pin icon
+  map.addLayer({
+    id: 'h2s',
+    type: 'symbol',
+    source: 'h2s',
+    layout: {
+      'icon-image': 'h2s_icon',
+      'icon-size': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        5, .3,  // At zoom level 5, text size 10
+        12, .4,  // At zoom level 12, text size 18
+        14, .5
+      ],
+      'icon-allow-overlap': true,
+      // Offset the icon so the tip of the pin points to the location
+      'icon-offset': [0, 0]
+    },
+    paint: {
+      // Use the level property to tint the pin
+      'icon-color': ['get', 'level']
+    }
+  });
 
-    // Create a symbol layer using the custom pin icon
-    map.addLayer({
-      id: 'h2s',
-      type: 'symbol',
-      source: 'h2s',
-      layout: {
-        'icon-image': 'h2s_icon',
-        'icon-size': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          5, .3,  // At zoom level 5, text size 10
-          12, .4,  // At zoom level 12, text size 18
-          14, .5
-        ],
-        'icon-allow-overlap': true,
-        // Offset the icon so the tip of the pin points to the location
-        'icon-offset': [0, 0]
-      },
-      paint: {
-        // Use the level property to tint the pin
-        'icon-color': ['get', 'level']
-      }
-    });
-
-    // Add a popup when a pin is clicked
-    map.on('click', 'h2s', function(e) {
-      var feature = e.features[0];
-      var coordinates = feature.geometry.coordinates.slice();
-      var name = feature.properties['Site Name'];
-      var description = feature.properties.Result;
-      let date = dayjs(feature.properties['Date with time']);
-      var airnow_link = `https://www.airnow.gov/?city=${feature.properties['Site Name']}&state=CA&country=USA`
-      var indicatorClass = getIndicatorLevelForH2SValue(description);
-      var popupContent = `
+  // Add a popup when a pin is clicked
+  map.on('click', 'h2s', function (e) {
+    var feature = e.features[0];
+    var coordinates = feature.geometry.coordinates.slice();
+    var name = feature.properties['Site Name'];
+    var description = feature.properties.Result;
+    let date = dayjs(feature.properties['Date with time']);
+    var airnow_link = `https://www.airnow.gov/?city=${feature.properties['Site Name']}&state=CA&country=USA`
+    var indicatorClass = getIndicatorLevelForH2SValue(description);
+    var popupContent = `
       <div class="tooltip">
         <div class="tooltip-header">
           <i class="bi bi-wind"></i>
@@ -563,42 +570,44 @@ function h2s_layer(){
         </div>
       </div>`
 
-      new mapboxgl.Popup({ className: "mapbox-tooltip h2s-tooltip" })
-        .setLngLat(coordinates)
-        .setHTML(popupContent)
-        .addTo(map);
-    });
+    new mapboxgl.Popup({className: "mapbox-tooltip h2s-tooltip"})
+      .setLngLat(coordinates)
+      .setHTML(popupContent)
+      .addTo(map);
+  });
 
-    map.addLayer({
-      id: 'h2s-value',
-      type: 'symbol',
-      source: 'h2s',
+  map.addLayer({
+    id: 'h2s-value',
+    type: 'symbol',
+    source: 'h2s',
 
-      layout: {
-        'text-field': ['get', 'Original Value'],
-        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-        'text-size': 12,
-        'text-offset': [-2,0],
-      },paint: {
-        'text-color': '#000'
-      }
-    });
-    map.addLayer({
-      id: 'h2s-name',
-      type: 'symbol',
-      source: 'h2s',
+    layout: {
+      'text-field': ['get', 'Original Value'],
+      'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+      'text-size': 12,
+      'text-offset': [-2, 0],
+    }, paint: {
+      'text-color': '#000'
+    }
+  });
+  map.addLayer({
+    id: 'h2s-name',
+    type: 'symbol',
+    source: 'h2s',
 
-      layout: {
-        'text-field': ['get', 'LongName'],
-        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-        'text-size': 12,
-        'text-offset': [0,3]
-      },
-      paint: {
-        'text-color': '#000'
-      }
-    });
-
+    layout: {
+      'text-field': ['get', 'LongName'],
+      'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+      'text-size': 12,
+      'text-offset': [0, 3]
+    },
+    paint: {
+      'text-color': '#000'
+    }
+  });
+} catch {
+  console.log('error creating h2s map layers ')
+}
 }
 
 function parseBeachData(beachTooltipProperties) {
