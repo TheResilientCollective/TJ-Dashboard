@@ -280,8 +280,9 @@ function renderBeachClosures(jsonData) {
   latestBeachData = jsonData; // Store data
   // const lastrendered= jsonData['lastUpdated']
   window.latestBeachData = jsonData;
-
-  const countClosures = jsonData.data.length;
+  const closedBeaches = jsonData.data.filter((x)=> x.beachStatus === "Closed")
+  const advisoryBeaches = jsonData.data.filter((x)=> x.beachStatus === "Under Advisory")
+  const countClosures = closedBeaches.length;
   // TODO: Calculate change from last week - requires historical data or assumptions
   const countClosuresChange = 0; // Placeholder
 
@@ -331,7 +332,7 @@ function renderBeachClosures(jsonData) {
   if (!jsonDiv) return;
   jsonDiv.innerHTML = "";
 
-  jsonData.data.forEach((obj) => {
+  closedBeaches.forEach((obj) => {
     const name = obj["Name"];
     console.log("[app.js] Beach closure entry:", obj);
     // Assuming name doesn't need translation, but cleaning it up
