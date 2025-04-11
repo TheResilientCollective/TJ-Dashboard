@@ -222,7 +222,7 @@
         <div class="sidebar-card-separator"><span><h2 data-i18n="sidebar.sections.ongoing">Ongoing Events</h2></span></div>
 
         <!-- What We Know -->
-        <div class="card shadow expandable" onclick="selectCard('What We Know')">
+        <div class="card shadow expandable expanded" onclick="selectCard('What We Know')">
           <div class="card-header always-expand">
             <i class="bi bi-info-circle"></i>
             <h3 class="card-title" data-i18n="sidebar.cards.whatWeKnow.title">What We Know</h3>
@@ -241,8 +241,29 @@
           </p>
 
           <div class="card-footer">
-            <span></span>
-            <a></a>
+            <span data-i18n="sidebar.cards.whatWeKnow.footer.text"></span>
+            <a data-i18n="sidebar.cards.whatWeKnow.footer.link.text" data-i18n-href="sidebar.cards.whatWeKnow.footer.link.url"></a>
+          </div>
+        </div>
+
+        <!-- What We’re Doing -->
+        <div id="what-were-doing-card" class="card text-card shadow expandable">
+          <div class="card-header always-expand">
+            <i class="icon-action"></i>
+            <h3 class="card-title" data-i18n="sidebar.cards.whatWereDoing.title">What We're Doing</h3>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
+          </div>
+
+          <p data-i18n="sidebar.cards.whatWereDoing.p1"></p>
+
+          <p>
+            <span data-i18n="sidebar.cards.whatWereDoing.p2">More information about what actions the County is taking to ensure the health and quality of life for South Region residents can be found here:</span>
+            <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.whatWereDoing.link.text" data-i18n-href="sidebar.cards.whatWereDoing.link.url">What the county is doing</a>
+          </p>
+
+          <div class="card-footer">
+            <span data-i18n="sidebar.cards.whatWereDoing.footer.text"></span>
+            <a data-i18n="sidebar.cards.whatWereDoing.footer.link.text" data-i18n-href="sidebar.cards.whatWereDoing.footer.link.url"></a>
           </div>
         </div>
 
@@ -262,7 +283,7 @@
               <li data-i18n="sidebar.cards.whatYouCanDo.reportOptions.app">Mobile app</li>
               <li data-i18n="sidebar.cards.whatYouCanDo.reportOptions.phone">Phone at (858) 586-2650,</li>
               <li data-i18n="sidebar.cards.whatYouCanDo.reportOptions.email" data-i18n-html="true">Email to <a href="mailto:apcdcomp@sdapcd.org" >apcdcomp@sdapcd.org</a>, or</li>
-              <li><a href="http://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html" target="_blank" data-i18n="sidebar.cards.whatYouCanDo.reportOptions.online">Visit online</a></li>
+              <li><span data-i18n="sidebar.cards.whatYouCanDo.reportOptions.online.label"></span><a href="https://example.com" target="_blank" data-i18n="sidebar.cards.whatYouCanDo.reportOptions.online.text" data-i18n-href="sidebar.cards.whatYouCanDo.reportOptions.online.url">Visit online</a></li>
             </ul>
           </div>
 
@@ -277,8 +298,10 @@
           </ul>
 
           <p>
-            <span data-i18n="sidebar.cards.whatYouCanDo.h2sLink.label">Recommendations based on current Hydrogen Sulfide levels can be found here:</span>
-            <a href="https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/tjrv-air-quality-monitoring.html" target="_blank" data-i18n="sidebar.cards.whatYouCanDo.h2sLink.link.text">Air Quality Monitoring</a>
+            <span data-i18n="sidebar.cards.whatYouCanDo.h2sLink.label1">Recommendations based on current Hydrogen Sulfide levels can be found here:</span>
+            <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.whatYouCanDo.h2sLink.link1.text" data-i18n-href="sidebar.cards.whatYouCanDo.h2sLink.link1.url">Air Quality Monitoring</a>
+            <span data-i18n="sidebar.cards.whatYouCanDo.h2sLink.label2">.</span>
+            <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.whatYouCanDo.h2sLink.link2.text" data-i18n-href="sidebar.cards.whatYouCanDo.h2sLink.link2.url">Hydrogen Sulfide</a>
           </p>
 
           <p data-i18n="sidebar.cards.whatYouCanDo.reduceAirExposure">
@@ -300,7 +323,7 @@
 
           <div class="card-footer">
             <span data-i18n="sidebar.cards.whatYouCanDo.footer.text"></span>
-            <a data-i18n="sidebar.cards.whatYouCanDo.footer.link.text"></a>
+            <a data-i18n="sidebar.cards.whatYouCanDo.footer.link.text" data-i18n-href="sidebar.cards.whatYouCanDo.footer.link.url"></a>
           </div>
         </div>
 
@@ -330,27 +353,6 @@
             </div>
           </div>
         </div> -->
-
-        <!-- What We’re Doing -->
-        <div id="what-were-doing-card" class="card text-card shadow expandable">
-          <div class="card-header always-expand">
-            <i class="icon-action"></i>
-            <h3 class="card-title" data-i18n="sidebar.cards.whatWereDoing.title">What We're Doing</h3>
-            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
-          </div>
-
-          <p data-i18n="sidebar.cards.whatWereDoing.p1"></p>
-
-          <p>
-            <span data-i18n="sidebar.cards.whatWereDoing.p2">More information about what actions the County is taking to ensure the health and quality of life for South Region residents can be found here:</span>
-            <a href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html" target="_blank" data-i18n="sidebar.cards.whatWereDoing.link.text">What the county is doing</a>
-          </p>
-
-          <div class="card-footer">
-            <span data-i18n="sidebar.cards.whatWereDoing.footer.text"></span>
-            <a data-i18n="sidebar.cards.whatWereDoing.footer.link.text"></a>
-          </div>
-        </div>
 
         <!-- Card: Air Quality (with time widget inside expandable section) -->
         <!--    <div class="card shadow expandable expanded" onclick="selectCard('Air Quality')">-->
@@ -384,13 +386,14 @@
             <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
           </div>
 
-          <p data-i18n="sidebar.cards.h2s.p1">
-            Hydrogen sulfide (H₂S) is a colorless gas with a characteristic odor of rotten eggs. Hydrogen Sulfide is measured in ppB (parts per billion) - lower is better.
+          <p>
+            <span data-i18n="sidebar.cards.h2s.p1.label">Hydrogen sulfide (H₂S) is a colorless gas with a characteristic odor of rotten eggs. Hydrogen Sulfide is measured in ppB (parts per billion) - lower is better.</span>
+            <a href="https://example.com" data-i18n-href="sidebar.cards.h2s.p1.link.url" data-i18n="sidebar.cards.h2s.p1.link.text" target="_blank">Air Quality Monitoring</a>
           </p>
 
           <p>
             <span data-i18n="sidebar.cards.h2s.p2">Longer term monitoring information can be found here:</span>
-            <a href="https://app.powerbigov.us/view?r=eyJrIjoiOGMwYzM2ZGYtZGU4Ny00ZGI5LWE2NWMtMmZlOGEzZTYzMDc3IiwidCI6IjQ1NjNhZjEzLWMwMjktNDFiMy1iNzRjLTk2NWU4ZWVjOGY5NiJ9" target="_blank" data-i18n="sidebar.cards.h2s.link.text">Hydrogen Sulfide Monitoring</a>
+            <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.h2s.link.text" data-i18n-href="sidebar.cards.h2s.link.url">Hydrogen Sulfide Monitoring</a>
           </p>
 
           <div id="h2s_summary" class="card-data">
@@ -431,8 +434,7 @@
 
           <div class="card-footer">
             <span data-i18n="sidebar.cards.h2s.footer.text"></span>
-            <a target="_blank" href="https://www.sdapcd.org/" data-i18n="sidebar.cards.h2s.footer.link.text">More Info</a>
-            <!-- <a target="_blank" href="https://www.sdapcd.org/content/dam/sdapcd/documents/tjrv/Community%20H2S%20Guidance_11.13.24_ENGLISH.pdf" data-i18n="sidebar.cards.h2s.footer.link.text">H₂S Guidance</a> -->
+            <a target="_blank" href="https://example.com" data-i18n="sidebar.cards.h2s.footer.link.text" data-i18n-href="sidebar.cards.h2s.footer.link.url">More Info</a>
           </div>
         </div>
 
@@ -463,7 +465,7 @@
 
           <p>
             <span data-i18n="sidebar.cards.beachClosures.p1.body">Sewage contamination has led to beach closures. Additional warnings and advisories can be found here:</span>
-            <a href="https://www.sdbeachinfo.com/" target="_blank" data-i18n="sidebar.cards.beachClosures.p1.link.text">San Diego Beach & Bay Water Quality Program</a>
+            <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.beachClosures.p1.link.text" data-i18n-href="sidebar.cards.beachClosures.p1.link.url">San Diego Beach & Bay Water Quality Program</a>
           </p>
           <p data-i18n="sidebar.cards.beachClosures.p2">
             The following beaches are currently closed.
@@ -489,7 +491,7 @@
 
           <div class="card-footer">
             <span data-i18n="sidebar.cards.beachClosures.footer.text"></span>
-            <a data-i18n="sidebar.cards.beachClosures.footer.link.text"></a>
+            <a data-i18n="sidebar.cards.beachClosures.footer.link.text" href="https://example.com" target="_blank" data-i18n-href="sidebar.cards.beachClosures.footer.link.url"></a>
           </div>
         </div>
 
@@ -519,8 +521,9 @@
             </table>
           </div>
 
-          <p data-i18n="sidebar.cards.odorComplaints.p1">
-            The following are public complaints about odors that have been reported to SDAPCD.
+          <p>
+            <span data-i18n="sidebar.cards.odorComplaints.p1.body">The following are public complaints about odors that have been reported to SDAPCD.</span>
+            <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.odorComplaints.p1.link.text" data-i18n-href="sidebar.cards.odorComplaints.p1.link.url">More Info</a>
           </p>
 
           <div id="odor-complaint-data" class="card-data">
@@ -536,7 +539,7 @@
 
           <div class="card-footer">
             <span data-i18n="sidebar.cards.odorComplaints.footer.text"></span>
-            <a target="_blank" href="https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df" data-i18n="sidebar.cards.odorComplaints.footer.link.text">More data</a>
+            <a target="_blank" href="https://example.com" data-i18n="sidebar.cards.odorComplaints.footer.link.text" data-i18n-href="sidebar.cards.odorComplaints.footer.link.url">More Info</a>
           </div>
         </div>
 
@@ -589,12 +592,12 @@
 
           <p>
             <span data-i18n="sidebar.cards.healthConcerns.p1.body">County of San Diego is tracking trends in gastrointestinal and respiratory conditions in the south region. For more information and details, go to the </span>
-            <a target="_blank" href="https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html" data-i18n="sidebar.cards.healthConcerns.p1.link.text">South Region Health Concerns page</a>.
+            <a target="_blank" href="https://example.com" data-i18n="sidebar.cards.healthConcerns.p1.link.text" data-i18n-href="sidebar.cards.healthConcerns.p1.link.url">South Region Health Concerns page</a>.
           </p>
 
           <div class="card-footer">
             <span data-i18n="sidebar.cards.healthConcerns.footer.text"></span>
-            <a data-i18n="sidebar.cards.healthConcerns.footer.link.text"></a>
+            <a data-i18n="sidebar.cards.healthConcerns.footer.link.text" href="https://example.com" target="_blank" data-i18n-href="sidebar.cards.healthConcerns.footer.link.url"></a>
           </div>
         </div>
 

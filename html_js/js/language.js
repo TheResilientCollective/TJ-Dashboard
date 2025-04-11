@@ -81,6 +81,20 @@ function updateContent() {
         }
     });
 
+    document.querySelectorAll("[data-i18n-href]").forEach((element) => {
+        const key = element.getAttribute("data-i18n-href");
+        if (!i18next.exists(key)) {
+            console.warn(
+                `Translation key missing: ${key} for language ${i18next.language}`
+            );
+            return;
+        }
+        const options = JSON.parse(
+            element.getAttribute("data-i18n-options") || "{}"
+        );
+        element.setAttribute("href", i18next.t(key, options));
+    });
+
     // --- Re-render dynamic data sections using stored data ---
     // Check if data exists before trying to render
     if (typeof renderH2STable === "function" && window.latestH2SData) {

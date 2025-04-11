@@ -11,7 +11,7 @@
             "whatWeKnow": {
                 "title": "What We Know",
                 "p1": "A combination of several factors has led to the overflow of sewage, causing runoff water and contamination to go into the ocean on both the Mexico and U.S. sides of the border.",
-                "p2": "There are multi-agency efforts to address air and water quality issues in the Tijuana River Valley that are impacting San Diego area communities.",
+                "p2": "",
                 "p3": "This dashboard and mapping tool provide information from multiple sources about the air and beach/river water quality in San Diego related to this issue.",
                 "footer": {
                     "text": "",
@@ -23,29 +23,38 @@
             },
             "whatYouCanDo": {
                 "title": "What You Can Do",
-                "reportOdor": "Report odor complaints to the San Diego County Air Pollution Control District by:",
+                "reportOdor": "Report air quality complaints to the San Diego County Air Pollution Control District (SDAPCD) by:",
                 "reportOptions": {
-                    "app": "Mobile app",
+                    "app": "Mobile app,",
                     "phone": "Phone at (858) 586-2650,",
                     "email": "Email to <a href='mailto:apcdcomp@sdapcd.org'>apcdcomp@sdapcd.org</a>, or",
-                    "online": "Visit online"
+                    "online": {
+                        "label": "Visit ",
+                        "text": "online.",
+                        "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html"
+                    }
                 },
                 "reportInfoNeeded": "When filing a report, the following information will assist us in investigating your concern:",
                 "infoItems": {
-                    "name": "Your name, address, and telephone number",
-                    "time": "The time and date the air quality concern occurred and whether it is still continuing",
-                    "nature": "The nature of the air quality concern (smoke, dust, odor, or other)",
-                    "source": "The name and address of the alleged source and the type of operation causing it (if known)"
+                    "name": "Your name, address, and telephone number.",
+                    "time": "The time and date the air quality concern occurred and whether it is still continuing.",
+                    "nature": "The nature of the air quality concern (smoke, dust, odor, or other).",
+                    "source": "The name and address of the alleged source and the type of operation causing it (if known)."
                 },
                 "h2sLink": {
-                    "label": "Recommendations based on current Hydrogen Sulfide levels can be found here:",
-                    "link": {
-                        "text": "Air Quality Monitoring",
-                        "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/tjrv-air-quality-monitoring.html"
+                    "label1": "Learn about, and how to protect yourself from, ",
+                    "link1": {
+                        "text": "Environmental Odors",
+                        "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-environmental-odors.html"
+                    },
+                    "label2": " and ",
+                    "link2": {
+                        "text": "Contaminated Water",
+                        "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-contaminated-water.html"
                     }
                 },
-                "reduceAirExposure": "You can reduce your exposure to poor quality air or strong odors by limiting outdoor activity, keeping windows and doors closed, and airing out your home or business when odors are not present. If available, use air conditioning or portable indoor air purifiers. Look into whether filters need to be replaced. Use certified HEPA filters with activated charcoal. If possible, run your air conditioner at your business for 1-2 hours before opening.",
-                "beachSafety": "Don't make direct physical contact with beach water at any closed beach. This is especially important after heavy rain. Stay away from areas with visible sewage spills. Stay out of floodwater. Do not swim, go into, or swallow contaminated beach water sources.",
+                "reduceAirExposure": "",
+                "beachSafety": "",
                 "footer": {
                     "text": "",
                     "link": {
@@ -57,9 +66,9 @@
             "whatWereDoing": {
                 "title": "What We’re Doing",
                 "p1": "County of San Diego officials are working with partners and other agencies to assess concerns and impacts from sewage and pollution in the Tijuana River Valley and surrounding communities.",
-                "p2": "More information about what actions the County is taking to ensure the health and quality of life for South Region residents can be found here:",
+                "p2": "More information can be found here:",
                 "link": {
-                    "text": "What the county is doing",
+                    "text": "What the County is Doing.",
                     "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html"
                 },
                 "footer": {
@@ -72,7 +81,13 @@
             },
             "h2s": {
                 "title": "Hydrogen Sulfide",
-                "p1": "Hydrogen sulfide (H₂S) is a colorless gas with a characteristic odor of rotten eggs. Hydrogen Sulfide is measured in ppb (parts per billion) - lower is better.",
+                "p1": {
+                    "label": "Hydrogen sulfide (H₂S) is a colorless gas with a characteristic odor of rotten eggs. Hydrogen sulfide is measured in ppb (parts per billion) - the lower ppb the better. Recommendations based on current Hydrogen sulfide levels can be four here:",
+                    "link": {
+                        "text": "Air Quality Monitoring",
+                        "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/tjrv-air-quality-monitoring.html"
+                    }
+                },
                 "p2": "Longer term monitoring information can be found here:",
                 "link": {
                     "text": "Hydrogen Sulfide Monitoring",
@@ -84,7 +99,7 @@
                     "text": "Updated {{date}}",
                     "link": {
                         "text": "More Info",
-                        "url": "https://www.sdapcd.org/"
+                        "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html"
                     }
                 }
             },
@@ -98,14 +113,14 @@
                     "trend_same": "same as last week"
                 },
                 "p1": {
-                    "body": "Sewage contamination has led to beach closures. Additional warnings and advisories can be found here:",
+                    "body": "A closure is issued when a sewage or chemical spill impacts ocean or bay waters. Additional warnings and advisories can be found here:",
                     "link": {
                         "text": "San Diego Beach & Bay Water Quality Program",
                         "url": "https://www.sdbeachinfo.com/"
                     }
                 },
-                "p2": "The following beaches are currently closed.",
-                "tableLabel": "Recent Closures",
+                "p2": "",
+                "tableLabel": "The following beaches are currently closed:",
                  "status": {
                     "closed": "closed"
                  },
@@ -118,7 +133,7 @@
                 }
             },
             "odorComplaints": {
-                "title": "Public Odor Complaints",
+                "title": "Smell Complaints",
                 "overview": {
                     "count_one": "{{count}} Complaint",
                     "count_other": "{{count}} Complaints",
@@ -127,24 +142,30 @@
                     "trend_positive": "+{{change}} from last week",
                     "trend_same": "same as last week"
                 },
-                "p1": "The following are public complaints about odors that have been reported to SDAPCD.",
+                "p1": {
+                    "body": "The following are public complaints about odors that have been received and investigated by SDAPCD. More information can be found here:",
+                    "link": {
+                        "text": "Air Quality Concerns",
+                        "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html"
+                    }
+                },
                 "tableLabel": "Complaints in the last 7 days",
                 "dailyCount_one": "{{count}} complaint",
                 "dailyCount_other": "{{count}} complaints",
                 "footer": {
                     "text": "Updated {{date}}",
                     "link": {
-                        "text": "More data",
-                        "url": "https://gis-portal.sandiegocounty.gov/arcgis/apps/dashboards/f1f548c93c1b44eeb289b4daa0bec5df"
+                        "text": "",
+                        "url": ""
                     }
                 }
             },
             "healthConcerns": {
-                "title": "South Region Health Concerns",
+                "title": "Public Health Data",
                 "p1": {
-                    "body": "County of San Diego is tracking trends in gastrointestinal and respiratory conditions in the south region. For more information and details, go to the ",
+                    "body": "The County of San Diego's Public Health Services monitors trends in gastrointestinal and respiratory conditions in the South Region. Additional information can be found here:",
                     "link": {
-                        "text": "South Region Health Concerns page",
+                        "text": "South Region Health Concerns Public Health Data",
                         "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html"
                     }
                 },
@@ -160,7 +181,7 @@
         }
     },
     "topbar": {
-        "beaches": "Beach Status",
+        "beaches": "Beach Water Quality",
         "h2sLevels": "H₂S Levels",
         "odorComplaints": "Smell Complaints",
         "wastewaterSpills": "Wastewater Spills",
