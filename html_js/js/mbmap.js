@@ -61,7 +61,9 @@ function complaints_layer(complaint_days) {
     fetch(`${urlbase}tijuana/sd_complaints/output/complaints.geojson`) // update the path or URL to your GeoJSON file
       .then((response) => response.json())
       .then((data) => {
-        const complaintsVisible = document.querySelector("#complaints-filter-btn").classList.contains("active");
+        const complaintsVisible = document
+          .querySelector("#complaints-filter-btn")
+          .classList.contains("active");
         map.addSource("complaints", {
           type: "geojson",
           data: data,
@@ -174,9 +176,9 @@ function complaints_layer(complaint_days) {
           filter: ["has", "point_count"],
           layout: {
             "text-field": "{point_count_abbreviated}",
-            "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-            "text-size": 12,
-            "visibility": complaintsVisible ? "visible" : "none",
+            "text-font": ["Arial Unicode MS Bold"],
+            "text-size": 14,
+            visibility: complaintsVisible ? "visible" : "none",
           },
         });
 
@@ -205,10 +207,7 @@ function complaints_layer(complaint_days) {
             "icon-allow-overlap": true,
             // Offset the icon so the tip of the pin points to the location
             "icon-offset": [0, 0],
-            "visibility": complaintsVisible ? "visible" : "none",
-          },
-          paint: {
-            "icon-color": "#51bbd6",
+            visibility: complaintsVisible ? "visible" : "none",
           },
         });
         map.on("click", "complaint-unclustered", function (e) {
@@ -286,50 +285,15 @@ function complaints_layer(complaint_days) {
 function beach_layer() {
   // beachwatch
   try {
-    const beachVisible = document.querySelector("#beaches-filter-btn").classList.contains("active");
+    const beachVisible = document
+      .querySelector("#beaches-filter-btn")
+      .classList.contains("active");
     // Add your GeoJSON source containing beach status
     map.addSource("beaches", {
       type: "geojson",
       data: `${urlbase}tijuana/beachwatch/output/current/sdbeachinfo_status_translated.geojson`,
     });
-
-    // Create a symbol layer using the custom pin icon
-    map.addLayer({
-      id: "beaches",
-      type: "symbol",
-      source: "beaches",
-      filter: ["!=", ["get", "LocationType"], "Outfall"],
-      layout: {
-        //"icon-image": "beach_icon",
-        "icon-image": [
-          'match',
-        ['get', 'beachStatus'], // Replace 'status' with your property name
-    'Closure', 'beach-closure',   // When status is "active", use green
-      'Open', 'beach-open',
-      'Advisory', 'beach-advisory',
-      //'Outfall', '#000000',
-      /* default */ '#f9a028' // warning... since we have not seen it in the data
-  ],
-        "icon-size": iconSizing,
-        "icon-allow-overlap": true,
-        // Offset the icon so the tip of the pin points to the location
-        "icon-offset": [0, 0],
-        "visibility": beachVisible ? "visible" : "none",
-      },
-      // paint: {
-      //   // Use the RGBcolor property to tint the pin
-      //   //"icon-color": ["get", "RBGColor"],
-      //   'icon-color': [
-      //     'match',
-      //     ['get', 'beachStatus'], // Replace 'status' with your property name
-      //     'Closure', '#ed1c25',   // When status is "active", use green
-      //     'Open', '#33db17',
-      //     'Advisory', '#fff204',
-      //     'Outfall', '#000000',
-      //     /* default */ '#f9a028' // warning... since we have not seen it in the data
-      //   ]
-      // },
-    });
+    
     map.addLayer({
       id: "outfalls",
       type: "symbol",
@@ -342,11 +306,39 @@ function beach_layer() {
         "icon-allow-overlap": true,
         // Offset the icon so the tip of the pin points to the location
         "icon-offset": [0, 0],
-        "visibility": beachVisible ? "visible" : "none",
+        visibility: beachVisible ? "visible" : "none",
       },
-      paint: {
-        // Use the RGBcolor property to tint the pin
-        "icon-color": "#000000",
+    });
+
+    // Create a symbol layer using the custom pin icon
+    map.addLayer({
+      id: "beaches",
+      type: "symbol",
+      source: "beaches",
+      filter: ["!=", ["get", "LocationType"], "Outfall"],
+      layout: {
+        //"icon-image": "beach_icon",
+        "icon-image": [
+          "match",
+          ["get", "beachStatus"], // Replace 'status' with your property name
+          "Closure",
+          "beach-closure", // When status is "active", use green
+          "Open",
+          "beach-open",
+          "Advisory",
+          "beach-advisory",
+          "Warning",
+          "beach-warning",
+          "Outfall",
+          "outfall_icon",
+          //'Outfall', '#000000',
+          /* default */ "beach-open", // warning... since we have not seen it in the data
+        ],
+        "icon-size": iconSizing,
+        "icon-allow-overlap": true,
+        // Offset the icon so the tip of the pin points to the location
+        "icon-offset": [0, 0],
+        visibility: beachVisible ? "visible" : "none",
       },
     });
     // Add a popup when a pin is clicked
@@ -452,12 +444,12 @@ function beach_layer() {
 <!--              <span>Beach users are urged to avoid contact with runoff and recreational waters within at least 75 feet from where runoff enters the ocean.</span>-->
 <!--            </div>-->
 ${
-      (beachData.statusNote) ?
-        `<div class="tooltip-line beach-status-note">
+  beachData.statusNote
+    ? `<div class="tooltip-line beach-status-note">
               <span>${beachData.statusNote}</span>
             </div>`
-        : ""
-    }
+    : ""
+}
 
       </div>`;
 
@@ -481,7 +473,9 @@ ${
 function spills_layer(spill_days) {
   // spills
   try {
-    const spillVisible = document.querySelector("#spills-filter-btn").classList.contains("active");
+    const spillVisible = document
+      .querySelector("#spills-filter-btn")
+      .classList.contains("active");
     // Add your GeoJSON source containing beach status
     map.addSource("spills", {
       type: "geojson",
@@ -515,7 +509,7 @@ function spills_layer(spill_days) {
         "icon-allow-overlap": true,
         // Offset the icon so the tip of the pin points to the location
         "icon-offset": [0, 0],
-        "visibility": spillVisible ? "visible" : "none",
+        visibility: spillVisible ? "visible" : "none",
       },
       // paint: {
       //   // Use the RGBcolor property to tint the pin
@@ -584,7 +578,9 @@ function spills_layer(spill_days) {
 
 function h2s_layer() {
   try {
-    const h2sVisible = document.querySelector("#h2s-filter-btn").classList.contains("active");
+    const h2sVisible = document
+      .querySelector("#h2s-filter-btn")
+      .classList.contains("active");
     // Add your GeoJSON source containing beach status
     map.addSource("h2s", {
       type: "geojson",
@@ -601,34 +597,34 @@ function h2s_layer() {
           "match",
           ["get", "level"],
           "green",
-          "h2s-green",
+          "h2s_icon_green",
           "yellow",
-          "h2s-orange",
+          "h2s_icon_orange",
           "orange",
-          "h2s-orange",
+          "h2s_icon_orange",
           "purple",
-          "h2s-purple",
-          "h2s-white",
+          "h2s_icon_purple",
+          "h2s_icon_white",
         ],
         "icon-size": iconSizing,
         "icon-allow-overlap": true,
         // Offset the icon so the tip of the pin points to the location
         "icon-offset": [0, 0],
-        "visibility": h2sVisible ? "visible" : "none",
+        visibility: h2sVisible ? "visible" : "none",
       },
-      paint: {
-        // Use the level property to tint the pin
-       // "icon-color": ["get", "level"],
-        'icon-color': [
-          'match',
-          ['get', 'level'], // Replace 'status' with your property name
-          'green', '#00e400',
-          'yellow', '#ffff00',
-          'orange', '#ff7e00',
-          'purple', '#cc58db',
-          /* default */ 'white' // For any other value, use blue
-        ]
-      },
+      // paint: {
+      //   // Use the level property to tint the pin
+      //  // "icon-color": ["get", "level"],
+      //   'icon-color': [
+      //     'match',
+      //     ['get', 'level'], // Replace 'status' with your property name
+      //     'green', '#00e400',
+      //     'yellow', '#ffff00',
+      //     'orange', '#ff7e00',
+      //     'purple', '#cc58db',
+      //     /* default */ 'white' // For any other value, use blue
+      //   ]
+      // },
     });
 
     // Add a popup when a pin is clicked
@@ -708,8 +704,6 @@ function h2s_layer() {
     //     "text-color": "#000",
     //   },
     // });
-
-
   } catch {
     console.log("error creating h2s map layers ");
   }
@@ -717,7 +711,9 @@ function h2s_layer() {
 
 function watershed_layer() {
   try {
-    const watershedVisible = document.querySelector("#river-filter-btn").classList.contains("active");
+    const watershedVisible = document
+      .querySelector("#river-filter-btn")
+      .classList.contains("active");
     map.addSource("basin", {
       type: "geojson",
       data: `${urlbase}tijuana/gis/tjbasin/subbasin.geojson`,
@@ -783,19 +779,23 @@ function parseBeachData(beachTooltipProperties) {
   const name = nameParts[0].trim();
   const nameDetails = nameParts[2] ? nameParts[2].trim() : "";
 
-  let beachStatus =beachTooltipProperties['beachStatus'];
-  console.log('beachStatus',beachStatus)
-  let statusSince = null
-  if( beachTooltipProperties['StatusSince'] != ''){
-     statusSince = dayjs(beachTooltipProperties['StatusSince']);
+  let beachStatus = beachTooltipProperties["beachStatus"];
+  console.log("beachStatus", beachStatus);
+  let statusSince = null;
+  if (beachTooltipProperties["StatusSince"] != "") {
+    statusSince = dayjs(beachTooltipProperties["StatusSince"]);
   }
 
-  console.log('statusSince',statusSince)
-  let statusNote = beachTooltipProperties['StatusNote'];
-  console.log('statusNote',statusNote)
-  if  (window.i18next.language !== "en" && beachTooltipProperties['StatusNote_'+window.i18next.language]){
-    statusNote = beachTooltipProperties['StatusNote_'+window.i18next.language]
-    console.log('StatusNote'+window.i18next.language,statusNote)
+  console.log("statusSince", statusSince);
+  let statusNote = beachTooltipProperties["StatusNote"];
+  console.log("statusNote", statusNote);
+  if (
+    window.i18next.language !== "en" &&
+    beachTooltipProperties["StatusNote_" + window.i18next.language]
+  ) {
+    statusNote =
+      beachTooltipProperties["StatusNote_" + window.i18next.language];
+    console.log("StatusNote" + window.i18next.language, statusNote);
   }
 
   // Get the beach status from the properties
@@ -809,7 +809,6 @@ function parseBeachData(beachTooltipProperties) {
   //   closureNotice = beachTooltipProperties.Closure;
   //   advisoryNotice = beachTooltipProperties.Advisory;
   // }
-
 
   // let beachStatus = "Open";
   // let statusSince = "";
@@ -831,11 +830,14 @@ function parseBeachData(beachTooltipProperties) {
   if (beachTooltipProperties.LocationType === "Outfall") {
     beachStatus = "Outfall";
     statusSince = "";
-    if (window.i18next.language !== "en" && beachTooltipProperties["Description_" + window.i18next.language]) {
-      statusNote = beachTooltipProperties["Description_"+window.i18next.language];
-      console.log('Description_'+ window.i18next.language,statusNote )
-    }
-    else {
+    if (
+      window.i18next.language !== "en" &&
+      beachTooltipProperties["Description_" + window.i18next.language]
+    ) {
+      statusNote =
+        beachTooltipProperties["Description_" + window.i18next.language];
+      console.log("Description_" + window.i18next.language, statusNote);
+    } else {
       statusNote = beachTooltipProperties["Description"];
     }
   }
@@ -920,23 +922,22 @@ function parseBeachNotice(html) {
 }
 
 /// onload loads icons in bulk, then call the layers
-map.on('load', function () {
+map.on("load", function () {
   const icons = [
     { id: "spill_icon", url: "img/marker-spill-inverted.png" },
-    { id: "outfall_icon", url: "img/marker-outlet-new-inverted_2.png" },
+    { id: "outfall_icon", url: "img/marker-outlet-new-inverted.png" },
     { id: "beach_icon", url: "img/marker-beach.png" },
-    { id: "complaint_icon", url: "img/marker-complaint.png" },
-    { id: "h2s_icon", url: "img/marker-h2s-white.png" },
-    { id: "beach-advisory", url: "img/marker-beach-advisory-white.png" },
+    { id: "complaint_icon", url: "img/marker-complaint-color.png" },
+    { id: "beach-advisory", url: "img/marker-beach-advisory.png" },
     { id: "beach-closure", url: "img/marker-beach-closure-white.png" },
-    { id: "beach-warning", url: "img/marker-beach-warning-white.png" },
-    { id: "h2s-green", url: "img/marker-h2s-green.png" },
-    { id: "h2s-orange", url: "img/marker-h2s-orange.png" },
-    { id: "h2s-purple", url: "img/marker-h2s-purple.png" },
-    { id: "h2s-white", url: "img/marker-h2s-white.png" },
-
-
-
+    { id: "beach-warning", url: "img/marker-beach-warning.png" },
+    { id: "beach-open", url: "img/marker-beach-open.png" },
+    { id: "h2s_icon", url: "img/marker-h2s.png" },
+    { id: "h2s_icon_white", url: "img/marker-h2s-white.png" },
+    { id: "h2s_icon_green", url: "img/marker-h2s-green.png" },
+    { id: "h2s_icon_orange", url: "img/marker-h2s-orange.png" },
+    { id: "h2s_icon_purple", url: "img/marker-h2s-purple.png" },
+    { id: "river_icon", url: "img/river.png" },
   ];
 
   // Load icons (retrying up to 3 times)
@@ -960,7 +961,6 @@ map.on('load', function () {
         } else if (error) {
           reject(error);
         } else {
-         // map.addImage(icon.id, image, { sdf: true });
           map.addImage(icon.id, image);
           resolve();
         }
