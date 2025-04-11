@@ -1,4 +1,6 @@
-<svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="41" height="41" rx="20.5" fill="white"/>
-<path d="M20.5004 12.7412L25.2171 17.4579C26.1498 18.3901 26.7852 19.5779 27.0428 20.8713C27.3004 22.1646 27.1686 23.5053 26.6642 24.7237C26.1597 25.9421 25.3052 26.9836 24.2088 27.7163C23.1124 28.449 21.8233 28.8401 20.5046 28.8401C19.1858 28.8401 17.8967 28.449 16.8003 27.7163C15.7039 26.9836 14.8494 25.9421 14.3449 24.7237C13.8405 23.5053 13.7087 22.1646 13.9663 20.8713C14.2239 19.5779 14.8593 18.3901 15.7921 17.4579L20.5004 12.7412Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 41 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;">
+    <path d="M41,20.5C41,9.186 31.814,0 20.5,0C9.186,0 0,9.186 0,20.5C0,31.814 9.186,41 20.5,41C31.814,41 41,31.814 41,20.5Z"/>
+    <path d="M20.5,12.741L25.217,17.458C26.15,18.39 26.785,19.578 27.043,20.871C27.3,22.165 27.169,23.505 26.664,24.724C26.16,25.942 25.305,26.984 24.209,27.716C23.112,28.449 21.823,28.84 20.505,28.84C19.186,28.84 17.897,28.449 16.8,27.716C15.704,26.984 14.849,25.942 14.345,24.724C13.841,23.505 13.709,22.165 13.966,20.871C14.224,19.578 14.859,18.39 15.792,17.458L20.5,12.741Z" style="fill:none;fill-rule:nonzero;stroke:white;stroke-width:2px;"/>
 </svg>

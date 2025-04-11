@@ -558,13 +558,31 @@ button.button.map-control-button.button {
   background: none;
   transition: transform 0.3s ease;
 }
-.expandable:not(.expanded) .card-header .expand-btn {
+.expandable:not(.expanded) .expand-btn {
   transform: rotate(0deg);
 }
-.expandable.expanded .card-header .expand-btn {
+.expandable.expanded .expand-btn {
   transform: rotate(180deg);
 }
 .expandable:not(.expanded) > :not(.always-expand) {
+  display: none !important;
+}
+.expandable:not(.expanded) .expand-btn.expand-right {
+  transform: rotate(-90deg);
+}
+.expandable.expanded .expand-btn.expand-right {
+  transform: rotate(90deg);
+}
+.expandable:not(.expanded) .expand-btn.expand-left {
+  transform: rotate(90deg);
+}
+.expandable.expanded .expand-btn.expand-left {
+  transform: rotate(-90deg);
+}
+.expandable:not(.expanded) .expand-inverse {
+  display: "";
+}
+.expandable.expanded .expand-inverse {
   display: none;
 }
 
@@ -700,6 +718,9 @@ button.button.map-control-button.button {
   font-size: 0.75rem;
   color: var(--grey);
   text-align: center;
+
+  /* allow overflow to wrap onto a new line only when min-width of contents is reached */
+  flex-wrap: wrap;
 }
 
 #map-footer-bar > * {
@@ -714,6 +735,38 @@ button.button.map-control-button.button {
   min-width: calc(33.5px + var(--p1) * 2 + 2px);
   height: calc(var(--p1) * 2 + 2ex + 2px);
 }
+
+#map-footer-bar #disclaimer {
+  display: flex;
+  flex-direction: row;
+  gap: var(--p1);
+  align-items: center;
+  justify-content: center;
+}
+
+#legend {
+  display: flex;
+  flex-direction: row;
+  gap: var(--p1);
+  align-items: center;
+  justify-content: center;
+  /* overflow-x: auto; */
+}
+
+#legend .legend-item {
+  display: flex;
+  flex-direction: row;
+  gap: var(--p1);
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+#legend .legend-item img {
+  height: 150%;  
+}
+
+
 
 @media (max-width: 768px) {
   #map-footer-bar {

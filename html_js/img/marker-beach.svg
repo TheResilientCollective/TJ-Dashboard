@@ -1,4 +1,28 @@
-<svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="41" height="41" rx="20.5" fill="white"/>
-<path d="M10.5 14.5C11.1 15 11.7 15.5 13 15.5C15.5 15.5 15.5 13.5 18 13.5C19.3 13.5 19.9 14 20.5 14.5C21.1 15 21.7 15.5 23 15.5C25.5 15.5 25.5 13.5 28 13.5C29.3 13.5 29.9 14 30.5 14.5M10.5 26.5C11.1 27 11.7 27.5 13 27.5C15.5 27.5 15.5 25.5 18 25.5C19.3 25.5 19.9 26 20.5 26.5C21.1 27 21.7 27.5 23 27.5C25.5 27.5 25.5 25.5 28 25.5C29.3 25.5 29.9 26 30.5 26.5M10.5 20.5C11.1 21 11.7 21.5 13 21.5C15.5 21.5 15.5 19.5 18 19.5C19.3 19.5 19.9 20 20.5 20.5C21.1 21 21.7 21.5 23 21.5C25.5 21.5 25.5 19.5 28 19.5C29.3 19.5 29.9 20 30.5 20.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 41 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;">
+    <defs>
+        <linearGradient id="beach-gradient">
+            <animate 
+                attributeName="gradientTransform"
+                values="rotate(0);rotate(360)"
+                dur="15s"
+                repeatCount="indefinite"/>
+            <stop offset="0%" stop-color="#ED1C25">
+                <animate 
+                    attributeName="stop-color"
+                    values="#ED1C25;#FFF204;#33DB17;#FFF204;#ED1C25"
+                    dur="15s"
+                    repeatCount="indefinite"/>
+            </stop>
+        </linearGradient>
+    </defs>
+    <path d="M41,20.5C41,9.186 31.814,0 20.5,0C9.186,0 0,9.186 0,20.5C0,31.814 9.186,41 20.5,41C31.814,41 41,31.814 41,20.5Z" style="fill:url(#beach-gradient)">
+        <animate 
+            attributeName="fill"
+            values="#ED1C25;#FFF204;#33DB17;#FFF204;#ED1C25"
+            dur="15s"
+            repeatCount="indefinite"/>
+    </path>
+    <path d="M10.5,14.5C11.1,15 11.7,15.5 13,15.5C15.5,15.5 15.5,13.5 18,13.5C19.3,13.5 19.9,14 20.5,14.5C21.1,15 21.7,15.5 23,15.5C25.5,15.5 25.5,13.5 28,13.5C29.3,13.5 29.9,14 30.5,14.5M10.5,26.5C11.1,27 11.7,27.5 13,27.5C15.5,27.5 15.5,25.5 18,25.5C19.3,25.5 19.9,26 20.5,26.5C21.1,27 21.7,27.5 23,27.5C25.5,27.5 25.5,25.5 28,25.5C29.3,25.5 29.9,26 30.5,26.5M10.5,20.5C11.1,21 11.7,21.5 13,21.5C15.5,21.5 15.5,19.5 18,19.5C19.3,19.5 19.9,20 20.5,20.5C21.1,21 21.7,21.5 23,21.5C25.5,21.5 25.5,19.5 28,19.5C29.3,19.5 29.9,20 30.5,20.5" style="fill:none;fill-rule:nonzero;stroke:white;stroke-width:2px;"/>
 </svg>

@@ -190,8 +190,19 @@
     "prev3days": "previous 3 days",
     "prev30days": "previous 30 days"
   },
-  "mapDisclaimers": {
-    "p1": "Markers on map are not meant to show the area of impact, but rather the location of the data source."
+  "mapFooter": {
+    "disclaimer": {
+      "label": "Disclaimer ",
+      "text": "Markers on map are not meant to show the area of impact, but rather the location of the data source."
+    },
+    "legend": {
+      "label": "Legend ",
+      "spill": "Wastewater spill",
+      "complaint": "Smell complaint",
+      "h2s": "H2S reading",
+      "outlet": "Outfall",
+      "beach": "Beach"
+    }
   },
   "dateTimeFormats": {
     "shortDate": "MMM D",

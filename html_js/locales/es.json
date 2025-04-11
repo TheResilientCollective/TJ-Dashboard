@@ -169,8 +169,19 @@
     "prev3days": "últimos 3 días",
     "prev30days": "últimos 30 días"
   },
-  "mapDisclaimers": {
-    "p1": "Los marcadores en el mapa no pretenden mostrar el área de impacto, sino la ubicación de la fuente de datos."
+  "mapFooter": {
+    "disclaimer": {
+      "label": "Aviso Legal ",
+      "text": "Los marcadores en el mapa no pretenden mostrar el área de impacto, sino la ubicación de la fuente de datos."
+    },
+    "legend": {
+      "label": "Leyenda ",
+      "spill": "Derrame de Aguas Residuales",
+      "complaint": "Queja por Olor",
+      "h2s": "Medición de H2S",
+      "outlet": "Desagüe",
+      "beach": "Playa"
+    }
   },
   "dateTimeFormats": {
     "shortDate": "D [de] MMM",

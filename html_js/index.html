@@ -634,9 +634,40 @@
     </div> <!-- End of Sidebar -->
   </div> <!-- End of Sidebar Container -->
   <div id="map-footer-bar">
-    <p data-i18n="mapDisclaimers.p1">
-      Markers on map are not meant to show the area of impact, but rather the location of the data source.
-    </p>
+    <div id="legend" class="expandable expanded">
+      <span class="always-expand expand-inverse" data-i18n="mapFooter.legend.label">Legend </span>
+      <button class="expand-btn always-expand expand-right" onclick="toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+
+
+      <div class="legend-item">
+        <img src="img/marker-spill.svg" alt="Spill Marker" />
+        <span data-i18n="mapFooter.legend.spill">Wastewater spill</span>
+      </div>
+      <div class="legend-item">
+        <img src="img/marker-complaint.svg" alt="Complaint Marker" />
+        <span data-i18n="mapFooter.legend.complaint">Smell complaint</span>
+      </div>
+      <div class="legend-item">
+        <img src="img/marker-h2s.svg" alt="H2S Marker" />
+        <span data-i18n="mapFooter.legend.h2s">Hydrogen sulfide reading</span>
+      </div>
+      <div class="legend-item">
+        <img src="img/marker-outlet.svg" alt="Outlet Marker" />
+        <span data-i18n="mapFooter.legend.outlet">Outfall</span>
+      </div>
+      <div class="legend-item">
+        <img src="img/marker-beach.svg" alt="Beach Marker" />
+        <span data-i18n="mapFooter.legend.beach">Beach</span>
+      </div>
+    </div>
+
+    <div id="disclaimer" class="expandable expanded">
+      <span class="always-expand expand-inverse" data-i18n="mapFooter.disclaimer.label">Disclaimer </span>
+      <button class="expand-btn always-expand expand-right" onclick="toggleExpand(event)"><i class="bi bi-chevron-down"></i></button>
+      <p data-i18n="mapFooter.disclaimer.text">
+        Markers on map are not meant to show the area of impact, but rather the location of the data source.
+      </p>
+    </div>
 
     <div class="language-selector-container" data-flag="🇺🇸">
       <select class="language-selector">
