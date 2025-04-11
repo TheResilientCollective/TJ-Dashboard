@@ -10,9 +10,9 @@
     "cards": {
       "whatWeKnow": {
         "title": "Lo Que Sabemos",
-        "p1": "Una combinación de varios factores ha provocado el desbordamiento de aguas negras, causando que aguas pluviales y contaminación lleguen al océano en ambos lados de la frontera, México y Estados Unitios",
+        "p1": "Una combinación de varios factores ha provocado el desbordamiento de aguas negras, haciendo que aguas pluviales y la contaminación lleguen al océano en ambos lados de la frontera, tanto en México como en EE. UU.",
         "p2": "",
-        "p3": "Este tablero y herramienta de mapeo proporcionan información de múltiples fuentes sobre la calidad del aire y del agua de playas/ríos en San Diego relacionada con este problema.",
+        "p3": "Este tablero y herramienta de mapeo proporcionan información de diversas fuentes sobre la calidad del aire y del agua en playas/ríos en San Diego relacionada con este problema.",
         "footer": {
           "text": "",
           "link": {
@@ -39,7 +39,7 @@
           "name": "Tu nombre, dirección y número de teléfono.",
           "time": "La hora y fecha en que ocurrió el problema de calidad del aire y si aún continúa.",
           "nature": "La naturaleza del problema de calidad del aire (humo, polvo, olor u otro).",
-          "source": "El nombre y la dirección de la presunta fuente y el tipo de operación que lo causa (si se conoce)."
+          "source": "El nombre y la dirección de la presunta fuente y el tipo de operación que lo ocasiona (si se conoce)."
         },
         "h2sLink": {
           "label1": "Aprende sobre, y cómo protegerte de, ",
@@ -65,8 +65,8 @@
       },
       "whatWereDoing": {
         "title": "Lo Que Estamos Haciendo",
-        "p1": "Los funcionarios del Condado de San Diego están trabajando con socios y otras agencias para evaluar las preocupaciones y los impactos de las aguas negras y la contaminación en el Valle del Río Tijuana y las comunidades circundantes.",
-        "p2": "Puedes encontrar más información aquí:",
+        "p1": "Los funcionarios del Condado de San Diego están trabajando con socios y otras agencias para evaluar las preocupaciones e impactos de las aguas negras y la contaminación en el Valle del Río Tijuana y las comunidades circundantes.",
+        "p2": "Más información se puede encontrar aquí:",
         "link": {
           "text": "Lo Que Está Haciendo el Condado.",
           "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html"
@@ -82,7 +82,7 @@
       "h2s": {
         "title": "Sulfuro de Hidrógeno",
         "p1": {
-          "label": "El sulfuro de hidrógeno (H₂S) es un gas incoloro con un olor característico a huevos podridos. El sulfuro de hidrógeno se mide en ppb (partes por billón) - cuanto más bajo el ppb, mejor. Las recomendaciones basadas en los niveles actuales de sulfuro de hidrógeno se pueden encontrar aquí:",
+          "label": "El sulfuro de hidrógeno (H₂S) es un gas incoloro con un olor característico a huevos podridos. Se mide en ppb (partes por billón) —cuanto menor el ppb, mejor. Las recomendaciones basadas en los niveles actuales de sulfuro de hidrógeno se pueden encontrar aquí:",
           "link": {
             "text": "Monitoreo de la Calidad del Aire",
             "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/tjrv-air-quality-monitoring.html"
@@ -113,7 +113,7 @@
           "trend_same": "igual que la semana pasada"
         },
         "p1": {
-          "body": "Se emite un cierre cuando un derrame de aguas negras o químico impacta las aguas del océano o la bahía. Advertencias y avisos adicionales se pueden encontrar aquí:",
+          "body": "Se emite un cierre cuando un derrame de aguas negras o de químicos impacta las aguas del océano o de la bahía. Advertencias y avisos adicionales se pueden encontrar aquí:",
           "link": {
             "text": "Programa de Calidad del Agua de Playas y Bahía de San Diego",
             "url": "https://www.sdbeachinfo.com/"
@@ -143,7 +143,7 @@
           "trend_same": "igual que la semana pasada"
         },
         "p1": {
-          "body": "Las siguientes son quejas públicas sobre olores que han sido recibidas e investigadas por el SDAPCD. Puedes encontrar más información aquí:",
+          "body": "Las siguientes son quejas públicas sobre olores que han sido recibidas e investigadas por el SDAPCD. Más información se puede encontrar aquí:",
           "link": {
             "text": "Problemas de Calidad del Aire",
             "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html"
@@ -163,7 +163,7 @@
       "healthConcerns": {
         "title": "Datos de Salud Pública",
         "p1": {
-          "body": "Los Servicios de Salud Pública del Condado de San Diego monitorean las tendencias en condiciones gastrointestinales y respiratorias en la Región Sur. Puedes encontrar información adicional aquí:",
+          "body": "Los Servicios de Salud Pública del Condado de San Diego monitorean las tendencias en condiciones gastrointestinales y respiratorias en la Región Sur. Más información se puede encontrar aquí:",
           "link": {
             "text": "Datos de Salud Pública sobre Problemas de Salud en la Región Sur",
             "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html"
@@ -197,7 +197,7 @@
     },
     "legend": {
       "label": "Leyenda ",
-      "spill": "Derrame de aguas negras",
+      "spill": "Derrame de Aguas Negras",
       "complaint": "Queja por olor",
       "h2s": "Lectura de H₂S",
       "outlet": "Punto de descarga",
@@ -249,7 +249,8 @@
         "measurement": "medición:",
         "updated": "última act.:"
       },
-      "ppb": "ppb: partes por billón"
+      "ppb": "ppB: partes por billón"
     }
   }
 }
+

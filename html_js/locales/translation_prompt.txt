@@ -1,0 +1,11 @@
+upload file: en.json
+
+Translate the following json localization file for i18next javascript library into Spanish using the regional expressions common in the Tijuana area. Please:
+
+Use “aguas negras” in place of “sewage.”
+
+Use “aguas pluviales” for “runoff water.”
+
+Adapt terms like “dashboard” to more colloquial equivalents, for example “tablero.”
+
+Ensure the translation resonates naturally with the local public in Tijuana.

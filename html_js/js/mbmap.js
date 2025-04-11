@@ -901,8 +901,8 @@ function parseBeachNotice(html) {
 /// onload loads icons in bulk, then call the layers
 map.on('load', function () {
   const icons = [
-    { id: "spill_icon", url: "img/marker-spill.png" },
-    { id: "outfall_icon", url: "img/marker-outlet.png" },
+    { id: "spill_icon", url: "img/marker-spill-inverted_2.png" },
+    { id: "outfall_icon", url: "img/marker-outlet-new-inverted_2.png" },
     { id: "beach_icon", url: "img/marker-beach.png" },
     { id: "complaint_icon", url: "img/marker-complaint.png" },
     { id: "h2s_icon", url: "img/marker-h2s.png" },
