@@ -300,26 +300,35 @@ function beach_layer() {
       source: "beaches",
       filter: ["!=", ["get", "LocationType"], "Outfall"],
       layout: {
-        "icon-image": "beach_icon",
+        //"icon-image": "beach_icon",
+        "icon-image": [
+          'match',
+        ['get', 'beachStatus'], // Replace 'status' with your property name
+    'Closure', 'beach-closure',   // When status is "active", use green
+      'Open', 'beach-open',
+      'Advisory', 'beach-advisory',
+      //'Outfall', '#000000',
+      /* default */ '#f9a028' // warning... since we have not seen it in the data
+  ],
         "icon-size": iconSizing,
         "icon-allow-overlap": true,
         // Offset the icon so the tip of the pin points to the location
         "icon-offset": [0, 0],
         "visibility": beachVisible ? "visible" : "none",
       },
-      paint: {
-        // Use the RGBcolor property to tint the pin
-        //"icon-color": ["get", "RBGColor"],
-        'icon-color': [
-          'match',
-          ['get', 'beachStatus'], // Replace 'status' with your property name
-          'Closure', '#ed1c25',   // When status is "active", use green
-          'Open', '#33db17',
-          'Advisory', '#fff204',
-          'Outfall', '#000000',
-          /* default */ '#f9a028' // warning... since we have not seen it in the data
-        ]
-      },
+      // paint: {
+      //   // Use the RGBcolor property to tint the pin
+      //   //"icon-color": ["get", "RBGColor"],
+      //   'icon-color': [
+      //     'match',
+      //     ['get', 'beachStatus'], // Replace 'status' with your property name
+      //     'Closure', '#ed1c25',   // When status is "active", use green
+      //     'Open', '#33db17',
+      //     'Advisory', '#fff204',
+      //     'Outfall', '#000000',
+      //     /* default */ '#f9a028' // warning... since we have not seen it in the data
+      //   ]
+      // },
     });
     map.addLayer({
       id: "outfalls",
@@ -588,7 +597,19 @@ function h2s_layer() {
       type: "symbol",
       source: "h2s",
       layout: {
-        "icon-image": "h2s_icon",
+        "icon-image": [
+          "match",
+          ["get", "level"],
+          "green",
+          "h2s-green",
+          "yellow",
+          "h2s-orange",
+          "orange",
+          "h2s-orange",
+          "purple",
+          "h2s-purple",
+          "h2s-white",
+        ],
         "icon-size": iconSizing,
         "icon-allow-overlap": true,
         // Offset the icon so the tip of the pin points to the location
@@ -901,12 +922,21 @@ function parseBeachNotice(html) {
 /// onload loads icons in bulk, then call the layers
 map.on('load', function () {
   const icons = [
-    { id: "spill_icon", url: "img/marker-spill-inverted_2.png" },
+    { id: "spill_icon", url: "img/marker-spill-inverted.png" },
     { id: "outfall_icon", url: "img/marker-outlet-new-inverted_2.png" },
     { id: "beach_icon", url: "img/marker-beach.png" },
     { id: "complaint_icon", url: "img/marker-complaint.png" },
-    { id: "h2s_icon", url: "img/marker-h2s.png" },
-    { id: "river_icon", url: "img/river.png" },
+    { id: "h2s_icon", url: "img/marker-h2s-white.png" },
+    { id: "beach-advisory", url: "img/marker-beach-advisory-white.png" },
+    { id: "beach-closure", url: "img/marker-beach-closure-white.png" },
+    { id: "beach-warning", url: "img/marker-beach-warning-white.png" },
+    { id: "h2s-green", url: "img/marker-h2s-green.png" },
+    { id: "h2s-orange", url: "img/marker-h2s-orange.png" },
+    { id: "h2s-purple", url: "img/marker-h2s-purple.png" },
+    { id: "h2s-white", url: "img/marker-h2s-white.png" },
+
+
+
   ];
 
   // Load icons (retrying up to 3 times)
@@ -930,7 +960,8 @@ map.on('load', function () {
         } else if (error) {
           reject(error);
         } else {
-          map.addImage(icon.id, image, { sdf: true });
+         // map.addImage(icon.id, image, { sdf: true });
+          map.addImage(icon.id, image);
           resolve();
         }
       });
