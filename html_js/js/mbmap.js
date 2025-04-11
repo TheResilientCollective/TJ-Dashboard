@@ -61,6 +61,7 @@ function complaints_layer(complaint_days) {
     fetch(`${urlbase}tijuana/sd_complaints/output/complaints.geojson`) // update the path or URL to your GeoJSON file
       .then((response) => response.json())
       .then((data) => {
+        const complaintsVisible = document.querySelector("#complaints-filter-btn").classList.contains("active");
         map.addSource("complaints", {
           type: "geojson",
           data: data,
@@ -148,6 +149,7 @@ function complaints_layer(complaint_days) {
           type: "circle",
           source: "complaints_lastdays",
           filter: ["has", "point_count"],
+          layout: { visibility: complaintsVisible ? "visible" : "none" },
           paint: {
             "circle-color": "#51bbd6",
             "circle-stroke-width": 1,
@@ -174,6 +176,7 @@ function complaints_layer(complaint_days) {
             "text-field": "{point_count_abbreviated}",
             "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
             "text-size": 12,
+            "visibility": complaintsVisible ? "visible" : "none",
           },
         });
 
@@ -202,6 +205,7 @@ function complaints_layer(complaint_days) {
             "icon-allow-overlap": true,
             // Offset the icon so the tip of the pin points to the location
             "icon-offset": [0, 0],
+            "visibility": complaintsVisible ? "visible" : "none",
           },
           paint: {
             "icon-color": "#51bbd6",
@@ -236,7 +240,7 @@ function complaints_layer(complaint_days) {
             .addTo(map);
         });
 
-        map.on("click", "complaint-cluster-count", function (e) {
+        map.on("click", "complaint-clusters", function (e) {
           var feature = e.features[0];
           var coordinates = feature.geometry.coordinates.slice();
           const complaintCount = e.features[0].properties.point_count;
@@ -282,6 +286,7 @@ function complaints_layer(complaint_days) {
 function beach_layer() {
   // beachwatch
   try {
+    const beachVisible = document.querySelector("#beaches-filter-btn").classList.contains("active");
     // Add your GeoJSON source containing beach status
     map.addSource("beaches", {
       type: "geojson",
@@ -300,6 +305,7 @@ function beach_layer() {
         "icon-allow-overlap": true,
         // Offset the icon so the tip of the pin points to the location
         "icon-offset": [0, 0],
+        "visibility": beachVisible ? "visible" : "none",
       },
       paint: {
         // Use the RGBcolor property to tint the pin
@@ -327,6 +333,7 @@ function beach_layer() {
         "icon-allow-overlap": true,
         // Offset the icon so the tip of the pin points to the location
         "icon-offset": [0, 0],
+        "visibility": beachVisible ? "visible" : "none",
       },
       paint: {
         // Use the RGBcolor property to tint the pin
@@ -465,6 +472,7 @@ ${
 function spills_layer(spill_days) {
   // spills
   try {
+    const spillVisible = document.querySelector("#spills-filter-btn").classList.contains("active");
     // Add your GeoJSON source containing beach status
     map.addSource("spills", {
       type: "geojson",
@@ -498,6 +506,7 @@ function spills_layer(spill_days) {
         "icon-allow-overlap": true,
         // Offset the icon so the tip of the pin points to the location
         "icon-offset": [0, 0],
+        "visibility": spillVisible ? "visible" : "none",
       },
       // paint: {
       //   // Use the RGBcolor property to tint the pin
@@ -566,6 +575,7 @@ function spills_layer(spill_days) {
 
 function h2s_layer() {
   try {
+    const h2sVisible = document.querySelector("#h2s-filter-btn").classList.contains("active");
     // Add your GeoJSON source containing beach status
     map.addSource("h2s", {
       type: "geojson",
@@ -583,6 +593,7 @@ function h2s_layer() {
         "icon-allow-overlap": true,
         // Offset the icon so the tip of the pin points to the location
         "icon-offset": [0, 0],
+        "visibility": h2sVisible ? "visible" : "none",
       },
       paint: {
         // Use the level property to tint the pin
@@ -685,6 +696,7 @@ function h2s_layer() {
 
 function watershed_layer() {
   try {
+    const watershedVisible = document.querySelector("#river-filter-btn").classList.contains("active");
     map.addSource("basin", {
       type: "geojson",
       data: `${urlbase}tijuana/gis/tjbasin/subbasin.geojson`,
@@ -694,20 +706,20 @@ function watershed_layer() {
       type: "fill",
       source: "basin", // reference the data source
       layout: {
-        visibility: "none",
+        visibility: watershedVisible ? "visible" : "none",
       },
       paint: {
         "fill-color": "#0080ff", // blue color fill
         "fill-opacity": 0.1,
       },
     });
-    // Add a black outline around the polygon.
+    // Add a outline around the polygon.
     map.addLayer({
       id: "basin-outline",
       type: "line",
       source: "basin",
       layout: {
-        visibility: "none",
+        visibility: watershedVisible ? "visible" : "none",
       },
       paint: {
         "line-color": "#ABBCED",
@@ -723,12 +735,12 @@ function watershed_layer() {
       data: `${urlbase}tijuana/gis/tjbasin/streams.geojson`,
     });
 
-    // Add a black outline around the polygon.
+    // Add a outline around the polygon.
     map.addLayer({
       id: "streams-line",
       type: "line",
       source: "streams",
-      layout: { visibility: "none" },
+      layout: { visibility: watershedVisible ? "visible" : "none" },
       paint: {
         "line-color": "#1E3788",
         "line-width": 1,

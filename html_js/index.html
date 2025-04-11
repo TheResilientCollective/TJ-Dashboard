@@ -96,17 +96,21 @@
     // Toggle Layer Function for Top Pills
     function toggleLayer(button, layer) {
       if (undefined !== map) {
-
+        button.classList.toggle("active")
+        const buttonIcon = button.querySelector("i");
 
         let visibility = 'none'
-        if ( button.classList.toggle("active") ) {
+        if (button.classList.contains("active")) {
           console.log("toggled active: true");
           visibility = 'visible'
+          buttonIcon.classList.add("bi-check-square-fill");
+          buttonIcon.classList.remove("bi-x-square");
         } else {
           console.log("toggled active: false");
+          buttonIcon.classList.remove("bi-check-square-fill");
+          buttonIcon.classList.add("bi-x-square");
         }
-        button.querySelector("i").classList.toggle("bi-check-square-fill");
-        button.querySelector("i").classList.toggle("bi-x-square");
+
         console.log("Toggled layer group:", layer);
         const layerinfo = layerGroupInfo.find((l) => l.label === layer)
         console.log("Toggled layer group:" + layer + " layerid:", layerinfo);
@@ -157,7 +161,7 @@
   <!-- Top Pill Container -->
   <div id="top-bar-container">
     <div id="top-bar">
-      <button class="active" onclick="toggleLayer(this, 'Beach Status')">
+      <button id="beaches-filter-btn" class="active" onclick="toggleLayer(this, 'Beach Status')">
         <i class="bi bi-check-square-fill"></i>
         <div>
           <span data-i18n="topbar.beaches">Beach Status</span>
@@ -165,7 +169,7 @@
           <span class="trend-flat sublabel" data-i18n="topbar.currentData">current data</span>
         </div>
       </button>
-      <button class="active" onclick="toggleLayer(this, 'H₂S Levels')">
+      <button id="h2s-filter-btn" class="active" onclick="toggleLayer(this, 'H₂S Levels')">
         <i class="bi bi-check-square-fill"></i>
         <div>
           <span data-i18n="topbar.h2sLevels">H₂S Levels</span>
@@ -173,7 +177,7 @@
           <span class="trend-flat sublabel" data-i18n="topbar.currentData">current data</span>
         </div>
       </button>
-      <button class="active" onclick="toggleLayer(this, 'Odor Complaints')">
+      <button id="complaints-filter-btn" class="active" onclick="toggleLayer(this, 'Odor Complaints')">
         <i class="bi bi-check-square-fill"></i>
         <div>
           <span data-i18n="topbar.odorComplaints">Smell Complaints</span>
@@ -181,7 +185,7 @@
           <span class="trend-flat sublabel" data-i18n="topbar.prev3days">previous 3 days</span>
         </div>
       </button>
-      <button class="active" onclick="toggleLayer(this, 'Wastewater Spills')">
+      <button id="spills-filter-btn" class="active" onclick="toggleLayer(this, 'Wastewater Spills')">
         <i class="bi bi-check-square-fill"></i>
         <div>
           <span data-i18n="topbar.wastewaterSpills">Wastewater Spills</span>
@@ -189,7 +193,7 @@
           <span class="trend-flat sublabel" data-i18n="topbar.prev30days">previous 30 days</span>
         </div>
       </button>
-      <button onclick="toggleLayer(this, 'River Basin')">
+      <button id="river-filter-btn" class="" onclick="toggleLayer(this, 'River Basin')">
         <i class="bi bi-x-square"></i>
         <span data-i18n="topbar.riverBasin">River Basin</span>
       </button>
