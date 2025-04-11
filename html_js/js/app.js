@@ -280,8 +280,8 @@ function renderBeachClosures(jsonData) {
   latestBeachData = jsonData; // Store data
   // const lastrendered= jsonData['lastUpdated']
   window.latestBeachData = jsonData;
-  const closedBeaches = jsonData.data.filter((x)=> x.beachStatus === "Closed")
-  const advisoryBeaches = jsonData.data.filter((x)=> x.beachStatus === "Under Advisory")
+  const closedBeaches = jsonData.data.filter((x)=> x.beachStatus === "Closure")
+  const advisoryBeaches = jsonData.data.filter((x)=> x.beachStatus === "Advisory")
   const countClosures = closedBeaches.length;
   // TODO: Calculate change from last week - requires historical data or assumptions
   const countClosuresChange = 0; // Placeholder

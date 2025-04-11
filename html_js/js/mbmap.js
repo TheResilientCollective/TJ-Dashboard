@@ -665,47 +665,60 @@ function parseBeachData(beachTooltipProperties) {
   const name = nameParts[0].trim();
   const nameDetails = nameParts[2] ? nameParts[2].trim() : "";
 
-  // Get the beach status from the properties
-  let closureNotice;
-  let advisoryNotice;
-  if (window.i18next.language !== "en" && (beachTooltipProperties["Closure_" + window.i18next.language] || beachTooltipProperties["Advisory_" + window.i18next.language])) {
-    closureNotice = beachTooltipProperties["Closure_" + window.i18next.language];
-    advisoryNotice = beachTooltipProperties["Advisory_" + window.i18next.language];
-  }
-  else {
-    closureNotice = beachTooltipProperties.Closure;
-    advisoryNotice = beachTooltipProperties.Advisory;
+  let beachStatus =beachTooltipProperties['beachStatus'];
+  console.log('beachStatus',beachStatus)
+  let statusSince = dayjs(beachTooltipProperties['StatusSince']);
+  console.log('statusSince',statusSince)
+  let statusNote = beachTooltipProperties['StatusNote'];
+  console.log('statusNote',statusNote)
+  if  (window.i18next.language !== "en" && beachTooltipProperties['StatusNote_'+window.i18next.language]){
+    statusNote = beachTooltipProperties['StatusNote_'+window.i18next.language]
+    console.log('StatusNote'+window.i18next.language,statusNote)
   }
 
-  let beachStatus = "Open";
-  let statusSince = "";
-  let statusNote = "";
-  if (closureNotice && closureNotice.length > 0) {
-    const noticeInfo = parseBeachNotice(closureNotice);
-    beachStatus = noticeInfo.beachStatus;
-    statusSince = noticeInfo.statusSince;
-    statusNote = noticeInfo.statusNote;
-  }
-  else if (advisoryNotice && advisoryNotice.length > 0) {
-    const noticeInfo = parseBeachNotice(advisoryNotice);
-    beachStatus = noticeInfo.beachStatus;
-    statusSince = noticeInfo.statusSince;
-    statusNote = noticeInfo.statusNote;
-  }
+  // Get the beach status from the properties
+  // let closureNotice;
+  // let advisoryNotice;
+  // if (window.i18next.language !== "en" && (beachTooltipProperties["Closure_" + window.i18next.language] || beachTooltipProperties["Advisory_" + window.i18next.language])) {
+  //   closureNotice = beachTooltipProperties["Closure_" + window.i18next.language];
+  //   advisoryNotice = beachTooltipProperties["Advisory_" + window.i18next.language];
+  // }
+  // else {
+  //   closureNotice = beachTooltipProperties.Closure;
+  //   advisoryNotice = beachTooltipProperties.Advisory;
+  // }
+
+
+  // let beachStatus = "Open";
+  // let statusSince = "";
+  // let statusNote = "";
+  // if (closureNotice && closureNotice.length > 0) {
+  //   const noticeInfo = parseBeachNotice(closureNotice);
+  //   beachStatus = noticeInfo.beachStatus;
+  //   statusSince = noticeInfo.statusSince;
+  //   statusNote = noticeInfo.statusNote;
+  // }
+  // else if (advisoryNotice && advisoryNotice.length > 0) {
+  //   const noticeInfo = parseBeachNotice(advisoryNotice);
+  //   beachStatus = noticeInfo.beachStatus;
+  //   statusSince = noticeInfo.statusSince;
+  //   statusNote = noticeInfo.statusNote;
+  // }
 
   // handle outfall
-  if (beachTooltipProperties.RBGColor === "Outfall") {
+  if (beachTooltipProperties.LocationType === "Outfall") {
     beachStatus = "Outfall";
     statusSince = "";
     if (window.i18next.language !== "en" && beachTooltipProperties["Description_" + window.i18next.language]) {
       statusNote = beachTooltipProperties["Description_"+window.i18next.language];
+      console.log('Description_'+ window.i18next.language,statusNote )
     }
     else {
       statusNote = beachTooltipProperties["Description"];
     }
   }
 
-  // clean up and return
+  //clean up and return
   let ret = {
     name: name,
     nameDetails: nameDetails,
@@ -768,6 +781,7 @@ function parseBeachNotice(html) {
   };
 }
 
+/// onload loads icons in bulk, then call the layers
 map.on('load', function () {
   const icons = [
     { id: 'spill_icon', url: 'img/marker-spill.png' },

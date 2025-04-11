@@ -1,5 +1,6 @@
 
-
+SD County APCD is using google translate.
+add #googtrans(es)
 icons:
 
 https://raw.githubusercontent.com/keplergl/kepler.gl/c0d8b34ba157dae18955f4a204075e0e39f6d4d8/src/layers/icon-layer/svg-icons.json
