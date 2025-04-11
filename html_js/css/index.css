@@ -471,8 +471,16 @@ button.button.map-control-button.button {
   display: none;
 }
 
+#beach-closure-count {
+  font-weight: normal;
+}
+
 #beach-closure-data tr td:last-child {
   width: 20%;
+}
+
+#odor-complaint-count {
+  font-weight: normal;
 }
 
 #odor-complaint-data tr td:first-child {
