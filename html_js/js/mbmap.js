@@ -303,7 +303,16 @@ function beach_layer() {
       },
       paint: {
         // Use the RGBcolor property to tint the pin
-        "icon-color": ["get", "RBGColor"],
+        //"icon-color": ["get", "RBGColor"],
+        'icon-color': [
+          'match',
+          ['get', 'beachStatus'], // Replace 'status' with your property name
+          'Closure', '#ed1c25',   // When status is "active", use green
+          'Open', '#33db17',
+          'Advisory', '#fff204',
+          'Outfall', '#000000',
+          /* default */ '#f9a028' // warning... since we have not seen it in the data
+        ]
       },
     });
     map.addLayer({
@@ -577,7 +586,16 @@ function h2s_layer() {
       },
       paint: {
         // Use the level property to tint the pin
-        "icon-color": ["get", "level"],
+       // "icon-color": ["get", "level"],
+        'icon-color': [
+          'match',
+          ['get', 'level'], // Replace 'status' with your property name
+          'green', '#00e400',
+          'yellow', '#ffff00',
+          'orange', '#ff7e00',
+          'purple', '#cc58db',
+          /* default */ 'white' // For any other value, use blue
+        ]
       },
     });
 
