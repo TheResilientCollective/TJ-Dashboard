@@ -423,10 +423,16 @@ function beach_layer() {
           }">Outfall</span>
         </div>
 
-        <div class="tooltip-line beach-status-note">
-              <span>Beach users are urged to avoid contact with runoff and recreational waters within at least 75 feet from where runoff enters the ocean.</span>
-            </div>
-
+<!--        <div class="tooltip-line beach-status-note">-->
+<!--              <span>Beach users are urged to avoid contact with runoff and recreational waters within at least 75 feet from where runoff enters the ocean.</span>-->
+<!--            </div>-->
+${
+      (beachData.statusNote) ?
+        `<div class="tooltip-line beach-status-note">
+              <span>${beachData.statusNote}</span>
+            </div>`
+        : ""
+    }
 
       </div>`;
 
@@ -724,35 +730,59 @@ function parseBeachData(beachTooltipProperties) {
   const name = nameParts[0].trim();
   const nameDetails = nameParts[2] ? nameParts[2].trim() : "";
 
-  let beachStatus = beachTooltipProperties["beachStatus"];
-  console.log("beachStatus", beachStatus);
-  let statusSince = beachTooltipProperties["StatusSince"]
-    ? dayjs(beachTooltipProperties["StatusSince"])
-    : "";
-  console.log("statusSince", statusSince);
-  let statusNote = beachTooltipProperties["StatusNote"];
-  console.log("statusNote", statusNote);
-  if (
-    window.i18next.language !== "en" &&
-    beachTooltipProperties["StatusNote_" + window.i18next.language]
-  ) {
-    statusNote =
-      beachTooltipProperties["StatusNote_" + window.i18next.language];
-    console.log("StatusNote" + window.i18next.language, statusNote);
+  let beachStatus =beachTooltipProperties['beachStatus'];
+  console.log('beachStatus',beachStatus)
+  let statusSince = null
+  if( beachTooltipProperties['StatusSince'] != ''){
+     statusSince = dayjs(beachTooltipProperties['StatusSince']);
   }
+
+  console.log('statusSince',statusSince)
+  let statusNote = beachTooltipProperties['StatusNote'];
+  console.log('statusNote',statusNote)
+  if  (window.i18next.language !== "en" && beachTooltipProperties['StatusNote_'+window.i18next.language]){
+    statusNote = beachTooltipProperties['StatusNote_'+window.i18next.language]
+    console.log('StatusNote'+window.i18next.language,statusNote)
+  }
+
+  // Get the beach status from the properties
+  // let closureNotice;
+  // let advisoryNotice;
+  // if (window.i18next.language !== "en" && (beachTooltipProperties["Closure_" + window.i18next.language] || beachTooltipProperties["Advisory_" + window.i18next.language])) {
+  //   closureNotice = beachTooltipProperties["Closure_" + window.i18next.language];
+  //   advisoryNotice = beachTooltipProperties["Advisory_" + window.i18next.language];
+  // }
+  // else {
+  //   closureNotice = beachTooltipProperties.Closure;
+  //   advisoryNotice = beachTooltipProperties.Advisory;
+  // }
+
+
+  // let beachStatus = "Open";
+  // let statusSince = "";
+  // let statusNote = "";
+  // if (closureNotice && closureNotice.length > 0) {
+  //   const noticeInfo = parseBeachNotice(closureNotice);
+  //   beachStatus = noticeInfo.beachStatus;
+  //   statusSince = noticeInfo.statusSince;
+  //   statusNote = noticeInfo.statusNote;
+  // }
+  // else if (advisoryNotice && advisoryNotice.length > 0) {
+  //   const noticeInfo = parseBeachNotice(advisoryNotice);
+  //   beachStatus = noticeInfo.beachStatus;
+  //   statusSince = noticeInfo.statusSince;
+  //   statusNote = noticeInfo.statusNote;
+  // }
 
   // handle outfall
   if (beachTooltipProperties.LocationType === "Outfall") {
     beachStatus = "Outfall";
     statusSince = "";
-    if (
-      window.i18next.language !== "en" &&
-      beachTooltipProperties["Description_" + window.i18next.language]
-    ) {
-      statusNote =
-        beachTooltipProperties["Description_" + window.i18next.language];
-      console.log("Description_" + window.i18next.language, statusNote);
-    } else {
+    if (window.i18next.language !== "en" && beachTooltipProperties["Description_" + window.i18next.language]) {
+      statusNote = beachTooltipProperties["Description_"+window.i18next.language];
+      console.log('Description_'+ window.i18next.language,statusNote )
+    }
+    else {
       statusNote = beachTooltipProperties["Description"];
     }
   }
@@ -837,7 +867,7 @@ function parseBeachNotice(html) {
 }
 
 /// onload loads icons in bulk, then call the layers
-map.on("load", function () {
+map.on('load', function () {
   const icons = [
     { id: "spill_icon", url: "img/marker-spill.png" },
     { id: "outfall_icon", url: "img/marker-outlet.png" },
