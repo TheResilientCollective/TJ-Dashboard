@@ -3,6 +3,22 @@
 // const bucket = 'resilentpublic'
 // s3base and bucket defined in app.js
 const urlbase = `${s3base}${bucket}/`
+const iconSizing = [
+  'interpolate',
+  ['linear'],
+  ['zoom'],
+  5, .3,  // At zoom level 5, text size 10
+  12, .4,  // At zoom level 12, text size 18
+  15, .5
+]
+const iconSizingOutfall = [
+  'interpolate',
+  ['linear'],
+  ['zoom'],
+  5, 0,  // At zoom level 5, text size 10
+  12,.4, // At zoom level 12, text size 18
+  15, .5
+]
 mapboxgl.accessToken = 'pk.eyJ1IjoidmFsZW50aW5lZHd2IiwiYSI6ImNra215Y2QydDExd3oycHF0d2VvM2pwYXoifQ.sODwFshU0owiFxw6SKLeKg';
 const map = new mapboxgl.Map({
   container: 'map-container', // container ID
@@ -177,14 +193,7 @@ function complaints_layer(complaint_days){
           filter: ['!', ['has', 'point_count']],
           layout: {
             'icon-image': 'complaint_icon',
-            'icon-size': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              5, 0,  // At zoom level 5, text size 10
-              12, .2,  // At zoom level 12, text size 18
-              14, .4
-            ],
+            'icon-size':iconSizing,
             'icon-allow-overlap': true,
             // Offset the icon so the tip of the pin points to the location
             'icon-offset': [0, 0]
@@ -268,14 +277,7 @@ try {
     filter: ['!=', ['get', 'LocationType'], "Outfall"],
     layout: {
       'icon-image': 'beach_icon',
-      'icon-size': [
-        'interpolate',
-        ['linear'],
-        ['zoom'],
-        5, .1,  // At zoom level 5, text size 10
-        12, .3,  // At zoom level 12, text size 18
-        14, .5
-      ],
+      'icon-size': iconSizing,
       'icon-allow-overlap': true,
       // Offset the icon so the tip of the pin points to the location
       'icon-offset': [0, 0]
@@ -290,17 +292,11 @@ try {
     id: 'outfalls',
     type: 'symbol',
     source: 'beaches',
+    minzoom: 13,
     filter: ['==', ['get', 'LocationType'], "Outfall"],
     layout: {
       'icon-image': 'outfall_icon',
-      'icon-size': [
-        'interpolate',
-        ['linear'],
-        ['zoom'],
-        5, 0,  // At zoom level 5, text size 10
-        12, 0,  // At zoom level 12, text size 18
-        14, .5
-      ],
+      'icon-size': iconSizingOutfall,
       'icon-allow-overlap': true,
       // Offset the icon so the tip of the pin points to the location
       'icon-offset': [0, 0]
@@ -520,14 +516,7 @@ try {
     source: 'h2s',
     layout: {
       'icon-image': 'h2s_icon',
-      'icon-size': [
-        'interpolate',
-        ['linear'],
-        ['zoom'],
-        5, .3,  // At zoom level 5, text size 10
-        12, .4,  // At zoom level 12, text size 18
-        14, .5
-      ],
+      'icon-size': iconSizing,
       'icon-allow-overlap': true,
       // Offset the icon so the tip of the pin points to the location
       'icon-offset': [0, 0]
@@ -576,20 +565,20 @@ try {
       .addTo(map);
   });
 
-  map.addLayer({
-    id: 'h2s-value',
-    type: 'symbol',
-    source: 'h2s',
-
-    layout: {
-      'text-field': ['get', 'Original Value'],
-      'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-      'text-size': 12,
-      'text-offset': [-2, 0],
-    }, paint: {
-      'text-color': '#000'
-    }
-  });
+  // map.addLayer({
+  //   id: 'h2s-value',
+  //   type: 'symbol',
+  //   source: 'h2s',
+  //
+  //   layout: {
+  //     'text-field': ['get', 'Original Value'],
+  //     'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+  //     'text-size': 12,
+  //     'text-offset': [-2, 0],
+  //   }, paint: {
+  //     'text-color': '#000'
+  //   }
+  // });
   map.addLayer({
     id: 'h2s-name',
     type: 'symbol',
@@ -610,6 +599,64 @@ try {
 }
 }
 
+function watershed_layer(){
+  try{
+    map.addSource('basin', {
+      type: 'geojson',
+      data: `${urlbase}tijuana/gis/tjbasin/subbasin.geojson`
+    });
+    map.addLayer({
+      'id': 'basin',
+      'type': 'fill',
+      'source': 'basin', // reference the data source
+      'layout': {
+        visibility:"none",
+      },
+      'paint': {
+        'fill-color': '#0080ff', // blue color fill
+        'fill-opacity': 0.1
+      }
+    });
+    // Add a black outline around the polygon.
+    map.addLayer({
+      'id': 'basin-outline',
+      'type': 'line',
+      'source': 'basin',
+      'layout': {
+        visibility:"none",
+      },
+      'paint': {
+        'line-color': '#ABBCED',
+        'line-width': 1
+      }
+    });
+  } catch(e){
+    console.log('Could not add basin layer')
+
+  }
+  try{
+    map.addSource('streams', {
+      type: 'geojson',
+      data: `${urlbase}tijuana/gis/tjbasin/streams.geojson`
+    });
+
+    // Add a black outline around the polygon.
+    map.addLayer({
+      'id': 'streams-line',
+      'type': 'line',
+      'source': 'streams',
+      'layout': {visibility:"none",},
+      'paint': {
+        'line-color': '#1E3788',
+        'line-width': 1,
+        'line-opacity': 0.5
+      }
+    });
+  } catch(e){
+    console.log('Could not add basin layer')
+
+  }
+}
 function parseBeachData(beachTooltipProperties) {
   console.log("[mbmap.js] parsing beach data", beachTooltipProperties);
   // beach name into a human friendly format
@@ -724,7 +771,7 @@ function parseBeachNotice(html) {
 map.on('load', function () {
   const icons = [
     { id: 'spill_icon', url: 'img/marker-spill.png' },
-    { id: 'outfall_icon', url: 'img/sewer-icon.png' },
+    { id: 'outfall_icon', url: 'img/marker-outlet.png' },
     { id: 'beach_icon', url: 'img/marker-beach.png' },
     { id: 'complaint_icon', url: 'img/marker-complaint.png' },
     { id: 'h2s_icon', url: 'img/marker-h2s.png' },
@@ -747,7 +794,7 @@ map.on('load', function () {
 
       // Once all icons have loaded, you can proceed to add your layers.
       if (iconsLoaded === icons.length) {
-
+        watershed_layer()
          spills_layer(spill_days)
          beach_layer()
          complaints_layer(complaint_days)
