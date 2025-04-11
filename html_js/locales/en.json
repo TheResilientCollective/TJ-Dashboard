@@ -82,7 +82,7 @@
       "h2s": {
         "title": "Hydrogen Sulfide",
         "p1": {
-          "label": "Hydrogen sulfide (H₂S) is a colorless gas with a characteristic odor of rotten eggs. Hydrogen sulfide is measured in ppb (parts per billion) - the lower ppb the better. Recommendations based on current Hydrogen sulfide levels can be four here:",
+          "label": "Hydrogen sulfide (H₂S) is a colorless gas with a characteristic odor of rotten eggs. Hydrogen sulfide is measured in ppB (parts per billion) - the lower ppB the better. Recommendations based on current Hydrogen sulfide levels can be four here:",
           "link": {
             "text": "Air Quality Monitoring",
             "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/tjrv-air-quality-monitoring.html"
@@ -94,7 +94,7 @@
           "url": "https://app.powerbigov.us/view?r=eyJrIjoiOGMwYzM2ZGYtZGU4Ny00ZGI5LWE2NWMtMmZlOGEzZTYzMDc3IiwidCI6IjQ1NjNhZjEzLWMwMjktNDFiMy1iNzRjLTk2NWU4ZWVjOGY5NiJ9"
         },
         "tableLabel": "Recent Measurements",
-        "valueUnit": "{{value}} ppb",
+        "valueUnit": "{{value}} ppB",
         "footer": {
           "text": "Updated {{date}}",
           "link": {
