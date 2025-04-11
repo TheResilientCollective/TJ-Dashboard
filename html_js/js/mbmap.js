@@ -764,37 +764,39 @@ map.on('load', function () {
 
   ];
 
-// A counter to track when all icons have loaded
-  let iconsLoaded = 0;
-
-  icons.forEach(icon => {
-    map.loadImage(icon.url, (error, image) => {
-      if (error) {
-        console.error(`Error loading ${icon.id}`, error);
-        return;
-      }
-      // Add the icon to the map
-      map.addImage(icon.id, image, { sdf: true });
-      iconsLoaded++;
-
-      // Once all icons have loaded, you can proceed to add your layers.
-      if (iconsLoaded === icons.length) {
-        watershed_layer()
-         spills_layer(spill_days)
-         beach_layer()
-         complaints_layer(complaint_days)
-         h2s_layer()
-         setMapLanguage()
-      }
+  // Load icons (retrying up to 3 times)
+  const maxAttempts = 3;
+  async function loadIcon(icon, attempt=0) {
+    return new Promise((resolve, reject) => {
+      map.loadImage(icon.url, (error, image) => {
+        if (error && attempt < maxAttempts) {
+          console.warn(`Failed to load icon ${icon.id} on attempt ${attempt+1}. Retrying...`);
+          loadIcon(icon, attempt+1) // try again
+          .then(() => {resolve()})
+          .catch((err) => {reject(err)});
+        } 
+        else if (error) {
+          reject(error);
+        }
+        else {
+          map.addImage(icon.id, image, { sdf: true });
+          resolve();
+        }
+      });
     });
+  }
+
+  Promise.all(icons.map(icon => loadIcon(icon)))
+  .then(() => {
+    // All icons have loaded, you can proceed to add your layers.
+    watershed_layer()
+    spills_layer(spill_days)
+    beach_layer()
+    complaints_layer(complaint_days)
+    h2s_layer()
+    setMapLanguage()
+  })
+  .catch((err) => {
+    console.error('Failed to load icons:', err);
   });
-
-
-
-
-
-
-
-// h2s
-
 });
