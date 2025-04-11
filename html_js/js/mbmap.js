@@ -667,7 +667,7 @@ function parseBeachData(beachTooltipProperties) {
 
   let beachStatus =beachTooltipProperties['beachStatus'];
   console.log('beachStatus',beachStatus)
-  let statusSince = dayjs(beachTooltipProperties['StatusSince']);
+  let statusSince = beachTooltipProperties['StatusSince']? dayjs(beachTooltipProperties['StatusSince']) : "";
   console.log('statusSince',statusSince)
   let statusNote = beachTooltipProperties['StatusNote'];
   console.log('statusNote',statusNote)
@@ -675,35 +675,6 @@ function parseBeachData(beachTooltipProperties) {
     statusNote = beachTooltipProperties['StatusNote_'+window.i18next.language]
     console.log('StatusNote'+window.i18next.language,statusNote)
   }
-
-  // Get the beach status from the properties
-  // let closureNotice;
-  // let advisoryNotice;
-  // if (window.i18next.language !== "en" && (beachTooltipProperties["Closure_" + window.i18next.language] || beachTooltipProperties["Advisory_" + window.i18next.language])) {
-  //   closureNotice = beachTooltipProperties["Closure_" + window.i18next.language];
-  //   advisoryNotice = beachTooltipProperties["Advisory_" + window.i18next.language];
-  // }
-  // else {
-  //   closureNotice = beachTooltipProperties.Closure;
-  //   advisoryNotice = beachTooltipProperties.Advisory;
-  // }
-
-
-  // let beachStatus = "Open";
-  // let statusSince = "";
-  // let statusNote = "";
-  // if (closureNotice && closureNotice.length > 0) {
-  //   const noticeInfo = parseBeachNotice(closureNotice);
-  //   beachStatus = noticeInfo.beachStatus;
-  //   statusSince = noticeInfo.statusSince;
-  //   statusNote = noticeInfo.statusNote;
-  // }
-  // else if (advisoryNotice && advisoryNotice.length > 0) {
-  //   const noticeInfo = parseBeachNotice(advisoryNotice);
-  //   beachStatus = noticeInfo.beachStatus;
-  //   statusSince = noticeInfo.statusSince;
-  //   statusNote = noticeInfo.statusNote;
-  // }
 
   // handle outfall
   if (beachTooltipProperties.LocationType === "Outfall") {
