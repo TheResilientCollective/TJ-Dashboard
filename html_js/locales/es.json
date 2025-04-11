@@ -31,7 +31,7 @@
           "online": {
             "label": "Visita ",
             "text": "en línea.",
-            "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html"
+            "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html#googtrans(es)"
           }
         },
         "reportInfoNeeded": "Al presentar un reporte, la siguiente información nos ayudará a investigar tu inquietud:",
@@ -45,12 +45,12 @@
           "label1": "Aprende sobre, y cómo protegerte de, ",
           "link1": {
             "text": "Olores Ambientales",
-            "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-environmental-odors.html"
+            "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-environmental-odors.html#googtrans(es)"
           },
           "label2": " y ",
           "link2": {
             "text": "Agua Contaminada",
-            "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-contaminated-water.html"
+            "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-contaminated-water.html#googtrans(es)"
           }
         },
         "reduceAirExposure": "",
@@ -69,7 +69,7 @@
         "p2": "Puedes encontrar más información aquí:",
         "link": {
           "text": "Lo Que Está Haciendo el Condado.",
-          "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html"
+          "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html#googtrans(es)"
         },
         "footer": {
           "text": "",
@@ -85,7 +85,7 @@
           "label": "El sulfuro de hidrógeno (H₂S) es un gas incoloro con un olor característico a huevos podridos. El sulfuro de hidrógeno se mide en ppb (partes por billón) - cuanto más bajo el ppb, mejor. Las recomendaciones basadas en los niveles actuales de sulfuro de hidrógeno se pueden encontrar aquí:",
           "link": {
             "text": "Monitoreo de la Calidad del Aire",
-            "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/tjrv-air-quality-monitoring.html"
+            "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/tjrv-air-quality-monitoring.html#googtrans(es)"
           }
         },
         "p2": "Información de monitoreo a más largo plazo se puede encontrar aquí:",
@@ -99,7 +99,7 @@
           "text": "Actualizado {{date}}",
           "link": {
             "text": "Más Info",
-            "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html"
+            "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
           }
         }
       },
@@ -146,7 +146,7 @@
           "body": "Las siguientes son quejas públicas sobre olores que han sido recibidas e investigadas por el SDAPCD. Puedes encontrar más información aquí:",
           "link": {
             "text": "Problemas de Calidad del Aire",
-            "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html"
+            "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.htmlhttps://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
           }
         },
         "tableLabel": "Quejas en los últimos 7 días",
@@ -166,7 +166,7 @@
           "body": "Los Servicios de Salud Pública del Condado de San Diego monitorean las tendencias en condiciones gastrointestinales y respiratorias en la Región Sur. Puedes encontrar información adicional aquí:",
           "link": {
             "text": "Datos de Salud Pública sobre Problemas de Salud en la Región Sur",
-            "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html"
+            "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.htmlhttps://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
           }
         },
         "tableLabel": "Problemas de Salud Recientes",

@@ -9,3 +9,6 @@ Use “aguas pluviales” for “runoff water.”
 Adapt terms like “dashboard” to more colloquial equivalents, for example “tablero.”
 
 Ensure the translation resonates naturally with the local public in Tijuana.
+
+In the county urls, add #googtrans(es) to the end of the link
+
