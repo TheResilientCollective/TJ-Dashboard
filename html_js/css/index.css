@@ -428,7 +428,8 @@ button.button.map-control-button.button {
 
 .card > :not(.card-header) {
   width: 100%;
-  max-width: var(--card-inner-size);
+  /* max-width: var(--card-inner-size); */
+  max-width: calc(var(--card-inner-size) + var(--icon) * 2 + var(--p1) * 2);
 }
 
 .card-header img,
@@ -455,15 +456,15 @@ button.button.map-control-button.button {
   width: 100%;
   align-items: unset !important;
   justify-content: unset !important;
-  max-width: unset !important;
+  /* max-width: unset !important; */
 }
 
 #h2s_summary table tr td:first-child {
-  width: 30%;
+  min-width: 25%;
 }
 
 #h2s_summary table tr td:nth-child(2) {
-  width: 25%;
+  min-width: 30%;
 }
 
 #h2s_summary table tr.row-break:last-child {
@@ -781,8 +782,8 @@ button.button.map-control-button.button {
 }
 
 .card ul {
-  margin-left: var(--p3);
-  margin-top: var(--p1);
+  margin-left: 1em;
+  margin-top: var(--p-half);
 }
 
 hr {
