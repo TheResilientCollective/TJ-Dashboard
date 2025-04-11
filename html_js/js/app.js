@@ -1,11 +1,8 @@
-
 //const resilientUrlBase = 'https://oss.resilientservice.mooo.com/resilentpublic/'
-const s3base = "https://oss.resilientservice.mooo.com/"
+const s3base = "https://oss.resilientservice.mooo.com/";
 //const bucket = 'test'
-const bucket = 'resilentpublic'
-const resilientUrlBase = `${s3base}${bucket}/`
-
-
+const bucket = "resilentpublic";
+const resilientUrlBase = `${s3base}${bucket}/`;
 
 let latestH2SData = null;
 let latestOdorData = null;
@@ -60,7 +57,7 @@ function renderH2STable(jsonData) {
       const result = document.createElement("span");
       // Use i18next for the unit label
       result.innerText = i18next.t("sidebar.cards.h2s.valueUnit", {
-        value: h2s["Result"]
+        value: h2s["Result"],
       });
       valueCell.appendChild(colorIndicatorElm);
       valueCell.appendChild(result);
@@ -74,7 +71,7 @@ function renderH2STable(jsonData) {
       const timeString = formatDateTime(dateWithTime, {
         weekday: "short",
         hour: "numeric",
-        hour12: true
+        hour12: true,
       });
       dateElm.innerText = timeString;
       dateCell.appendChild(clockIcon);
@@ -98,19 +95,22 @@ function renderH2STable(jsonData) {
   if (cardFooter && jsonData.data.length > 0) {
     console.log("[app.js] Updating H2S card footer with latest data.");
     const span = cardFooter.querySelector("span");
-    const lastDate = dayjs(
-      jsonData['lastUpdated']
-    ).toDate();
+    const lastDate = dayjs(jsonData["lastUpdated"]).toDate();
     const formattedDate = formatDateTime(lastDate, {
       month: "long",
       day: "numeric",
       hour: "numeric",
       minute: "2-digit",
-      hour12: true
+      hour12: true,
     });
-    console.log("[app.js] Last H2S data date:", lastDate, "Formatted:", formattedDate);
+    console.log(
+      "[app.js] Last H2S data date:",
+      lastDate,
+      "Formatted:",
+      formattedDate
+    );
     span.innerText = i18next.t("sidebar.cards.h2s.footer.text", {
-      date: formattedDate
+      date: formattedDate,
     });
   }
 }
@@ -125,7 +125,14 @@ function renderOdorComplaints(jsonData) {
   const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
   const fourteenDaysAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
 
-  console.log("[app.js] Current date:", now, "Seven days ago:", sevenDaysAgo, "Fourteen days ago:", fourteenDaysAgo);
+  console.log(
+    "[app.js] Current date:",
+    now,
+    "Seven days ago:",
+    sevenDaysAgo,
+    "Fourteen days ago:",
+    fourteenDaysAgo
+  );
 
   let last7DaysData = _.filter(jsonData.data, (item) => {
     let itemDate = parseCustomDate(item.date);
@@ -147,14 +154,19 @@ function renderOdorComplaints(jsonData) {
 
   const sumLast7Days = _.sumBy(last7DaysData, "count");
   const sumPrevious7Days = _.sumBy(previous7DaysData, "count");
-  console.log("[app.js] Sum of complaints in last 7 days:", sumLast7Days, "Previous 7 days:", sumPrevious7Days);
+  console.log(
+    "[app.js] Sum of complaints in last 7 days:",
+    sumLast7Days,
+    "Previous 7 days:",
+    sumPrevious7Days
+  );
 
   const countSpan = document.getElementById("odor-complaint-count");
   const countIndicator = countSpan?.parentElement.querySelector(".indicator");
   if (countSpan && countIndicator) {
     countSpan.innerText = i18next.t(
       "sidebar.cards.odorComplaints.overview.count",
-      {count: sumLast7Days}
+      { count: sumLast7Days }
     );
     countIndicator.className =
       "indicator " + getIndicatorLevelForOdorComplaints(sumLast7Days, 7);
@@ -186,7 +198,7 @@ function renderOdorComplaints(jsonData) {
     }
 
     changeSpan.innerText = i18next.t(trendKey, {
-      change: Math.abs(countComplaintsChange)
+      change: Math.abs(countComplaintsChange),
     });
     changeIcon.className = `bi ${iconClass}`;
     changeSpan.className = trendClass;
@@ -216,7 +228,7 @@ function renderOdorComplaints(jsonData) {
     let date = parseCustomDate(obj["date"]);
     const dateString = formatDateTime(date, {
       month: "short",
-      day: "numeric"
+      day: "numeric",
     });
     dateElm.innerText = ` ${dateString}`;
     dateCell.appendChild(dateIcon);
@@ -226,10 +238,9 @@ function renderOdorComplaints(jsonData) {
     const countSpan = document.createElement("span");
     countIndicatorElm.className =
       "indicator " + getIndicatorLevelForOdorComplaints(obj["count"]);
-    countSpan.innerText = i18next.t(
-      "sidebar.cards.odorComplaints.dailyCount",
-      {count: obj["count"]}
-    );
+    countSpan.innerText = i18next.t("sidebar.cards.odorComplaints.dailyCount", {
+      count: obj["count"],
+    });
     countCell.appendChild(countIndicatorElm);
     countCell.appendChild(countSpan);
   });
@@ -257,20 +268,20 @@ function renderOdorComplaints(jsonData) {
     //     );
     //     console.log("[app.js] Updated odor complaints footer with date:", formattedDate);
     // }
-    const lastUpdated = jsonData['lastUpdated']
+    const lastUpdated = jsonData["lastUpdated"];
     if (lastUpdated) {
-      latestDate = dayjs(
-        jsonData['lastUpdated']
-      ).toDate()
+      latestDate = dayjs(jsonData["lastUpdated"]).toDate();
       const formattedDate = formatDateTime(latestDate, {
         month: "long",
-        day: "numeric"
+        day: "numeric",
       });
-      span.innerText = i18next.t(
-        "sidebar.cards.odorComplaints.footer.text",
-        {date: formattedDate}
+      span.innerText = i18next.t("sidebar.cards.odorComplaints.footer.text", {
+        date: formattedDate,
+      });
+      console.log(
+        "[app.js] Updated odor complaints footer with date:",
+        formattedDate
       );
-      console.log("[app.js] Updated odor complaints footer with date:", formattedDate);
     }
   }
 }
@@ -280,8 +291,12 @@ function renderBeachClosures(jsonData) {
   latestBeachData = jsonData; // Store data
   // const lastrendered= jsonData['lastUpdated']
   window.latestBeachData = jsonData;
-  const closedBeaches = jsonData.data.filter((x)=> x.beachStatus === "Closure")
-  const advisoryBeaches = jsonData.data.filter((x)=> x.beachStatus === "Advisory")
+  const closedBeaches = jsonData.data.filter(
+    (x) => x.beachStatus === "Closure"
+  );
+  const advisoryBeaches = jsonData.data.filter(
+    (x) => x.beachStatus === "Advisory"
+  );
   const countClosures = closedBeaches.length;
   // TODO: Calculate change from last week - requires historical data or assumptions
   const countClosuresChange = 0; // Placeholder
@@ -293,7 +308,7 @@ function renderBeachClosures(jsonData) {
     // Use i18next pluralization
     countSpan.innerText = i18next.t(
       "sidebar.cards.beachClosures.overview.count",
-      {count: countClosures}
+      { count: countClosures }
     );
     countIndicator.className =
       "indicator " + getIndicatorLevelForBeachClosures(countClosures); // Reset classes
@@ -321,7 +336,7 @@ function renderBeachClosures(jsonData) {
     }
 
     changeSpan.innerText = i18next.t(trendKey, {
-      change: Math.abs(countClosuresChange)
+      change: Math.abs(countClosuresChange),
     });
     changeIcon.className = `bi ${iconClass}`; // Reset classes
     changeSpan.className = trendClass; // Reset classes
@@ -360,9 +375,9 @@ function renderBeachClosures(jsonData) {
     const statusIcon = document.createElement("span");
     // Assuming 'Red' color means moderate/closed indicator
     const status =
-    statusIcon.className = `indicator ${
-        getIndicatorLevelForBeach(parseBeachData(obj).beachStatus)
-    }`; // Example mapping
+      (statusIcon.className = `indicator ${getIndicatorLevelForBeach(
+        parseBeachData(obj).beachStatus
+      )}`); // Example mapping
     const beachStatusElm = document.createElement("span");
     // Use i18next for the status text
     beachStatusElm.innerText = i18next.t(
@@ -381,9 +396,9 @@ function renderBeachClosures(jsonData) {
     // Attempt to find a date - assuming the *first* item might have a relevant update date if available
     // NOTE: The provided JSON sample doesn't have a date. Add one if available from the source.
     let updateDate = null;
-    if (jsonData['lastUpdated']) {
+    if (jsonData["lastUpdated"]) {
       // Check if a 'Date' field exists
-      updateDate = dayjs(jsonData['lastUpdated']).toDate(); // Convert to JS Date
+      updateDate = dayjs(jsonData["lastUpdated"]).toDate(); // Convert to JS Date
     } else {
       updateDate = new Date(); // Fallback to now if no date is in the data
     }
@@ -392,11 +407,11 @@ function renderBeachClosures(jsonData) {
       day: "numeric",
       hour: "numeric",
       minute: "2-digit",
-      hour12: true
+      hour12: true,
     });
     // Use i18next for the "Updated" text
     span.innerText = i18next.t("sidebar.cards.beachClosures.footer.text", {
-      date: formattedDate
+      date: formattedDate,
     });
   }
 }
@@ -472,25 +487,19 @@ function getIndicatorLevelForBeachClosures(count) {
 }
 
 function getIndicatorLevelForBeach(beachStatus) {
-    if (beachStatus == "Closure")
-        return "beach-closure";
-    else if (beachStatus === "Open")
-        return "beach-open";
-    else if (beachStatus === "Warning")
-        return "beach-warning"
-    else if (beachStatus === "Advisory")
-        return "beach-advisory";
-    else if (beachStatus === "Outfall")
-        return "beach-outfall";
-    else
-        return "indeterminate";
+  if (beachStatus == "Closure") return "beach-closure";
+  else if (beachStatus === "Open") return "beach-open";
+  else if (beachStatus === "Warning") return "beach-warning";
+  else if (beachStatus === "Advisory") return "beach-advisory";
+  else if (beachStatus === "Outfall") return "beach-outfall";
+  else return "indeterminate";
 }
 
 function getIndicatorLevelForH2SRating(rating) {
   // Use lowercase for consistency
   switch (
     rating?.toLowerCase() // Add null check
-    ) {
+  ) {
     case "orange":
       return "orange";
     case "yellow":
@@ -505,19 +514,15 @@ function getIndicatorLevelForH2SRating(rating) {
 }
 
 function getIndicatorLevelForH2SValue(value) {
-    if (value < 5)
-        return "green";
-    else if (value < 30)
-        return "yellow";
-    else if (value < 27000)
-        return "orange";
-    else
-        return "purple";
+  if (value < 5) return "green";
+  else if (value < 30) return "yellow";
+  else if (value < 27000) return "orange";
+  else return "purple";
 }
 
 function parseCustomDate(dateStr) {
   // Split the string into parts: [year, day, month]
-  let [year, month, day] = dateStr.split('-').map(Number);
+  let [year, month, day] = dateStr.split("-").map(Number);
   // Note: in JavaScript, months are 0-indexed (0 = January)
   return new Date(year, month - 1, day);
 }
