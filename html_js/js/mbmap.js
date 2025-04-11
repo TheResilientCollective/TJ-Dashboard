@@ -579,7 +579,7 @@ function h2s_layer() {
     map.on("click", "h2s", function (e) {
       var feature = e.features[0];
       var coordinates = feature.geometry.coordinates.slice();
-      var name = feature.properties["Site Name"];
+      var name = feature.properties["LongName"].replace(/\([A-Z]+\)/g, "");
       var description = feature.properties.Result;
       let date = dayjs(feature.properties["Date with time"]);
       var airnow_link = `https://www.airnow.gov/?city=${feature.properties["Site Name"]}&state=CA&country=USA`;
@@ -637,21 +637,23 @@ function h2s_layer() {
     //     'text-color': '#000'
     //   }
     // });
-    map.addLayer({
-      id: "h2s-name",
-      type: "symbol",
-      source: "h2s",
+    // map.addLayer({
+    //   id: "h2s-name",
+    //   type: "symbol",
+    //   source: "h2s",
 
-      layout: {
-        "text-field": ["get", "LongName"],
-        "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-        "text-size": 12,
-        "text-offset": [0, 3],
-      },
-      paint: {
-        "text-color": "#000",
-      },
-    });
+    //   layout: {
+    //     "text-field": ["get", "LongName"],
+    //     "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+    //     "text-size": 12,
+    //     "text-offset": [0, 3],
+    //   },
+    //   paint: {
+    //     "text-color": "#000",
+    //   },
+    // });
+
+
   } catch {
     console.log("error creating h2s map layers ");
   }
