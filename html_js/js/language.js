@@ -106,6 +106,11 @@ function updateContent() {
     renderBeachClosures(window.latestBeachData);
   }
 
+  // Close any tooltips
+  try {
+    document.querySelectorAll(".mapbox-tooltip").forEach((element) => element.remove());
+  } catch (e) {}
+
   // --- Update map ---
   setMapLanguage();
 }
