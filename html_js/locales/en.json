@@ -135,6 +135,7 @@
       "odorComplaints": {
         "title": "Smell Complaints",
         "overview": {
+          "count": "loading Complaints",
           "count_one": "{{count}} Complaint",
           "count_other": "{{count}} Complaints",
           "sampleDuration": "in the last 7 days",
