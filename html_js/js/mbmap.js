@@ -251,7 +251,7 @@ function complaints_layer(complaint_days) {
           console.log("[mbmap.js] complaint count", complaintCount);
 
           // window.i18next.t("tooltips.complaintMultiple.title", { count: String(complaintCount) })}
-
+          console.log('complaint days',complaint_days )
           var popupContent = `
       <div class="tooltip">
         <div class="tooltip-header">
@@ -262,12 +262,15 @@ function complaints_layer(complaint_days) {
           )}</span>
         </div>
         <div class="tooltip-line tooltip-table">
-          <span data-i18n="tooltips.complaintMultiple.time.label">${window.i18next.t(
+          <span data-i18n="tooltips.complaintMultiple.time.label" >${window.i18next.t(
             "tooltips.complaintMultiple.time.label"
           )}</span>
-          <span data-i18n="tooltips.complaintMultiple.time.value">${window.i18next.t(
-            "tooltips.complaintMultiple.time.value"
+          <span data-i18n="tooltips.complaintMultiple.time.value" data-i18n-options='{"days": "${complaint_days}"}' >${window.i18next.t(
+            "tooltips.complaintMultiple.time.value",
+            { days: String(complaint_days) }
           )}</span>
+
+
         </div>
         <div class="tooltip-footer">
           <span data-i18n="tooltips.complaintMultiple.footer">${window.i18next.t(

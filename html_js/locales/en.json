@@ -220,7 +220,7 @@
       "title": "{{count}} Odor Complaints",
       "time": {
         "label": "time:",
-        "value": "within the previous 3 days*"
+        "value": "within the previous {{days}} days*"
       },
       "footer": "*Does not include data for today."
     },
