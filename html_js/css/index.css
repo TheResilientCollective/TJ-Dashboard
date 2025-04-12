@@ -54,6 +54,14 @@ body.dark {
   border: var(--shadow-border);
 }
 
+h1 {
+  font-size: 1rem;
+}
+
+h2 {
+  font-size: 1.33rem;
+}
+
 i {
   width: var(--icon);
   height: var(--icon);
