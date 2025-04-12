@@ -68,6 +68,8 @@ function updateContent() {
     const options = JSON.parse(
       element.getAttribute("data-i18n-options") || "{}"
     );
+    options['complaint_days'] = complaint_days;
+    options['spill_days'] = spill_days;
     // Use innerHTML for keys that contain HTML tags (use data-i18n-html="true")
     if (element.dataset.i18nHtml === "true") {
       // Check specific attribute

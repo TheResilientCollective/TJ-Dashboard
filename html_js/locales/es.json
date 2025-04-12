@@ -187,8 +187,8 @@
     "wastewaterSpills": "Derrames de Aguas Negras",
     "riverBasin": "Cuenca del Río",
     "currentData": "datos actuales",
-    "prev3days": "últimos 3 días",
-    "prev30days": "últimos 30 días"
+    "prevComplaintdays": "últimos {{complaint_days}} días",
+    "prevSpilldays": "últimos {{spill_days}} días"
   },
   "mapFooter": {
     "disclaimer": {
