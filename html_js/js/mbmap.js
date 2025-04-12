@@ -718,6 +718,7 @@ function h2s_layer() {
 }
 
 function watershed_layer() {
+
   try {
     const watershedVisible = document
       .querySelector("#river-filter-btn")
@@ -755,6 +756,9 @@ function watershed_layer() {
     console.log("Could not add basin layer");
   }
   try {
+    const watershedVisible = document
+      .querySelector("#river-filter-btn")
+      .classList.contains("active");
     map.addSource("streams", {
       type: "geojson",
       data: `${urlbase}tijuana/gis/tjbasin/streams.geojson`,
@@ -773,7 +777,7 @@ function watershed_layer() {
       },
     });
   } catch (e) {
-    console.log("Could not add basin layer");
+    console.log("Could not add streams  layer", e);
   }
 }
 function parseBeachData(beachTooltipProperties) {
