@@ -56,8 +56,10 @@
 
     // Get the value of the "id" parameter
     const complaint_days = params.get('complaint')?? 3;
+    window.complaint_days = complaint_days;
     // Get the value of the "name" parameter
     const spill_days = params.get('spill')?? 30;
+    window.spill_days = spill_days;
     console.log('complaint', complaint_days)
     console.log('spills', spill_days)
     //     <button onclick="toggleLayer(this, 'Beach Closures')">Beach Closures</button>
@@ -98,17 +100,27 @@
       if (undefined !== map) {
         button.classList.toggle("active")
         const buttonIcon = button.querySelector("i");
+        const buttonLegendIcon = button.querySelector("img");
+        let baseUrl;
+        let outlineUrl;
+        if (buttonLegendIcon) {
+          baseUrl = buttonLegendIcon.src.replace("-outline", "");
+          outlineUrl = baseUrl.replace(".svg", "-outline.svg");
+        }
+        console.log("Base url", baseUrl, "outline url", outlineUrl, "\n", buttonLegendIcon);
 
         let visibility = 'none'
         if (button.classList.contains("active")) {
           console.log("toggled active: true");
           visibility = 'visible'
-          buttonIcon.classList.add("bi-check-square-fill");
-          buttonIcon.classList.remove("bi-x-square");
+          buttonIcon.classList.add("bi-check-circle-fill");
+          buttonIcon.classList.remove("bi-x-circle");
+          if (buttonLegendIcon) buttonLegendIcon.src = baseUrl;
         } else {
           console.log("toggled active: false");
-          buttonIcon.classList.remove("bi-check-square-fill");
-          buttonIcon.classList.add("bi-x-square");
+          buttonIcon.classList.remove("bi-check-circle-fill");
+          buttonIcon.classList.add("bi-x-circle");
+          if (buttonLegendIcon) buttonLegendIcon.src = outlineUrl;
         }
 
         console.log("Toggled layer group:", layer);
@@ -162,7 +174,8 @@
   <div id="top-bar-container">
     <div id="top-bar">
       <button id="beaches-filter-btn" class="active" onclick="toggleLayer(this, 'Beach Status')">
-        <i class="bi bi-check-square-fill"></i>
+        <i class="bi bi-check-circle-fill"></i>
+        <img src="img/marker-beach.svg">
         <div>
           <span data-i18n="topbar.beaches">Beach Status</span>
           <br>
@@ -170,7 +183,8 @@
         </div>
       </button>
       <button id="h2s-filter-btn" class="active" onclick="toggleLayer(this, 'H₂S Levels')">
-        <i class="bi bi-check-square-fill"></i>
+        <i class="bi bi-check-circle-fill"></i>
+        <img src="img/marker-h2s.svg">
         <div>
           <span data-i18n="topbar.h2sLevels">H₂S Levels</span>
           <br>
@@ -178,7 +192,8 @@
         </div>
       </button>
       <button id="complaints-filter-btn" class="active" onclick="toggleLayer(this, 'Odor Complaints')">
-        <i class="bi bi-check-square-fill"></i>
+        <i class="bi bi-check-circle-fill"></i>
+        <img src="img/marker-complaint.svg">
         <div>
           <span data-i18n="topbar.odorComplaints">Smell Complaints</span>
           <br>
@@ -186,7 +201,8 @@
         </div>
       </button>
       <button id="spills-filter-btn" class="active" onclick="toggleLayer(this, 'Wastewater Spills')">
-        <i class="bi bi-check-square-fill"></i>
+        <i class="bi bi-check-circle-fill"></i>
+        <img src="img/marker-spill.svg">
         <div>
           <span data-i18n="topbar.wastewaterSpills">Wastewater Spills</span>
           <br>
@@ -194,7 +210,7 @@
         </div>
       </button>
       <button id="river-filter-btn" class="" onclick="toggleLayer(this, 'River Basin')">
-        <i class="bi bi-x-square"></i>
+        <i class="bi bi-x-circle"></i>
         <span data-i18n="topbar.riverBasin">River Basin</span>
       </button>
     </div>

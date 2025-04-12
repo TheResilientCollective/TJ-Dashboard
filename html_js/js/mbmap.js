@@ -977,9 +977,9 @@ map.on("load", function () {
     .then(() => {
       // All icons have loaded, you can proceed to add your layers.
       watershed_layer();
-      spills_layer(spill_days);
+      spills_layer(window.spill_days);
       beach_layer();
-      complaints_layer(complaint_days);
+      complaints_layer(window.complaint_days);
       h2s_layer();
       setMapLanguage();
     })
