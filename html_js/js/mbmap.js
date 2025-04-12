@@ -231,6 +231,11 @@ function complaints_layer(complaint_days) {
             { date: dateString }
           )}</span>
         </div>
+        <div class="tooltip-footer">
+          <span data-i18n="tooltips.complaint.footer">${window.i18next.t(
+            "tooltips.complaint.footer"
+          )}</span>
+        </div>
       </div>`;
 
           new mapboxgl.Popup({ className: "mapbox-tooltip complaint-tooltip" })
@@ -293,7 +298,7 @@ function beach_layer() {
       type: "geojson",
       data: `${urlbase}tijuana/beachwatch/output/current/sdbeachinfo_status_translated.geojson`,
     });
-    
+
     map.addLayer({
       id: "outfalls",
       type: "symbol",

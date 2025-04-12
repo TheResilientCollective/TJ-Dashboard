@@ -213,7 +213,8 @@
   "tooltips": {
     "complaint": {
       "title": "Queja por Olor",
-      "time": "{{date}}"
+      "time": "{{date}}",
+      "footer": "Reportado a la esquina más cercana."
     },
     "complaintMultiple": {
       "title": "{{count}} Quejas por Olor",

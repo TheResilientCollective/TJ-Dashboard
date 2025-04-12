@@ -213,7 +213,8 @@
   "tooltips": {
     "complaint": {
       "title": "Odor Complaint",
-      "time": "{{date}}"
+      "time": "{{date}}",
+      "footer": "Reported to the nearest street corner."
     },
     "complaintMultiple": {
       "title": "{{count}} Odor Complaints",
