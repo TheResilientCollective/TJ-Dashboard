@@ -475,12 +475,20 @@ button.button.map-control-button.button {
   font-weight: normal;
 }
 
+#beach-closure-data-overview table {
+  border-spacing: 0;
+}
+
 #beach-closure-data tr td:last-child {
   width: 20%;
 }
 
 #odor-complaint-count {
   font-weight: normal;
+}
+
+#odor-complaint-data-overview table {
+  border-spacing: 0;
 }
 
 #odor-complaint-data tr td:first-child {
