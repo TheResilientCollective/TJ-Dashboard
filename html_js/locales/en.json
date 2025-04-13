@@ -215,6 +215,7 @@
     "complaint": {
       "title": "Odor Complaint",
       "time": "{{date}}",
+      "intersection": "{{intersection}}",
       "footer": "Reported to the nearest street corner."
     },
     "complaintMultiple": {

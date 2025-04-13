@@ -216,6 +216,8 @@ function complaints_layer(complaint_days) {
           console.log(feature);
           const dateReceived = dayjs(feature.properties["date"]);
           const dateString = dateReceived.format("MMM D, YYYY");
+          const intersection=feature.properties["cross_street___intersection"]
+          console.log('intersection', intersection)
 
           var popupContent = `
       <div class="tooltip">
@@ -229,6 +231,12 @@ function complaints_layer(complaint_days) {
           <span data-i18n="tooltips.complaint.time.value" data-i18n-options='{"date": "${dateString}"}'>${window.i18next.t(
             "tooltips.complaint.time",
             { date: dateString }
+          )}</span>
+        </div>
+       <div class="tooltip-line">
+          <span data-i18n="tooltips.complaint.intersection.value" data-i18n-options='{"intersection": "${intersection}"}'>${window.i18next.t(
+            "tooltips.complaint.intersection",
+            { intersection: intersection }
           )}</span>
         </div>
         <div class="tooltip-footer">

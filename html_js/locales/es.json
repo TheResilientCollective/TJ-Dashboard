@@ -215,6 +215,7 @@
     "complaint": {
       "title": "Queja por Olor",
       "time": "{{date}}",
+      "intersection": "{{intersection}}",
       "footer": "Reportado a la esquina más cercana."
     },
     "complaintMultiple": {
