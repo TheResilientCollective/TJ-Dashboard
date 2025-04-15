@@ -138,10 +138,10 @@
           "count": "loading Complaints",
           "count_one": "{{count}} Complaint",
           "count_other": "{{count}} Complaints",
-          "sampleDuration": "in the last 7 days",
-          "trend": "-{{change}} from last week",
-          "trend_positive": "+{{change}} from last week",
-          "trend_same": "same as last week"
+          "sampleDuration": "in the last 14 days",
+          "trend": "-{{change}} from 2 weeks ago",
+          "trend_positive": "+{{change}} from 2 weeks ago",
+          "trend_same": "same as 2 weeks ago"
         },
         "p1": {
           "body": "The following are public complaints about odors that have been received and investigated by SDAPCD. More information can be found here:",
@@ -150,7 +150,7 @@
             "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html"
           }
         },
-        "tableLabel": "Complaints in the last 7 days",
+        "tableLabel": "Complaints in the last {{complaint_days}} days",
         "dailyCount_one": "{{count}} complaint",
         "dailyCount_other": "{{count}} complaints",
         "footer": {

@@ -116,49 +116,49 @@ function renderH2STable(jsonData) {
 }
 
 // --- Odor Complaints Rendering ---
-function renderOdorComplaints(jsonData) {
-  console.log("[app.js] Rendering Odor Complaints with data:", jsonData);
-  latestOdorData = jsonData; // Store data
-  window.latestOdorData = jsonData;
+function renderOdorComplaints(geoData) {
+  console.log("[app.js] Rendering Odor Complaints with data:", geoData.features);
+  window.latestOdorData = geoData;
 
   const now = new Date();
-  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-  const fourteenDaysAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
+  const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const mostRecentSampleTime = new Date(now.getTime() - (window.complaint_days) * 24 * 60 * 60 * 1000);
+  const secondMostRecentSampleTime = new Date(now.getTime() - (window.complaint_days*2) * 24 * 60 * 60 * 1000);
 
   console.log(
     "[app.js] Current date:",
     now,
     "Seven days ago:",
-    sevenDaysAgo,
+    mostRecentSampleTime,
     "Fourteen days ago:",
-    fourteenDaysAgo
+    secondMostRecentSampleTime
   );
 
-  let last7DaysData = _.filter(jsonData.data, (item) => {
-    let itemDate = parseCustomDate(item.date);
-    return itemDate >= sevenDaysAgo && itemDate <= now;
+  let mostRecentData = geoData.features.filter((item) => {
+      let itemDate =  item.properties.date_received
+      return itemDate >= mostRecentSampleTime.getTime()
   });
-  console.log("[app.js] Last 7 days data:", last7DaysData);
+  console.log("[app.js] Last 7 days data:", mostRecentData);
 
-  last7DaysData = _.orderBy(
-    last7DaysData,
-    [(item) => parseCustomDate(item.date)],
+  mostRecentData = _.orderBy(
+    mostRecentData,
+    [(item) => item.properties.date_received],
     ["desc"]
   );
 
-  let previous7DaysData = _.filter(jsonData.data, (item) => {
-    let itemDate = parseCustomDate(item.date);
-    return itemDate >= fourteenDaysAgo && itemDate < sevenDaysAgo;
+  let secondMostRecentData = geoData.features.filter((item) => {
+      let itemDate =  item.properties.date_received
+      return itemDate >= secondMostRecentSampleTime.getTime() && itemDate < mostRecentSampleTime.getTime()
   });
-  console.log("[app.js] Previous 7 days data:", previous7DaysData);
+  console.log("[app.js] Previous 7 days data:", secondMostRecentData);
 
-  const sumLast7Days = _.sumBy(last7DaysData, "count");
-  const sumPrevious7Days = _.sumBy(previous7DaysData, "count");
+  const sumMostRecent = mostRecentData.length;
+  const sumSecondMostRecent = secondMostRecentData.length;
   console.log(
     "[app.js] Sum of complaints in last 7 days:",
-    sumLast7Days,
+    sumMostRecent,
     "Previous 7 days:",
-    sumPrevious7Days
+    sumSecondMostRecent
   );
 
   const countSpan = document.getElementById("odor-complaint-count");
@@ -166,14 +166,14 @@ function renderOdorComplaints(jsonData) {
   if (countSpan && countIndicator) {
     countSpan.innerText = i18next.t(
       "sidebar.cards.odorComplaints.overview.count",
-      { count: sumLast7Days }
+      { count: sumMostRecent }
     );
     countIndicator.className =
-      "indicator " + getIndicatorLevelForOdorComplaints(sumLast7Days, 7);
-    console.log("[app.js] Updated odor complaint count and indicator.");
+      "indicator " + getIndicatorLevelForOdorComplaints(sumMostRecent, window.complaint_days);
+    console.log("[app.js] Updated odor complaint count and indicator.", countSpan.innerText, sumMostRecent);
   }
 
-  const countComplaintsChange = sumLast7Days - sumPrevious7Days;
+  const countComplaintsChange = sumMostRecent - sumSecondMostRecent;
   console.log("[app.js] Change in complaints:", countComplaintsChange);
 
   const changeContainer = document.querySelector(
@@ -212,8 +212,14 @@ function renderOdorComplaints(jsonData) {
   }
   jsonDiv.innerHTML = "";
 
-  last7DaysData.forEach((obj) => {
-    console.log("[app.js] Adding row for odor complaint:", obj);
+  const mostRecentDataByDay = _.groupBy(mostRecentData, (item) => {
+    const date = new Date(item.properties.date_received);
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  });
+  console.log("[app.js] Grouped odor complaints by day:", mostRecentDataByDay);
+
+  for (const day in mostRecentDataByDay) {
+    console.log("[app.js] Adding row for odor complaint:", day, "with", mostRecentDataByDay[day].length, "complaints");
     const rowElm = document.createElement("tr");
     rowElm.classList.add("card-data");
     const dateCell = document.createElement("td");
@@ -225,7 +231,7 @@ function renderOdorComplaints(jsonData) {
     const dateIcon = document.createElement("i");
     dateIcon.className = "bi bi-clock";
     const dateElm = document.createElement("span");
-    let date = parseCustomDate(obj["date"]);
+    let date = new Date(mostRecentDataByDay[day][0].properties.date_received);
     const dateString = formatDateTime(date, {
       month: "short",
       day: "numeric",
@@ -237,52 +243,31 @@ function renderOdorComplaints(jsonData) {
     const countIndicatorElm = document.createElement("span");
     const countSpan = document.createElement("span");
     countIndicatorElm.className =
-      "indicator " + getIndicatorLevelForOdorComplaints(obj["count"]);
+      "indicator " + getIndicatorLevelForOdorComplaints(mostRecentDataByDay[day].length);
     countSpan.innerText = i18next.t("sidebar.cards.odorComplaints.dailyCount", {
-      count: obj["count"],
+      count: mostRecentDataByDay[day].length
     });
     countCell.appendChild(countIndicatorElm);
     countCell.appendChild(countSpan);
-  });
+  }
 
   const cardFooter = document.querySelector(
     "#odor-complaints-card .card-footer"
   );
-  if (cardFooter && jsonData.data.length > 0) {
+  if (cardFooter && mostRecentData.length > 0) {
+    latestDate = new Date(mostRecentData[0].properties.date_received);
     const span = cardFooter.querySelector("span");
-    // const latestDateEntry = _.orderBy(
-    //     jsonData,
-    //     [(item) => parseCustomDate(item.date)],
-    //     ["desc"]
-    // )[0];
-
-    // if (latestDateEntry) {
-    //     const latestDate = parseCustomDate(latestDateEntry.date);
-    //     const formattedDate = formatDateTime(latestDate, {
-    //         month: "long",
-    //         day: "numeric"
-    //     });
-    //     span.innerText = i18next.t(
-    //         "sidebar.cards.odorComplaints.footer.text",
-    //         { date: formattedDate }
-    //     );
-    //     console.log("[app.js] Updated odor complaints footer with date:", formattedDate);
-    // }
-    const lastUpdated = jsonData["lastUpdated"];
-    if (lastUpdated) {
-      latestDate = dayjs(jsonData["lastUpdated"]).toDate();
-      const formattedDate = formatDateTime(latestDate, {
-        month: "long",
-        day: "numeric",
-      });
-      span.innerText = i18next.t("sidebar.cards.odorComplaints.footer.text", {
-        date: formattedDate,
-      });
-      console.log(
-        "[app.js] Updated odor complaints footer with date:",
-        formattedDate
-      );
-    }
+    const formattedDate = formatDateTime(latestDate, {
+      month: "long",
+      day: "numeric",
+    });
+    span.innerText = i18next.t("sidebar.cards.odorComplaints.footer.text", {
+      date: formattedDate,
+    });
+    console.log(
+      "[app.js] Updated odor complaints footer with date:",
+      formattedDate
+    );
   }
 }
 
@@ -435,7 +420,7 @@ function fetchH2SData() {
 
 function fetchOdorData() {
   fetch(
-    `${resilientUrlBase}tijuana/sd_complaints/output/complaints_by_date.json`
+    `${urlbase}tijuana/sd_complaints/output/complaints.geojson`
   )
     .then((response) =>
       response.ok ? response.json() : Promise.reject(response.statusText)

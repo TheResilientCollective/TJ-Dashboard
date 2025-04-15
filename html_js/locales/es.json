@@ -138,10 +138,10 @@
           "count": "loading Complaints",
           "count_one": "{{count}} Queja",
           "count_other": "{{count}} Quejas",
-          "sampleDuration": "en los últimos 7 días",
-          "trend": "-{{change}} desde la semana pasada",
-          "trend_positive": "+{{change}} desde la semana pasada",
-          "trend_same": "igual que la semana pasada"
+          "sampleDuration": "en los últimos 14 días",
+          "trend": "-{{change}} de 2 semana ant.",
+          "trend_positive": "+{{change}} de 2 semanas ant.",
+          "trend_same": "igual que 2 semanas ant."
         },
         "p1": {
           "body": "Las siguientes son quejas públicas sobre olores que han sido recibidas e investigadas por el SDAPCD. Puedes encontrar más información aquí:",
@@ -150,7 +150,7 @@
             "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.htmlhttps://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
           }
         },
-        "tableLabel": "Quejas en los últimos 7 días",
+        "tableLabel": "Quejas en los últimos {{complaint_days}} días",
         "dailyCount_one": "{{count}} queja",
         "dailyCount_other": "{{count}} quejas",
         "footer": {

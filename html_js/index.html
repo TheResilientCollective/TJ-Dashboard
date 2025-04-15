@@ -55,7 +55,7 @@
     const params = new URLSearchParams(window.location.search);
 
     // Get the value of the "id" parameter
-    const complaint_days = params.get('complaint')?? 3;
+    const complaint_days = params.get('complaint')?? 14;
     window.complaint_days = complaint_days;
     // Get the value of the "name" parameter
     const spill_days = params.get('spill')?? 30;
