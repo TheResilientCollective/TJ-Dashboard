@@ -255,11 +255,14 @@ function renderOdorComplaints(geoData) {
     "#odor-complaints-card .card-footer"
   );
   if (cardFooter && mostRecentData.length > 0) {
-    latestDate = new Date(mostRecentData[0].properties.date_received);
+    latestDate = dayjs(geoData.lastUpdated + "Z").toDate();
+    console.log("[app.js] Updating odor complaints footer with latest date.", geoData.lastUpdated, "converted to", latestDate);
     const span = cardFooter.querySelector("span");
     const formattedDate = formatDateTime(latestDate, {
       month: "long",
       day: "numeric",
+      hour: "numeric",
+      hour12: true,
     });
     span.innerText = i18next.t("sidebar.cards.odorComplaints.footer.text", {
       date: formattedDate,
