@@ -42,14 +42,14 @@
           "source": "The name and address of the alleged source and the type of operation causing it (if known)."
         },
         "h2sLink": {
-          "label1": "Learn about, and how to protect yourself from, ",
+          "label1": "<b>Protect Yourself from Environmental Odors</b><br>",
           "link1": {
-            "text": "Environmental Odors",
+            "text": "Learn how here",
             "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-environmental-odors.html"
           },
-          "label2": " and ",
+          "label2": "<b>Protect Yourself from Contaminated Water</b><br>",
           "link2": {
-            "text": "Contaminated Water",
+            "text": "Learn how here",
             "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-contaminated-water.html"
           }
         },

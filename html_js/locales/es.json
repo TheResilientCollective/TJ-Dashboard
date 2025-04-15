@@ -42,15 +42,15 @@
           "source": "El nombre y la dirección de la presunta fuente y el tipo de operación que lo causa (si se conoce)."
         },
         "h2sLink": {
-          "label1": "Aprende sobre, y cómo protegerte de, ",
+          "label1": "<b>Protégete de los Olores Ambientales</b><br>",
           "link1": {
-            "text": "Olores Ambientales",
-            "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-environmental-odors.html#googtrans(es)"
+            "text": "Infórmate aquí",
+            "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-environmental-odors.html"
           },
-          "label2": " y ",
+          "label2": "<b>Protégete del Agua Contaminada</b><br>",
           "link2": {
-            "text": "Agua Contaminada",
-            "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-contaminated-water.html#googtrans(es)"
+            "text": "Infórmate aquí",
+            "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-contaminated-water.html"
           }
         },
         "reduceAirExposure": "",
