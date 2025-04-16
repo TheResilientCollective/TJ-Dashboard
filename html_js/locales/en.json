@@ -224,6 +224,7 @@
         "label": "time:",
         "value": "within the previous {{days}} days*"
       },
+      "intersection": "{{intersection}}",
       "footer": "*Does not include data for today."
     },
     "beach": {

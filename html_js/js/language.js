@@ -114,7 +114,8 @@ function updateContent() {
   } catch (e) {}
 
   // --- Update map ---
-  setMapLanguage();
+  // this is just tossing an error. removing
+ // setMapLanguage();
 }
 
 /**

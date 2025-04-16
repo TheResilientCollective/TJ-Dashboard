@@ -183,19 +183,7 @@ function complaints_layer(complaint_days) {
         });
 
         // Layer for unclustered individual points
-        // map.addLayer({
-        //   id: 'unclustered-point',
-        //   type: 'circle',
-        //   source: 'complaints_lastdays',
-        //   filter:
-        //     ['!', ['has', 'point_count']],
-        //   paint: {
-        //     'circle-color': '#11b4da',
-        //     'circle-radius': 4,
-        //     'circle-stroke-width': 1,
-        //     'circle-stroke-color': '#fff'
-        //   }
-        // });
+
         map.addLayer({
           id: "complaint-unclustered",
           type: "symbol",
@@ -205,7 +193,7 @@ function complaints_layer(complaint_days) {
             "icon-image": "complaint_icon",
             "icon-size": iconSizing,
             "icon-allow-overlap": true,
-            // Offset the icon so the tip of the pin points to the location
+
             "icon-offset": [0, 0],
             visibility: complaintsVisible ? "visible" : "none",
           },
@@ -254,9 +242,44 @@ function complaints_layer(complaint_days) {
 
         map.on("click", "complaint-clusters", function (e) {
           var feature = e.features[0];
+
           var coordinates = feature.geometry.coordinates.slice();
           const complaintCount = e.features[0].properties.point_count;
           console.log("[mbmap.js] complaint count", complaintCount);
+          var features = map.queryRenderedFeatures(e.point, {
+            layers: ['complaint-clusters']
+          });
+          var clusterFeature = features[0];
+          var clusterId = clusterFeature.properties.cluster_id;
+          map.getSource('complaints_lastdays').getClusterLeaves(clusterId, 100, 0, function (err, leafFeatures) {
+            if (err) {
+              console.error('Error retrieving cluster leaves: ', err);
+              return;
+            }
+
+            // quick look at data. Default TJ River location is registered as four different names.
+            // and same intersection gets different coordinates, so run check, if there is only one feature
+            // for these cases, then set a property with the name of the intersection.
+            // console.log('Features in the clicked cluster:', leafFeatures);
+            let unique_intersections = _.uniqBy(leafFeatures, 'properties.cross_street___intersection');
+            let unique_locations = _.uniqBy(leafFeatures, item =>
+              `${item.properties.x_coordinate}::${item.properties.y_coordinate}` )
+            console.log('distinct intersections in the clicked cluster:', unique_intersections);
+            console.log('distinct locations in the clicked cluster:', unique_locations);
+            let common_feature= false;
+            let intersection = ''
+            if (unique_locations.length === 1 || unique_intersections.length === 1 ) {
+              common_feature= true;
+              intersection = unique_locations[0].properties["cross_street___intersection"];
+              console.log('intersection',intersection )
+            }
+
+            // Another option, open a popup listing details about the features.
+            // var popupHTML = `<strong>Cluster contains ${clusterFeature.properties.point_count} points.</strong><br/><ul>`;
+            // leafFeatures.forEach(function(feature) {
+            //   popupHTML += `<li>${feature.properties.name || 'Unnamed feature'}</li>`;
+            // });
+            // popupHTML += '</ul>';
 
           // window.i18next.t("tooltips.complaintMultiple.title", { count: String(complaintCount) })}
           console.log('complaint days',complaint_days )
@@ -280,6 +303,12 @@ function complaints_layer(complaint_days) {
 
 
         </div>
+               <div class="tooltip-line">
+          <span data-i18n="tooltips.complaintMultiple.intersection.value" data-i18n-options='{"intersection": "${intersection}"}'>${window.i18next.t(
+            "tooltips.complaintMultiple.intersection",
+            { intersection: intersection }
+          )}</span>
+        </div>
         <div class="tooltip-footer">
           <span data-i18n="tooltips.complaintMultiple.footer">${window.i18next.t(
             "tooltips.complaintMultiple.footer"
@@ -291,6 +320,7 @@ function complaints_layer(complaint_days) {
             .setLngLat(coordinates)
             .setHTML(popupContent)
             .addTo(map);
+        });
         });
       });
   } catch {

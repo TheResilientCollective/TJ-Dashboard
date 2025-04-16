@@ -224,6 +224,7 @@
         "label": "hora:",
         "value": "en los últimos {{days}}  días*"
       },
+      "intersection": "{{intersection}}",
       "footer": "*No incluye datos de hoy."
     },
     "beach": {
