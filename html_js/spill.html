@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Historical Spill Data Visualization</title>
+  <!-- Include D3.js -->
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <style>
+    /* Basic tooltip styling */
+    .tooltip {
+      position: absolute;
+      text-align: center;
+      width: auto;
+      height: auto;
+      padding: 5px;
+      background: lightsteelblue;
+      border: 1px solid #333;
+      border-radius: 5px;
+      pointer-events: none;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+<!-- Container for the visualization -->
+<div id="chart"></div>
+<!-- Hidden tooltip element -->
+<div class="tooltip"></div>
+
+<script>
+  // Sample data: Replace this with your data loading method (e.g., d3.csv())
+  const data = [
+    { index: 1, siteName: "Location A", startDate: "2020-01-01", endDate: "2020-01-10", volume: 1000 },
+    { index: 2, siteName: "Location B", startDate: "2020-02-05", endDate: "2020-02-15", volume: 2000 },
+    // Add more spill events here as needed
+  ];
+
+  // Parse dates from the data
+  const parseDate = d3.timeParse("%Y-%m-%d");
+  data.forEach(d => {
+    d.start = parseDate(d.startDate);
+    d.end = parseDate(d.endDate);
+  });
+
+  // Set up margins and dimensions for the SVG canvas
+  const margin = { top: 20, right: 30, bottom: 30, left: 50 },
+    width = 800 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+  // Append the SVG element to the #chart div
+  const svg = d3.select("#chart").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+  // Create the x-axis scale: time scale from the earliest start to the latest end date.
+  const xExtent = d3.extent(data.flatMap(d => [d.start, d.end]));
+  const xScale = d3.scaleTime()
+    .domain(xExtent)
+    .range([0, width]);
+
+  // Create the y-axis scale: linear scale for volume.
+  const yMax = d3.max(data, d => d.volume);
+  const yScale = d3.scaleLinear()
+    .domain([0, yMax])
+    .range([height, 0]);
+
+  // Append the x-axis to the SVG
+  svg.append("g")
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisBottom(xScale));
+
+  // Append the y-axis to the SVG
+  svg.append("g")
+    .call(d3.axisLeft(yScale));
+
+  // Select the tooltip element
+  const tooltip = d3.select(".tooltip");
+
+  // Create bars for each spill event.
+  // Each bar's x-coordinate is set by the spill's start date,
+  // the width spans from the start to the end date,
+  // and the y-coordinate is based on the spill volume.
+  svg.selectAll("rect")
+    .data(data)
+    .enter()
+    .append("rect")
+    .attr("x", d => xScale(d.start))
+    .attr("y", d => yScale(d.volume))
+    .attr("width", d => xScale(d.end) - xScale(d.start))
+    .attr("height", 10) // You can adjust the bar height as needed
+    .attr("fill", "steelblue")
+    .on("mouseover", function(event, d) {
+      tooltip.transition()
+        .duration(200)
+        .style("opacity", 0.9);
+      tooltip.html("Site: " + d.siteName + "<br/>Volume: " + d.volume)
+        .style("left", (event.pageX + 5) + "px")
+        .style("top", (event.pageY - 28) + "px");
+    })
+    .on("mouseout", function() {
+      tooltip.transition()
+        .duration(500)
+        .style("opacity", 0);
+    });
+</script>
+</body>
+</html>
