@@ -56,6 +56,50 @@ function setMapLanguage() {
   // FIXME: update tooltip language
 }
 
+function groupByDate(leafFeatures) {
+  dateGroups = _.chain(leafFeatures).groupBy(
+  feature => {
+    const fullDate = feature.properties['datetime'];
+    return fullDate.split('T')[0];
+  }).mapValues(arr => arr.length)
+    .value()
+  const sorted =_.map(
+    _.orderBy(_.toPairs(dateGroups),   // → [ [date, count], … ]
+      pair => pair[0],    // sort by the date-string key
+      'desc'),
+    ([date, count]) => ({ date, count })
+  );
+  return sorted
+
+}
+
+function returnIntersectionFromLeafs(leafFeatures){
+  // quick look at data. Default TJ River location is registered as four different names.
+  // and same intersection gets different coordinates, so run check, if there is only one feature
+  // for these cases, then set a property with the name of the intersection.
+  // console.log('Features in the clicked cluster:', leafFeatures);
+  let unique_intersections = _.uniqBy(leafFeatures, 'properties.cross_street___intersection');
+  let unique_locations = _.uniqBy(leafFeatures, item =>
+    `${item.properties.x_coordinate}::${item.properties.y_coordinate}` )
+  console.log('distinct intersections in the clicked cluster:', unique_intersections);
+  console.log('distinct locations in the clicked cluster:', unique_locations);
+  let default_feature= false;
+  let intersection = ''
+  if (unique_locations.length === 1 || unique_intersections.length === 1 ) {
+
+    intersection = unique_locations[0].properties["cross_street___intersection"];
+    console.log('intersection',intersection )
+    if (unique_locations.length === 1 && unique_locations[0].properties["x_coordinate"] === -117.081305
+      &&
+      unique_locations[0].properties["y_coordinate"] === 32.552044) {
+      default_feature= true;
+      intersection = 'Tijuana River Valley (US/MX) Default Location'
+      console.log('intersection',intersection )
+    }
+
+  }
+  return intersection
+}
 function complaints_layer(complaint_days) {
   try {
     fetch(`${urlbase}tijuana/sd_complaints/output/complaints.geojson`) // update the path or URL to your GeoJSON file
@@ -221,18 +265,20 @@ function complaints_layer(complaint_days) {
             { date: dateString }
           )}</span>
         </div>
-       <div class="tooltip-line">
-          <span data-i18n="tooltips.complaint.intersection.value" data-i18n-options='{"intersection": "${intersection}"}'>${window.i18next.t(
-            "tooltips.complaint.intersection",
-            { intersection: intersection }
-          )}</span>
-        </div>
+
         <div class="tooltip-footer">
           <span data-i18n="tooltips.complaint.footer">${window.i18next.t(
             "tooltips.complaint.footer"
           )}</span>
         </div>
       </div>`;
+          // Intersection is unreliable removed from above.
+          // <div class="tooltip-line">
+          //    <span data-i18n="tooltips.complaint.intersection.value" data-i18n-options='{"intersection": "${intersection}"}'>${window.i18next.t(
+          //      "tooltips.complaint.intersection",
+          //      { intersection: intersection }
+          //    )}</span>
+          //  </div>
 
           new mapboxgl.Popup({ className: "mapbox-tooltip complaint-tooltip" })
             .setLngLat(coordinates)
@@ -241,38 +287,59 @@ function complaints_layer(complaint_days) {
         });
 
         map.on("click", "complaint-clusters", function (e) {
-          var feature = e.features[0];
+          let feature = e.features[0];
 
-          var coordinates = feature.geometry.coordinates.slice();
-          const complaintCount = e.features[0].properties.point_count;
+          let coordinates = feature.geometry.coordinates.slice();
+          let complaintCount = e.features[0].properties.point_count;
           console.log("[mbmap.js] complaint count", complaintCount);
-          var features = map.queryRenderedFeatures(e.point, {
+          let features = map.queryRenderedFeatures(e.point, {
             layers: ['complaint-clusters']
           });
-          var clusterFeature = features[0];
-          var clusterId = clusterFeature.properties.cluster_id;
-          map.getSource('complaints_lastdays').getClusterLeaves(clusterId, 100, 0, function (err, leafFeatures) {
+          let clusterFeature = features[0];
+          let clusterId = clusterFeature.properties.cluster_id;
+          map.getSource('complaints_lastdays').getClusterLeaves(clusterId, 1000, 0, function (err, leafFeatures) {
             if (err) {
               console.error('Error retrieving cluster leaves: ', err);
               return;
             }
+            groupedData = groupByDate(leafFeatures)
+            console.log('grouped by date ',groupedData )
+            const complaint_count_div = document.createElement("table")
+            complaint_count_div.classList.add("card-data");
+            _.forEach (groupedData,(item )=>
+            {
 
-            // quick look at data. Default TJ River location is registered as four different names.
-            // and same intersection gets different coordinates, so run check, if there is only one feature
-            // for these cases, then set a property with the name of the intersection.
-            // console.log('Features in the clicked cluster:', leafFeatures);
-            let unique_intersections = _.uniqBy(leafFeatures, 'properties.cross_street___intersection');
-            let unique_locations = _.uniqBy(leafFeatures, item =>
-              `${item.properties.x_coordinate}::${item.properties.y_coordinate}` )
-            console.log('distinct intersections in the clicked cluster:', unique_intersections);
-            console.log('distinct locations in the clicked cluster:', unique_locations);
-            let common_feature= false;
-            let intersection = ''
-            if (unique_locations.length === 1 || unique_intersections.length === 1 ) {
-              common_feature= true;
-              intersection = unique_locations[0].properties["cross_street___intersection"];
-              console.log('intersection',intersection )
-            }
+              const complaint_inner_div = document.createElement("tr")
+              const complaint_day =document.createElement("td")
+              const complaint_count =document.createElement("td")
+              //complaint_day.textContent=item.date
+              //complaint_count.textContent=item.count
+              const dateIcon = document.createElement("i");
+              dateIcon.className = "bi bi-clock";
+              const dateElm = document.createElement("span");
+
+              let date = new Date(item.date);
+              const dateString = formatDateTime(date, {
+                month: "short",
+                day: "numeric",
+              });
+              dateElm.innerText = ` ${dateString}`;
+              complaint_day.appendChild(dateIcon);
+              complaint_day.appendChild(dateElm);
+              const countIndicatorElm = document.createElement("span");
+              const countSpan = document.createElement("span");
+              countIndicatorElm.className =
+                "indicator " + getIndicatorLevelForOdorComplaints(item.count);
+              countSpan.innerText = i18next.t("sidebar.cards.odorComplaints.dailyCount", {
+                count: item.count
+              });
+              complaint_count.appendChild(countIndicatorElm)
+              complaint_count.appendChild(countSpan);
+
+              complaint_inner_div.appendChild(complaint_day);
+              complaint_inner_div.appendChild(complaint_count);
+              complaint_count_div.appendChild(complaint_inner_div);
+            });
 
             // Another option, open a popup listing details about the features.
             // var popupHTML = `<strong>Cluster contains ${clusterFeature.properties.point_count} points.</strong><br/><ul>`;
@@ -300,22 +367,22 @@ function complaints_layer(complaint_days) {
             "tooltips.complaintMultiple.time.value",
             { days: String(complaint_days) }
           )}</span>
-
-
-        </div>
-               <div class="tooltip-line">
-          <span data-i18n="tooltips.complaintMultiple.intersection.value" data-i18n-options='{"intersection": "${intersection}"}'>${window.i18next.t(
-            "tooltips.complaintMultiple.intersection",
-            { intersection: intersection }
-          )}</span>
-        </div>
+            </div>
+        ${complaint_count_div.outerHTML}
         <div class="tooltip-footer">
           <span data-i18n="tooltips.complaintMultiple.footer">${window.i18next.t(
             "tooltips.complaintMultiple.footer"
           )}</span>
         </div>
       </div>`;
+            // Intersection is unreliable.
 
+            //        <div class="tooltip-line">
+            //   <span data-i18n="tooltips.complaintMultiple.intersection.value" data-i18n-options='{"intersection": "${intersection}"}'>${window.i18next.t(
+            //     "tooltips.complaintMultiple.intersection",
+            //     { intersection: intersection }
+            //   )}</span>
+            // </div>
           new mapboxgl.Popup({ className: "mapbox-tooltip complaint-tooltip" })
             .setLngLat(coordinates)
             .setHTML(popupContent)
