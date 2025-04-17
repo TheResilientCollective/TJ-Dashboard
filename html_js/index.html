@@ -159,6 +159,11 @@
           toggleExpand(e);
         });
       });
+
+      // check if is embedded
+      if (window.parent.location && window.parent.location.href !== window.location.href) {
+        document.body.classList.add('embedded');
+      }
     });
   </script>
 
@@ -168,8 +173,9 @@
 <div id="container">
   <!-- Map Container with Kepler fsmap configured for San Ysidro (approx 50-mile radius) -->
   <div id="map-container"></div>
-<!--  <div id="hidepanel">-->
-<!--  </div>-->
+  
+  <button id="fullscreen-btn" class="is-fullscreen" onclick="const elem = document.body; if (elem.requestFullscreen) elem.requestFullscreen(); else elem.webkitRequestFullscreen();"><i class="bi bi-arrows-fullscreen"></i></button>
+
   <!-- Top Pill Container -->
   <div id="top-bar-container">
     <div id="top-bar">

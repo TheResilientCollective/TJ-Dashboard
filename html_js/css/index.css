@@ -905,3 +905,25 @@ hr {
   flex: 0 0 auto;
   transition: background 0.2s;
 }
+
+body.embedded #fullscreen-btn {
+  position: absolute;
+  top: var(--p1);
+  right: var(--p1);
+  z-index: 130;
+  background: var(--white);
+  border: var(--shadow-border);
+  border-radius: var(--border-radius);
+  padding: var(--p1);
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+body:fullscreen #fullscreen-btn {
+  display: none;
+}
+
+body:-webkit-full-screen #fullscreen-btn {
+  display: none;
+}
