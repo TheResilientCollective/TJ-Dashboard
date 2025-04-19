@@ -725,6 +725,82 @@ function h2s_layer() {
   }
 }
 
+function airnow_layers(){
+  try{
+
+    map.addSource("airnow_forecast_contour", {
+      type: "geojson",
+      data: `${urlbase}tijuana/airnow/output/aq_forecast_contours.geojson`,
+    });
+
+    map.addLayer({
+      id: 'airnow_forecast_contour-layer',
+      type: 'fill',
+      source: 'airnow_forecast_contour',
+      paint: {
+
+        'fill-opacity': 0.1 ,          // Polygon fill opacity
+        'fill-color': [
+            'match',
+            ['get', 'styleUrl'], // Replace 'status' with your property name
+            '#0', '#00e400',
+            '#1', '#ffff00',
+            '#2', '#ff7e00',
+            '#3', '#cc58db',
+            /* default */ 'white' // For any other value, use blue
+        ]
+      }
+    });
+
+
+
+    map.addSource("airnow_current", {
+      type: "geojson",
+      data: `${urlbase}tijuana/airnow/output/aq_current.geojson`,
+    });
+    console.log('Read air quality airnow_current')
+    // Create a symbol layer using the custom pin icon
+    map.addLayer({
+      id: "airnow_current-name",
+      type: "circle",
+      source: "airnow_current",
+
+      layout: {
+        "text-offset": [0, 0],
+      },
+      paint: {
+        "circle-radius": 18,
+        "circle-color": [
+            'step',
+            ['get', 'AQI'], // Replace 'status' with your property name
+             '#00e400',50,
+            '#ffff00', 100,
+             '#ff7e00',150,
+             'red',200,
+           '#cc58db', 300,
+            'rgb(126, 0, 35)',301,
+            /* default */ 'white' // For any other value, use blue
+          ]
+      },
+    });    map.addLayer({
+      id: "airnow_current-value",
+      type: "symbol",
+      source: "airnow_current",
+        layout: {
+          'text-field': ['get', 'AQI'],
+          'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+          'text-size': 16,
+          'text-offset': [0, 0],
+        }, paint: {
+          'text-color': '#000'
+        }
+
+    })
+
+  } catch {
+      console.log('Exception Creating AirNow layers')
+    }
+}
 function watershed_layer() {
 
   try {
@@ -991,6 +1067,7 @@ map.on("load", function () {
   Promise.all(icons.map((icon) => loadIcon(icon)))
     .then(() => {
       // All icons have loaded, you can proceed to add your layers.
+      airnow_layers()
       watershed_layer();
       spills_layer(window.spill_days);
       beach_layer();

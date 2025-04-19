@@ -1,7 +1,7 @@
 //const resilientUrlBase = 'https://oss.resilientservice.mooo.com/resilentpublic/'
 const s3base = "https://oss.resilientservice.mooo.com/";
-//const bucket = 'test'
-const bucket = "resilentpublic";
+const bucket = 'test'
+//const bucket = "resilentpublic";
 const resilientUrlBase = `${s3base}${bucket}/`;
 
 let latestH2SData = null;
