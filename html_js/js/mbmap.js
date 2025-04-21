@@ -725,51 +725,51 @@ function h2s_layer() {
   }
 }
 
-function airnow_layers(){
+function aqi_layers(){
   try{
 
-    map.addSource("airnow_forecast_contour", {
-      type: "geojson",
-      data: `${urlbase}tijuana/airnow/output/aq_forecast_contours.geojson`,
-    });
+    // map.addSource("airnow_forecast_contour", {
+    //   type: "geojson",
+    //   data: `${urlbase}tijuana/airnow/output/aq_forecast_contours.geojson`,
+    // });
+    //
+    // map.addLayer({
+    //   id: 'airnow_forecast_contour-layer',
+    //   type: 'fill',
+    //   source: 'airnow_forecast_contour',
+    //   paint: {
+    //
+    //     'fill-opacity': 0.1 ,          // Polygon fill opacity
+    //     'fill-color': [
+    //         'match',
+    //         ['get', 'styleUrl'], // Replace 'status' with your property name
+    //         '#0', '#00e400',
+    //         '#1', '#ffff00',
+    //         '#2', '#ff7e00',
+    //         '#3', '#cc58db',
+    //         /* default */ 'white' // For any other value, use blue
+    //     ]
+    //   }
+    // });
 
-    map.addLayer({
-      id: 'airnow_forecast_contour-layer',
-      type: 'fill',
-      source: 'airnow_forecast_contour',
-      paint: {
-
-        'fill-opacity': 0.1 ,          // Polygon fill opacity
-        'fill-color': [
-            'match',
-            ['get', 'styleUrl'], // Replace 'status' with your property name
-            '#0', '#00e400',
-            '#1', '#ffff00',
-            '#2', '#ff7e00',
-            '#3', '#cc58db',
-            /* default */ 'white' // For any other value, use blue
-        ]
-      }
-    });
 
 
-
-    map.addSource("airnow_current", {
+    map.addSource("airnow-current", {
       type: "geojson",
       data: `${urlbase}tijuana/airnow/output/aq_current.geojson`,
     });
     console.log('Read air quality airnow_current')
     // Create a symbol layer using the custom pin icon
     map.addLayer({
-      id: "airnow_current-name",
+      id: "airnow-current-location",
       type: "circle",
-      source: "airnow_current",
+      source: "airnow-current",
 
       layout: {
         "text-offset": [0, 0],
       },
       paint: {
-        "circle-radius": 18,
+        "circle-radius": 12,
         "circle-color": [
             'step',
             ['get', 'AQI'], // Replace 'status' with your property name
@@ -782,10 +782,11 @@ function airnow_layers(){
             /* default */ 'white' // For any other value, use blue
           ]
       },
-    });    map.addLayer({
-      id: "airnow_current-value",
+    });
+    map.addLayer({
+      id: "airnow-current-text",
       type: "symbol",
-      source: "airnow_current",
+      source: "airnow-current",
         layout: {
           'text-field': ['get', 'AQI'],
           'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
@@ -797,8 +798,40 @@ function airnow_layers(){
 
     })
 
+    // Purple Air API data
+    map.addSource("purpleair-current", {
+      type: "geojson",
+      data: `${urlbase}tijuana/airquality/purpleair/output/current_data.geojson`,
+    });
+    map.addLayer({
+      id: "purpleair-current-location",
+      type: "circle",
+      source: "purpleair-current",
+
+      layout: {
+        "text-offset": [0, 0],
+      },
+      paint: {
+        "circle-radius": 12,
+       // "circle-blur": 0.25,
+        "circle-stroke-color": "purple",
+        "circle-stroke-width": 4,
+
+        "circle-color": [
+          'step',
+          ['get', 'AQI'], // Replace 'status' with your property name
+          '#00e400',50,
+          '#ffff00', 100,
+          '#ff7e00',150,
+          'red',200,
+          '#cc58db', 300,
+          'rgb(126, 0, 35)',301,
+          /* default */ 'white' // For any other value, use blue
+        ]
+      },
+    });
   } catch {
-      console.log('Exception Creating AirNow layers')
+      console.log('Exception Creating aur quality layers')
     }
 }
 function watershed_layer() {
@@ -1067,7 +1100,7 @@ map.on("load", function () {
   Promise.all(icons.map((icon) => loadIcon(icon)))
     .then(() => {
       // All icons have loaded, you can proceed to add your layers.
-      airnow_layers()
+      aqi_layers()
       watershed_layer();
       spills_layer(window.spill_days);
       beach_layer();

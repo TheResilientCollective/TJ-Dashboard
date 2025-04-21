@@ -71,19 +71,22 @@
       {label: 'Wastewater Spills', id: 'spill_group' , layers: ['spills']}, // water
       {label: 'Beach Status', id: 'beach_group' , layers: ['beaches', 'outfalls']}, // observations
       {label: 'River Basin', id: 'water_group' , layers: ['basin','basin-outline', 'streams-line']},
-
+      {label: 'Air Quality', id: 'airquality_group' , layers: ['airnow-current-location', 'purpleair-current-location']},
+      {label: 'Weather', id: 'weather_group' , layers: ['openmeteo-current-forecast']},
     ]
 
 
     // Toggle Sidebar Function
-    const layerInfo = [
-      {label: 'H₂S Levels', id: 'g0nrfjd'}, // health layer for now
-      {label: 'Smell Complaints', id: '49rpvvq'}, // odor
-      {label: 'Wastewater Spills', id: 'hg4pxs'}, // water
-      {label: 'Beach Status', id: 'dpoomlg'}, // observations
-      {label: 'River Basin', id: '6n6ymt9'},
-
-    ]
+    // no longer using forusquare
+    // const layerInfo = [
+    //   {label: 'H₂S Levels', id: 'g0nrfjd'}, // health layer for now
+    //   {label: 'Smell Complaints', id: '49rpvvq'}, // odor
+    //   {label: 'Wastewater Spills', id: 'hg4pxs'}, // water
+    //   {label: 'Beach Status', id: 'dpoomlg'}, // observations
+    //   {label: 'River Basin', id: '6n6ymt9'},
+    //   {}
+    //
+    // ]
 
     // Toggle Expand Function for Cards
     function toggleExpand(ev) {
@@ -173,7 +176,7 @@
 <div id="container">
   <!-- Map Container with Kepler fsmap configured for San Ysidro (approx 50-mile radius) -->
   <div id="map-container"></div>
-  
+
   <button id="fullscreen-btn" class="is-fullscreen" onclick="const elem = document.body; if (elem.requestFullscreen) elem.requestFullscreen(); else elem.webkitRequestFullscreen();"><i class="bi bi-arrows-fullscreen"></i></button>
 
   <!-- Top Pill Container -->
