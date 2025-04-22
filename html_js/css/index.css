@@ -709,6 +709,34 @@ button.button.map-control-button.button {
   background: #cc58db;
 }
 
+/* aqi
+ "good"; //'#00e400'
+"moderate"; //'#ffff00'
+"unhealthy_for_Sensitive_Groups";//'#ff7e00'
+ "Unhealthy";//'red'
+"very_unhealthy"; //'#cc58db'
+ "Hazardous"; //#800000
+
+ */
+.good {
+  background: #00e400;
+}
+.moderate {
+  background: #ffff00;
+}
+.unhealthy_for_Sensitive_Groups {
+  background: #ff7e00;
+}
+.unhealthy {
+  background: #FF0000 ;
+}
+.very_unhealthy {
+  background: #cc58db ;
+}
+.hazardous {
+  background: #800000 ;
+}
+
 .trend-up {
   color: #4caf50;
   font-size: 16px;
@@ -823,7 +851,7 @@ button.button.map-control-button.button {
 }
 
 #legend .legend-item img {
-  height: 150%;  
+  height: 150%;
 }
 
 

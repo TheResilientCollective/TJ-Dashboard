@@ -508,6 +508,29 @@ function getIndicatorLevelForH2SValue(value) {
   else return "purple";
 }
 
+function getIndicatorLevelForAQIValue(aqi) {
+  // ['get', 'AQI'], // Replace 'status' with your property name
+  //              '#00e400',50,
+  //             '#ffff00', 100,
+  //              '#ff7e00',150,
+  //              'red',200,
+  //            '#cc58db', 300,
+  //             '#800000',301,
+  //             /* default */ 'white' // For any other value, use blue
+  if (aqi < 50 ) {
+    return "good"; //'#00e400'
+  } else if (aqi < 100) {
+    return "moderate"; //'#ffff00'
+  } else if (aqi < 150) {
+    return "unhealthy_for_Sensitive_Groups";//'#ff7e00'
+  } else if (aqi < 200) {
+    return "unhealthy";//'red'
+  } else if (aqi < 300) {
+    return "very_unhealthy"; //'#cc58db'
+  } else {
+    return "hazardous"; //#800000
+  }
+}
 function parseCustomDate(dateStr) {
   // Split the string into parts: [year, day, month]
   let [year, month, day] = dateStr.split("-").map(Number);

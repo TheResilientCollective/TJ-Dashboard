@@ -777,9 +777,8 @@ function aqi_layers(){
             '#ffff00', 100,
              '#ff7e00',150,
              'red',200,
-           '#cc58db', 300,
-            'rgb(126, 0, 35)',301,
-            /* default */ 'white' // For any other value, use blue
+             '#cc58db', 300,
+            /* default */ '#800000' // For any other value, use maroon
           ]
       },
     });
@@ -797,6 +796,57 @@ function aqi_layers(){
         }
 
     })
+    map.on("click", "airnow-current-location", function (e) {
+      var feature = e.features[0];
+      var coordinates = feature.geometry.coordinates.slice();
+      var aqi = feature.properties["AQI"]
+      var parameter = feature.properties.Parameter;
+      var units = feature.properties.Unit;
+      let date = dayjs(feature.properties["UTC"]);
+      var airnow_link = `https://www.airnow.gov/?city=${feature.properties["Site Name"]}&state=CA&country=USA`;
+      var indicatorClass = getIndicatorLevelForAQIValue(aqi);
+      var popupContent = `
+      <div class="tooltip">
+        <div class="tooltip-header">
+          <i class="bi bi-wind"></i>
+          <span data-i18n="tooltips.aqi.title">${window.i18next.t(
+        "tooltips.aqi.title"
+      )}</span>
+        </div>
+        <div class="tooltip-line tooltip-table">
+          <span data-i18n="tooltips.aqi.labels.source">${window.i18next.t(
+        "tooltips.aqi.labels.source"
+      )}</span>
+          <span>APCD</span>
+        </div>
+        <div class="tooltip-line tooltip-table">
+          <span data-i18n="tooltips.aqi.labels.result">${window.i18next.t(
+        "tooltips.aqi.labels.result"
+      )}</span>
+          <span class="labelled-indicator"><span class="indicator ${indicatorClass}"></span><span>${aqi}</span></span>
+        </div>
+
+        <div class="tooltip-line tooltip-table">
+          <span data-i18n="tooltips.aqi.labels.updated">${window.i18next.t(
+        "tooltips.aqi.labels.updated"
+      )}</span>
+          <span>${date.locale(window.i18next.language).format("h:mma")}</span>
+        </div>
+        <div class="tooltip-footer">
+          <span data-i18n="tooltips.aqi.labels.parameter">${window.i18next.t(
+        "tooltips.aqi.labels.parameter"
+      )}</span>  <span>${parameter}</span>
+          <span data-i18n="tooltips.aqi.units" data-i18n-options='{"units": ${units} }">${window.i18next.t(
+        "tooltips.aqi.units"
+      )}</span>
+        </div>
+      </div>`;
+
+      new mapboxgl.Popup({ className: "mapbox-tooltip aqi-tooltip" })
+        .setLngLat(coordinates)
+        .setHTML(popupContent)
+        .addTo(map);
+    });
 
     // Purple Air API data
     map.addSource("purpleair-current", {
@@ -825,10 +875,62 @@ function aqi_layers(){
           '#ff7e00',150,
           'red',200,
           '#cc58db', 300,
-          'rgb(126, 0, 35)',301,
-          /* default */ 'white' // For any other value, use blue
+          /* default */ '#800000' // For any other value, use blue
         ]
       },
+    });
+    map.on("click", "purpleair-current-location", function (e) {
+      var feature = e.features[0];
+      var coordinates = feature.geometry.coordinates.slice();
+      var name = feature.properties.name;
+      var aqi = feature.properties["AQI"]
+      //var parameter = feature.properties.Parameter;
+      var parameter = 'pm2.5';
+      var units = feature.properties.Unit;
+      let date = dayjs(feature.properties["UTC"]);
+      var airnow_link = `https://www.airnow.gov/?city=${feature.properties["Site Name"]}&state=CA&country=USA`;
+      var indicatorClass = getIndicatorLevelForAQIValue(aqi);
+      var popupContent = `
+      <div class="tooltip">
+        <div class="tooltip-header">
+          <i class="bi bi-wind"></i>
+          <span data-i18n="tooltips.aqi.title">${window.i18next.t(
+        "tooltips.aqi.title"
+      )}</span>
+        </div>
+        <div class="tooltip-line tooltip-table">
+          <span data-i18n="tooltips.aqi.labels.source">${window.i18next.t(
+        "tooltips.aqi.labels.source"
+      )}</span>
+          <span>${name} (Purple Air)</span>
+        </div>
+        <div class="tooltip-line tooltip-table">
+          <span data-i18n="tooltips.aqi.labels.result">${window.i18next.t(
+        "tooltips.aqi.labels.result"
+      )}</span>
+          <span class="labelled-indicator"><span class="indicator ${indicatorClass}"></span><span>${aqi}</span></span>
+        </div>
+
+        <div class="tooltip-line tooltip-table">
+          <span data-i18n="tooltips.aqi.labels.updated">${window.i18next.t(
+        "tooltips.aqi.labels.updated"
+      )}</span>
+          <span>${date.locale(window.i18next.language).format("h:mma")}</span>
+        </div>
+        <div class="tooltip-footer">
+          <span data-i18n="tooltips.aqi.labels.parameter">${window.i18next.t(
+        "tooltips.aqi.labels.parameter"
+      )}</span>  <span>${parameter}</span>
+          <span data-i18n="tooltips.aqi.units" data-i18n-options='{"units": ${units} }">${window.i18next.t(
+        "tooltips.aqi.units"
+      )}</span>
+        </div>
+      </div>`;
+
+      new mapboxgl.Popup({ className: "mapbox-tooltip aqi-tooltip" })
+        .setLngLat(coordinates)
+        .setHTML(popupContent)
+        .addTo(map);
     });
   } catch {
       console.log('Exception Creating aur quality layers')

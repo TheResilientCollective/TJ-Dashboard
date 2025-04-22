@@ -253,6 +253,16 @@
         "updated": "last update:"
       },
       "ppb": "ppB: parts per billion"
+    },
+    "aqi": {
+      "title": "Air Quality Index",
+      "labels": {
+        "source": "source:",
+        "result": "AQI:",
+        "parameter": "parameter used for AQI:",
+        "updated": "last update:"
+      },
+      "units": "{{units}}"
     }
   }
 }
