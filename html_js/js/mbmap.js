@@ -1,6 +1,4 @@
-// const s3base = "https://oss.resilientservice.mooo.com/"
-// //const bucket = 'test'
-// const bucket = 'resilentpublic'
+
 // s3base and bucket defined in app.js
 const urlbase = `${s3base}${bucket}/`;
 const iconSizing = [
