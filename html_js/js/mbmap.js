@@ -759,43 +759,57 @@ function aqi_layers(){
       data: `${urlbase}tijuana/airnow/output/aq_current.geojson`,
     });
     console.log('Read air quality airnow_current')
+    // this is used to paint the icon
+    const aqiSteps = [
+      'step',
+      ['get', 'AQI'], // Replace 'status' with your property name
+      '#00e400',50,
+      '#ffff00', 100,
+      '#ff7e00',150,
+      'red',200,
+      '#cc58db', 300,
+      /* default */ '#800000' // For any other value, use blue
+    ]
     // Create a symbol layer using the custom pin icon
     map.addLayer({
       id: "airnow-current-location",
-      type: "circle",
       source: "airnow-current",
-
+      // layout: {
+      //   "text-offset": [0, 0],
+      // },
+      // type: "circle",
+      // paint: {
+      //   "circle-radius": 12,
+      //   "circle-color": aqiSteps
+      // },
+      type: "symbol",
       layout: {
-        "text-offset": [0, 0],
+
+        "icon-image": "aqi_icon",
+        "icon-size": iconSizing,
+        "icon-allow-overlap": true,
+        // Offset the icon so the tip of the pin points to the location
+        "icon-offset": [0, 0],
       },
       paint: {
-        "circle-radius": 12,
-        "circle-color": [
-            'step',
-            ['get', 'AQI'], // Replace 'status' with your property name
-             '#00e400',50,
-            '#ffff00', 100,
-             '#ff7e00',150,
-             'red',200,
-             '#cc58db', 300,
-            /* default */ '#800000' // For any other value, use maroon
-          ]
-      },
-    });
-    map.addLayer({
-      id: "airnow-current-text",
-      type: "symbol",
-      source: "airnow-current",
-        layout: {
-          'text-field': ['get', 'AQI'],
-          'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-          'text-size': 16,
-          'text-offset': [0, 0],
-        }, paint: {
-          'text-color': '#000'
-        }
+        'icon-color': aqiSteps
 
-    })
+      }
+    });
+    // map.addLayer({
+    //   id: "airnow-current-text",
+    //   type: "symbol",
+    //   source: "airnow-current",
+    //     layout: {
+    //       'text-field': ['get', 'AQI'],
+    //       'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+    //       'text-size': 16,
+    //       'text-offset': [0, 0],
+    //     }, paint: {
+    //       'text-color': '#000'
+    //     }
+    //
+    // })
     map.on("click", "airnow-current-location", function (e) {
       var feature = e.features[0];
       var coordinates = feature.geometry.coordinates.slice();
@@ -855,29 +869,33 @@ function aqi_layers(){
     });
     map.addLayer({
       id: "purpleair-current-location",
-      type: "circle",
       source: "purpleair-current",
 
+      // type: "circle",
+      // layout: {
+      //   "text-offset": [0, 0],
+      // },
+      // paint: {
+      //   "circle-radius": 12,
+      //  // "circle-blur": 0.25,
+      //   "circle-stroke-color": "purple",
+      //   "circle-stroke-width": 4,
+      //
+      //   "circle-color": aqiSteps
+      // },
+      type: "symbol",
       layout: {
-        "text-offset": [0, 0],
+
+        "icon-image": "aqi_icon",
+        "icon-size": iconSizing,
+        "icon-allow-overlap": true,
+        // Offset the icon so the tip of the pin points to the location
+        "icon-offset": [0, 0],
       },
       paint: {
-        "circle-radius": 12,
-       // "circle-blur": 0.25,
-        "circle-stroke-color": "purple",
-        "circle-stroke-width": 4,
+        'icon-color': aqiSteps
 
-        "circle-color": [
-          'step',
-          ['get', 'AQI'], // Replace 'status' with your property name
-          '#00e400',50,
-          '#ffff00', 100,
-          '#ff7e00',150,
-          'red',200,
-          '#cc58db', 300,
-          /* default */ '#800000' // For any other value, use blue
-        ]
-      },
+      }
     });
     map.on("click", "purpleair-current-location", function (e) {
       var feature = e.features[0];
@@ -1155,20 +1173,21 @@ function parseBeachNotice(html) {
 /// onload loads icons in bulk, then call the layers
 map.on("load", function () {
   const icons = [
-    { id: "spill_icon", url: "img/marker-spill-inverted.png" },
-    { id: "outfall_icon", url: "img/marker-outlet-new-inverted.png" },
-    { id: "beach_icon", url: "img/marker-beach.png" },
-    { id: "complaint_icon", url: "img/marker-complaint-color.png" },
-    { id: "beach-advisory", url: "img/marker-beach-advisory.png" },
-    { id: "beach-closure", url: "img/marker-beach-closure-white.png" },
-    { id: "beach-warning", url: "img/marker-beach-warning.png" },
-    { id: "beach-open", url: "img/marker-beach-open.png" },
-    { id: "h2s_icon", url: "img/marker-h2s.png" },
-    { id: "h2s_icon_white", url: "img/marker-h2s-white.png" },
-    { id: "h2s_icon_green", url: "img/marker-h2s-green.png" },
-    { id: "h2s_icon_orange", url: "img/marker-h2s-orange.png" },
-    { id: "h2s_icon_purple", url: "img/marker-h2s-purple.png" },
-    { id: "river_icon", url: "img/river.png" },
+    { id: "spill_icon", url: "img/marker-spill-inverted.png" ,  sdf: false},
+    { id: "outfall_icon", url: "img/marker-outlet-new-inverted.png" ,  sdf: false},
+    { id: "beach_icon", url: "img/marker-beach.png",  sdf: false },
+    { id: "complaint_icon", url: "img/marker-complaint-color.png" ,  sdf: false},
+    { id: "beach-advisory", url: "img/marker-beach-advisory.png",  sdf: false },
+    { id: "beach-closure", url: "img/marker-beach-closure-white.png",  sdf: false },
+    { id: "beach-warning", url: "img/marker-beach-warning.png" ,  sdf: false},
+    { id: "beach-open", url: "img/marker-beach-open.png" ,  sdf: false},
+    { id: "h2s_icon", url: "img/marker-h2s.png",  sdf: false },
+    { id: "h2s_icon_white", url: "img/marker-h2s-white.png",  sdf: false },
+    { id: "h2s_icon_green", url: "img/marker-h2s-green.png",  sdf: false },
+    { id: "h2s_icon_orange", url: "img/marker-h2s-orange.png",  sdf: false },
+    { id: "h2s_icon_purple", url: "img/marker-h2s-purple.png" ,  sdf: false},
+    { id: "river_icon", url: "img/river.png",  sdf: false },
+    { id: "aqi_icon", url: "img/marker-aqi.png" , sdf: true},
   ];
 
   // Load icons (retrying up to 3 times)
@@ -1192,7 +1211,7 @@ map.on("load", function () {
         } else if (error) {
           reject(error);
         } else {
-          map.addImage(icon.id, image);
+          map.addImage(icon.id, image, icon.sdf);
           resolve();
         }
       });

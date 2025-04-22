@@ -35,3 +35,6 @@ https://stackoverflow.com/questions/69086721/how-to-render-custom-svg-in-iconlay
 
 
 county link
+
+airnow forcast mapbase:
+https://www.airnow.gov/custom-airnow-maps/building-custom-map/
