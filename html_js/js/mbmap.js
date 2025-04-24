@@ -676,7 +676,8 @@ function h2s_layer() {
        }
       } else {
         result = `${result} ppB`
-        indicatorClass = getIndicatorLevelForH2SValue(result);
+       // indicatorClass = getIndicatorLevelForH2SValue(result);
+        indicatorClass =feature.properties.level
       }
 
       var popupContent = `
