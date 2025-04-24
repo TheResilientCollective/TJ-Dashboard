@@ -222,10 +222,10 @@
       "title": "{{count}} Quejas por Olor",
       "time": {
         "label": "hora:",
-        "value": "en los últimos {{days}}  días*"
+        "value": "en los últimos {{days}}  días* "
       },
       "intersection": "{{intersection}}",
-      "footer": "*No incluye datos de hoy."
+      "footer": "*No incluye datos de hoy. {{lastComplaintsUpdate}}"
     },
     "beach": {
       "status": {

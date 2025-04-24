@@ -225,7 +225,7 @@
         "value": "within the previous {{days}} days*"
       },
       "intersection": "{{intersection}}",
-      "footer": "*Does not include data for today."
+      "footer": "*Does not include data since last update {{lastComplaintsUpdate}}."
     },
     "beach": {
       "status": {

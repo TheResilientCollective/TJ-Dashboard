@@ -57,19 +57,25 @@ function setMapLanguage() {
 }
 
 function groupByDate(leafFeatures) {
-  dateGroups = _.chain(leafFeatures).groupBy(
-  feature => {
-    const fullDate = feature.properties['datetime'];
-    return fullDate.split('T')[0];
-  }).mapValues(arr => arr.length)
-    .value()
-  const sorted =_.map(
-    _.orderBy(_.toPairs(dateGroups),   // → [ [date, count], … ]
-      pair => pair[0],    // sort by the date-string key
-      'desc'),
-    ([date, count]) => ({ date, count })
-  );
-  return sorted
+  // dateGroups = _.chain(leafFeatures).groupBy(
+  // feature => {
+  //   // const fullDate = feature.properties['datetime'];
+  //   // return fullDate.split('T')[0];
+  //   return feature.properties['date']
+  // }).mapValues(arr => arr.length)
+  //   .value()
+  // const sorted =_.map(
+  //   _.orderBy(_.toPairs(dateGroups),   // → [ [date, count], … ]
+  //     pair => pair[0],    // sort by the date-string key
+  //     'desc'),
+  //   ([date, count]) => ({ date, count })
+  // );
+  // return sorted
+  const mostRecentDataByDay = _.groupBy(leafFeatures, (item) => {
+    const date = new Date(item.properties.date_received);
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  });
+  return mostRecentDataByDay
 
 }
 
@@ -105,6 +111,11 @@ function complaints_layer(complaint_days) {
     fetch(`${urlbase}tijuana/sd_complaints/output/complaints.geojson`) // update the path or URL to your GeoJSON file
       .then((response) => response.json())
       .then((data) => {
+        const lastComplaintsUpdate = formatDateTime(dayjs(data.lastUpdated).toDate(), {
+          month: "long",
+          day: "numeric",
+        //  hour: "numeric",
+        });
         const complaintsVisible = document
           .querySelector("#complaints-filter-btn")
           .classList.contains("active");
@@ -306,9 +317,14 @@ function complaints_layer(complaint_days) {
             console.log('grouped by date ',groupedData )
             const complaint_count_div = document.createElement("table")
             complaint_count_div.classList.add("card-data");
-            _.forEach (groupedData,(item )=>
+            //_.forEach (groupedData,(item )=>
+            sortedKeys = _.keys(groupedData).sort((a, b) => dayjs(b) - dayjs(a))
+            console.log('grouped keys ',sortedKeys )
+            for (const akey in sortedKeys)
             {
-
+              console.log('item  keys ',sortedKeys[akey] )
+              const item = sortedKeys[akey];
+              const itemcount = groupedData[item].length
               const complaint_inner_div = document.createElement("tr")
               const complaint_day =document.createElement("td")
               const complaint_count =document.createElement("td")
@@ -318,7 +334,8 @@ function complaints_layer(complaint_days) {
               dateIcon.className = "bi bi-clock";
               const dateElm = document.createElement("span");
 
-              let date = new Date(item.date);
+             // let date = new Date(item.date);
+              let date = new Date(item);
               const dateString = formatDateTime(date, {
                 month: "short",
                 day: "numeric",
@@ -329,9 +346,11 @@ function complaints_layer(complaint_days) {
               const countIndicatorElm = document.createElement("span");
               const countSpan = document.createElement("span");
               countIndicatorElm.className =
-                "indicator " + getIndicatorLevelForOdorComplaints(item.count);
+             //   "indicator " + getIndicatorLevelForOdorComplaints(item.count);
+              "indicator " + getIndicatorLevelForOdorComplaints(itemcount);
               countSpan.innerText = i18next.t("sidebar.cards.odorComplaints.dailyCount", {
-                count: item.count
+               // count: item.count
+                count: itemcount
               });
               complaint_count.appendChild(countIndicatorElm)
               complaint_count.appendChild(countSpan);
@@ -339,7 +358,8 @@ function complaints_layer(complaint_days) {
               complaint_inner_div.appendChild(complaint_day);
               complaint_inner_div.appendChild(complaint_count);
               complaint_count_div.appendChild(complaint_inner_div);
-            });
+            }
+           // );
 
             // Another option, open a popup listing details about the features.
             // var popupHTML = `<strong>Cluster contains ${clusterFeature.properties.point_count} points.</strong><br/><ul>`;
@@ -370,8 +390,9 @@ function complaints_layer(complaint_days) {
             </div>
         ${complaint_count_div.outerHTML}
         <div class="tooltip-footer">
-          <span data-i18n="tooltips.complaintMultiple.footer">${window.i18next.t(
-            "tooltips.complaintMultiple.footer"
+          <span data-i18n="tooltips.complaintMultiple.footer" data-i18n-options='{"lastComplaintsUpdate": "${lastComplaintsUpdate}"}'>${window.i18next.t(
+            "tooltips.complaintMultiple.footer",
+            {lastComplaintsUpdate: lastComplaintsUpdate}
           )}</span>
         </div>
       </div>`;
