@@ -503,11 +503,16 @@ function spills_layer(spill_days) {
       id: "spills",
       type: "symbol",
       source: "spills",
-      filter: [
+      filter: ["any",
+        [
         "any",
         [">=", ["get", "End Time"], thirtyDaysAgo],
         [">=", ["get", "Start Time"], thirtyDaysAgo],
-      ],
+      ] ,
+        [">=", ["get", "Start Time"], thirtyDaysAgo], // in case End Time 'Ongoing' is a different value
+        ],
+
+
       layout: {
         "icon-image": "spill_icon",
         //'icon-size': .1,
@@ -538,6 +543,7 @@ function spills_layer(spill_days) {
       var feature = e.features[0];
       var coordinates = feature.geometry.coordinates.slice();
       var name = feature.properties["Discharge Location"];
+      var status = feature.properties.Status
       var dates = {
         start: dayjs(feature.properties["Start Date"]),
         end: dayjs(feature.properties["End Date"]),
@@ -547,7 +553,13 @@ function spills_layer(spill_days) {
         dateStr = window.i18next.t("tooltips.wastewater.time", {
           date: dates.start.locale(window.i18next.language).format("MMM D"),
         });
-      } else {
+      } else if (status === 'Ongoing'){
+        dateStr = window.i18next.t("tooltips.wastewater.duration", {
+          start: dates.start.locale(window.i18next.language).format("MMM D"),
+          end: 'Ongoing',
+        });
+      } else
+       {
         dateStr = window.i18next.t("tooltips.wastewater.duration", {
           start: dates.start.locale(window.i18next.language).format("MMM D"),
           end: dates.end.locale(window.i18next.language).format("MMM D"),
