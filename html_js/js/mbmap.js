@@ -503,11 +503,16 @@ function spills_layer(spill_days) {
       id: "spills",
       type: "symbol",
       source: "spills",
-      filter: [
+      filter: ["any",
+        [
         "any",
         [">=", ["get", "End Time"], thirtyDaysAgo],
         [">=", ["get", "Start Time"], thirtyDaysAgo],
-      ],
+      ] ,
+        [">=", ["get", "Start Time"], thirtyDaysAgo], // in case End Time 'Ongoing' is a different value
+        ],
+
+
       layout: {
         "icon-image": "spill_icon",
         //'icon-size': .1,
@@ -538,6 +543,7 @@ function spills_layer(spill_days) {
       var feature = e.features[0];
       var coordinates = feature.geometry.coordinates.slice();
       var name = feature.properties["Discharge Location"];
+      var status = feature.properties.Status
       var dates = {
         start: dayjs(feature.properties["Start Date"]),
         end: dayjs(feature.properties["End Date"]),
@@ -547,7 +553,13 @@ function spills_layer(spill_days) {
         dateStr = window.i18next.t("tooltips.wastewater.time", {
           date: dates.start.locale(window.i18next.language).format("MMM D"),
         });
-      } else {
+      } else if (status === 'Ongoing'){
+        dateStr = window.i18next.t("tooltips.wastewater.duration", {
+          start: dates.start.locale(window.i18next.language).format("MMM D"),
+          end: 'Ongoing',
+        });
+      } else
+       {
         dateStr = window.i18next.t("tooltips.wastewater.duration", {
           start: dates.start.locale(window.i18next.language).format("MMM D"),
           end: dates.end.locale(window.i18next.language).format("MMM D"),
@@ -647,11 +659,39 @@ function h2s_layer() {
     map.on("click", "h2s", function (e) {
       var feature = e.features[0];
       var coordinates = feature.geometry.coordinates.slice();
-      var name = feature.properties["LongName"].replace(/\([A-Z]+\)/g, "");
-      var description = feature.properties.Result;
+      if (feature.properties["LongName"] !== undefined){
+        var name = feature.properties["LongName"].replace(/\([A-Z]+\)/g, "");
+      } else {
+        var name = feature.properties["SiteName"].replace(/\([A-Z]+\)/g, "");
+      }
       let date = dayjs(feature.properties["Date with time"]);
       var airnow_link = `https://www.airnow.gov/?city=${feature.properties["Site Name"]}&state=CA&country=USA`;
-      var indicatorClass = getIndicatorLevelForH2SValue(description);
+
+      var result = feature.properties.Result;
+      var indicatorClass = 'white'
+      if (result === undefined) {
+        result='Offline';
+       if(feature.properties['Original Value']){
+
+         switch(feature.properties['Original Value'])
+         {
+           case 'M':
+             result='Maintenance';
+             break;
+           case 'C':
+             result='Calibration';
+             break;
+           default:
+             result='Offline';
+             break;
+         }
+       }
+      } else {
+        result = `${result} ppB`
+       // indicatorClass = getIndicatorLevelForH2SValue(result);
+        indicatorClass =feature.properties.level
+      }
+
       var popupContent = `
       <div class="tooltip">
         <div class="tooltip-header">
@@ -670,7 +710,7 @@ function h2s_layer() {
           <span data-i18n="tooltips.h2s.labels.measurement">${window.i18next.t(
             "tooltips.h2s.labels.measurement"
           )}</span>
-          <span class="labelled-indicator"><span class="indicator ${indicatorClass}"></span><span>${description} ppB</span></span>
+          <span class="labelled-indicator"><span class="indicator ${indicatorClass}"></span><span>${result}</span></span>
         </div>
         <div class="tooltip-line tooltip-table">
           <span data-i18n="tooltips.h2s.labels.updated">${window.i18next.t(
