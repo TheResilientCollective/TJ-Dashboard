@@ -82,15 +82,15 @@
       "h2s": {
         "title": "Hydrogen Sulfide",
         "p1": {
-          "label": "Hydrogen sulfide (H₂S) is a colorless gas with a characteristic odor of rotten eggs. Hydrogen sulfide is measured in ppB (parts per billion) - the lower ppB the better. Community Hydrogen Sulfide Guidance includes recommendation on how to respond to on-going increases in hydrogen sulfide levels based on",
+          "label": "Hydrogen sulfide (H₂S) is a colorless gas with a characteristic odor of rotten eggs. Hydrogen sulfide is measured in ppB (parts per billion) - the lower ppB the better.",
           "link": {
             "text": "Community Hydrogen Sulfide Guidance",
             "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/tjrv-air-quality-monitoring.html"
           }
         },
-        "p2": "Longer Term Monitoring of ",
+        "p2": "includes recommendation on how to respond to on-going increases in hydrogen sulfide levels based on",
         "link": {
-          "text": "Hydrogen Sulfide Levels",
+          "text": "Longer Term Monitoring of Hydrogen Sulfide Levels",
           "url": "https://app.powerbigov.us/view?r=eyJrIjoiOGMwYzM2ZGYtZGU4Ny00ZGI5LWE2NWMtMmZlOGEzZTYzMDc3IiwidCI6IjQ1NjNhZjEzLWMwMjktNDFiMy1iNzRjLTk2NWU4ZWVjOGY5NiJ9"
         },
         "tableLabel": "Recent Measurements",
@@ -104,7 +104,7 @@
         }
       },
       "beachClosures": {
-        "title": "Beach Waterclosures",
+        "title": "Beach Water Closures",
         "overview": {
           "count_one": "{{count}} Shorelines Closed",
           "count_other": "{{count}} Shorelines Closed",
@@ -120,7 +120,7 @@
           }
         },
         "p2": "",
-        "tableLabel": "The following shorelines are currently closed:",
+        "tableLabel": "The following beach shorelines are currently closed:",
         "status": {
           "closed": "closed"
         },
