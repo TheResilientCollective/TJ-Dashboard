@@ -243,7 +243,13 @@
       "time": "{{date}}",
       "location": "ubicación:",
       "date": "fecha:",
-      "volume": "volumen aprox.:"
+      "volume": "volumen aprox.:",
+      "footer": {
+        "link": {
+          "text": "Datos de flujo de aguas residuales",
+          "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
+        }
+      }
     },
     "h2s": {
       "title": "Medición de Sulfuro de Hidrógeno",

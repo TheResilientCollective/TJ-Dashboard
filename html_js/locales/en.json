@@ -243,7 +243,13 @@
       "time": "{{date}}",
       "location": "location:",
       "date": "date:",
-      "volume": "approx. volume:"
+      "volume": "approx. volume:",
+      "footer": {
+        "link": {
+          "text": "Wastewater flow data",
+          "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
+        }
+      }
     },
     "h2s": {
       "title": "Hydrogen Sulfide Measurement",
