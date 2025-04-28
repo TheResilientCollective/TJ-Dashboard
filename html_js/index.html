@@ -173,7 +173,7 @@
 <div id="container">
   <!-- Map Container with Kepler fsmap configured for San Ysidro (approx 50-mile radius) -->
   <div id="map-container"></div>
-  
+
   <button id="fullscreen-btn" class="is-fullscreen" onclick="const elem = document.body; if (elem.requestFullscreen) elem.requestFullscreen(); else elem.webkitRequestFullscreen();"><i class="bi bi-arrows-fullscreen"></i></button>
 
   <!-- Top Pill Container -->
@@ -245,7 +245,7 @@
       </div>
 
       <div id="sidebar-body">
-        <div class="sidebar-card-separator"><span><h2 data-i18n="sidebar.sections.ongoing">Ongoing Events</h2></span></div>
+        <div class="sidebar-card-separator"><span><h2 data-i18n="sidebar.sections.ongoing">Current Conditions</h2></span></div>
 
         <!-- What We Know -->
         <div class="card shadow expandable expanded" onclick="selectCard('What We Know')">
@@ -426,10 +426,8 @@
 
           <p>
             <span data-i18n="sidebar.cards.h2s.p1.label">Hydrogen sulfide (H₂S) is a colorless gas with a characteristic odor of rotten eggs. Hydrogen Sulfide is measured in ppB (parts per billion) - lower is better.</span>
+            <br>
             <a href="https://example.com" data-i18n-href="sidebar.cards.h2s.p1.link.url" data-i18n="sidebar.cards.h2s.p1.link.text" target="_blank">Air Quality Monitoring</a>
-          </p>
-
-          <p>
             <span data-i18n="sidebar.cards.h2s.p2">Longer term monitoring information can be found here:</span>
             <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.h2s.link.text" data-i18n-href="sidebar.cards.h2s.link.url">Hydrogen Sulfide Monitoring</a>
           </p>
