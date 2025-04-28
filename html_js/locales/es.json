@@ -96,7 +96,7 @@
         "tableLabel": "Mediciones Recientes",
         "valueUnit": "{{value}} ppb",
         "footer": {
-          "text": "Actualizado {{date}}",
+          "text": "Actualizado por hora {{date}}",
           "link": {
             "text": "Más Info",
             "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
@@ -125,7 +125,7 @@
           "closed": "cerrada"
         },
         "footer": {
-          "text": "Actualizado {{date}}",
+          "text": "Actualizado diariamente {{date}}",
           "link": {
             "text": "",
             "url": ""
@@ -154,7 +154,7 @@
         "dailyCount_one": "{{count}} queja",
         "dailyCount_other": "{{count}} quejas",
         "footer": {
-          "text": "Actualizado {{date}}",
+          "text": "Actualizado Semanalmente {{date}}",
           "link": {
             "text": "",
             "url": ""
