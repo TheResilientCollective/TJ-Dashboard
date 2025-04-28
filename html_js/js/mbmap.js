@@ -592,6 +592,13 @@ function spills_layer(spill_days) {
           )}</span>
           <span>${volume}</span>
         </div>
+        <div class="tooltip-footer">
+          <a target="_blank" data-i18n="tooltips.wastewater.footer.link.text" data-i18n-href="tooltips.wastewater.footer.link.url" href="${window.i18next.t(
+            "tooltips.wastewater.footer.link.url"
+          )}">${window.i18next.t(
+            "tooltips.wastewater.footer.link.text"
+          )}</a>
+        </div>
       </div>`;
 
       new mapboxgl.Popup({ className: "mapbox-tooltip spill-tooltip" })
