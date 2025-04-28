@@ -113,7 +113,7 @@
           "trend_same": "same as last week"
         },
         "p1": {
-          "body": "A closure is issued when a sewage or chemical spill impacts beach or bay waters. Additional warnings and advisories can be found here:",
+          "body": "A closure is issued when a sewage or chemical flow impacts beach or bay waters. Additional warnings and advisories can be found here:",
           "link": {
             "text": "San Diego Beach & Bay Water Quality Program",
             "url": "https://www.sdbeachinfo.com/"
@@ -185,7 +185,7 @@
     "beaches": "Beach Water Quality",
     "h2sLevels": "H₂S Levels",
     "odorComplaints": "Smell Complaints",
-    "wastewaterSpills": "Wastewater Spills",
+    "wastewaterSpills": "Wastewater Flows",
     "riverBasin": "River Basin",
     "currentData": "current data",
     "prevComplaintdays": "previous {{complaint_days}} days",
@@ -198,7 +198,7 @@
     },
     "legend": {
       "label": "Legend ",
-      "spill": "Wastewater spill",
+      "spill": "Wastewater flow",
       "complaint": "Smell complaint",
       "h2s": "H2S reading",
       "outlet": "Outfall",
@@ -238,7 +238,7 @@
       "since": "since {{date}}"
     },
     "wastewater": {
-      "title": "Wastewater Spill",
+      "title": "Wastewater Flow",
       "duration": "{{start}} - {{end}}",
       "time": "{{date}}",
       "location": "location:",
