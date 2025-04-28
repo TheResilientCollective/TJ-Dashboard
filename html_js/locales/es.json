@@ -42,14 +42,14 @@
           "source": "El nombre y la dirección de la presunta fuente y el tipo de operación que lo causa (si se conoce)."
         },
         "h2sLink": {
-          "label1": "<b>Protégete de los Olores Ambientales</b><br>",
+          "label1": "Recomendaciones para ",
           "link1": {
-            "text": "Infórmate aquí",
+            "text": "Protegerte de Olores Ambientales",
             "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-environmental-odors.html"
           },
-          "label2": "<b>Protégete del Agua Contaminada</b><br>",
+          "label2": "Recomendaciones para ",
           "link2": {
-            "text": "Infórmate aquí",
+            "text": "Protegerte de Agua Contaminada",
             "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-contaminated-water.html"
           }
         },
@@ -82,15 +82,15 @@
       "h2s": {
         "title": "Sulfuro de Hidrógeno",
         "p1": {
-          "label": "El sulfuro de hidrógeno (H₂S) es un gas incoloro con un olor característico a huevos podridos. El sulfuro de hidrógeno se mide en ppb (partes por billón) - cuanto más bajo el ppb, mejor. Las recomendaciones basadas en los niveles actuales de sulfuro de hidrógeno se pueden encontrar aquí:",
+          "label": "El sulfuro de hidrógeno (H₂S) es un gas incoloro con un olor característico a huevos podridos. El sulfuro de hidrógeno se mide en ppb (partes por billón) - cuanto más bajo el ppb, mejor.",
           "link": {
-            "text": "Monitoreo de la Calidad del Aire",
+            "text": "Guía de la Comunidad sobre el Sulfuro de Hidrógeno",
             "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/tjrv-air-quality-monitoring.html#googtrans(es)"
           }
         },
-        "p2": "Información de monitoreo a más largo plazo se puede encontrar aquí:",
+        "p2": "incluye recomendaciones sobre cómo responder a los aumentos continuos en los niveles de sulfuro de hidrógeno basados en",
         "link": {
-          "text": "Monitoreo de Sulfuro de Hidrógeno",
+          "text": "Monitoreo a Largo Plazo de los Niveles de Sulfuro de Hidrógeno",
           "url": "https://app.powerbigov.us/view?r=eyJrIjoiOGMwYzM2ZGYtZGU4Ny00ZGI5LWE2NWMtMmZlOGEzZTYzMDc3IiwidCI6IjQ1NjNhZjEzLWMwMjktNDFiMy1iNzRjLTk2NWU4ZWVjOGY5NiJ9"
         },
         "tableLabel": "Mediciones Recientes",
@@ -104,7 +104,7 @@
         }
       },
       "beachClosures": {
-        "title": "Cierres de Agua en la Playa",
+        "title": "Cierres de Agua de Playa",
         "overview": {
           "count_one": "{{count}} Costa Cerrada",
           "count_other": "{{count}} Costas Cerrada",
@@ -120,7 +120,7 @@
           }
         },
         "p2": "",
-        "tableLabel": "Las siguientes playas están actualmente cerradas:",
+        "tableLabel": "Las siguientes líneas de costa están actualmente cerradas:",
         "status": {
           "closed": "cerrada"
         },
@@ -164,7 +164,7 @@
       "healthConcerns": {
         "title": "Datos de Salud Pública",
         "p1": {
-          "body": "Los Servicios de Salud Pública del Condado de San Diego monitorean las tendencias en condiciones gastrointestinales y respiratorias en la Región Sur. Puedes encontrar información adicional aquí:",
+          "body": "Los Servicios de Salud Pública del Condado de San Diego monitorean las visitas a la sala de emergencias por condiciones gastrointestinales y respiratorias en la Región Sur. Los informes semanales de monitoreo se pueden encontrar aquí:",
           "link": {
             "text": "Datos de Salud Pública sobre Problemas de Salud en la Región Sur",
             "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.htmlhttps://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
