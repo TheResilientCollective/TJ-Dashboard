@@ -96,7 +96,7 @@
         "tableLabel": "Recent Measurements",
         "valueUnit": "{{value}} ppB",
         "footer": {
-          "text": "Updated {{date}}",
+          "text": "Updated Hourly on {{date}}",
           "link": {
             "text": "More Info",
             "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html"
@@ -125,7 +125,7 @@
           "closed": "closed"
         },
         "footer": {
-          "text": "Updated {{date}}",
+          "text": "Updated Daily on {{date}}",
           "link": {
             "text": "",
             "url": ""
@@ -154,7 +154,7 @@
         "dailyCount_one": "{{count}} complaint",
         "dailyCount_other": "{{count}} complaints",
         "footer": {
-          "text": "Updated {{date}}",
+          "text": "Updated Weekly on {{date}}",
           "link": {
             "text": "",
             "url": ""
