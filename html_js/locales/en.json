@@ -3,7 +3,7 @@
   "sidebar": {
     "title": "Tijuana River Valley Sewage Crisis Environmental Dashboard",
     "sections": {
-      "ongoing": "Ongoing Events",
+      "ongoing": "Current Conditions",
       "environmental": "Environmental Concerns",
       "health": "Health Concerns"
     },
@@ -42,14 +42,14 @@
           "source": "The name and address of the alleged source and the type of operation causing it (if known)."
         },
         "h2sLink": {
-          "label1": "<b>Protect Yourself from Environmental Odors</b><br>",
+          "label1": "Recommendations to ",
           "link1": {
-            "text": "Learn how here",
+            "text": "Protect Yourself from Environmental Odors",
             "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-environmental-odors.html"
           },
-          "label2": "<b>Protect Yourself from Contaminated Water</b><br>",
+          "label2": "Recommendations to ",
           "link2": {
-            "text": "Learn how here",
+            "text": "Protect Yourself from Contaminated Water",
             "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-contaminated-water.html"
           }
         },
@@ -64,7 +64,7 @@
         }
       },
       "whatWereDoing": {
-        "title": "What We’re Doing",
+        "title": "What We Are Doing",
         "p1": "County of San Diego officials are working with partners and other agencies to assess concerns and impacts from sewage and pollution in the Tijuana River Valley and surrounding communities.",
         "p2": "More information can be found here:",
         "link": {
@@ -82,15 +82,15 @@
       "h2s": {
         "title": "Hydrogen Sulfide",
         "p1": {
-          "label": "Hydrogen sulfide (H₂S) is a colorless gas with a characteristic odor of rotten eggs. Hydrogen sulfide is measured in ppB (parts per billion) - the lower ppB the better. Recommendations based on current Hydrogen sulfide levels can be found here:",
+          "label": "Hydrogen sulfide (H₂S) is a colorless gas with a characteristic odor of rotten eggs. Hydrogen sulfide is measured in ppB (parts per billion) - the lower ppB the better.",
           "link": {
-            "text": "Air Quality Monitoring",
+            "text": "Community Hydrogen Sulfide Guidance",
             "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/tjrv-air-quality-monitoring.html"
           }
         },
-        "p2": "Longer term monitoring information can be found here:",
+        "p2": "includes recommendation on how to respond to on-going increases in hydrogen sulfide levels based on",
         "link": {
-          "text": "Hydrogen Sulfide Monitoring",
+          "text": "Longer Term Monitoring of Hydrogen Sulfide Levels",
           "url": "https://app.powerbigov.us/view?r=eyJrIjoiOGMwYzM2ZGYtZGU4Ny00ZGI5LWE2NWMtMmZlOGEzZTYzMDc3IiwidCI6IjQ1NjNhZjEzLWMwMjktNDFiMy1iNzRjLTk2NWU4ZWVjOGY5NiJ9"
         },
         "tableLabel": "Recent Measurements",
@@ -104,23 +104,23 @@
         }
       },
       "beachClosures": {
-        "title": "Beach Closures",
+        "title": "Beach Water Closures",
         "overview": {
-          "count_one": "{{count}} Beach Closed",
-          "count_other": "{{count}} Beaches Closed",
+          "count_one": "{{count}} Shorelines Closed",
+          "count_other": "{{count}} Shorelines Closed",
           "trend": "-{{change}} from last week",
           "trend_positive": "+{{change}} from last week",
           "trend_same": "same as last week"
         },
         "p1": {
-          "body": "A closure is issued when a sewage or chemical spill impacts ocean or bay waters. Additional warnings and advisories can be found here:",
+          "body": "A closure is issued when a sewage or chemical spill impacts beach or bay waters. Additional warnings and advisories can be found here:",
           "link": {
             "text": "San Diego Beach & Bay Water Quality Program",
             "url": "https://www.sdbeachinfo.com/"
           }
         },
         "p2": "",
-        "tableLabel": "The following beaches are currently closed:",
+        "tableLabel": "The following beach shorelines are currently closed:",
         "status": {
           "closed": "closed"
         },
@@ -164,7 +164,7 @@
       "healthConcerns": {
         "title": "Public Health Data",
         "p1": {
-          "body": "The County of San Diego's Public Health Services monitors trends in gastrointestinal and respiratory conditions in the South Region. Additional information can be found here:",
+          "body": "The County of San Diego's Public Health Services monitors emergency department visits for gastrointestinal and respiratory conditions in the South Region. Weekly monitoring reports can be found here:",
           "link": {
             "text": "South Region Health Concerns Public Health Data",
             "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.html"
