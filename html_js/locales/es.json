@@ -113,7 +113,7 @@
           "trend_same": "igual que la semana pasada"
         },
         "p1": {
-          "body": "Se emite un cierre cuando un derrame de aguas negras o químico impacta las aguas del playa o la bahía. Advertencias y avisos adicionales se pueden encontrar aquí:",
+          "body": "Se emite un cierre cuando un flujo de aguas negras o químico impacta las aguas del playa o la bahía. Advertencias y avisos adicionales se pueden encontrar aquí:",
           "link": {
             "text": "Programa de Calidad del Agua de Playas y Bahía de San Diego",
             "url": "https://www.sdbeachinfo.com/"
@@ -185,7 +185,7 @@
     "beaches": "Calidad del Agua de Playas",
     "h2sLevels": "Niveles de H₂S",
     "odorComplaints": "Quejas por Olores",
-    "wastewaterSpills": "Derrames de Aguas Negras",
+    "wastewaterSpills": "Flujos de Aguas Negras",
     "riverBasin": "Cuenca del Río",
     "currentData": "datos actuales",
     "prevComplaintdays": "últimos {{complaint_days}} días",
@@ -198,7 +198,7 @@
     },
     "legend": {
       "label": "Leyenda ",
-      "spill": "Derrame de aguas negras",
+      "spill": "Flujo de aguas negras",
       "complaint": "Queja por olor",
       "h2s": "Lectura de H₂S",
       "outlet": "Punto de descarga",
@@ -238,7 +238,7 @@
       "since": "desde {{date}}"
     },
     "wastewater": {
-      "title": "Derrame de Aguas Negras",
+      "title": "Flujo de Aguas Negras",
       "duration": "{{start}} - {{end}}",
       "time": "{{date}}",
       "location": "ubicación:",
