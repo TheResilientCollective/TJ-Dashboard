@@ -161,6 +161,27 @@
           }
         }
       },
+      "wastewaterFlows": {
+        "title": "Transboundary Wastewater Flows",
+        "p1": {
+          "label": "A Transboundary Flow Event is any flow across the U.S.-Mexico international border, under dry or wet weather conditions. Recent flow event locations, dates and descriptions can be found at: ",
+          "link": {
+            "text": "USIBWC Spill Events and Transboundary Flow Events from Mexico into the San Diego Region",
+            "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
+          }
+        },
+
+        "tableLabel": "Recent Flows",
+        "valueUnit": "{{value}}",
+        "ongoing" : "Ongoing",
+        "footer": {
+          "text": "Last Updated Daily on {{date}}",
+          "link": {
+            "text": "More Info",
+            "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/"
+          }
+        }
+      },
       "healthConcerns": {
         "title": "Datos de Salud Pública",
         "p1": {

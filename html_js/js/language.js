@@ -35,6 +35,7 @@ async function initializeI18next() {
   fetchH2SData();
   fetchOdorData();
   fetchBeachData();
+  fetchWastwaterData();
 
   // --- Optional: Language Switcher ---
   // (Keep existing language switcher code)

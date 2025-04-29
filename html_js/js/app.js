@@ -7,6 +7,7 @@ const resilientUrlBase = `${s3base}${bucket}/`;
 let latestH2SData = null;
 let latestOdorData = null;
 let latestBeachData = null;
+let latestWastewaterData = null;
 
 // --- Date/Time Formatting Helpers ---
 function formatDateTime(date, options) {
@@ -403,7 +404,116 @@ function renderBeachClosures(jsonData) {
     });
   }
 }
+// --- Wastewater Flows Rendering --- //
+function renderWastewaterTable(geoData) {
+  latestWastewaterData = geoData; // Store data
+  window.latestWastewaterData = geoData;
+  const thirtyDaysAgo = dayjs().subtract(spill_days, "day").toISOString();
+  let mostRecentData = geoData.features.filter((item) => {
+    let itemStart =  item.properties["Start Time"]
+    let itemEnd =  item.properties["End Time"]
+    return itemStart >= thirtyDaysAgo || itemEnd >= thirtyDaysAgo
+  });
+  let groupedData = _.groupBy(mostRecentData, "properties.Discharge Location");
+  groupedData = _.map(groupedData, (wwArray) => {
+    return _.orderBy(wwArray, ["properties.Start Date"], ["desc"]);
+  });
+  console.log("Grouped Wastewater Data: ", groupedData);
 
+  const jsonDiv = document.querySelector("#wastewater_summary tbody");
+  if (!jsonDiv) return; // Exit if element not found
+  jsonDiv.innerHTML = ""; // Clear old data
+
+  groupedData.forEach((location) => {
+    location.forEach((ww) => {
+      const rowElm = document.createElement("tr");
+      rowElm.classList.add("card-data");
+      const valueCell = document.createElement("td");
+      const dateCell = document.createElement("td");
+      const locationCell = document.createElement("td");
+
+      rowElm.appendChild(dateCell);
+      rowElm.appendChild(locationCell);
+      rowElm.appendChild(valueCell);
+      jsonDiv.appendChild(rowElm);
+
+      // value (using i18next)
+      const colorIndicatorElm = document.createElement("span");
+      colorIndicatorElm.classList.add(
+        "indicator",
+        getIndicatorLevelForWastewaterValue(ww.properties["Approximate Discharge Volume Value"])
+      );
+      const result = document.createElement("span");
+      // Use i18next for the unit label
+      result.innerText = i18next.t("sidebar.cards.wastewaterFlows.valueUnit", {
+        value: ww.properties["Approximate Discharge Volume"],
+      });
+      valueCell.appendChild(colorIndicatorElm);
+      valueCell.appendChild(result);
+
+      // date (using Intl)
+      const clockIcon = document.createElement("i");
+      clockIcon.className = "bi bi-clock";
+      const dateElm = document.createElement("span");
+      let startDate = dayjs(ww.properties["Start Time"]).toDate(); // Convert to JS Date for Intl
+      let endDate = dayjs(ww.properties["End Time"]).toDate()
+      let endString =  i18next.t("sidebar.cards.wastewaterFlows.ongoing");
+      if (ww.properties["Status"]!= 'Ongoing') {
+        const endString = formatDateTime(endDate, {
+          month: "short",
+          day: "numeric",
+          hour12: false,
+        });
+      }
+
+      // Format using Intl based on example 'ddd h A'
+      const startString = formatDateTime(startDate, {
+        month: "short",
+        day: "numeric",
+        hour12: false,
+      });
+
+      dateElm.innerText = `${startString} to ${endString}`;
+      dateCell.appendChild(clockIcon);
+      dateCell.appendChild(dateElm);
+
+      // location (assuming Site Name doesn't need translation)
+      const locationIcon = document.createElement("i");
+      locationIcon.className = "bi bi-geo-alt";
+      const locationElm = document.createElement("span");
+      locationElm.innerText = ww.properties["Discharge Location"];
+      locationCell.appendChild(locationIcon);
+      locationCell.appendChild(locationElm);
+    });
+    const rowBreakElm = document.createElement("tr");
+    rowBreakElm.classList.add("row-break");
+    jsonDiv.appendChild(rowBreakElm);
+  });
+
+  // update card footer (using Intl)
+  const cardFooter = document.querySelector("#wastewater-card .card-footer");
+  if (cardFooter && mostRecentData.length > 0) {
+    console.log("[app.js] Updating Wastewater card footer with latest data.");
+    const span = cardFooter.querySelector("span");
+    const lastDate = dayjs(geoData["lastUpdated"]).toDate();
+    const formattedDate = formatDateTime(lastDate, {
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+    console.log(
+      "[app.js] Last Wastewater data date:",
+      lastDate,
+      "Formatted:",
+      formattedDate
+    );
+    span.innerText = i18next.t("sidebar.cards.wastewaterFlows.footer.text", {
+      date: formattedDate,
+    });
+  }
+}
 // --- Fetch Functions (Modified to call renderers) ---
 function fetchH2SData() {
   fetch(
@@ -452,7 +562,21 @@ function fetchBeachData() {
       document.querySelector("#beach-closures-card").remove();
     });
 }
-
+function fetchWastwaterData() {
+  fetch(
+    `${resilientUrlBase}tijuana/ibwc/output/spills.geojson`
+  )
+    .then((response) =>
+      response.ok ? response.json() : Promise.reject(response.statusText)
+    )
+    .then((jsonData) => {
+      renderWastewaterTable(jsonData);
+    })
+    .catch((error) => {
+      console.error("Error fetching Wastewater JSON:", error);
+      document.querySelector("#wastewater-card").remove();
+    });
+}
 function getIndicatorLevelForOdorComplaints(count, accumulatedOverDays = 1) {
   // FIXME: Tommy just made up these numbers
   if (count < 3 * accumulatedOverDays) {
@@ -507,7 +631,13 @@ function getIndicatorLevelForH2SValue(value) {
   else if (value < 27000) return "orange";
   else return "purple";
 }
-
+function getIndicatorLevelForWastewaterValue(value) {
+  if (value < 0) return 'orange';  // ongoing
+  else if (value < 1000 ) return "green";
+  else if (value < 10000) return "yellow";
+  else if (value < 100000) return "orange";
+  else return "purple";
+}
 function parseCustomDate(dateStr) {
   // Split the string into parts: [year, day, month]
   let [year, month, day] = dateStr.split("-").map(Number);

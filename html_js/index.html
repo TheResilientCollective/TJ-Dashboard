@@ -578,7 +578,50 @@
             <a target="_blank" href="https://example.com" data-i18n="sidebar.cards.odorComplaints.footer.link.text" data-i18n-href="sidebar.cards.odorComplaints.footer.link.url">More Info</a>
           </div>
         </div>
+        <div id="wastewater-card" class="card shadow expandable" onclick="selectCard('Wastwater Flows')">
+          <div class="card-header always-expand">
+            <i class="bi bi-droplet"></i>
+            <h3 class="card-title" data-i18n="sidebar.cards.wastewaterFlows.title">Transboundary Wastewater Flows</h3>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
+          </div>
 
+          <p>
+            <span data-i18n="sidebar.cards.wastewaterFlows.p1.label">A Transboundary Flow Event is any flow across the U.S.-Mexico international border, under dry or wet weather conditions. Recent flow event locations, dates and descriptions can be found at:</span>
+            <br>
+            <a href="https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
+               data-i18n-href="sidebar.cards.wastewaterFlows.p1.link.url"
+               data-i18n="sidebar.cards.wastewater.wastewaterFlows.link.text" target="_blank">USIBWC Spill Events and Transboundary Flow Events from Mexico into the San Diego Region</a>
+           </p>
+
+          <div id="wastewater_summary" class="card-data">
+            <span data-i18n="sidebar.cards.wastewaterFlows.tableLabel">Recent Flows</span>
+            <table>
+              <tbody>
+              <tr>
+                <td>
+                  <i class="bi bi-clock"></i>
+                  <span>12:00 PM</span>
+                </td>
+                <td>
+                  <span class="indicator moderate"></span>
+                  <span>TBD</span>
+                </td>
+
+                <td>
+                  <i class="bi bi-geo-alt"></i>
+                  <span>Silva Drain</span>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card-footer">
+            <span data-i18n="sidebar.cards.wastewaterFlows.footer.text"></span>
+            <a target="_blank" href="https://example.com" data-i18n="sidebar.cards.wastewaterFlows.footer.link.text" data-i18n-href="sidebar.cards.wastewaterFlows.footer.link.url">More Info</a>
+          </div>
+        </div>
+        <!-- health divider -->
         <div class="sidebar-card-separator"><span><h2 data-i18n="sidebar.sections.health">Health Concerns</h2></span></div>
 
         <!-- Gastrointestinal -->
