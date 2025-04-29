@@ -426,16 +426,23 @@ function renderWastewaterTable(geoData) {
 
   groupedData.forEach((location) => {
     location.forEach((ww) => {
-      const rowElm = document.createElement("tr");
-      rowElm.classList.add("card-data");
-      const valueCell = document.createElement("td");
+      // const rowElm = document.createElement("tr");
+      // rowElm.classList.add("card-data");
+      const dateRow = document.createElement("tr");
+      dateRow.classList.add("card-data");
+      const valueRow = document.createElement("tr");
+      valueRow.classList.add("card-data");
       const dateCell = document.createElement("td");
+      dateCell.colSpa= 2;
+      const valueCell = document.createElement("td");
+
       const locationCell = document.createElement("td");
 
-      rowElm.appendChild(dateCell);
-      rowElm.appendChild(locationCell);
-      rowElm.appendChild(valueCell);
-      jsonDiv.appendChild(rowElm);
+      dateRow.appendChild(dateCell);
+      valueRow.appendChild(locationCell);
+      valueRow.appendChild(valueCell);
+      jsonDiv.appendChild(dateRow);
+      jsonDiv.appendChild(valueRow);
 
       // value (using i18next)
       const colorIndicatorElm = document.createElement("span");
