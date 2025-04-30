@@ -1031,7 +1031,7 @@ map.on("load", function () {
   Promise.all(icons.map((icon) => loadIcon(icon)))
     .then(() => {
       // All icons have loaded, you can proceed to add your layers.
-      watershed_layer();
+   //   watershed_layer();
       spills_layer(window.spill_days);
       beach_layer();
       complaints_layer(window.complaint_days);
