@@ -96,7 +96,7 @@
         "tableLabel": "Mediciones Recientes",
         "valueUnit": "{{value}} ppb",
         "footer": {
-          "text": "Actualizado {{date}}",
+          "text": "Última actualización cada hora {{date}}",
           "link": {
             "text": "Más Info",
             "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
@@ -125,7 +125,7 @@
           "closed": "cerrada"
         },
         "footer": {
-          "text": "Actualizado {{date}}",
+          "text": "Última  Actualizado Diariamente {{date}}",
           "link": {
             "text": "",
             "url": ""
@@ -154,7 +154,7 @@
         "dailyCount_one": "{{count}} queja",
         "dailyCount_other": "{{count}} quejas",
         "footer": {
-          "text": "Actualizado {{date}}",
+          "text": "Última Actualización Semanal {{date}}",
           "link": {
             "text": "",
             "url": ""
@@ -243,7 +243,13 @@
       "time": "{{date}}",
       "location": "ubicación:",
       "date": "fecha:",
-      "volume": "volumen aprox.:"
+      "volume": "volumen aprox.:",
+      "footer": {
+        "link": {
+          "text": "Datos de Flujo de Aguas Residuales",
+          "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
+        }
+      }
     },
     "h2s": {
       "title": "Medición de Sulfuro de Hidrógeno",
