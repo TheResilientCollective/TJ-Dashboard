@@ -58,7 +58,7 @@ function setMapLanguage() {
 
 function complaints_layer(complaint_days) {
   try {
-    fetch(`${urlbase}tijuana/sd_complaints/output/complaints.geojson`) // update the path or URL to your GeoJSON file
+    fetch(`${urlbase}tijuana/sd_complaints/output/latest/complaints.geojson`) // update the path or URL to your GeoJSON file
       .then((response) => response.json())
       .then((data) => {
         const complaintsVisible = document
@@ -1038,7 +1038,7 @@ map.on("load", function () {
   Promise.all(icons.map((icon) => loadIcon(icon)))
     .then(() => {
       // All icons have loaded, you can proceed to add your layers.
-      watershed_layer();
+   //   watershed_layer();
       spills_layer(window.spill_days);
       beach_layer();
       complaints_layer(window.complaint_days);
