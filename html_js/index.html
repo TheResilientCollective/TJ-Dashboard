@@ -47,7 +47,13 @@
   <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js'></script>
   <script src="js/app.js"></script>
 
-
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-TKB4QPVT');</script>
+  <!-- End Google Tag Manager -->
 
 
   <script>
@@ -170,6 +176,10 @@
   <script src="./js/sidebar.js"></script>
 </head>
 <body class="light">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKB4QPVT"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <div id="container">
   <!-- Map Container with Kepler fsmap configured for San Ysidro (approx 50-mile radius) -->
   <div id="map-container"></div>
@@ -215,10 +225,10 @@
           <span class="trend-flat sublabel" data-i18n="topbar.prevSpilldays">previous 30 days</span>
         </div>
       </button>
-      <button id="river-filter-btn" class="" onclick="toggleLayer(this, 'River Basin')">
-        <i class="bi bi-x-circle"></i>
-        <span data-i18n="topbar.riverBasin">River Basin</span>
-      </button>
+<!--      <button id="river-filter-btn" class="" onclick="toggleLayer(this, 'River Basin')">-->
+<!--        <i class="bi bi-x-circle"></i>-->
+<!--        <span data-i18n="topbar.riverBasin">River Basin</span>-->
+<!--      </button>-->
     </div>
   </div>
 

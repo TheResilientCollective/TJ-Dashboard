@@ -1,7 +1,7 @@
 //const resilientUrlBase = 'https://oss.resilientservice.mooo.com/resilentpublic/'
 const s3base = "https://oss.resilientservice.mooo.com/";
-//const bucket = 'test'
-const bucket = "resilentpublic";
+const bucket = 'test'
+//const bucket = "resilentpublic";
 const resilientUrlBase = `${s3base}${bucket}/`;
 
 let latestH2SData = null;
@@ -423,7 +423,7 @@ function fetchH2SData() {
 
 function fetchOdorData() {
   fetch(
-    `${urlbase}tijuana/sd_complaints/output/complaints.geojson`
+    `${urlbase}tijuana/sd_complaints/output/latest/complaints.geojson`
   )
     .then((response) =>
       response.ok ? response.json() : Promise.reject(response.statusText)
