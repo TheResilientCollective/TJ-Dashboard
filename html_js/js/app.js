@@ -274,6 +274,151 @@ function renderOdorComplaints(geoData) {
   }
 }
 
+function renderWastewaterFlows(data) {
+  console.log("[app.js] (Spills) Rendering Wastewater Flows with data:", data);
+  window.latestWastewaterData = data;
+
+  const now = new Date();
+  const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const mostRecentSampleTime = new Date(now.getTime() - (window.spill_days) * 24 * 60 * 60 * 1000);
+  const secondMostRecentSampleTime = new Date(now.getTime() - (window.spill_days*2) * 24 * 60 * 60 * 1000);
+
+  console.log(
+    "[app.js] (Spills) Current date:",
+    now,
+    "most recent sample:",
+    mostRecentSampleTime,
+    "second most recent sample:",
+    secondMostRecentSampleTime
+  );
+
+  let mostRecentData = data.features.filter((item) => {
+      let itemDate = new Date(item.properties["End Time"]);
+      return itemDate.getTime() >= mostRecentSampleTime.getTime()
+  });
+  console.log(`[app.js] (Spills) Last ${window.spill_days} days data:`, mostRecentData);
+
+  mostRecentData = _.orderBy(
+    mostRecentData,
+    [(item) => new Date(item.properties["Start Time"]).getTime()],
+    ["desc"]
+  );
+
+  let secondMostRecentData = data.features.filter((item) => {
+      let itemDate = new Date(item.properties["End Time"]);
+      return itemDate.getTime() >= secondMostRecentSampleTime.getTime() && itemDate.getTime() < mostRecentSampleTime.getTime()
+  });
+  console.log(`[app.js] (Spills) Previous ${window.spill_days} days data:`, secondMostRecentData);
+
+  const sumMostRecent = mostRecentData.length;
+  const sumSecondMostRecent = secondMostRecentData.length;
+  console.log(
+    `[app.js] (Spills) Sum of spills in last ${window.spill_days} days:`,
+    sumMostRecent,
+    `Previous ${window.spill_days} days:`,
+    sumSecondMostRecent
+  );
+
+  const countSpan = document.getElementById("spills-count");
+  const countIndicator = countSpan?.parentElement.querySelector(".indicator");
+  if (countSpan && countIndicator) {
+    countSpan.innerText = i18next.t(
+      "sidebar.cards.wastewater.overview.count",
+      { count: sumMostRecent }
+    );
+    countIndicator.className =
+      "indicator " + (sumMostRecent > 0 ? "high" : "low");
+    console.log("[app.js] (Spills) Updated spills count and indicator.", countSpan.innerText, sumMostRecent);
+  }
+
+  const countSpillsChange = sumMostRecent - sumSecondMostRecent;
+  console.log("[app.js] (Spills) Change in spills:", countSpillsChange);
+
+  const changeContainer = document.querySelector(
+    "#wastewater-data-overview tr td:last-child"
+  );
+  if (changeContainer) {
+    const changeSpan = changeContainer.querySelector("span");
+    const changeIcon = changeContainer.querySelector("i");
+    let trendKey = "sidebar.cards.wastewater.overview.trend";
+    let trendClass = "trend-down";
+    let iconClass = "bi-graph-up-arrow";
+
+    if (countSpillsChange === 0) {
+      trendKey = "sidebar.cards.wastewater.overview.trend_same";
+      trendClass = "trend-flat";
+      iconClass = "";
+    } else if (countSpillsChange < 0) {
+      trendClass = "trend-up";
+      iconClass = "bi-graph-down-arrow";
+    } else {
+      trendKey = "sidebar.cards.wastewater.overview.trend_positive";
+    }
+
+    changeSpan.innerText = i18next.t(trendKey, {
+      change: Math.abs(countSpillsChange),
+      spill_days: window.spill_days
+    });
+    changeIcon.className = `bi ${iconClass}`;
+    changeSpan.className = trendClass;
+    console.log("[app.js] (Spills) Updated trend indicator with key:", trendKey);
+  }
+
+  // Table
+  const jsonDiv = document.querySelector("#wastewater-data tbody");
+  if (!jsonDiv) {
+    console.warn("[app.js] (Spills) Wastewater data table not found.");
+    return;
+  }
+  jsonDiv.innerHTML = "";
+  console.log("[app.js] (Spills) Clearing old data and building new table.", jsonDiv);
+  console.log("[app.js] (Spills) Most recent data:", mostRecentData);
+
+  for (const spill of mostRecentData) {
+    console.log("[app.js] (Spills) Adding spill entry:", spill);
+    const startTime = new Date(spill.properties["Start Time"]);
+    const endTime = new Date(spill.properties["End Time"]);
+    const singleDayEvent = startTime.toDateString() === endTime.toDateString();
+    const dateRange = singleDayEvent ? formatDateTime(startTime) : `${formatDateTime(startTime)} to ${formatDateTime(endTime)}`;
+    const volume = spill.properties["Approximate Discharge Volume"];
+    const notes = spill.properties["Notes"];
+
+    const template = `
+      <tr class="card-data">
+        <td><img src="img/marker-spill-outline.svg"><span>${volume}</span></td>
+        <td><i class="bi bi-clock"></i><span>${dateRange}</span></td>
+      </tr>`;
+    const rowElm = new DOMParser().parseFromString(template, "text/html").body.firstChild;
+    
+    // jsonDiv.appendChild(rowElm);
+    jsonDiv.innerHTML += template;
+    console.log("[app.js] (Spills) Added spill entry:", { startTime, endTime, volume, notes }, jsonDiv.lastChild);
+  }
+
+  const cardFooter = document.querySelector(
+    "#wastewater-card .card-footer"
+  );
+  if (cardFooter) {
+    latestDate = dayjs(data.lastUpdated).toDate();
+    console.log("[app.js] (Spills) Updating wastewater footer with latest date.", data.lastUpdated, "converted to", latestDate);
+    const span = cardFooter.querySelector("span");
+    const formattedDate = formatDateTime(latestDate, {
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      hour12: true,
+    });
+    span.innerText = i18next.t("sidebar.cards.wastewater.footer.text", {
+      date: formattedDate,
+    });
+    console.log(
+      "[app.js] (Spills) Updated wastewater footer with date:",
+      formattedDate
+    );
+  }
+
+}
+
 // --- Beach Closures Rendering ---
 function renderBeachClosures(jsonData) {
   latestBeachData = jsonData; // Store data
@@ -450,6 +595,22 @@ function fetchBeachData() {
     .catch((error) => {
       console.error("Error fetching Beach Closures JSON:", error);
       document.querySelector("#beach-closures-card").remove();
+    });
+}
+
+function fetchWastewaterData() {
+  fetch(
+    `${resilientUrlBase}tijuana/ibwc/output/spills_last_by_site.geojson`
+  )
+    .then((response) =>
+      response.ok ? response.json() : Promise.reject(response.statusText)
+    )
+    .then((jsonData) => {
+      renderWastewaterFlows(jsonData);
+    })
+    .catch((error) => {
+      console.error("Error fetching Wastewater Flows JSON:", error);
+      document.querySelector("#wastewater-flows-card").remove();
     });
 }
 

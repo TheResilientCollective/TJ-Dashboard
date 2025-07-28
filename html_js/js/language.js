@@ -34,6 +34,7 @@ async function initializeI18next() {
   // --- Fetch initial data AFTER i18next is ready ---
   fetchH2SData();
   fetchOdorData();
+  fetchWastewaterData();
   fetchBeachData();
 
   // --- Optional: Language Switcher ---
