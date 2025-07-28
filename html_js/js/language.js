@@ -108,6 +108,10 @@ function updateContent() {
     console.log("[language.js] Re-rendering Beach Closures");
     renderBeachClosures(window.latestBeachData);
   }
+  if (typeof renderWastewaterFlows === "function" && window.latestWastewaterData) {
+    console.log("[language.js] Re-rendering Wastewater Flows");
+    renderWastewaterFlows(window.latestWastewaterData);
+  }
 
   // Close any tooltips
   try {
