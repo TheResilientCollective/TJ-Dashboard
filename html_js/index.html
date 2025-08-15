@@ -601,6 +601,59 @@
           </div>
         </div>
 
+        <!-- Card: Wastewater -->
+        <div id="wastewater-card" class="card shadow expandable" onclick="selectCard('Wastewater')">
+          <div class="card-header always-expand">
+            <img src="img/marker-spill-outline.svg">
+            <h3 class="card-title" data-i18n="sidebar.cards.wastewater.title">Public Wastewater Complaints</h3>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
+          </div>
+
+          <div id="wastewater-data-overview" class="card-data always-expand">
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <span class="indicator moderate"></span>
+                    <span id="spills-count"  data-i18n="sidebar.cards.wastewater.overview.count">-3 Beaches Closed</span>
+                    <br><span class="sublabel trend-flat" data-i18n="sidebar.cards.wastewater.overview.sampleDuration">in the last 7 days</span>
+                  </td>
+                  <td>
+                    <i class="bi bi-graph-up-arrow trend-up"></i>
+                    <span class="trend-up" data-i18n="sidebar.cards.wastewater.overview.trend"> +100 from last week</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>
+            <span data-i18n="sidebar.cards.wastewater.p1.body">The following are public complaints about wastewater that have been reported to SDAPCD.</span>
+            <br>
+            <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.wastewater.p1.link.text" data-i18n-href="sidebar.cards.wastewater.p1.link.url">More Info</a>
+            <br>
+            <span data-i18n="sidebar.cards.wastewater.p2.body">and here</span>
+            <br>
+            <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.wastewater.p2.link.text" data-i18n-href="sidebar.cards.wastewater.p2.link.url">Wastewater Spills</a>
+          </p>
+
+          <div id="wastewater-data" class="card-data">
+            <span data-i18n="sidebar.cards.wastewater.tableLabel">Complaints in the last 7 days</span>
+            <table>
+              <tbody>
+                <tr>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card-footer">
+            <span data-i18n="sidebar.cards.wastewater.footer.text"></span>
+            <a target="_blank" href="https://example.com" data-i18n="sidebar.cards.wastewater.footer.link.text" data-i18n-href="sidebar.cards.wastewater.footer.link.url">More Info</a>
+          </div>
+        </div>
+
         <div class="sidebar-card-separator"><span><h2 data-i18n="sidebar.sections.health">Health Concerns</h2></span></div>
 
         <!-- Gastrointestinal -->

@@ -134,9 +134,9 @@
         }
       },
       "odorComplaints": {
-        "title": "Quejas por Olores",
+        "title": "Quejas del aire",
         "overview": {
-          "count": "loading Complaints",
+          "count": "loading Denuncias",
           "count_one": "{{count}} Queja",
           "count_other": "{{count}} Quejas",
           "sampleDuration": "en los últimos 14 días",
@@ -156,6 +156,43 @@
         "dailyCount_other": "{{count}} quejas",
         "footer": {
           "text": "Última Actualización Semanal {{date}}",
+          "link": {
+            "text": "",
+            "url": ""
+          }
+        }
+      },
+
+      "wastewater": {
+        "title": "Flujos de Aguas Residuales",
+        "overview": {
+          "count": "cargando flujos",
+          "count_one": "{{count}} Flujo",
+          "count_other": "{{count}} Flujos",
+          "sampleDuration": "en los últimos {{spill_days}} días",
+          "trend": "-{{change}} desde {{spill_days}} días atrás",
+          "trend_positive": "+{{change}} desde {{spill_days}} días atrás",
+          "trend_same": "igual que {{spill_days}} días atrás"
+        },
+        "p1": {
+          "body": "Los siguientes son eventos de aguas residuales en el Valle del Río Tijuana. Los eventos incluyen derrames, flujos transfronterizos del colector de cañones en clima seco y flujos transfronterizos del río Tijuana. Los eventos de lluvia no están incluidos en estos datos. Más información sobre estos eventos se puede encontrar aquí:",
+          "link": {
+            "text": "Junta Regional del Agua de San Diego",
+            "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
+          }
+        },
+        "p2": {
+          "body": "Los datos detallados se pueden encontrar aquí:",
+          "link": {
+            "text": "Comisión Internacional de Límites y Aguas - Cuenca del Río Tijuana",
+            "url": "https://waterdata.ibwc.gov/AQWebportal/Data/Dashboard/8"
+          }
+        },
+        "tableLabel": "Flujos en los últimos {{spill_days}} días",
+        "dailyCount_one": "{{count}} flujo",
+        "dailyCount_other": "{{count}} flujos",
+        "footer": {
+          "text": "Última actualización el {{date}}",
           "link": {
             "text": "",
             "url": ""
@@ -185,7 +222,7 @@
   "topbar": {
     "beaches": "Calidad del Agua de Playas",
     "h2sLevels": "Niveles de H₂S",
-    "odorComplaints": "Quejas por Olores",
+    "odorComplaints": "Quejas del aire",
     "wastewaterSpills": "Flujos de Aguas Negras",
     "riverBasin": "Cuenca del Río",
     "currentData": "datos actuales",

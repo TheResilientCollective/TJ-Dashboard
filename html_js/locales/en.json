@@ -134,7 +134,7 @@
         }
       },
       "odorComplaints": {
-        "title": "Smell Complaints",
+        "title": "Air Quality Complaints",
         "overview": {
           "count": "loading Complaints",
           "count_one": "{{count}} Complaint",
@@ -156,6 +156,42 @@
         "dailyCount_other": "{{count}} complaints",
         "footer": {
           "text": "Last Weekly Update on {{date}}",
+          "link": {
+            "text": "",
+            "url": ""
+          }
+        }
+      },
+      "wastewater": {
+        "title": "Wastewater Flows",
+        "overview": {
+          "count": "loading flows",
+          "count_one": "{{count}} Flow",
+          "count_other": "{{count}} Flows",
+          "sampleDuration": "in the last {{spill_days}} days",
+          "trend": "-{{change}} from {{spill_days}} days ago",
+          "trend_positive": "+{{change}} from {{spill_days}} days ago",
+          "trend_same": "same as {{spill_days}} days ago"
+        },
+        "p1": {
+          "body": "The following are wastewater events in the Tijuana River Valley. Events include Spills, Dry Weather Canyon Collector Transboundary Flows, and Tijuana River Transboundary Flows. Rain events are not included in this data. More information on these events can be found here:",
+          "link": {
+            "text": "San Diego Regional Water Board",
+            "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
+          }
+        },
+        "p2": {
+          "body": "Detailed data can be found here:",
+          "link": {
+            "text": "International Boundary & Water Commission - Tijuana River Basin",
+            "url": "https://waterdata.ibwc.gov/AQWebportal/Data/Dashboard/8"
+          }
+        },
+        "tableLabel": "Flows in the last {{spill_days}} days",
+        "dailyCount_one": "{{count}} flow",
+        "dailyCount_other": "{{count}} flows",
+        "footer": {
+          "text": "Last Updated on {{date}}",
           "link": {
             "text": "",
             "url": ""
@@ -185,7 +221,7 @@
   "topbar": {
     "beaches": "Beach Water Quality",
     "h2sLevels": "H₂S Levels",
-    "odorComplaints": "Smell Complaints",
+    "odorComplaints": "Air Quality Complaints",
     "wastewaterSpills": "Wastewater Flows",
     "riverBasin": "River Basin",
     "currentData": "current data",
@@ -200,7 +236,7 @@
     "legend": {
       "label": "Legend ",
       "spill": "Wastewater flow",
-      "complaint": "Smell complaint",
+      "complaint": "Air Quality Complaint",
       "h2s": "H2S reading",
       "outlet": "Outfall",
       "beach": "Beach"
