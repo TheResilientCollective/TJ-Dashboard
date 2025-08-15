@@ -47,9 +47,23 @@
   <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js'></script>
   <script src="js/app.js"></script>
 
+  <!-- Google Tag Manager -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8WWHKW9SV2"></script>
 
+<!--  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':-->
+<!--      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],-->
+<!--    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=-->
+<!--    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);-->
+<!--  })(window,document,'script','dataLayer','GTM-TKB4QPVT');</script>-->
 
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
+    gtag('config', 'G-8WWHKW9SV2');
+  </script>
+  <!-- End Google Tag Manager -->
   <script>
     // Create a URLSearchParams object from the query string
     const params = new URLSearchParams(window.location.search);
@@ -170,6 +184,10 @@
   <script src="./js/sidebar.js"></script>
 </head>
 <body class="light">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKB4QPVT"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <div id="container">
   <!-- Map Container with Kepler fsmap configured for San Ysidro (approx 50-mile radius) -->
   <div id="map-container"></div>
@@ -215,10 +233,10 @@
           <span class="trend-flat sublabel" data-i18n="topbar.prevSpilldays">previous 30 days</span>
         </div>
       </button>
-      <button id="river-filter-btn" class="" onclick="toggleLayer(this, 'River Basin')">
-        <i class="bi bi-x-circle"></i>
-        <span data-i18n="topbar.riverBasin">River Basin</span>
-      </button>
+<!--      <button id="river-filter-btn" class="" onclick="toggleLayer(this, 'River Basin')">-->
+<!--        <i class="bi bi-x-circle"></i>-->
+<!--        <span data-i18n="topbar.riverBasin">River Basin</span>-->
+<!--      </button>-->
     </div>
   </div>
 
@@ -580,6 +598,59 @@
           <div class="card-footer">
             <span data-i18n="sidebar.cards.odorComplaints.footer.text"></span>
             <a target="_blank" href="https://example.com" data-i18n="sidebar.cards.odorComplaints.footer.link.text" data-i18n-href="sidebar.cards.odorComplaints.footer.link.url">More Info</a>
+          </div>
+        </div>
+
+        <!-- Card: Wastewater -->
+        <div id="wastewater-card" class="card shadow expandable" onclick="selectCard('Wastewater')">
+          <div class="card-header always-expand">
+            <img src="img/marker-spill-outline.svg">
+            <h3 class="card-title" data-i18n="sidebar.cards.wastewater.title">Public Wastewater Complaints</h3>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
+          </div>
+
+          <div id="wastewater-data-overview" class="card-data always-expand">
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <span class="indicator moderate"></span>
+                    <span id="spills-count"  data-i18n="sidebar.cards.wastewater.overview.count">-3 Beaches Closed</span>
+                    <br><span class="sublabel trend-flat" data-i18n="sidebar.cards.wastewater.overview.sampleDuration">in the last 7 days</span>
+                  </td>
+                  <td>
+                    <i class="bi bi-graph-up-arrow trend-up"></i>
+                    <span class="trend-up" data-i18n="sidebar.cards.wastewater.overview.trend"> +100 from last week</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>
+            <span data-i18n="sidebar.cards.wastewater.p1.body">The following are public complaints about wastewater that have been reported to SDAPCD.</span>
+            <br>
+            <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.wastewater.p1.link.text" data-i18n-href="sidebar.cards.wastewater.p1.link.url">More Info</a>
+            <br>
+            <span data-i18n="sidebar.cards.wastewater.p2.body">and here</span>
+            <br>
+            <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.wastewater.p2.link.text" data-i18n-href="sidebar.cards.wastewater.p2.link.url">Wastewater Spills</a>
+          </p>
+
+          <div id="wastewater-data" class="card-data">
+            <span data-i18n="sidebar.cards.wastewater.tableLabel">Complaints in the last 7 days</span>
+            <table>
+              <tbody>
+                <tr>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card-footer">
+            <span data-i18n="sidebar.cards.wastewater.footer.text"></span>
+            <a target="_blank" href="https://example.com" data-i18n="sidebar.cards.wastewater.footer.link.text" data-i18n-href="sidebar.cards.wastewater.footer.link.url">More Info</a>
           </div>
         </div>
 

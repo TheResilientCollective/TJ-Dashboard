@@ -58,7 +58,7 @@ function setMapLanguage() {
 
 function complaints_layer(complaint_days) {
   try {
-    fetch(`${urlbase}tijuana/sd_complaints/output/complaints.geojson`) // update the path or URL to your GeoJSON file
+    fetch(`${urlbase}tijuana/sd_complaints/output/latest/complaints.geojson`) // update the path or URL to your GeoJSON file
       .then((response) => response.json())
       .then((data) => {
         const complaintsVisible = document
@@ -634,7 +634,7 @@ function h2s_layer() {
           "green",
           "h2s_icon_green",
           "yellow",
-          "h2s_icon_orange",
+          "h2s_icon_yellow",
           "orange",
           "h2s_icon_orange",
           "purple",
@@ -1002,6 +1002,7 @@ map.on("load", function () {
     { id: "h2s_icon", url: "img/marker-h2s.png" },
     { id: "h2s_icon_white", url: "img/marker-h2s-white.png" },
     { id: "h2s_icon_green", url: "img/marker-h2s-green.png" },
+    { id: "h2s_icon_yellow", url: "img/marker-h2s-yellow.png" },
     { id: "h2s_icon_orange", url: "img/marker-h2s-orange.png" },
     { id: "h2s_icon_purple", url: "img/marker-h2s-purple.png" },
     { id: "river_icon", url: "img/river.png" },
@@ -1038,7 +1039,7 @@ map.on("load", function () {
   Promise.all(icons.map((icon) => loadIcon(icon)))
     .then(() => {
       // All icons have loaded, you can proceed to add your layers.
-      watershed_layer();
+   //   watershed_layer();
       spills_layer(window.spill_days);
       beach_layer();
       complaints_layer(window.complaint_days);
