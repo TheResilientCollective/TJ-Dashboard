@@ -34,6 +34,7 @@ async function initializeI18next() {
   // --- Fetch initial data AFTER i18next is ready ---
   fetchH2SData();
   fetchOdorData();
+  fetchWastewaterData();
   fetchBeachData();
 
   // --- Optional: Language Switcher ---
@@ -106,6 +107,10 @@ function updateContent() {
   if (typeof renderBeachClosures === "function" && window.latestBeachData) {
     console.log("[language.js] Re-rendering Beach Closures");
     renderBeachClosures(window.latestBeachData);
+  }
+  if (typeof renderWastewaterFlows === "function" && window.latestWastewaterData) {
+    console.log("[language.js] Re-rendering Wastewater Flows");
+    renderWastewaterFlows(window.latestWastewaterData);
   }
 
   // Close any tooltips
