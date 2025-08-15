@@ -134,7 +134,7 @@
         }
       },
       "odorComplaints": {
-        "title": "Smell Complaints",
+        "title": "Air quality Complaints",
         "overview": {
           "count": "loading Complaints",
           "count_one": "{{count}} Complaint",
@@ -185,7 +185,7 @@
   "topbar": {
     "beaches": "Beach Water Quality",
     "h2sLevels": "H₂S Levels",
-    "odorComplaints": "Smell Complaints",
+    "odorComplaints": "Air quality Complaints",
     "wastewaterSpills": "Wastewater Flows",
     "riverBasin": "River Basin",
     "currentData": "current data",
@@ -200,7 +200,7 @@
     "legend": {
       "label": "Legend ",
       "spill": "Wastewater flow",
-      "complaint": "Smell complaint",
+      "complaint": "Air quality complaint",
       "h2s": "H2S reading",
       "outlet": "Outfall",
       "beach": "Beach"

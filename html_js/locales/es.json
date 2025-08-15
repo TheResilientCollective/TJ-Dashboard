@@ -134,9 +134,9 @@
         }
       },
       "odorComplaints": {
-        "title": "Quejas por Olores",
+        "title": "Quejas del aire",
         "overview": {
-          "count": "loading Complaints",
+          "count": "loading Denuncias",
           "count_one": "{{count}} Queja",
           "count_other": "{{count}} Quejas",
           "sampleDuration": "en los últimos 14 días",
@@ -185,7 +185,7 @@
   "topbar": {
     "beaches": "Calidad del Agua de Playas",
     "h2sLevels": "Niveles de H₂S",
-    "odorComplaints": "Quejas por Olores",
+    "odorComplaints": "Quejas del aire",
     "wastewaterSpills": "Flujos de Aguas Negras",
     "riverBasin": "Cuenca del Río",
     "currentData": "datos actuales",
