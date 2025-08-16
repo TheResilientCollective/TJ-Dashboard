@@ -389,12 +389,17 @@ function renderWastewaterFlows(data) {
         <td><i class="bi bi-clock"></i><span>${dateRange}</span></td>
       </tr>`;
     const rowElm = new DOMParser().parseFromString(template, "text/html").body.firstChild;
-    
+
     // jsonDiv.appendChild(rowElm);
     jsonDiv.innerHTML += template;
     console.log("[app.js] (Spills) Added spill entry:", { startTime, endTime, volume, notes }, jsonDiv.lastChild);
   }
+  if (mostRecentData.length === 0 ){
+    jsonDiv.innerHTML += '<p>No Wastewater Flows</p>'
 
+    jsonDiv.appendChild(rowElm);
+    console.log("[app.js] (Spills) No data found.");
+  }
   const cardFooter = document.querySelector(
     "#wastewater-card .card-footer"
   );
