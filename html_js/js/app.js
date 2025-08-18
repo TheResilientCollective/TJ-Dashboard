@@ -395,9 +395,7 @@ function renderWastewaterFlows(data) {
     console.log("[app.js] (Spills) Added spill entry:", { startTime, endTime, volume, notes }, jsonDiv.lastChild);
   }
   if (mostRecentData.length === 0 ){
-    jsonDiv.innerHTML += '<p>No Wastewater Flows</p>'
-
-    jsonDiv.appendChild(rowElm);
+    document.querySelector("#no-wastewater-flows").classList.remove("hidden");
     console.log("[app.js] (Spills) No data found.");
   }
   const cardFooter = document.querySelector(

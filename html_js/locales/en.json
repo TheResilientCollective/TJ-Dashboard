@@ -190,6 +190,7 @@
         "tableLabel": "Flows in the last {{spill_days}} days",
         "dailyCount_one": "{{count}} flow",
         "dailyCount_other": "{{count}} flows",
+        "noFlows": "No Wastewater Flows",
         "footer": {
           "text": "Last Updated on {{date}}",
           "link": {

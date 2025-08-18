@@ -191,6 +191,7 @@
         "tableLabel": "Flujos en los últimos {{spill_days}} días",
         "dailyCount_one": "{{count}} flujo",
         "dailyCount_other": "{{count}} flujos",
+        "noFlows": "No hay flujos de aguas residuales",
         "footer": {
           "text": "Última actualización el {{date}}",
           "link": {
