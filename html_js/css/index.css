@@ -536,6 +536,19 @@ button.button.map-control-button.button {
   float: right;
 }
 
+#spills-count { 
+  font-weight: normal;
+}
+
+#wastewater-data tr td:last-child {
+  width: 55%;
+}
+
+#wastewater-data tr td img {
+  width: var(--icon);
+  height: var(--icon);
+}
+
 .sublabel {
   font-size: 0.75rem !important;
   width: 100%;
