@@ -206,6 +206,17 @@ function renderOdorComplaints(geoData) {
     console.log("[app.js] Updated trend indicator with key:", trendKey);
   }
 
+  // Table label with date range
+  const tableLabel = document.querySelector("[data-i18n='sidebar.cards.odorComplaints.tableLabel']");
+  if (tableLabel) {
+    tableLabel.innerText = i18next.t("sidebar.cards.odorComplaints.tableLabel", { 
+      start_date: mostRecentSampleTime.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
+      end_date: latestDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
+      complaint_days: window.complaint_days
+    });
+  }
+
+  // clear old data from table
   const jsonDiv = document.querySelector("#odor-complaint-data tbody");
   if (!jsonDiv) {
     console.warn("[app.js] Odor complaint data table not found.");
@@ -219,6 +230,7 @@ function renderOdorComplaints(geoData) {
   });
   console.log("[app.js] Grouped odor complaints by day:", mostRecentDataByDay);
 
+  // build table rows
   for (const day in mostRecentDataByDay) {
     console.log("[app.js] Adding row for odor complaint:", day, "with", mostRecentDataByDay[day].length, "complaints");
     const rowElm = document.createElement("tr");
@@ -363,6 +375,15 @@ function renderWastewaterFlows(data) {
     changeIcon.className = `bi ${iconClass}`;
     changeSpan.className = trendClass;
     console.log("[app.js] (Spills) Updated trend indicator with key:", trendKey);
+  }
+
+  const tableLabel = document.querySelector("[data-i18n='sidebar.cards.wastewater.tableLabel']");
+  if (tableLabel) {
+    tableLabel.innerText = i18next.t("sidebar.cards.wastewater.tableLabel", { 
+      start_date: mostRecentSampleTime.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
+      end_date: latestDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
+      spill_days: window.spill_days
+    });
   }
 
   // Table
