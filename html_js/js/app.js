@@ -601,6 +601,11 @@ function fetchOdorData() {
         start_date: window.complaint_timeframe.latestDate.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
         end_date: window.complaint_timeframe.getMostRecentSampleTime().toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
       }));
+      document.querySelector('[data-i18n="sidebar.cards.odorComplaints.overview.sampleDuration"').setAttribute("data-i18n-options", JSON.stringify({
+        start_date: window.complaint_timeframe.getMostRecentSampleTime().toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+        end_date: window.complaint_timeframe.latestDate.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+        complaint_days: window.complaint_days
+      }));
       updateContent();
       return jsonData;
     })
@@ -641,6 +646,11 @@ function fetchWastewaterData() {
       document.querySelector("[data-i18n='topbar.prevSpilldays']").setAttribute("data-i18n-options", JSON.stringify({
         start_date: window.spill_timeframe.latestDate.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
         end_date: window.spill_timeframe.getMostRecentSampleTime().toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+      }));
+      document.querySelector('[data-i18n="sidebar.cards.wastewater.overview.sampleDuration"').setAttribute("data-i18n-options", JSON.stringify({
+        start_date: window.spill_timeframe.getMostRecentSampleTime().toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+        end_date: window.spill_timeframe.latestDate.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+        spill_days: window.spill_days
       }));
       updateContent();
       return jsonData;

@@ -139,7 +139,7 @@
           "count": "loading Denuncias",
           "count_one": "{{count}} Queja",
           "count_other": "{{count}} Quejas",
-          "sampleDuration": "en los últimos 14 días",
+          "sampleDuration": "desde {{start_date}}",
           "trend": "-{{change}} de 2 semana ant.",
           "trend_positive": "+{{change}} de 2 semanas ant.",
           "trend_same": "igual que 2 semanas ant."
@@ -169,7 +169,7 @@
           "count": "cargando flujos",
           "count_one": "{{count}} Flujo",
           "count_other": "{{count}} Flujos",
-          "sampleDuration": "en los últimos {{spill_days}} días",
+          "sampleDuration": "desde {{start_date}}",
           "trend": "-{{change}} desde {{spill_days}} días atrás",
           "trend_positive": "+{{change}} desde {{spill_days}} días atrás",
           "trend_same": "igual que {{spill_days}} días atrás"
