@@ -151,7 +151,7 @@
             "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html"
           }
         },
-        "tableLabel": "Complaints in the last {{complaint_days}} days",
+        "tableLabel": "Complaints from {{start_date}} to {{end_date}}",
         "dailyCount_one": "{{count}} complaint",
         "dailyCount_other": "{{count}} complaints",
         "footer": {
@@ -187,7 +187,7 @@
             "url": "https://waterdata.ibwc.gov/AQWebportal/Data/Dashboard/8"
           }
         },
-        "tableLabel": "Flows in the last {{spill_days}} days",
+        "tableLabel": "Flows from {{start_date}} to {{end_date}}",
         "dailyCount_one": "{{count}} flow",
         "dailyCount_other": "{{count}} flows",
         "noFlows": "No Wastewater Flows",

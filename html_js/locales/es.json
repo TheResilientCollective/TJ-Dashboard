@@ -151,7 +151,7 @@
             "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.htmlhttps://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
           }
         },
-        "tableLabel": "Quejas en los últimos {{complaint_days}} días",
+        "tableLabel": "Quejas de {{start_date}} a {{end_date}}",
         "dailyCount_one": "{{count}} queja",
         "dailyCount_other": "{{count}} quejas",
         "footer": {
@@ -188,7 +188,7 @@
             "url": "https://waterdata.ibwc.gov/AQWebportal/Data/Dashboard/8"
           }
         },
-        "tableLabel": "Flujos en los últimos {{spill_days}} días",
+        "tableLabel": "Flujos de {{start_date}} a {{end_date}}",
         "dailyCount_one": "{{count}} flujo",
         "dailyCount_other": "{{count}} flujos",
         "noFlows": "No hay flujos de aguas residuales",
