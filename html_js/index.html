@@ -72,7 +72,7 @@
     const complaint_days = params.get('complaint')?? 14;
     window.complaint_days = complaint_days;
     // Get the value of the "name" parameter
-    const spill_days = params.get('spill')?? 30;
+    const spill_days = Number(params.get('spill')?? 30);
     window.spill_days = spill_days;
     console.log('complaint', complaint_days)
     console.log('spills', spill_days)
