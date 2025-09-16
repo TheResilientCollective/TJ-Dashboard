@@ -226,8 +226,8 @@
     "wastewaterSpills": "Wastewater Flows",
     "riverBasin": "River Basin",
     "currentData": "current data",
-    "prevComplaintdays": "previous {{complaint_days}} days",
-    "prevSpilldays": "previous {{spill_days}} days"
+    "prevComplaintdays": "from {{start_date}} to {{end_date}}",
+    "prevSpilldays": "from {{start_date}} to {{end_date}}"
   },
   "mapFooter": {
     "disclaimer": {

@@ -60,7 +60,7 @@ function complaints_layer(complaint_days) {
   try {
     fetch(`${urlbase}tijuana/sd_complaints/output/latest/complaints.geojson`) // update the path or URL to your GeoJSON file
       .then((response) => response.json())
-      .then((data) => {
+      .then(async (data) => {
         const complaintsVisible = document
           .querySelector("#complaints-filter-btn")
           .classList.contains("active");
@@ -71,13 +71,19 @@ function complaints_layer(complaint_days) {
           clusterMaxZoom: 14, // max zoom to cluster points
           clusterRadius: 50, // radius of each cluster when clustering points (in pixels)
         });
-        const threeDaysAgo = dayjs().subtract(complaint_days, "day");
-        console.log("days ago date: ", threeDaysAgo);
+
+        while (!window.complaint_timeframe.latestDate) {
+          await new Promise((resolve) => setTimeout(resolve, 500));
+        }
+        const latestDate = window.complaint_timeframe.latestDate;
+        const mostRecentSampleTime = window.complaint_timeframe.getMostRecentSampleTime();
+        const useDataSinceDate = dayjs(mostRecentSampleTime);
+        console.log("[mbmap.js] days ago date: ", useDataSinceDate);
         // Filter features where the "Date Recieved" is within the last three days.
         // Adjust the date parsing if your format differs.
         var filteredFeatures = data.features.filter((feature) => {
           var dateReceived = new Date(feature.properties["date_received"]);
-          return dateReceived >= threeDaysAgo;
+          return dateReceived >= useDataSinceDate;
         });
         console.log("complaints after filter: ", filteredFeatures.length);
 
@@ -486,7 +492,7 @@ ${
   }
 }
 
-function spills_layer(spill_days) {
+async function spills_layer(spill_days) {
   // spills
   try {
     const spillVisible = document
@@ -497,7 +503,15 @@ function spills_layer(spill_days) {
       type: "geojson",
       data: `${urlbase}tijuana/ibwc/output/spills_last_by_site.geojson`,
     });
-    const thirtyDaysAgo = dayjs().subtract(spill_days, "day").toISOString();
+
+    while (!window.spill_timeframe.latestDate) {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
+
+    const latestDate = window.spill_timeframe.latestDate;
+    const mostRecentSampleTime = window.spill_timeframe.getMostRecentSampleTime();
+    const useDataSinceDate = dayjs(mostRecentSampleTime).toISOString();
+    console.log("[mbmap.js] spill days ago date: ", useDataSinceDate);
     // Create a symbol layer using the custom pin icon
     map.addLayer({
       id: "spills",
@@ -506,10 +520,10 @@ function spills_layer(spill_days) {
       filter: ["any",
         [
         "any",
-        [">=", ["get", "End Time"], thirtyDaysAgo],
-        [">=", ["get", "Start Time"], thirtyDaysAgo],
+        [">=", ["get", "End Time"], useDataSinceDate],
+        [">=", ["get", "Start Time"], useDataSinceDate],
       ] ,
-        [">=", ["get", "Start Time"], thirtyDaysAgo], // in case End Time 'Ongoing' is a different value
+        [">=", ["get", "Start Time"], useDataSinceDate], // in case End Time 'Ongoing' is a different value
         ],
 
 

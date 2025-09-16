@@ -227,8 +227,8 @@
     "wastewaterSpills": "Flujos de Aguas Negras",
     "riverBasin": "Cuenca del Río",
     "currentData": "datos actuales",
-    "prevComplaintdays": "últimos {{complaint_days}} días",
-    "prevSpilldays": "últimos {{spill_days}} días"
+    "prevComplaintdays": "de {{start_date}} a {{end_date}}",
+    "prevSpilldays": "de {{start_date}} a {{end_date}}"
   },
   "mapFooter": {
     "disclaimer": {
