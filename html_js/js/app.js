@@ -122,8 +122,9 @@ function renderOdorComplaints(geoData) {
 
   const now = new Date();
   const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const mostRecentSampleTime = new Date(now.getTime() - (window.complaint_days) * 24 * 60 * 60 * 1000);
-  const secondMostRecentSampleTime = new Date(now.getTime() - (window.complaint_days*2) * 24 * 60 * 60 * 1000);
+  const latestDate = dayjs(geoData.lastUpdated).toDate();
+  const mostRecentSampleTime = new Date(latestDate.getTime() - (window.complaint_days) * 24 * 60 * 60 * 1000);
+  const secondMostRecentSampleTime = new Date(latestDate.getTime() - (window.complaint_days*2) * 24 * 60 * 60 * 1000);
 
   console.log(
     "[app.js] Current date:",
@@ -255,7 +256,6 @@ function renderOdorComplaints(geoData) {
     "#odor-complaints-card .card-footer"
   );
   if (cardFooter && mostRecentData.length > 0) {
-    latestDate = dayjs(geoData.lastUpdated).toDate();
     console.log("[app.js] Updating odor complaints footer with latest date.", geoData.lastUpdated, "converted to", latestDate);
     const span = cardFooter.querySelector("span");
     const formattedDate = formatDateTime(latestDate, {
@@ -280,8 +280,9 @@ function renderWastewaterFlows(data) {
 
   const now = new Date();
   const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const mostRecentSampleTime = new Date(now.getTime() - (window.spill_days) * 24 * 60 * 60 * 1000);
-  const secondMostRecentSampleTime = new Date(now.getTime() - (window.spill_days*2) * 24 * 60 * 60 * 1000);
+  const latestDate = dayjs(data.lastUpdated).toDate();
+  const mostRecentSampleTime = new Date(latestDate.getTime() - (window.spill_days) * 24 * 60 * 60 * 1000);
+  const secondMostRecentSampleTime = new Date(latestDate.getTime() - (window.spill_days*2) * 24 * 60 * 60 * 1000);
 
   console.log(
     "[app.js] (Spills) Current date:",
@@ -404,7 +405,6 @@ function renderWastewaterFlows(data) {
     "#wastewater-card .card-footer"
   );
   if (cardFooter) {
-    latestDate = dayjs(data.lastUpdated).toDate();
     console.log("[app.js] (Spills) Updating wastewater footer with latest date.", data.lastUpdated, "converted to", latestDate);
     const span = cardFooter.querySelector("span");
     const formattedDate = formatDateTime(latestDate, {
