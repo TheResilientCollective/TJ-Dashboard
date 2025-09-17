@@ -139,7 +139,7 @@
           "count": "loading Denuncias",
           "count_one": "{{count}} Queja",
           "count_other": "{{count}} Quejas",
-          "sampleDuration": "en los últimos 14 días",
+          "sampleDuration": "desde {{start_date}}",
           "trend": "-{{change}} de 2 semana ant.",
           "trend_positive": "+{{change}} de 2 semanas ant.",
           "trend_same": "igual que 2 semanas ant."
@@ -151,7 +151,7 @@
             "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.htmlhttps://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
           }
         },
-        "tableLabel": "Quejas en los últimos {{complaint_days}} días",
+        "tableLabel": "Quejas de {{start_date}} a {{end_date}}",
         "dailyCount_one": "{{count}} queja",
         "dailyCount_other": "{{count}} quejas",
         "footer": {
@@ -169,7 +169,7 @@
           "count": "cargando flujos",
           "count_one": "{{count}} Flujo",
           "count_other": "{{count}} Flujos",
-          "sampleDuration": "en los últimos {{spill_days}} días",
+          "sampleDuration": "desde {{start_date}}",
           "trend": "-{{change}} desde {{spill_days}} días atrás",
           "trend_positive": "+{{change}} desde {{spill_days}} días atrás",
           "trend_same": "igual que {{spill_days}} días atrás"
@@ -188,9 +188,10 @@
             "url": "https://waterdata.ibwc.gov/AQWebportal/Data/Dashboard/8"
           }
         },
-        "tableLabel": "Flujos en los últimos {{spill_days}} días",
+        "tableLabel": "Flujos de {{start_date}} a {{end_date}}",
         "dailyCount_one": "{{count}} flujo",
         "dailyCount_other": "{{count}} flujos",
+        "noFlows": "No hay flujos de aguas residuales",
         "footer": {
           "text": "Última actualización el {{date}}",
           "link": {
@@ -226,8 +227,8 @@
     "wastewaterSpills": "Flujos de Aguas Negras",
     "riverBasin": "Cuenca del Río",
     "currentData": "datos actuales",
-    "prevComplaintdays": "últimos {{complaint_days}} días",
-    "prevSpilldays": "últimos {{spill_days}} días"
+    "prevComplaintdays": "de {{start_date}} a {{end_date}}",
+    "prevSpilldays": "de {{start_date}} a {{end_date}}"
   },
   "mapFooter": {
     "disclaimer": {

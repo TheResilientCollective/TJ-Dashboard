@@ -557,6 +557,11 @@ button.button.map-control-button.button {
   transition: color 0.2s;
 }
 
+.card .sublabel {
+  text-align: left;
+  padding-left: calc(var(--p1) + var(--icon));
+}
+
 .card-data table {
   width: 100%;
   table-layout: fixed;
@@ -938,5 +943,9 @@ body:fullscreen #fullscreen-btn {
 }
 
 body:-webkit-full-screen #fullscreen-btn {
+  display: none;
+}
+
+.hidden {
   display: none;
 }

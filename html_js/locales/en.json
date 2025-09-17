@@ -139,7 +139,7 @@
           "count": "loading Complaints",
           "count_one": "{{count}} Complaint",
           "count_other": "{{count}} Complaints",
-          "sampleDuration": "in the last 14 days",
+          "sampleDuration": "since {{start_date}}",
           "trend": "-{{change}} from 2 weeks ago",
           "trend_positive": "+{{change}} from 2 weeks ago",
           "trend_same": "same as 2 weeks ago"
@@ -151,7 +151,7 @@
             "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html"
           }
         },
-        "tableLabel": "Complaints in the last {{complaint_days}} days",
+        "tableLabel": "Complaints from {{start_date}} to {{end_date}}",
         "dailyCount_one": "{{count}} complaint",
         "dailyCount_other": "{{count}} complaints",
         "footer": {
@@ -168,7 +168,7 @@
           "count": "loading flows",
           "count_one": "{{count}} Flow",
           "count_other": "{{count}} Flows",
-          "sampleDuration": "in the last {{spill_days}} days",
+          "sampleDuration": "since {{start_date}}",
           "trend": "-{{change}} from {{spill_days}} days ago",
           "trend_positive": "+{{change}} from {{spill_days}} days ago",
           "trend_same": "same as {{spill_days}} days ago"
@@ -187,9 +187,10 @@
             "url": "https://waterdata.ibwc.gov/AQWebportal/Data/Dashboard/8"
           }
         },
-        "tableLabel": "Flows in the last {{spill_days}} days",
+        "tableLabel": "Flows from {{start_date}} to {{end_date}}",
         "dailyCount_one": "{{count}} flow",
         "dailyCount_other": "{{count}} flows",
+        "noFlows": "No Wastewater Flows",
         "footer": {
           "text": "Last Updated on {{date}}",
           "link": {
@@ -225,8 +226,8 @@
     "wastewaterSpills": "Wastewater Flows",
     "riverBasin": "River Basin",
     "currentData": "current data",
-    "prevComplaintdays": "previous {{complaint_days}} days",
-    "prevSpilldays": "previous {{spill_days}} days"
+    "prevComplaintdays": "from {{start_date}} to {{end_date}}",
+    "prevSpilldays": "from {{start_date}} to {{end_date}}"
   },
   "mapFooter": {
     "disclaimer": {
