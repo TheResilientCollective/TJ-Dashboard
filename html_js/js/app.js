@@ -121,10 +121,9 @@ function renderOdorComplaints(geoData) {
   window.latestOdorData = geoData;
 
   const now = new Date();
-  const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const latestDate = dayjs(geoData.lastUpdated).toDate();
-  const mostRecentSampleTime = new Date(latestDate.getTime() - (window.complaint_days) * 24 * 60 * 60 * 1000);
-  const secondMostRecentSampleTime = new Date(latestDate.getTime() - (window.complaint_days*2) * 24 * 60 * 60 * 1000);
+  const latestDate = window.complaint_timeframe.latestDate;
+  const mostRecentSampleTime = window.complaint_timeframe.getMostRecentSampleTime();
+  const secondMostRecentSampleTime = window.complaint_timeframe.getSecondMostRecentSampleTime();
 
   console.log(
     "[app.js] Current date:",
@@ -210,8 +209,8 @@ function renderOdorComplaints(geoData) {
   const tableLabel = document.querySelector("[data-i18n='sidebar.cards.odorComplaints.tableLabel']");
   if (tableLabel) {
     tableLabel.innerText = i18next.t("sidebar.cards.odorComplaints.tableLabel", { 
-      start_date: mostRecentSampleTime.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
-      end_date: latestDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
+      start_date: mostRecentSampleTime.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+      end_date: latestDate.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
       complaint_days: window.complaint_days
     });
   }
@@ -291,10 +290,9 @@ function renderWastewaterFlows(data) {
   window.latestWastewaterData = data;
 
   const now = new Date();
-  const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const latestDate = dayjs(data.lastUpdated).toDate();
-  const mostRecentSampleTime = new Date(latestDate.getTime() - (window.spill_days) * 24 * 60 * 60 * 1000);
-  const secondMostRecentSampleTime = new Date(latestDate.getTime() - (window.spill_days*2) * 24 * 60 * 60 * 1000);
+  const latestDate = window.spill_timeframe.latestDate;
+  const mostRecentSampleTime = window.spill_timeframe.getMostRecentSampleTime()
+  const secondMostRecentSampleTime = window.spill_timeframe.getSecondMostRecentSampleTime();
 
   console.log(
     "[app.js] (Spills) Current date:",
@@ -380,8 +378,8 @@ function renderWastewaterFlows(data) {
   const tableLabel = document.querySelector("[data-i18n='sidebar.cards.wastewater.tableLabel']");
   if (tableLabel) {
     tableLabel.innerText = i18next.t("sidebar.cards.wastewater.tableLabel", { 
-      start_date: mostRecentSampleTime.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
-      end_date: latestDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
+      start_date: mostRecentSampleTime.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+      end_date: latestDate.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
       spill_days: window.spill_days
     });
   }
@@ -598,6 +596,20 @@ function fetchOdorData() {
       response.ok ? response.json() : Promise.reject(response.statusText)
     )
     .then((jsonData) => {
+      window.complaint_timeframe.latestDate = dayjs(jsonData.lastUpdated).toDate();
+      document.querySelector("[data-i18n='topbar.prevComplaintdays']").setAttribute("data-i18n-options", JSON.stringify({
+        start_date: window.complaint_timeframe.latestDate.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+        end_date: window.complaint_timeframe.getMostRecentSampleTime().toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+      }));
+      document.querySelector('[data-i18n="sidebar.cards.odorComplaints.overview.sampleDuration"').setAttribute("data-i18n-options", JSON.stringify({
+        start_date: window.complaint_timeframe.getMostRecentSampleTime().toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+        end_date: window.complaint_timeframe.latestDate.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+        complaint_days: window.complaint_days
+      }));
+      updateContent();
+      return jsonData;
+    })
+    .then((jsonData) => {
       renderOdorComplaints(jsonData);
     })
     .catch((error) => {
@@ -629,6 +641,20 @@ function fetchWastewaterData() {
     .then((response) =>
       response.ok ? response.json() : Promise.reject(response.statusText)
     )
+    .then(async (jsonData) => {
+      window.spill_timeframe.latestDate = dayjs(jsonData.lastUpdated).toDate();
+      document.querySelector("[data-i18n='topbar.prevSpilldays']").setAttribute("data-i18n-options", JSON.stringify({
+        start_date: window.spill_timeframe.latestDate.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+        end_date: window.spill_timeframe.getMostRecentSampleTime().toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+      }));
+      document.querySelector('[data-i18n="sidebar.cards.wastewater.overview.sampleDuration"').setAttribute("data-i18n-options", JSON.stringify({
+        start_date: window.spill_timeframe.getMostRecentSampleTime().toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+        end_date: window.spill_timeframe.latestDate.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
+        spill_days: window.spill_days
+      }));
+      updateContent();
+      return jsonData;
+    })
     .then((jsonData) => {
       renderWastewaterFlows(jsonData);
     })
