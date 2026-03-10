@@ -208,7 +208,7 @@ function renderOdorComplaints(geoData) {
   // Table label with date range
   const tableLabel = document.querySelector("[data-i18n='sidebar.cards.odorComplaints.tableLabel']");
   if (tableLabel) {
-    tableLabel.innerText = i18next.t("sidebar.cards.odorComplaints.tableLabel", { 
+    tableLabel.innerText = i18next.t("sidebar.cards.odorComplaints.tableLabel", {
       start_date: mostRecentSampleTime.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
       end_date: latestDate.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
       complaint_days: window.complaint_days
@@ -377,7 +377,7 @@ function renderWastewaterFlows(data) {
 
   const tableLabel = document.querySelector("[data-i18n='sidebar.cards.wastewater.tableLabel']");
   if (tableLabel) {
-    tableLabel.innerText = i18next.t("sidebar.cards.wastewater.tableLabel", { 
+    tableLabel.innerText = i18next.t("sidebar.cards.wastewater.tableLabel", {
       start_date: mostRecentSampleTime.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
       end_date: latestDate.toLocaleDateString(i18next.language || "en", { month: 'short', day: 'numeric' }),
       spill_days: window.spill_days
@@ -590,7 +590,7 @@ function fetchH2SData() {
 
 function fetchOdorData() {
   fetch(
-    `${urlbase}tijuana/sd_complaints/output/latest/complaints.geojson`
+    `${urlbase}latest/tijuana/sd_complaints/complaints.geojson`
   )
     .then((response) =>
       response.ok ? response.json() : Promise.reject(response.statusText)
