@@ -192,10 +192,10 @@
         "dailyCount_other": "{{count}} flows",
         "noFlows": "No Wastewater Flows",
         "footer": {
-          "text": "Last Updated on {{date}}",
+          "text": "Last IBWC Update on {{date}}",
           "link": {
-            "text": "",
-            "url": ""
+            "text": "CA Water Board",
+            "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
           }
         }
       },
