@@ -193,10 +193,11 @@
         "dailyCount_other": "{{count}} flujos",
         "noFlows": "No hay flujos de aguas residuales",
         "footer": {
-          "text": "Última actualización el {{date}}",
+          "text": "Última CILA  actualización el {{date}}",
           "link": {
-            "text": "",
-            "url": ""
+            "text": "Junta Estatal de Control de Recursos de Agua",
+            "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
+
           }
         }
       },
