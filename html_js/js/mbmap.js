@@ -58,7 +58,7 @@ function setMapLanguage() {
 
 function complaints_layer(complaint_days) {
   try {
-    fetch(`${urlbase}tijuana/sd_complaints/output/latest/complaints.geojson`) // update the path or URL to your GeoJSON file
+    fetch(`${urlbase}latest/tijuana/sd_complaints/complaints.geojson`) // update the path or URL to your GeoJSON file
       .then((response) => response.json())
       .then(async (data) => {
         const complaintsVisible = document
