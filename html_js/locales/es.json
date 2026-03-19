@@ -1,304 +1,303 @@
 {
-  "pageTitle": "Tablero Ambiental de la Crisis de Aguas Negras del Valle del Río Tijuana",
-  "sidebar": {
-    "title": "Tablero Ambiental de la Crisis de Aguas Negras del Valle del Río Tijuana",
-    "sections": {
-      "ongoing": "Condiciones Actuales",
-      "environmental": "Problemas Ambientales",
-      "health": "Problemas de Salud"
-    },
-    "cards": {
-      "whatWeKnow": {
-        "title": "Lo Que Sabemos",
-        "p1": "Una combinación de varios factores ha provocado el desbordamiento de aguas negras, causando que aguas pluviales y contaminación lleguen al océano en ambos lados de la frontera, México y Estados Unitios",
-        "p2": "",
-        "p3": "Este tablero y herramienta de mapeo proporcionan información de múltiples fuentes sobre la calidad del aire y del agua de playas/ríos en San Diego relacionada con este problema.",
-        "footer": {
-          "text": "",
-          "link": {
-            "text": "",
-            "url": ""
-          }
-        }
-      },
-      "whatYouCanDo": {
-        "title": "Lo Que Puedes Hacer",
-        "reportOdor": "Reporta quejas sobre la calidad del aire al Distrito de Control de la Contaminación del Aire del Condado de San Diego (SDAPCD) por:",
-        "reportOptions": {
-          "app": "Aplicación móvil,",
-          "phone": "Teléfono al (858) 586-2650,",
-          "email": "Correo electrónico a <a href='mailto:apcdcomp@sdapcd.org'>apcdcomp@sdapcd.org</a>, o",
-          "online": {
-            "label": "Visita ",
-            "text": "en línea.",
-            "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html#googtrans(es)"
-          }
+    "pageTitle": "Tablero Ambiental de la Crisis de Aguas Negras del Valle del Río Tijuana",
+    "sidebar": {
+        "title": "Tablero Ambiental de la Crisis de Aguas Negras del Valle del Río Tijuana",
+        "sections": {
+            "ongoing": "Condiciones Actuales",
+            "environmental": "Problemas Ambientales",
+            "health": "Problemas de Salud"
         },
-        "reportInfoNeeded": "Al presentar un reporte, la siguiente información nos ayudará a investigar tu inquietud:",
-        "infoItems": {
-          "name": "Tu nombre, dirección y número de teléfono.",
-          "time": "La hora y fecha en que ocurrió el problema de calidad del aire y si aún continúa.",
-          "nature": "La naturaleza del problema de calidad del aire (humo, polvo, olor u otro).",
-          "source": "El nombre y la dirección de la presunta fuente y el tipo de operación que lo causa (si se conoce)."
-        },
-        "h2sLink": {
-          "label1": "Recomendaciones para ",
-          "link1": {
-            "text": "Protégete de los gases ambientales",
-            "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-environmental-gases.html"
-          },
-          "airpurifiers": "El Distrito de Control de la Contaminación del Aire del Condado de San Diego (SDAPCD) está proporcionando purificadores de aire gratuitos a los residentes que viven en comunidades afectadas. Consulta con el <a href=\"https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/aire.html\" target=\"_blank\">Programa AIRE</a> para ver si eres elegible.",
-          "label2": "Recomendaciones para ",
-          "link2": {
-            "text": "Protegerte de Agua Contaminada",
-            "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-contaminated-water.html"
-          }
-        },
-        "reduceAirExposure": "",
-        "beachSafety": "",
-        "footer": {
-          "text": "",
-          "link": {
-            "text": "",
-            "url": ""
-          }
-        }
-      },
-      "whatWereDoing": {
-        "title": "Lo Que Estamos Haciendo",
-        "p1": "Los funcionarios del Condado de San Diego están trabajando con socios y otras agencias para evaluar las preocupaciones y los impactos de las aguas negras y la contaminación en el Valle del Río Tijuana y las comunidades circundantes.",
-        "p2": "Puedes encontrar más información aquí:",
-        "link": {
-          "text": "Lo Que Está Haciendo el Condado.",
-          "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html#googtrans(es)"
-        },
-        "footer": {
-          "text": "",
-          "link": {
-            "text": "",
-            "url": ""
-          }
-        }
-      },
-      "h2s": {
-        "title": "Sulfuro de Hidrógeno",
-        "p1": {
-          "label": "El sulfuro de hidrógeno (H₂S) es un gas incoloro con un olor característico a huevos podridos. El sulfuro de hidrógeno se mide en ppb (partes por billón) - cuanto más bajo el ppb, mejor.",
-          "link": {
-            "text": "Guía de la Comunidad sobre el Sulfuro de Hidrógeno",
-            "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/tjrv-air-quality-monitoring.html#googtrans(es)"
-          }
-        },
-        "p2": "incluye recomendaciones sobre cómo responder a los aumentos continuos en los niveles de sulfuro de hidrógeno basados en",
-        "link": {
-          "text": "Monitoreo a Largo Plazo de los Niveles de Sulfuro de Hidrógeno",
-          "url": "https://app.powerbigov.us/view?r=eyJrIjoiOGMwYzM2ZGYtZGU4Ny00ZGI5LWE2NWMtMmZlOGEzZTYzMDc3IiwidCI6IjQ1NjNhZjEzLWMwMjktNDFiMy1iNzRjLTk2NWU4ZWVjOGY5NiJ9"
-        },
-        "tableLabel": "Mediciones Recientes",
-        "valueUnit": "{{value}} ppb",
-        "footer": {
-          "text": "Última actualización cada hora {{date}}",
-          "link": {
-            "text": "Más Info",
-            "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
-          }
-        }
-      },
-      "beachClosures": {
-        "title": "Cierres de Agua de Playa",
-        "overview": {
-          "count_one": "{{count}} Costa Cerrada",
-          "count_other": "{{count}} Costas Cerrada",
-          "trend": "-{{change}} desde la semana pasada",
-          "trend_positive": "+{{change}} desde la semana pasada",
-          "trend_same": "igual que la semana pasada"
-        },
-        "p1": {
-          "body": "Se emite un cierre cuando un flujo de aguas negras o químico impacta las aguas del playa o la bahía. Se recomienda evitar contacto con el agua de la playa durante Advertencias y Avisos. Para más detalles visite",
-          "link": {
-            "text": "Programa de Calidad del Agua de Playas y Bahía de San Diego",
-            "url": "https://www.sdbeachinfo.com/"
-          }
-        },
-        "p2": "",
-        "tableLabel": "Las siguientes líneas de costa están actualmente cerradas:",
-        "status": {
-          "closed": "cerrada"
-        },
-        "footer": {
-          "text": "Última  Actualizado Diariamente {{date}}",
-          "link": {
-            "text": "",
-            "url": ""
-          }
-        }
-      },
-      "odorComplaints": {
-        "title": "Quejas del aire",
-        "overview": {
-          "count": "loading Denuncias",
-          "count_one": "{{count}} Queja",
-          "count_other": "{{count}} Quejas",
-          "sampleDuration": "desde {{start_date}}",
-          "trend": "-{{change}} de 2 semana ant.",
-          "trend_positive": "+{{change}} de 2 semanas ant.",
-          "trend_same": "igual que 2 semanas ant."
-        },
-        "p1": {
-          "body": "Las siguientes son quejas públicas sobre olores que han sido recibidas e investigadas por el SDAPCD. Puedes encontrar más información aquí:",
-          "link": {
-            "text": "Problemas de Calidad del Aire",
-            "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.htmlhttps://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
-          }
-        },
-        "tableLabel": "Quejas de {{start_date}} a {{end_date}}",
-        "dailyCount_one": "{{count}} queja",
-        "dailyCount_other": "{{count}} quejas",
-        "footer": {
-          "text": "Última Actualización Semanal {{date}}",
-          "link": {
-            "text": "",
-            "url": ""
-          }
-        }
-      },
+        "cards": {
+            "whatWeKnow": {
+                "title": "Lo Que Sabemos",
+                "p1": "Una combinación de varios factores ha provocado el desbordamiento de aguas negras, causando que aguas pluviales y contaminación lleguen al océano en ambos lados de la frontera, México y Estados Unitios",
+                "p2": "",
+                "p3": "Este tablero y herramienta de mapeo proporcionan información de múltiples fuentes sobre la calidad del aire y del agua de playas/ríos en San Diego relacionada con este problema.",
+                "footer": {
+                    "text": "",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            },
+            "whatYouCanDo": {
+                "title": "Lo Que Puedes Hacer",
+                "reportOdor": "Reporta quejas sobre la calidad del aire al Distrito de Control de la Contaminación del Aire del Condado de San Diego (SDAPCD) por:",
+                "reportOptions": {
+                    "app": "Aplicación móvil,",
+                    "phone": "Teléfono al (858) 586-2650,",
+                    "email": "Correo electrónico a <a href='mailto:apcdcomp@sdapcd.org'>apcdcomp@sdapcd.org</a>, o",
+                    "online": {
+                        "label": "Visita ",
+                        "text": "en línea.",
+                        "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.html#googtrans(es)"
+                    }
+                },
+                "reportInfoNeeded": "Al presentar un reporte, la siguiente información nos ayudará a investigar tu inquietud:",
+                "infoItems": {
+                    "name": "Tu nombre, dirección y número de teléfono.",
+                    "time": "La hora y fecha en que ocurrió el problema de calidad del aire y si aún continúa.",
+                    "nature": "La naturaleza del problema de calidad del aire (humo, polvo, olor u otro).",
+                    "source": "El nombre y la dirección de la presunta fuente y el tipo de operación que lo causa (si se conoce)."
+                },
+                "h2sLink": {
+                    "label1": "Recomendaciones para ",
+                    "link1": {
+                        "text": "Protégete de los gases ambientales",
+                        "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-environmental-gases.html"
+                    },
+                    "airpurifiers": "El Distrito de Control de la Contaminación del Aire del Condado de San Diego (SDAPCD) está proporcionando <b>purificadores de aire gratuitos</b> a los residentes que viven en comunidades afectadas. Consulta con el <a href=\"https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/aire.html\" target=\"_blank\">Programa AIRE</a> para ver si eres elegible.",
+                    "label2": "Recomendaciones para ",
+                    "link2": {
+                        "text": "Protegerte de Agua Contaminada",
+                        "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/about-contaminated-water.html"
+                    }
+                },
+                "reduceAirExposure": "",
+                "beachSafety": "",
+                "footer": {
+                    "text": "",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            },
+            "whatWereDoing": {
+                "title": "Lo Que Estamos Haciendo",
+                "p1": "Los funcionarios del Condado de San Diego están trabajando con socios y otras agencias para evaluar las preocupaciones y los impactos de las aguas negras y la contaminación en el Valle del Río Tijuana y las comunidades circundantes.",
+                "p2": "Puedes encontrar más información aquí:",
+                "link": {
+                    "text": "Lo Que Está Haciendo el Condado.",
+                    "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/County-Role.html#googtrans(es)"
+                },
+                "footer": {
+                    "text": "",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            },
+            "h2s": {
+                "title": "Sulfuro de Hidrógeno",
+                "p1": {
+                    "label": "El sulfuro de hidrógeno (H₂S) es un gas incoloro con un olor característico a huevos podridos. El sulfuro de hidrógeno se mide en ppb (partes por billón) - cuanto más bajo el ppb, mejor.",
+                    "link": {
+                        "text": "Guía de la Comunidad sobre el Sulfuro de Hidrógeno",
+                        "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley/tjrv-air-quality-monitoring.html#googtrans(es)"
+                    }
+                },
+                "p2": "incluye recomendaciones sobre cómo responder a los aumentos continuos en los niveles de sulfuro de hidrógeno basados en",
+                "link": {
+                    "text": "Monitoreo a Largo Plazo de los Niveles de Sulfuro de Hidrógeno",
+                    "url": "https://app.powerbigov.us/view?r=eyJrIjoiOGMwYzM2ZGYtZGU4Ny00ZGI5LWE2NWMtMmZlOGEzZTYzMDc3IiwidCI6IjQ1NjNhZjEzLWMwMjktNDFiMy1iNzRjLTk2NWU4ZWVjOGY5NiJ9"
+                },
+                "tableLabel": "Mediciones Recientes",
+                "valueUnit": "{{value}} ppb",
+                "footer": {
+                    "text": "Última actualización cada hora {{date}}",
+                    "link": {
+                        "text": "Más Info",
+                        "url": "https://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
+                    }
+                }
+            },
+            "beachClosures": {
+                "title": "Cierres de Agua de Playa",
+                "overview": {
+                    "count_one": "{{count}} Costa Cerrada",
+                    "count_other": "{{count}} Costas Cerrada",
+                    "trend": "-{{change}} desde la semana pasada",
+                    "trend_positive": "+{{change}} desde la semana pasada",
+                    "trend_same": "igual que la semana pasada"
+                },
+                "p1": {
+                    "body": "Se emite un cierre cuando un flujo de aguas negras o químico impacta las aguas del playa o la bahía. Se recomienda evitar contacto con el agua de la playa durante Advertencias y Avisos. Para más detalles visite",
+                    "link": {
+                        "text": "Programa de Calidad del Agua de Playas y Bahía de San Diego",
+                        "url": "https://www.sdbeachinfo.com/"
+                    }
+                },
+                "p2": "",
+                "tableLabel": "Las siguientes líneas de costa están actualmente cerradas:",
+                "status": {
+                    "closed": "cerrada"
+                },
+                "footer": {
+                    "text": "Última  Actualizado Diariamente {{date}}",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            },
+            "odorComplaints": {
+                "title": "Quejas del aire",
+                "overview": {
+                    "count": "loading Denuncias",
+                    "count_one": "{{count}} Queja",
+                    "count_other": "{{count}} Quejas",
+                    "sampleDuration": "desde {{start_date}}",
+                    "trend": "-{{change}} de 2 semana ant.",
+                    "trend_positive": "+{{change}} de 2 semanas ant.",
+                    "trend_same": "igual que 2 semanas ant."
+                },
+                "p1": {
+                    "body": "Las siguientes son quejas públicas sobre olores que han sido recibidas e investigadas por el SDAPCD. Puedes encontrar más información aquí:",
+                    "link": {
+                        "text": "Problemas de Calidad del Aire",
+                        "url": "https://www.sdapcd.org/content/sdapcd/compliance/air-quality-complaints.htmlhttps://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
+                    }
+                },
+                "tableLabel": "Quejas de {{start_date}} a {{end_date}}",
+                "dailyCount_one": "{{count}} queja",
+                "dailyCount_other": "{{count}} quejas",
+                "footer": {
+                    "text": "Última Actualización Semanal {{date}}",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            },
 
-      "wastewater": {
-        "title": "Flujos de Aguas Residuales",
-        "overview": {
-          "count": "cargando flujos",
-          "count_one": "{{count}} Flujo",
-          "count_other": "{{count}} Flujos",
-          "sampleDuration": "desde {{start_date}}",
-          "trend": "-{{change}} desde {{spill_days}} días atrás",
-          "trend_positive": "+{{change}} desde {{spill_days}} días atrás",
-          "trend_same": "igual que {{spill_days}} días atrás"
-        },
-        "p1": {
-          "body": "Los siguientes son eventos de aguas residuales en el Valle del Río Tijuana. Los eventos incluyen derrames, flujos transfronterizos del colector de cañones en clima seco y flujos transfronterizos del río Tijuana. Los eventos de lluvia no están incluidos en estos datos. Más información sobre estos eventos se puede encontrar aquí:",
-          "link": {
-            "text": "Junta Regional del Agua de San Diego",
-            "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
-          }
-        },
-        "p2": {
-          "body": "Los datos detallados se pueden encontrar aquí:",
-          "link": {
-            "text": "Comisión Internacional de Límites y Aguas - Cuenca del Río Tijuana",
-            "url": "https://waterdata.ibwc.gov/AQWebportal/Data/Dashboard/8"
-          }
-        },
-        "tableLabel": "Flujos de {{start_date}} a {{end_date}}",
-        "dailyCount_one": "{{count}} flujo",
-        "dailyCount_other": "{{count}} flujos",
-        "noFlows": "No hay flujos de aguas residuales",
-        "footer": {
-          "text": "Última CILA  actualización el {{date}}",
-          "link": {
-            "text": "Junta Estatal de Control de Recursos de Agua",
-            "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
-
-          }
+            "wastewater": {
+                "title": "Flujos de Aguas Residuales",
+                "overview": {
+                    "count": "cargando flujos",
+                    "count_one": "{{count}} Flujo",
+                    "count_other": "{{count}} Flujos",
+                    "sampleDuration": "desde {{start_date}}",
+                    "trend": "-{{change}} desde {{spill_days}} días atrás",
+                    "trend_positive": "+{{change}} desde {{spill_days}} días atrás",
+                    "trend_same": "igual que {{spill_days}} días atrás"
+                },
+                "p1": {
+                    "body": "Los siguientes son eventos de aguas residuales en el Valle del Río Tijuana. Los eventos incluyen derrames, flujos transfronterizos del colector de cañones en clima seco y flujos transfronterizos del río Tijuana. Los eventos de lluvia no están incluidos en estos datos. Más información sobre estos eventos se puede encontrar aquí:",
+                    "link": {
+                        "text": "Junta Regional del Agua de San Diego",
+                        "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
+                    }
+                },
+                "p2": {
+                    "body": "Los datos detallados se pueden encontrar aquí:",
+                    "link": {
+                        "text": "Comisión Internacional de Límites y Aguas - Cuenca del Río Tijuana",
+                        "url": "https://waterdata.ibwc.gov/AQWebportal/Data/Dashboard/8"
+                    }
+                },
+                "tableLabel": "Flujos de {{start_date}} a {{end_date}}",
+                "dailyCount_one": "{{count}} flujo",
+                "dailyCount_other": "{{count}} flujos",
+                "noFlows": "No hay flujos de aguas residuales",
+                "footer": {
+                    "text": "Última CILA  actualización el {{date}}",
+                    "link": {
+                        "text": "Junta Estatal de Control de Recursos de Agua",
+                        "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
+                    }
+                }
+            },
+            "healthConcerns": {
+                "title": "Datos de Salud Pública",
+                "p1": {
+                    "body": "Los Servicios de Salud Pública del Condado de San Diego monitorean las visitas a la sala de emergencias por condiciones gastrointestinales y respiratorias en la Región Sur. Los informes semanales de monitoreo se pueden encontrar aquí:",
+                    "link": {
+                        "text": "Datos de Salud Pública sobre Problemas de Salud en la Región Sur",
+                        "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.htmlhttps://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
+                    }
+                },
+                "tableLabel": "Problemas de Salud Recientes",
+                "footer": {
+                    "text": "",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            }
         }
-      },
-      "healthConcerns": {
-        "title": "Datos de Salud Pública",
-        "p1": {
-          "body": "Los Servicios de Salud Pública del Condado de San Diego monitorean las visitas a la sala de emergencias por condiciones gastrointestinales y respiratorias en la Región Sur. Los informes semanales de monitoreo se pueden encontrar aquí:",
-          "link": {
-            "text": "Datos de Salud Pública sobre Problemas de Salud en la Región Sur",
-            "url": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/phs/community_epidemiology/south-region-health-concerns/Local-Data.htmlhttps://www.sdapcd.org/content/sdapcd/about/tj-river-valley.html#googtrans(es)"
-          }
+    },
+    "topbar": {
+        "beaches": "Calidad del Agua de Playas",
+        "h2sLevels": "Niveles de H₂S",
+        "odorComplaints": "Quejas del aire",
+        "wastewaterSpills": "Flujos de Aguas Negras",
+        "riverBasin": "Cuenca del Río",
+        "currentData": "datos actuales",
+        "prevComplaintdays": "de {{start_date}} a {{end_date}}",
+        "prevSpilldays": "de {{start_date}} a {{end_date}}"
+    },
+    "mapFooter": {
+        "disclaimer": {
+            "label": "Descargo de Responsabilidad ",
+            "text": "Los marcadores en el mapa no pretenden mostrar el área de impacto, sino la ubicación de la fuente de datos."
         },
-        "tableLabel": "Problemas de Salud Recientes",
-        "footer": {
-          "text": "",
-          "link": {
-            "text": "",
-            "url": ""
-          }
+        "legend": {
+            "label": "Leyenda ",
+            "spill": "Flujo de aguas negras",
+            "complaint": "Queja por olor",
+            "h2s": "Lectura de H₂S",
+            "outlet": "Punto de descarga",
+            "beach": "Playa"
         }
-      }
-    }
-  },
-  "topbar": {
-    "beaches": "Calidad del Agua de Playas",
-    "h2sLevels": "Niveles de H₂S",
-    "odorComplaints": "Quejas del aire",
-    "wastewaterSpills": "Flujos de Aguas Negras",
-    "riverBasin": "Cuenca del Río",
-    "currentData": "datos actuales",
-    "prevComplaintdays": "de {{start_date}} a {{end_date}}",
-    "prevSpilldays": "de {{start_date}} a {{end_date}}"
-  },
-  "mapFooter": {
-    "disclaimer": {
-      "label": "Descargo de Responsabilidad ",
-      "text": "Los marcadores en el mapa no pretenden mostrar el área de impacto, sino la ubicación de la fuente de datos."
     },
-    "legend": {
-      "label": "Leyenda ",
-      "spill": "Flujo de aguas negras",
-      "complaint": "Queja por olor",
-      "h2s": "Lectura de H₂S",
-      "outlet": "Punto de descarga",
-      "beach": "Playa"
-    }
-  },
-  "dateTimeFormats": {
-    "shortDate": "D [de] MMM",
-    "shortTime": "h:mm A",
-    "shortDateTime": "D [de] MMM, h:mm A",
-    "dayHour": "ddd h A"
-  },
-  "tooltips": {
-    "complaint": {
-      "title": "Queja por Olor",
-      "time": "{{date}}",
-      "intersection": "{{intersection}}",
-      "footer": "Reportado a la esquina más cercana."
+    "dateTimeFormats": {
+        "shortDate": "D [de] MMM",
+        "shortTime": "h:mm A",
+        "shortDateTime": "D [de] MMM, h:mm A",
+        "dayHour": "ddd h A"
     },
-    "complaintMultiple": {
-      "title": "{{count}} Quejas por Olor",
-      "time": {
-        "label": "hora:",
-        "value": "en los últimos {{days}}  días*"
-      },
-      "footer": "*No incluye datos de hoy."
-    },
-    "beach": {
-      "status": {
-        "Closure": "Playa cerrada",
-        "Open": "Playa abierta",
-        "Warning": "Playa con advertencia",
-        "Advisory": "Playa bajo aviso",
-        "Outfall": "Punto de descarga en playa",
-        "unknown": "desconocido"
-      },
-      "since": "desde {{date}}"
-    },
-    "wastewater": {
-      "title": "Flujo de Aguas Negras",
-      "duration": "{{start}} - {{end}}",
-      "time": "{{date}}",
-      "location": "ubicación:",
-      "date": "fecha:",
-      "volume": "volumen aprox.:",
-      "footer": {
-        "link": {
-          "text": "Datos de Flujo de Aguas Residuales",
-          "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
+    "tooltips": {
+        "complaint": {
+            "title": "Queja por Olor",
+            "time": "{{date}}",
+            "intersection": "{{intersection}}",
+            "footer": "Reportado a la esquina más cercana."
+        },
+        "complaintMultiple": {
+            "title": "{{count}} Quejas por Olor",
+            "time": {
+                "label": "hora:",
+                "value": "en los últimos {{days}}  días*"
+            },
+            "footer": "*No incluye datos de hoy."
+        },
+        "beach": {
+            "status": {
+                "Closure": "Playa cerrada",
+                "Open": "Playa abierta",
+                "Warning": "Playa con advertencia",
+                "Advisory": "Playa bajo aviso",
+                "Outfall": "Punto de descarga en playa",
+                "unknown": "desconocido"
+            },
+            "since": "desde {{date}}"
+        },
+        "wastewater": {
+            "title": "Flujo de Aguas Negras",
+            "duration": "{{start}} - {{end}}",
+            "time": "{{date}}",
+            "location": "ubicación:",
+            "date": "fecha:",
+            "volume": "volumen aprox.:",
+            "footer": {
+                "link": {
+                    "text": "Datos de Flujo de Aguas Residuales",
+                    "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
+                }
+            }
+        },
+        "h2s": {
+            "title": "Medición de Sulfuro de Hidrógeno",
+            "labels": {
+                "location": "ubicación:",
+                "measurement": "medición:",
+                "updated": "última act.:"
+            },
+            "ppb": "ppb: partes por billón"
         }
-      }
-    },
-    "h2s": {
-      "title": "Medición de Sulfuro de Hidrógeno",
-      "labels": {
-        "location": "ubicación:",
-        "measurement": "medición:",
-        "updated": "última act.:"
-      },
-      "ppb": "ppb: partes por billón"
     }
-  }
 }
