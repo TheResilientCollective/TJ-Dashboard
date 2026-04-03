@@ -1002,6 +1002,101 @@ function parseBeachNotice(html) {
   };
 }
 
+async function oceanmodel_layer() {
+  const btn = document.querySelector('#oceanmodel-filter-btn');
+  const isVisible = btn ? btn.classList.contains('active') : true;
+  const visibility = isVisible ? "visible" : "none";
+
+  const contoursUrl = "https://oss.resilientservice.mooo.com/resilentpublic/tijuana/oceanmodel/output/pfm_hour0_contours/hour0_contours.geojson";
+  const shorelineUrl = "https://oss.resilientservice.mooo.com/resilentpublic/tijuana/oceanmodel/output/pfm_shoreline_hazard/shoreline_hazard.geojson";
+
+  const [contoursData, shorelineData] = await Promise.all([
+    fetch(contoursUrl).then(r => r.json()),
+    fetch(shorelineUrl).then(r => r.json()),
+  ]);
+
+  map.addSource("oceanmodel-contours-source", { type: "geojson", data: contoursData });
+
+  map.addLayer({
+    id: "oceanmodel-contours",
+    type: "fill",
+    source: "oceanmodel-contours-source",
+    paint: {
+      "fill-color": ["get", "fill"],
+      "fill-opacity": ["get", "fill-opacity"],
+    },
+    layout: { visibility },
+  });
+
+  map.addLayer({
+    id: "oceanmodel-contours-outline",
+    type: "line",
+    source: "oceanmodel-contours-source",
+    paint: {
+      "line-color": ["get", "stroke"],
+      "line-opacity": ["get", "stroke-opacity"],
+      "line-width": ["get", "stroke-width"],
+    },
+    layout: { visibility },
+  });
+
+  map.addSource("oceanmodel-shoreline-source", { type: "geojson", data: shorelineData });
+
+  map.addLayer({
+    id: "oceanmodel-shoreline",
+    type: "line",
+    source: "oceanmodel-shoreline-source",
+    paint: {
+      "line-color": ["get", "color"],
+      "line-width": 5,
+    },
+    layout: { visibility },
+  });
+
+  map.on("click", "oceanmodel-contours", function (e) {
+    const props = e.features[0].properties;
+    const pctRange = `% Sewage ${props.title || ""}`;
+    const popupContent = `
+      <div class="tooltip">
+        <div class="tooltip-header">
+          <i class="bi bi-water"></i>
+          <span>${window.i18next.t("tooltips.oceanModel.title")}</span>
+        </div>
+        <div class="tooltip-line">
+          <span>${pctRange}</span>
+        </div>
+      </div>`;
+    new mapboxgl.Popup({ className: "mapbox-tooltip oceanmodel-tooltip" })
+      .setLngLat(e.lngLat)
+      .setHTML(popupContent)
+      .addTo(map);
+  });
+
+  map.on("click", "oceanmodel-shoreline", function (e) {
+    const risk = e.features[0].properties.risk || "unknown";
+    const popupContent = `
+      <div class="tooltip">
+        <div class="tooltip-header">
+          <i class="bi bi-water"></i>
+          <span>${window.i18next.t("tooltips.oceanModel.shorelineTitle")}</span>
+        </div>
+        <div class="tooltip-line">
+          <span>${window.i18next.t("tooltips.oceanModel.labels.risk")}</span>
+          <span>${risk}</span>
+        </div>
+      </div>`;
+    new mapboxgl.Popup({ className: "mapbox-tooltip oceanmodel-tooltip" })
+      .setLngLat(e.lngLat)
+      .setHTML(popupContent)
+      .addTo(map);
+  });
+
+  map.on("mouseenter", "oceanmodel-contours", () => { map.getCanvas().style.cursor = "pointer"; });
+  map.on("mouseleave", "oceanmodel-contours", () => { map.getCanvas().style.cursor = ""; });
+  map.on("mouseenter", "oceanmodel-shoreline", () => { map.getCanvas().style.cursor = "pointer"; });
+  map.on("mouseleave", "oceanmodel-shoreline", () => { map.getCanvas().style.cursor = ""; });
+}
+
 /// onload loads icons in bulk, then call the layers
 map.on("load", function () {
   const icons = [
@@ -1058,6 +1153,7 @@ map.on("load", function () {
       beach_layer();
       complaints_layer(window.complaint_days);
       h2s_layer();
+      oceanmodel_layer();
       setMapLanguage();
     })
     .catch((err) => {

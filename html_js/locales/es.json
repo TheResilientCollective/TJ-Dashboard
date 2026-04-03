@@ -200,6 +200,25 @@
                     }
                 }
             },
+            "oceanModel": {
+                "title": "Riesgo de Enfermedad para Nadadores",
+                "p1": "El modelo oceánico estima la concentración de aguas negras en la orilla y en alta mar. El color indica el riesgo de enfermedad para nadadores según el porcentaje de aguas negras.",
+                "sourceLink": "Modelo de Pronóstico de Patógenos del Río Tijuana",
+                "disclaimer": "Este pronóstico es experimental y puede contener errores. No es para uso oficial. No se garantiza la precisión.",
+                "legendLabel": "Leyenda de Riesgo",
+                "risk": {
+                    "high": "Riesgo Alto (>0.1% aguas negras)",
+                    "moderate": "Riesgo Moderado (0.001%–0.1% aguas negras)",
+                    "low": "Riesgo Bajo (<0.001% aguas negras)"
+                },
+                "footer": {
+                    "text": "Resultado del modelo oceánico",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            },
             "healthConcerns": {
                 "title": "Datos de Salud Pública",
                 "p1": {
@@ -228,7 +247,8 @@
         "riverBasin": "Cuenca del Río",
         "currentData": "datos actuales",
         "prevComplaintdays": "de {{start_date}} a {{end_date}}",
-        "prevSpilldays": "de {{start_date}} a {{end_date}}"
+        "prevSpilldays": "de {{start_date}} a {{end_date}}",
+        "oceanModel": "Modelo Oceánico"
     },
     "mapFooter": {
         "disclaimer": {
@@ -298,6 +318,19 @@
                 "updated": "última act.:"
             },
             "ppb": "ppb: partes por billón"
+        },
+        "oceanModel": {
+            "title": "Concentración de Aguas Negras",
+            "shorelineTitle": "Riesgo de Enfermedad para Nadadores",
+            "labels": {
+                "range": "Rango de concentración:",
+                "risk": "Nivel de riesgo:"
+            },
+            "risk": {
+                "red": "Riesgo Alto",
+                "yellow": "Riesgo Moderado",
+                "green": "Riesgo Bajo"
+            }
         }
     }
 }

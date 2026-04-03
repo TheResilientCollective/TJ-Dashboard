@@ -199,6 +199,25 @@
                     }
                 }
             },
+            "oceanModel": {
+                "title": "Swimmer Illness Risk",
+                "p1": "The ocean model estimates sewage concentration at the shoreline and offshore. Color indicates swimmer illness risk based on sewage percentage.",
+                "sourceLink": "Tijuana River Pathogen Forecast Model",
+                "disclaimer": "This forecast is experimental and may contain errors. Not for official use. Accuracy is not guaranteed.",
+                "legendLabel": "Risk Legend",
+                "risk": {
+                    "high": "High Risk (>0.1% sewage)",
+                    "moderate": "Moderate Risk (0.001%–0.1% sewage)",
+                    "low": "Low Risk (<0.001% sewage)"
+                },
+                "footer": {
+                    "text": "Ocean model output",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            },
             "healthConcerns": {
                 "title": "Public Health Data",
                 "p1": {
@@ -227,7 +246,8 @@
         "riverBasin": "River Basin",
         "currentData": "current data",
         "prevComplaintdays": "from {{start_date}} to {{end_date}}",
-        "prevSpilldays": "from {{start_date}} to {{end_date}}"
+        "prevSpilldays": "from {{start_date}} to {{end_date}}",
+        "oceanModel": "Ocean Model"
     },
     "mapFooter": {
         "disclaimer": {
@@ -297,6 +317,19 @@
                 "updated": "last update:"
             },
             "ppb": "ppB: parts per billion"
+        },
+        "oceanModel": {
+            "title": "Sewage Concentration",
+            "shorelineTitle": "Swimmer Illness Risk",
+            "labels": {
+                "range": "Concentration range:",
+                "risk": "Risk level:"
+            },
+            "risk": {
+                "red": "High Risk",
+                "yellow": "Moderate Risk",
+                "green": "Low Risk"
+            }
         }
     }
 }
