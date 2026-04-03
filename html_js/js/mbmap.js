@@ -1007,8 +1007,8 @@ async function oceanmodel_layer() {
   const isVisible = btn ? btn.classList.contains('active') : true;
   const visibility = isVisible ? "visible" : "none";
 
-  const contoursUrl = "https://oss.resilientservice.mooo.com/resilentpublic/tijuana/oceanmodel/output/pfm_hour0_contours/hour0_contours.geojson";
-  const shorelineUrl = "https://oss.resilientservice.mooo.com/resilentpublic/tijuana/oceanmodel/output/pfm_shoreline_hazard/shoreline_hazard.geojson";
+  const contoursUrl = "https://oss.resilientservice.mooo.com/resilentpublic/latest/tijuana/oceanmodel/pfm_hour0_contours/hour0_contours.geojson";
+  const shorelineUrl = "https://oss.resilientservice.mooo.com/resilentpublic/latest/tijuana/oceanmodel/pfm_shoreline_hazard/shoreline_hazard.geojson";
 
   const [contoursData, shorelineData] = await Promise.all([
     fetch(contoursUrl).then(r => r.json()),
