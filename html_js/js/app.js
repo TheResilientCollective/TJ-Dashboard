@@ -9,6 +9,13 @@ let latestOdorData = null;
 let latestBeachData = null;
 
 // --- Date/Time Formatting Helpers ---
+// H2S timestamps are always in PST. When DST is active (PDT), add 1 hour.
+function adjustPSTTimestamp(dayjsObj) {
+  const jan = new Date(dayjsObj.year(), 0, 1).getTimezoneOffset();
+  const now = new Date().getTimezoneOffset();
+  const isDST = now < jan;
+  return isDST ? dayjsObj.add(1, "hour") : dayjsObj;
+}
 function formatDateTime(date, options) {
   // Use i18next's detected language for formatting
   const lang = i18next.language || "en"; // Fallback to 'en'
@@ -66,7 +73,7 @@ function renderH2STable(jsonData) {
       const clockIcon = document.createElement("i");
       clockIcon.className = "bi bi-clock";
       const dateElm = document.createElement("span");
-      let dateWithTime = dayjs(h2s["Date with time"]).toDate(); // Convert to JS Date for Intl
+      let dateWithTime = adjustPSTTimestamp(dayjs(h2s["Date with time"])).toDate(); // Convert to JS Date for Intl
       // Format using Intl based on example 'ddd h A'
       const timeString = formatDateTime(dateWithTime, {
         weekday: "short",

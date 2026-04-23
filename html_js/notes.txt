@@ -35,3 +35,6 @@ https://stackoverflow.com/questions/69086721/how-to-render-custom-svg-in-iconlay
 
 
 county link
+
+== note the h2s data is in PST, so when in PDT add an hour.
+
