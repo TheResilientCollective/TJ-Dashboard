@@ -27,6 +27,58 @@ const amWaterAdvisoryLayers = {
 // Vista. An advisory counts as "in the region" when its footprint overlaps this.
 const waterAdvisoryAoi = [-117.25, 32.5, -116.9, 32.68];
 
+// Demonstration advisories, shown only when the page is opened with a
+// ?wateradvisory= flag, so the card can be shown to the county while no real
+// advisory covers the region. Everything these produce is labelled as an example
+// in the card, the list and the map popup — a fabricated notice must never be
+// mistaken for a real one. Real advisories are still fetched and shown alongside.
+const waterAdvisoryDemoScenarios = {
+  boil: { level: "emergency", type: "Main Break / Boil Water Advisory" },
+  emergency: { level: "emergency", type: "Main Break" },
+  general: { level: "general", type: "Planned Work" },
+};
+
+// A plausible service-area footprint over Imperial Beach, inside the AOI.
+const waterAdvisoryDemoFootprint = [
+  [-117.132, 32.556],
+  [-117.092, 32.556],
+  [-117.092, 32.588],
+  [-117.132, 32.588],
+  [-117.132, 32.556],
+];
+
+function waterAdvisoryDemoFeatures() {
+  const requested = (window.water_advisory_demo || "").toLowerCase();
+  if (!requested || requested === "off" || requested === "false") return [];
+
+  // "?wateradvisory=demo" (or any unrecognised value) shows the boil water case,
+  // which is the one the county most needs to see.
+  const name = waterAdvisoryDemoScenarios[requested] ? requested : "boil";
+  const scenario = waterAdvisoryDemoScenarios[name];
+  const now = Date.now();
+
+  console.log("[app.js] (Water) DEMONSTRATION advisory active:", name);
+  return [
+    {
+      type: "Feature",
+      geometry: { type: "Polygon", coordinates: [waterAdvisoryDemoFootprint] },
+      properties: {
+        advisoryLevel: scenario.level,
+        isDemo: true,
+        EventID: `DEMO-${name.toUpperCase()}`,
+        EventType: scenario.type,
+        EventStatus: "Active",
+        EventState: "CA",
+        EventHeader: "Imperial Beach: Example advisory",
+        EventMessage: i18next.t("sidebar.cards.waterAdvisory.demo.message"),
+        EventStartDate: now - 3 * 60 * 60 * 1000,
+        EventExpirationDate: now + 24 * 60 * 60 * 1000,
+        EventHyperlink: "",
+      },
+    },
+  ];
+}
+
 // --- Date/Time Formatting Helpers ---
 function formatDateTime(date, options) {
   // Use i18next's detected language for formatting
@@ -482,6 +534,7 @@ function groupWaterAdvisories(geoData) {
         expires: props.EventExpirationDate || 0,
         message: props.EventMessage || props.EventHeader || "",
         link: props.EventHyperlink || "",
+        isDemo: !!props.isDemo,
         bbox: [180, 90, -180, -90],
       };
       byEvent.set(key, advisory);
@@ -589,6 +642,11 @@ function renderWaterAdvisory(geoData) {
   window.latestWaterAdvisoryRegional = regionalAdvisoryFeatures(geoData);
   if (typeof syncWaterAdvisoryLayer === "function") syncWaterAdvisoryLayer();
 
+  // Demonstration banner. Shown whenever any advisory on screen is fabricated, so
+  // the card can never be screenshotted and read as a real notice.
+  const demoElm = document.getElementById("water-advisory-demo");
+  if (demoElm) demoElm.hidden = !advisories.some((a) => a.isDemo);
+
   // Overview line
   const countSpan = document.getElementById("water-advisory-count");
   const countIndicator = countSpan?.parentElement.querySelector(".indicator");
@@ -651,6 +709,15 @@ function renderWaterAdvisory(geoData) {
     placeElm.innerText = ` ${advisory.place}`;
     placeCell.appendChild(statusIndicator);
     placeCell.appendChild(placeElm);
+
+    // Label the row itself, so a demo advisory reads as an example even in a
+    // screenshot that crops out the banner above.
+    if (advisory.isDemo) {
+      const demoTag = document.createElement("span");
+      demoTag.className = "water-advisory-demo-tag";
+      demoTag.innerText = i18next.t("sidebar.cards.waterAdvisory.demo.tag");
+      placeCell.appendChild(demoTag);
+    }
 
     const clockIcon = document.createElement("i");
     clockIcon.className = "bi bi-clock";
@@ -963,6 +1030,8 @@ function fetchWaterAdvisoryLayer(id) {
 }
 
 function fetchWaterAdvisoryData() {
+  const demoFeatures = waterAdvisoryDemoFeatures();
+
   Promise.all(
     Object.keys(amWaterAdvisoryLayers).map((id) => fetchWaterAdvisoryLayer(id))
   )
@@ -971,12 +1040,21 @@ function fetchWaterAdvisoryData() {
       const geoData = {
         type: "FeatureCollection",
         lastUpdated: new Date().toISOString(),
-        features: collections.flat(),
+        features: [...collections.flat(), ...demoFeatures],
       };
       renderWaterAdvisory(geoData);
     })
     .catch((error) => {
       console.error("Error fetching Drinking Water Advisories:", error);
+      // A demonstration should still work if the utility service is unreachable.
+      if (demoFeatures.length) {
+        renderWaterAdvisory({
+          type: "FeatureCollection",
+          lastUpdated: new Date().toISOString(),
+          features: demoFeatures,
+        });
+        return;
+      }
       document.querySelector("#water-advisory-card")?.remove();
     });
 }

@@ -183,6 +183,11 @@
                         "text": "",
                         "url": ""
                     }
+                },
+                "demo": {
+                    "banner": "Solo demostración — el aviso siguiente es un ejemplo inventado, no un aviso real.",
+                    "tag": "Ejemplo",
+                    "message": "AVISO DE EJEMPLO — ESTE NO ES UN AVISO REAL. Este texto de muestra indica cómo aparecería aquí un aviso de California American Water. En un aviso real, aquí se mostrarían las instrucciones de la compañía para los residentes, incluida la duración prevista del aviso y a quién contactar."
                 }
             },
             "odorComplaints": {
@@ -355,7 +360,8 @@
                 "link": {
                     "text": "Leer el aviso completo"
                 }
-            }
+            },
+            "demo": "Aviso de ejemplo — no es un aviso real"
         },
         "h2s": {
             "title": "Medición de Sulfuro de Hidrógeno",

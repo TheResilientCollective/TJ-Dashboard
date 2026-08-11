@@ -869,6 +869,13 @@ function water_advisory_layer() {
             "tooltips.waterAdvisory.title"
           )}</span>
         </div>
+        ${
+          props.isDemo
+            ? `<div class="tooltip-line water-advisory-demo-line">${window.i18next.t(
+                "tooltips.waterAdvisory.demo"
+              )}</div>`
+            : ""
+        }
         <div class="tooltip-line tooltip-table">
           <span data-i18n="tooltips.waterAdvisory.location">${window.i18next.t(
             "tooltips.waterAdvisory.location"

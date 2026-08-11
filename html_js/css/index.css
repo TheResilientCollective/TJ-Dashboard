@@ -692,6 +692,52 @@ button.button.map-control-button.button {
   display: none;
 }
 
+/* Demonstration mode (?wateradvisory=). Deliberately loud and unlike the real
+   alert styling, so an example advisory can never pass for a genuine one. */
+.water-advisory-demo {
+  display: flex;
+  align-items: center;
+  gap: var(--p1);
+  border: 2px dashed #6b21a8;
+  border-radius: var(--border-radius);
+  padding: var(--p1) var(--p2);
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(107, 33, 168, 0.08),
+    rgba(107, 33, 168, 0.08) 10px,
+    rgba(107, 33, 168, 0.16) 10px,
+    rgba(107, 33, 168, 0.16) 20px
+  );
+  color: #6b21a8;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.water-advisory-demo i {
+  flex: none;
+}
+
+.water-advisory-demo-tag {
+  margin-left: var(--p-half);
+  padding: 0 var(--p-half);
+  border: 1px solid #6b21a8;
+  border-radius: 2px;
+  color: #6b21a8;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.water-advisory-tooltip .water-advisory-demo-line {
+  border: 1px dashed #6b21a8;
+  border-radius: 2px;
+  padding: 2px var(--p-half);
+  color: #6b21a8;
+  font-weight: bold;
+  white-space: normal;
+}
+
 .water-advisory-coverage {
   font-size: 0.8rem;
   color: var(--grey);

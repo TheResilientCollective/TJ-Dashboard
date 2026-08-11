@@ -86,6 +86,10 @@
     // Get the value of the "name" parameter
     const spill_days = Number(params.get('spill')?? 30);
     window.spill_days = spill_days;
+    // Shows a clearly-labelled example drinking water advisory for demonstrations.
+    // ?wateradvisory=demo (boil water), =emergency, =general. Off unless set.
+    window.water_advisory_demo = params.get('wateradvisory') ?? '';
+    console.log('water advisory demo', window.water_advisory_demo)
     window.spill_timeframe = {
       numDays: spill_days,
       latestDate: undefined,
@@ -591,64 +595,6 @@
           </div>
         </div>
 
-        <!-- Card: Drinking Water Advisories (tap water) -->
-        <div id="water-advisory-card" class="card shadow expandable" onclick="selectCard('Drinking Water Advisories')">
-          <div class="card-header always-expand">
-            <i class="bi bi-droplet-half"></i>
-            <h3 class="card-title" data-i18n="sidebar.cards.waterAdvisory.title">Drinking Water (Tap Water)</h3>
-            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
-          </div>
-
-          <div id="water-advisory-data-overview" class="card-data always-expand">
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <span class="indicator low"></span>
-                    <span id="water-advisory-count" data-i18n="sidebar.cards.waterAdvisory.overview.none">No active advisories</span>
-                    <br><span class="sublabel trend-flat" data-i18n="sidebar.cards.waterAdvisory.overview.scope">California American Water service area</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Shown only when an advisory is active in the region -->
-          <div id="water-advisory-alert" class="water-advisory-alert always-expand" hidden>
-            <div class="water-advisory-alert-header">
-              <i class="bi bi-exclamation-triangle-fill"></i>
-              <span class="water-advisory-alert-title"></span>
-            </div>
-            <p class="water-advisory-alert-body"></p>
-          </div>
-
-          <p data-i18n="sidebar.cards.waterAdvisory.p1">
-            Tap water delivered to homes in the region is treated and tested to meet state and federal drinking water standards. Sewage flows in the Tijuana River Valley affect beach and river water, not the treated water supplied to your tap.
-          </p>
-
-          <p>
-            <span data-i18n="sidebar.cards.waterAdvisory.p2.body">Your water utility issues an advisory when a main break, emergency repair, or planned work may affect your service or water quality. Check who supplies your water and look up current notices here:</span>
-            <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.waterAdvisory.p2.link.text" data-i18n-href="sidebar.cards.waterAdvisory.p2.link.url">California American Water Customer Advisories</a>
-          </p>
-
-          <p class="water-advisory-coverage" data-i18n="sidebar.cards.waterAdvisory.coverage">
-            Advisories shown here come from California American Water only. Other utilities serve parts of this region, so check with your own provider if you are unsure.
-          </p>
-
-          <div id="water-advisory-data" class="card-data" hidden>
-            <span data-i18n="sidebar.cards.waterAdvisory.tableLabel">Current advisories in the region</span>
-            <table>
-              <tbody>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="card-footer">
-            <span data-i18n="sidebar.cards.waterAdvisory.footer.text"></span>
-            <a target="_blank" href="https://example.com" data-i18n="sidebar.cards.waterAdvisory.footer.link.text" data-i18n-href="sidebar.cards.waterAdvisory.footer.link.url">More Info</a>
-          </div>
-        </div>
-
         <!-- Card: Public Odor Complaints (with time widget inside expandable section) -->
         <div id="odor-complaints-card" class="card shadow expandable" onclick="selectCard('Odor Complaints')">
           <div class="card-header always-expand">
@@ -694,6 +640,70 @@
           <div class="card-footer">
             <span data-i18n="sidebar.cards.odorComplaints.footer.text"></span>
             <a target="_blank" href="https://example.com" data-i18n="sidebar.cards.odorComplaints.footer.link.text" data-i18n-href="sidebar.cards.odorComplaints.footer.link.url">More Info</a>
+          </div>
+        </div>
+
+        <!-- Card: Drinking Water Advisories (tap water) -->
+        <div id="water-advisory-card" class="card shadow expandable" onclick="selectCard('Drinking Water Advisories')">
+          <div class="card-header always-expand">
+            <i class="bi bi-droplet-half"></i>
+            <h3 class="card-title" data-i18n="sidebar.cards.waterAdvisory.title">Drinking Water (Tap Water)</h3>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
+          </div>
+
+          <div id="water-advisory-data-overview" class="card-data always-expand">
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <span class="indicator low"></span>
+                    <span id="water-advisory-count" data-i18n="sidebar.cards.waterAdvisory.overview.none">No active advisories</span>
+                    <br><span class="sublabel trend-flat" data-i18n="sidebar.cards.waterAdvisory.overview.scope">California American Water service area</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Shown only when a ?wateradvisory= demonstration advisory is on screen -->
+          <div id="water-advisory-demo" class="water-advisory-demo always-expand" hidden>
+            <i class="bi bi-cone-striped"></i>
+            <span data-i18n="sidebar.cards.waterAdvisory.demo.banner">Demonstration only — the advisory below is a made-up example, not a real notice.</span>
+          </div>
+
+          <!-- Shown only when an advisory is active in the region -->
+          <div id="water-advisory-alert" class="water-advisory-alert always-expand" hidden>
+            <div class="water-advisory-alert-header">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+              <span class="water-advisory-alert-title"></span>
+            </div>
+            <p class="water-advisory-alert-body"></p>
+          </div>
+
+          <p data-i18n="sidebar.cards.waterAdvisory.p1">
+            Tap water delivered to homes in the region is treated and tested to meet state and federal drinking water standards. Sewage flows in the Tijuana River Valley affect beach and river water, not the treated water supplied to your tap.
+          </p>
+
+          <p>
+            <span data-i18n="sidebar.cards.waterAdvisory.p2.body">Your water utility issues an advisory when a main break, emergency repair, or planned work may affect your service or water quality. Check who supplies your water and look up current notices here:</span>
+            <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.waterAdvisory.p2.link.text" data-i18n-href="sidebar.cards.waterAdvisory.p2.link.url">California American Water Customer Advisories</a>
+          </p>
+
+          <p class="water-advisory-coverage" data-i18n="sidebar.cards.waterAdvisory.coverage">
+            Advisories shown here come from California American Water only. Other utilities serve parts of this region, so check with your own provider if you are unsure.
+          </p>
+
+          <div id="water-advisory-data" class="card-data" hidden>
+            <span data-i18n="sidebar.cards.waterAdvisory.tableLabel">Current advisories in the region</span>
+            <table>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card-footer">
+            <span data-i18n="sidebar.cards.waterAdvisory.footer.text"></span>
+            <a target="_blank" href="https://example.com" data-i18n="sidebar.cards.waterAdvisory.footer.link.text" data-i18n-href="sidebar.cards.waterAdvisory.footer.link.url">More Info</a>
           </div>
         </div>
 

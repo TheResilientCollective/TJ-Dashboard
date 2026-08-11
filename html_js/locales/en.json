@@ -183,6 +183,11 @@
                         "text": "",
                         "url": ""
                     }
+                },
+                "demo": {
+                    "banner": "Demonstration only — the advisory below is a made-up example, not a real notice.",
+                    "tag": "Example",
+                    "message": "EXAMPLE ADVISORY — THIS IS NOT A REAL NOTICE. This sample text shows how a California American Water advisory would appear here. In a real advisory, this is where the utility's instructions to residents would be shown, including how long the advisory is expected to last and who to contact."
                 }
             },
             "odorComplaints": {
@@ -355,7 +360,8 @@
                 "link": {
                     "text": "Read the full notice"
                 }
-            }
+            },
+            "demo": "Example advisory — not a real notice"
         },
         "h2s": {
             "title": "Hydrogen Sulfide Measurement",
