@@ -86,6 +86,10 @@
     // Get the value of the "name" parameter
     const spill_days = Number(params.get('spill')?? 30);
     window.spill_days = spill_days;
+    // Shows a clearly-labelled example drinking water advisory for demonstrations.
+    // ?wateradvisory=demo (boil water), =emergency, =general. Off unless set.
+    window.water_advisory_demo = params.get('wateradvisory') ?? '';
+    console.log('water advisory demo', window.water_advisory_demo)
     window.spill_timeframe = {
       numDays: spill_days,
       latestDate: undefined,
@@ -108,6 +112,7 @@
       {label: 'Odor Complaints All', id: 'odor_3day_group' , layers: ['complaint-clusters-all','complaint-cluster-count-all','complaint-unclustered-all']}, // odor
       {label: 'Wastewater Spills', id: 'spill_group' , layers: ['spills']}, // water
       {label: 'Beach Status', id: 'beach_group' , layers: ['beaches', 'outfalls']}, // observations
+      {label: 'Drinking Water Advisories', id: 'water_advisory_group' , layers: ['water-advisory-fill','water-advisory-outline']}, // tap water
       {label: 'River Basin', id: 'water_group' , layers: ['basin','basin-outline', 'streams-line']},
 
     ]
@@ -133,55 +138,60 @@
       section.classList.toggle("expanded");
     }
 
-    // Toggle Layer Function for Top Pills
-    function toggleLayer(button, layer) {
-      if (undefined !== map) {
-        button.classList.toggle("active")
-        const buttonIcon = button.querySelector("i");
-        const buttonLegendIcon = button.querySelector("img");
-        let baseUrl;
-        let outlineUrl;
-        if (buttonLegendIcon) {
-          baseUrl = buttonLegendIcon.src.replace("-outline", "");
-          outlineUrl = baseUrl.replace(".svg", "-outline.svg");
-        }
-        console.log("Base url", baseUrl, "outline url", outlineUrl, "\n", buttonLegendIcon);
-
-        let visibility = 'none'
-        if (button.classList.contains("active")) {
-          console.log("toggled active: true");
-          visibility = 'visible'
-          buttonIcon.classList.add("bi-check-circle-fill");
-          buttonIcon.classList.remove("bi-x-circle");
-          if (buttonLegendIcon) buttonLegendIcon.src = baseUrl;
-        } else {
-          console.log("toggled active: false");
-          buttonIcon.classList.remove("bi-check-circle-fill");
-          buttonIcon.classList.add("bi-x-circle");
-          if (buttonLegendIcon) buttonLegendIcon.src = outlineUrl;
-        }
-
-        console.log("Toggled layer group:", layer);
-        const layerinfo = layerGroupInfo.find((l) => l.label === layer)
-        console.log("Toggled layer group:" + layer + " layerid:", layerinfo);
-        console.log("Toggled layer: groups", layerinfo.layers);
-        setGroupVisibility(map,layerinfo,visibility)
-      } else {
-        console.log("toggleLayer: no map object: ", layer);
+    // The single place a pill's appearance and its map layers are changed, so the
+    // two can never drift out of sync. `layer` is a layerGroupInfo label.
+    function setLayerActive(button, layer, active) {
+      if (undefined === map) {
+        console.log("setLayerActive: no map object: ", layer);
+        return;
       }
 
+      button.classList.toggle("active", active);
+
+      const buttonIcon = button.querySelector("i");
+      if (buttonIcon) {
+        buttonIcon.classList.toggle("bi-check-circle-fill", active);
+        buttonIcon.classList.toggle("bi-x-circle", !active);
+      }
+
+      const buttonLegendIcon = button.querySelector("img");
+      if (buttonLegendIcon) {
+        const baseUrl = buttonLegendIcon.src.replace("-outline", "");
+        buttonLegendIcon.src = active
+          ? baseUrl
+          : baseUrl.replace(".svg", "-outline.svg");
+      }
+
+      const layerinfo = layerGroupInfo.find((l) => l.label === layer)
+      if (!layerinfo) {
+        console.warn("setLayerActive: no layer group registered for:", layer);
+        return;
+      }
+      console.log("Set layer group:", layer, "active:", active, layerinfo.layers);
+      setGroupVisibility(map, layerinfo, active ? "visible" : "none")
+    }
+
+    // Toggle Layer Function for Top Pills
+    function toggleLayer(button, layer) {
+      setLayerActive(button, layer, !button.classList.contains("active"));
     }
 
 
-    // When a card is clicked, select the corresponding pill
+    // When a card is clicked, show its data on the map and light up the matching
+    // pill. Pills are matched on data-layer-group rather than their label text,
+    // which is translated and also carries a sublabel. Other layers are left
+    // alone so opening a card never hides data the user turned on.
     function selectCard(layer) {
-      var buttons = document.querySelectorAll("#top-bar button");
-      buttons.forEach(function (btn) {
-        btn.classList.remove("active");
-        if (btn.textContent.trim().toLowerCase() === layer.toLowerCase()) {
-          btn.classList.add("active");
-        }
-      });
+      const button = document.querySelector(
+        `#top-bar button[data-layer-group="${layer}"]`
+      );
+      if (!button) {
+        console.log("selectCard: no pill for layer:", layer);
+        return;
+      }
+      if (!button.classList.contains("active")) {
+        setLayerActive(button, layer, true);
+      }
       console.log("Selected card for layer:", layer);
     }
 
@@ -221,7 +231,7 @@
   <!-- Top Pill Container -->
   <div id="top-bar-container">
     <div id="top-bar">
-      <button id="beaches-filter-btn" class="active" onclick="toggleLayer(this, 'Beach Status')">
+      <button id="beaches-filter-btn" data-layer-group="Beach Status" class="active" onclick="toggleLayer(this, 'Beach Status')">
         <i class="bi bi-check-circle-fill"></i>
         <img src="img/marker-beach.svg">
         <div>
@@ -230,7 +240,7 @@
           <span class="trend-flat sublabel" data-i18n="topbar.currentData">current data</span>
         </div>
       </button>
-      <button id="h2s-filter-btn" class="active" onclick="toggleLayer(this, 'H₂S Levels')">
+      <button id="h2s-filter-btn" data-layer-group="H₂S Levels" class="active" onclick="toggleLayer(this, 'H₂S Levels')">
         <i class="bi bi-check-circle-fill"></i>
         <img src="img/marker-h2s.svg">
         <div>
@@ -239,7 +249,7 @@
           <span class="trend-flat sublabel" data-i18n="topbar.currentData">current data</span>
         </div>
       </button>
-      <button id="complaints-filter-btn" class="active" onclick="toggleLayer(this, 'Odor Complaints')">
+      <button id="complaints-filter-btn" data-layer-group="Odor Complaints" class="active" onclick="toggleLayer(this, 'Odor Complaints')">
         <i class="bi bi-check-circle-fill"></i>
         <img src="img/marker-complaint.svg">
         <div>
@@ -248,7 +258,15 @@
           <span class="trend-flat sublabel" data-i18n="topbar.prevComplaintdays"></span>
         </div>
       </button>
-      <button id="spills-filter-btn" class="active" onclick="toggleLayer(this, 'Wastewater Spills')">
+      <button id="water-advisory-filter-btn" data-layer-group="Drinking Water Advisories" class="active" onclick="toggleLayer(this, 'Drinking Water Advisories')">
+        <i class="bi bi-check-circle-fill"></i>
+        <div>
+          <span data-i18n="topbar.waterAdvisories">Drinking Water</span>
+          <br>
+          <span class="trend-flat sublabel" data-i18n="topbar.currentData">current data</span>
+        </div>
+      </button>
+      <button id="spills-filter-btn" data-layer-group="Wastewater Spills" class="active" onclick="toggleLayer(this, 'Wastewater Spills')">
         <i class="bi bi-check-circle-fill"></i>
         <img src="img/marker-spill.svg">
         <div>
@@ -257,7 +275,7 @@
           <span class="trend-flat sublabel" data-i18n="topbar.prevSpilldays"></span>
         </div>
       </button>
-<!--      <button id="river-filter-btn" class="" onclick="toggleLayer(this, 'River Basin')">-->
+<!--      <button id="river-filter-btn" data-layer-group="River Basin" class="" onclick="toggleLayer(this, 'River Basin')">-->
 <!--        <i class="bi bi-x-circle"></i>-->
 <!--        <span data-i18n="topbar.riverBasin">River Basin</span>-->
 <!--      </button>-->
@@ -521,7 +539,7 @@
         </div>
 
         <!-- Card: Beach Closures (with time widget inside expandable section) -->
-        <div id="beach-closures-card" class="card shadow expandable" onclick="selectCard('Beach Closures')">
+        <div id="beach-closures-card" class="card shadow expandable" onclick="selectCard('Beach Status')">
           <div class="card-header always-expand">
             <i class="bi bi-water"></i>
             <h3 class="card-title" data-i18n="sidebar.cards.beachClosures.title">Beach Closures</h3>
@@ -625,8 +643,72 @@
           </div>
         </div>
 
+        <!-- Card: Drinking Water Advisories (tap water) -->
+        <div id="water-advisory-card" class="card shadow expandable" onclick="selectCard('Drinking Water Advisories')">
+          <div class="card-header always-expand">
+            <i class="bi bi-droplet-half"></i>
+            <h3 class="card-title" data-i18n="sidebar.cards.waterAdvisory.title">Drinking Water (Tap Water)</h3>
+            <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
+          </div>
+
+          <div id="water-advisory-data-overview" class="card-data always-expand">
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <span class="indicator low"></span>
+                    <span id="water-advisory-count" data-i18n="sidebar.cards.waterAdvisory.overview.none">No active advisories</span>
+                    <br><span class="sublabel trend-flat" data-i18n="sidebar.cards.waterAdvisory.overview.scope">California American Water service area</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Shown only when a ?wateradvisory= demonstration advisory is on screen -->
+          <div id="water-advisory-demo" class="water-advisory-demo always-expand" hidden>
+            <i class="bi bi-cone-striped"></i>
+            <span data-i18n="sidebar.cards.waterAdvisory.demo.banner">Demonstration only — the advisory below is a made-up example, not a real notice.</span>
+          </div>
+
+          <!-- Shown only when an advisory is active in the region -->
+          <div id="water-advisory-alert" class="water-advisory-alert always-expand" hidden>
+            <div class="water-advisory-alert-header">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+              <span class="water-advisory-alert-title"></span>
+            </div>
+            <p class="water-advisory-alert-body"></p>
+          </div>
+
+          <p data-i18n="sidebar.cards.waterAdvisory.p1">
+            Tap water delivered to homes in the region is treated and tested to meet state and federal drinking water standards. Sewage flows in the Tijuana River Valley affect beach and river water, not the treated water supplied to your tap.
+          </p>
+
+          <p>
+            <span data-i18n="sidebar.cards.waterAdvisory.p2.body">Your water utility issues an advisory when a main break, emergency repair, or planned work may affect your service or water quality. Check who supplies your water and look up current notices here:</span>
+            <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.waterAdvisory.p2.link.text" data-i18n-href="sidebar.cards.waterAdvisory.p2.link.url">California American Water Customer Advisories</a>
+          </p>
+
+          <p class="water-advisory-coverage" data-i18n="sidebar.cards.waterAdvisory.coverage">
+            Advisories shown here come from California American Water only. Other utilities serve parts of this region, so check with your own provider if you are unsure.
+          </p>
+
+          <div id="water-advisory-data" class="card-data" hidden>
+            <span data-i18n="sidebar.cards.waterAdvisory.tableLabel">Current advisories in the region</span>
+            <table>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card-footer">
+            <span data-i18n="sidebar.cards.waterAdvisory.footer.text"></span>
+            <a target="_blank" href="https://example.com" data-i18n="sidebar.cards.waterAdvisory.footer.link.text" data-i18n-href="sidebar.cards.waterAdvisory.footer.link.url">More Info</a>
+          </div>
+        </div>
+
         <!-- Card: Wastewater -->
-        <div id="wastewater-card" class="card shadow expandable" onclick="selectCard('Wastewater')">
+        <div id="wastewater-card" class="card shadow expandable" onclick="selectCard('Wastewater Spills')">
           <div class="card-header always-expand">
             <img src="img/marker-spill-outline.svg">
             <h3 class="card-title" data-i18n="sidebar.cards.wastewater.title">Public Wastewater Complaints</h3>
@@ -796,6 +878,14 @@
       <div class="legend-item">
         <img src="img/marker-beach.svg" alt="Beach Marker" />
         <span data-i18n="mapFooter.legend.beach">Beach</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch water-advisory-emergency"></span>
+        <span data-i18n="mapFooter.legend.waterAdvisoryEmergency">Drinking water emergency advisory</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch water-advisory-general"></span>
+        <span data-i18n="mapFooter.legend.waterAdvisoryGeneral">Drinking water notice</span>
       </div>
     </div>
 

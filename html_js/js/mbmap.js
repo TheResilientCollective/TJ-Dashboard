@@ -786,6 +786,156 @@ function h2s_layer() {
   }
 }
 
+// app.js fetches the advisories and the map loads its style independently, so
+// whichever finishes last pushes the data into the source.
+function syncWaterAdvisoryLayer() {
+  if (!map.getSource("water-advisories") || !window.latestWaterAdvisoryRegional)
+    return;
+  map.getSource("water-advisories").setData(window.latestWaterAdvisoryRegional);
+}
+
+function zoomToWaterAdvisory(bbox) {
+  const [west, south, east, north] = bbox;
+  if (west > east) return; // no geometry for this advisory
+  map.fitBounds(
+    [
+      [west, south],
+      [east, north],
+    ],
+    { padding: 60, maxZoom: 14, duration: 800 }
+  );
+}
+
+function water_advisory_layer() {
+  try {
+    const advisoryVisible = document
+      .querySelector("#water-advisory-filter-btn")
+      .classList.contains("active");
+
+    // Starts empty; syncWaterAdvisoryLayer fills it once app.js has the data.
+    map.addSource("water-advisories", {
+      type: "geojson",
+      data: { type: "FeatureCollection", features: [] },
+    });
+
+    const advisoryColor = [
+      "match",
+      ["get", "advisoryLevel"],
+      "emergency",
+      "#ed1c25",
+      "general",
+      "#f9a028",
+      /* default */ "#f9a028",
+    ];
+
+    map.addLayer({
+      id: "water-advisory-fill",
+      type: "fill",
+      source: "water-advisories",
+      layout: { visibility: advisoryVisible ? "visible" : "none" },
+      paint: {
+        "fill-color": advisoryColor,
+        "fill-opacity": 0.25,
+      },
+    });
+
+    map.addLayer({
+      id: "water-advisory-outline",
+      type: "line",
+      source: "water-advisories",
+      layout: { visibility: advisoryVisible ? "visible" : "none" },
+      paint: {
+        "line-color": advisoryColor,
+        "line-width": 1.5,
+      },
+    });
+
+    map.on("click", "water-advisory-fill", function (e) {
+      var feature = e.features[0];
+      var props = feature.properties;
+      const isBoilWater = isBoilWaterAdvisory({ type: props.EventType || "" });
+      const isEmergency = props.advisoryLevel === "emergency";
+      const indicatorClass = isEmergency || isBoilWater ? "high" : "moderate";
+      const place = parseAdvisoryPlace(props);
+      const start = dayjs(props.EventStartDate);
+      const expires = dayjs(props.EventExpirationDate);
+      const message = props.EventMessage || props.EventHeader || "";
+
+      var popupContent = `
+      <div class="tooltip">
+        <div class="tooltip-header">
+          <i class="bi bi-droplet-half"></i>
+          <span data-i18n="tooltips.waterAdvisory.title">${window.i18next.t(
+            "tooltips.waterAdvisory.title"
+          )}</span>
+        </div>
+        ${
+          props.isDemo
+            ? `<div class="tooltip-line water-advisory-demo-line">${window.i18next.t(
+                "tooltips.waterAdvisory.demo"
+              )}</div>`
+            : ""
+        }
+        <div class="tooltip-line tooltip-table">
+          <span data-i18n="tooltips.waterAdvisory.location">${window.i18next.t(
+            "tooltips.waterAdvisory.location"
+          )}</span>
+          <span>${place}</span>
+        </div>
+        <div class="tooltip-line tooltip-table">
+          <span data-i18n="tooltips.waterAdvisory.type">${window.i18next.t(
+            "tooltips.waterAdvisory.type"
+          )}</span>
+          <span class="labelled-indicator"><span class="indicator ${indicatorClass}"></span><span>${translateAdvisoryType(
+        props.EventType
+      )}</span></span>
+        </div>
+        <div class="tooltip-line tooltip-table">
+          <span data-i18n="tooltips.waterAdvisory.date">${window.i18next.t(
+            "tooltips.waterAdvisory.date"
+          )}</span>
+          <span>${window.i18next.t("tooltips.waterAdvisory.duration", {
+            start: start.locale(window.i18next.language).format("MMM D"),
+            end: expires.locale(window.i18next.language).format("MMM D"),
+          })}</span>
+        </div>
+        <div class="tooltip-line water-advisory-note">
+          <span>${message}</span>
+        </div>
+        <div class="tooltip-footer">
+          ${
+            props.EventHyperlink
+              ? `<a target="_blank" rel="noopener" href="${props.EventHyperlink}">${window.i18next.t(
+                  "tooltips.waterAdvisory.footer.link.text"
+                )}</a>`
+              : `<span data-i18n="tooltips.waterAdvisory.footer.text">${window.i18next.t(
+                  "tooltips.waterAdvisory.footer.text"
+                )}</span>`
+          }
+        </div>
+      </div>`;
+
+      new mapboxgl.Popup({
+        className: "mapbox-tooltip water-advisory-tooltip",
+      })
+        .setLngLat(e.lngLat)
+        .setHTML(popupContent)
+        .addTo(map);
+    });
+
+    map.on("mouseenter", "water-advisory-fill", function () {
+      map.getCanvas().style.cursor = "pointer";
+    });
+    map.on("mouseleave", "water-advisory-fill", function () {
+      map.getCanvas().style.cursor = "";
+    });
+
+    syncWaterAdvisoryLayer();
+  } catch (e) {
+    console.log("error creating drinking water advisory map layers", e);
+  }
+}
+
 function watershed_layer() {
 
   try {
@@ -1054,6 +1204,8 @@ map.on("load", function () {
     .then(() => {
       // All icons have loaded, you can proceed to add your layers.
    //   watershed_layer();
+      // Added first so the advisory polygons sit beneath the point markers.
+      water_advisory_layer();
       spills_layer(window.spill_days);
       beach_layer();
       complaints_layer(window.complaint_days);
