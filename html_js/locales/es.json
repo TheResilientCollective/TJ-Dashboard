@@ -133,6 +133,58 @@
                     }
                 }
             },
+            "waterAdvisory": {
+                "title": "Agua Potable (Agua de la Llave)",
+                "overview": {
+                    "none": "No hay avisos activos",
+                    "count_one": "{{count}} Aviso Activo",
+                    "count_other": "{{count}} Avisos Activos",
+                    "scope": "Área de servicio de California American Water"
+                },
+                "eventTypes": {
+                    "MainBreak": "Ruptura de tubería principal",
+                    "MainBreakBoilOrder": "Ruptura de tubería principal / orden de hervir el agua",
+                    "MainBreakBoilWaterAdvisory": "Ruptura de tubería principal / aviso de hervir el agua",
+                    "EmergencyRepairs": "Reparaciones de emergencia",
+                    "PlannedWork": "Trabajo programado",
+                    "PlannedWorkBoilAdvisory": "Trabajo programado / aviso de hervir el agua",
+                    "PlannedWorkBoilOrder": "Trabajo programado / orden de hervir el agua",
+                    "PlannedWorkComplete": "Trabajo programado completado",
+                    "BoilOrderAdvisoryExtended": "Orden de hervir el agua extendida",
+                    "LiftedBoilOrder": "Orden de hervir el agua levantada",
+                    "LiftedBoilAdvisory": "Aviso de hervir el agua levantado",
+                    "HydrantFlushing": "Purga de hidrantes",
+                    "ImportantNotice": "Aviso importante",
+                    "Investigation": "Investigación",
+                    "Conservation": "Conservación"
+                },
+                "alert": {
+                    "boilWaterTitle": "Aviso de hervir el agua en su área",
+                    "boilWaterBody": "California American Water ha emitido un aviso de hervir el agua que afecta parte de esta región. No beba agua de la llave sin hervirla primero, y siga las instrucciones del aviso a continuación hasta que la compañía levante el aviso.",
+                    "emergencyTitle": "Aviso de agua en su área",
+                    "emergencyBody": "California American Water ha emitido un aviso de emergencia que afecta parte de esta región. Siga las instrucciones del aviso a continuación, incluida cualquier indicación de hervir el agua o de dejar de usar la llave.",
+                    "generalTitle": "Notificación de agua en su área",
+                    "generalBody": "California American Water ha publicado una notificación que afecta parte de esta región. Su servicio de agua o la presión pueden interrumpirse, y es posible que note el agua descolorida. Los detalles están en el aviso a continuación."
+                },
+                "p1": "El agua de la llave que llega a los hogares de la región es tratada y analizada para cumplir con las normas estatales y federales de agua potable. Los flujos de aguas negras en el Valle del Río Tijuana afectan el agua de las playas y del río, no el agua tratada que llega a su llave.",
+                "p2": {
+                    "body": "Su compañía de agua emite un aviso cuando la ruptura de una tubería principal, una reparación de emergencia o un trabajo programado puede afectar su servicio o la calidad del agua. Verifique quién le suministra el agua y consulte los avisos vigentes aquí:",
+                    "link": {
+                        "text": "Avisos al Cliente de California American Water",
+                        "url": "https://awgis.amwater.com/CustomerAdvisoryMap/"
+                    }
+                },
+                "coverage": "Los avisos que se muestran aquí provienen únicamente de California American Water. Otras compañías dan servicio a partes de esta región, así que consulte con su propio proveedor si no está seguro de quién le suministra el agua.",
+                "tableLabel": "Avisos vigentes en la región:",
+                "noticeLink": "Leer el aviso completo",
+                "footer": {
+                    "text": "Última consulta el {{date}}",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            },
             "odorComplaints": {
                 "title": "Quejas del aire",
                 "overview": {
@@ -162,7 +214,6 @@
                     }
                 }
             },
-
             "wastewater": {
                 "title": "Flujos de Aguas Residuales",
                 "overview": {
@@ -224,6 +275,7 @@
         "beaches": "Calidad del Agua de Playas",
         "h2sLevels": "Niveles de H₂S",
         "odorComplaints": "Quejas del aire",
+        "waterAdvisories": "Agua Potable",
         "wastewaterSpills": "Flujos de Aguas Negras",
         "riverBasin": "Cuenca del Río",
         "currentData": "datos actuales",
@@ -241,7 +293,9 @@
             "complaint": "Queja por olor",
             "h2s": "Lectura de H₂S",
             "outlet": "Punto de descarga",
-            "beach": "Playa"
+            "beach": "Playa",
+            "waterAdvisoryEmergency": "Aviso de emergencia de agua potable",
+            "waterAdvisoryGeneral": "Notificación de agua potable"
         }
     },
     "dateTimeFormats": {
@@ -287,6 +341,19 @@
                 "link": {
                     "text": "Datos de Flujo de Aguas Residuales",
                     "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
+                }
+            }
+        },
+        "waterAdvisory": {
+            "title": "Aviso de Agua Potable",
+            "location": "ubicación:",
+            "type": "tipo:",
+            "date": "fecha:",
+            "duration": "{{start}} - {{end}}",
+            "footer": {
+                "text": "Emitido por California American Water.",
+                "link": {
+                    "text": "Leer el aviso completo"
                 }
             }
         },

@@ -133,6 +133,58 @@
                     }
                 }
             },
+            "waterAdvisory": {
+                "title": "Drinking Water (Tap Water)",
+                "overview": {
+                    "none": "No active advisories",
+                    "count_one": "{{count}} Active Advisory",
+                    "count_other": "{{count}} Active Advisories",
+                    "scope": "California American Water service area"
+                },
+                "eventTypes": {
+                    "MainBreak": "Main break",
+                    "MainBreakBoilOrder": "Main break / boil order",
+                    "MainBreakBoilWaterAdvisory": "Main break / boil water advisory",
+                    "EmergencyRepairs": "Emergency repairs",
+                    "PlannedWork": "Planned work",
+                    "PlannedWorkBoilAdvisory": "Planned work / boil advisory",
+                    "PlannedWorkBoilOrder": "Planned work / boil order",
+                    "PlannedWorkComplete": "Planned work complete",
+                    "BoilOrderAdvisoryExtended": "Boil order extended",
+                    "LiftedBoilOrder": "Boil order lifted",
+                    "LiftedBoilAdvisory": "Boil advisory lifted",
+                    "HydrantFlushing": "Hydrant flushing",
+                    "ImportantNotice": "Important notice",
+                    "Investigation": "Investigation",
+                    "Conservation": "Conservation"
+                },
+                "alert": {
+                    "boilWaterTitle": "Boil water advisory in your area",
+                    "boilWaterBody": "California American Water has issued a boil water advisory affecting part of this region. Do not drink water from the tap without boiling it first, and follow the instructions in the notice below until the utility lifts the advisory.",
+                    "emergencyTitle": "Water advisory in your area",
+                    "emergencyBody": "California American Water has issued an emergency advisory affecting part of this region. Follow the instructions in the notice below, including any guidance to boil water or to stop using the tap.",
+                    "generalTitle": "Water notice in your area",
+                    "generalBody": "California American Water has posted a notice affecting part of this region. Your water service or pressure may be interrupted, and you may notice discolored water. Details are in the notice below."
+                },
+                "p1": "Tap water delivered to homes in the region is treated and tested to meet state and federal drinking water standards. Sewage flows in the Tijuana River Valley affect beach and river water, not the treated water supplied to your tap.",
+                "p2": {
+                    "body": "Your water utility issues an advisory when a main break, emergency repair, or planned work may affect your service or water quality. Check who supplies your water and look up current notices here:",
+                    "link": {
+                        "text": "California American Water Customer Advisories",
+                        "url": "https://awgis.amwater.com/CustomerAdvisoryMap/"
+                    }
+                },
+                "coverage": "Advisories shown here come from California American Water only. Other utilities serve parts of this region, so check with your own provider if you are unsure who supplies your water.",
+                "tableLabel": "Current advisories in the region:",
+                "noticeLink": "Read the full notice",
+                "footer": {
+                    "text": "Last checked on {{date}}",
+                    "link": {
+                        "text": "",
+                        "url": ""
+                    }
+                }
+            },
             "odorComplaints": {
                 "title": "Air Quality Complaints",
                 "overview": {
@@ -223,6 +275,7 @@
         "beaches": "Beach Water Quality",
         "h2sLevels": "H₂S Levels",
         "odorComplaints": "Air Quality Complaints",
+        "waterAdvisories": "Drinking Water",
         "wastewaterSpills": "Wastewater Flows",
         "riverBasin": "River Basin",
         "currentData": "current data",
@@ -240,7 +293,9 @@
             "complaint": "Air Quality Complaint",
             "h2s": "H2S reading",
             "outlet": "Outfall",
-            "beach": "Beach"
+            "beach": "Beach",
+            "waterAdvisoryEmergency": "Drinking water emergency advisory",
+            "waterAdvisoryGeneral": "Drinking water notice"
         }
     },
     "dateTimeFormats": {
@@ -286,6 +341,19 @@
                 "link": {
                     "text": "Wastewater Flow Data",
                     "url": "https://www.waterboards.ca.gov/sandiego/water_issues/programs/tijuana_river_valley_strategy/sewage_issue.html"
+                }
+            }
+        },
+        "waterAdvisory": {
+            "title": "Drinking Water Advisory",
+            "location": "location:",
+            "type": "type:",
+            "date": "date:",
+            "duration": "{{start}} - {{end}}",
+            "footer": {
+                "text": "Issued by California American Water.",
+                "link": {
+                    "text": "Read the full notice"
                 }
             }
         },

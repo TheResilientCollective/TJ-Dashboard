@@ -8,6 +8,25 @@ let latestH2SData = null;
 let latestOdorData = null;
 let latestBeachData = null;
 
+// --- Drinking Water Advisories (American Water) ---
+// Source of truth: the ArcGIS MapServer behind awgis.amwater.com/CustomerAdvisoryMap
+const amWaterAdvisoryBase =
+  "https://utility.arcgis.com/usrsvcs/servers/482bbe2135c54d178ec406189303faf4" +
+  "/rest/services/CustomerAdvisoryMap/DisplayData_SDE/MapServer";
+
+// Layer 17 is emergency advisories (main breaks, boil water notices, emergency
+// repairs), 16 is general notices (planned work). Layer 15 holds advisories that
+// have already been lifted, so it is not shown.
+const amWaterAdvisoryLayers = {
+  17: { level: "emergency", indicator: "high" },
+  16: { level: "general", indicator: "moderate" },
+};
+
+// South Bay / Tijuana River Valley area of interest [west, south, east, north].
+// Covers Imperial Beach, Coronado, San Ysidro, Nestor, Otay Mesa and south Chula
+// Vista. An advisory counts as "in the region" when its footprint overlaps this.
+const waterAdvisoryAoi = [-117.25, 32.5, -116.9, 32.68];
+
 // --- Date/Time Formatting Helpers ---
 function formatDateTime(date, options) {
   // Use i18next's detected language for formatting
@@ -441,6 +460,258 @@ function renderWastewaterFlows(data) {
 
 }
 
+// --- Drinking Water Advisory Rendering ---
+
+// Advisories arrive as one feature per polygon, so several features can share an
+// EventID. Merge them into one entry per event, keeping the combined footprint.
+function groupWaterAdvisories(geoData) {
+  const byEvent = new Map();
+
+  for (const feature of geoData.features) {
+    const props = feature.properties;
+    const key = `${props.advisoryLevel}|${props.EventID}`;
+    let advisory = byEvent.get(key);
+    if (!advisory) {
+      advisory = {
+        id: props.EventID,
+        level: props.advisoryLevel,
+        indicator: props.advisoryLevel === "emergency" ? "high" : "moderate",
+        type: props.EventType || "Advisory",
+        place: parseAdvisoryPlace(props),
+        start: props.EventStartDate || 0,
+        expires: props.EventExpirationDate || 0,
+        message: props.EventMessage || props.EventHeader || "",
+        link: props.EventHyperlink || "",
+        bbox: [180, 90, -180, -90],
+      };
+      byEvent.set(key, advisory);
+    }
+    growAdvisoryBbox(advisory.bbox, feature.geometry);
+  }
+
+  return [...byEvent.values()];
+}
+
+function growAdvisoryBbox(bbox, geometry) {
+  const walk = (coords) => {
+    if (Array.isArray(coords[0])) {
+      coords.forEach(walk);
+      return;
+    }
+    bbox[0] = Math.min(bbox[0], coords[0]);
+    bbox[1] = Math.min(bbox[1], coords[1]);
+    bbox[2] = Math.max(bbox[2], coords[0]);
+    bbox[3] = Math.max(bbox[3], coords[1]);
+  };
+  if (geometry) walk(geometry.coordinates);
+  return bbox;
+}
+
+// Bounding-box overlap against the area of interest. Coarser than a true polygon
+// intersection, but it errs toward showing an advisory rather than hiding one.
+function bboxOverlapsAoi(bbox) {
+  const [west, south, east, north] = bbox;
+  if (west > east) return false; // no geometry came back for this event
+  const [aoiWest, aoiSouth, aoiEast, aoiNorth] = waterAdvisoryAoi;
+  return (
+    west <= aoiEast &&
+    east >= aoiWest &&
+    south <= aoiNorth &&
+    north >= aoiSouth
+  );
+}
+
+// A boil order changes what residents should do with their tap, so it is called
+// out separately from other emergencies. "Lifted" types are the all-clear.
+function isBoilWaterAdvisory(advisory) {
+  return /boil/i.test(advisory.type) && !/lifted/i.test(advisory.type);
+}
+
+// The utility publishes event types in English only. Translate the ones the
+// service actually uses and fall back to the raw value for anything new.
+function translateAdvisoryType(type) {
+  if (!type) return "";
+  const key = `sidebar.cards.waterAdvisory.eventTypes.${type.replace(
+    /[^a-zA-Z0-9]/g,
+    ""
+  )}`;
+  return window.i18next.t(key, { defaultValue: type });
+}
+
+// "Imperial Beach: Main Break : This is an urgent..." -> "Imperial Beach"
+function parseAdvisoryPlace(props) {
+  const header = (props.EventHeader || "").trim();
+  const head = header.split(/\s*:\s*/)[0] || "";
+  return (head.split(",")[0] || "").trim() || `Event ${props.EventID}`;
+}
+
+// The service is queried statewide, so trim the map layer down to the footprints
+// that actually reach the region before handing them to Mapbox.
+function regionalAdvisoryFeatures(geoData) {
+  return {
+    type: "FeatureCollection",
+    features: geoData.features.filter((feature) =>
+      bboxOverlapsAoi(growAdvisoryBbox([180, 90, -180, -90], feature.geometry))
+    ),
+  };
+}
+
+function renderWaterAdvisory(geoData) {
+  window.latestWaterAdvisoryData = geoData;
+
+  const card = document.querySelector("#water-advisory-card");
+  if (!card) return;
+
+  const advisories = groupWaterAdvisories(geoData)
+    .filter((advisory) => bboxOverlapsAoi(advisory.bbox))
+    .sort((a, b) => {
+      // Boil orders first, then other emergencies, then most recently started.
+      const boilA = isBoilWaterAdvisory(a);
+      const boilB = isBoilWaterAdvisory(b);
+      if (boilA !== boilB) return boilA ? -1 : 1;
+      if (a.level !== b.level) return a.level === "emergency" ? -1 : 1;
+      return b.start - a.start;
+    });
+  console.log("[app.js] (Water) Advisories in the region:", advisories);
+
+  const hasBoilWater = advisories.some(isBoilWaterAdvisory);
+  const hasEmergency = advisories.some((a) => a.level === "emergency");
+
+  // Boil orders outrank everything else, since they tell residents to stop
+  // drinking the tap water.
+  const alertKind = hasBoilWater
+    ? "boilWater"
+    : hasEmergency
+    ? "emergency"
+    : "general";
+
+  // Push the matching footprints to the map, whether or not the map is ready yet.
+  window.latestWaterAdvisoryRegional = regionalAdvisoryFeatures(geoData);
+  if (typeof syncWaterAdvisoryLayer === "function") syncWaterAdvisoryLayer();
+
+  // Overview line
+  const countSpan = document.getElementById("water-advisory-count");
+  const countIndicator = countSpan?.parentElement.querySelector(".indicator");
+  if (countSpan && countIndicator) {
+    countSpan.innerText = advisories.length
+      ? i18next.t("sidebar.cards.waterAdvisory.overview.count", {
+          count: advisories.length,
+        })
+      : i18next.t("sidebar.cards.waterAdvisory.overview.none");
+    countIndicator.className =
+      "indicator " +
+      (advisories.length
+        ? alertKind === "general"
+          ? "moderate"
+          : "high"
+        : "low");
+  }
+
+  // Alert banner. Only shown when something is actually active in the region, and
+  // it opens the card so residents do not have to expand it to find the notice.
+  const alertElm = document.getElementById("water-advisory-alert");
+  if (alertElm) {
+    alertElm.hidden = advisories.length === 0;
+    if (advisories.length) {
+      // Keep always-expand so the alert stays visible even when the card is collapsed.
+      // Boil orders reuse the emergency styling.
+      alertElm.className = `water-advisory-alert always-expand ${
+        alertKind === "general" ? "general" : "emergency"
+      }`;
+      alertElm.querySelector(".water-advisory-alert-title").innerText =
+        i18next.t(`sidebar.cards.waterAdvisory.alert.${alertKind}Title`, {
+          count: advisories.length,
+        });
+      alertElm.querySelector(".water-advisory-alert-body").innerText = i18next.t(
+        `sidebar.cards.waterAdvisory.alert.${alertKind}Body`
+      );
+      card.classList.add("expanded");
+    }
+  }
+
+  // Detail table, one row per advisory in the region
+  const tableWrapper = document.getElementById("water-advisory-data");
+  const tbody = tableWrapper?.querySelector("tbody");
+  if (!tbody) return;
+  tbody.innerHTML = "";
+  tableWrapper.hidden = advisories.length === 0;
+
+  for (const advisory of advisories) {
+    const rowElm = document.createElement("tr");
+    rowElm.classList.add("card-data");
+    const placeCell = document.createElement("td");
+    const whenCell = document.createElement("td");
+    rowElm.appendChild(placeCell);
+    rowElm.appendChild(whenCell);
+    tbody.appendChild(rowElm);
+
+    const statusIndicator = document.createElement("span");
+    statusIndicator.className = `indicator ${advisory.indicator}`;
+    const placeElm = document.createElement("span");
+    placeElm.innerText = ` ${advisory.place}`;
+    placeCell.appendChild(statusIndicator);
+    placeCell.appendChild(placeElm);
+
+    const clockIcon = document.createElement("i");
+    clockIcon.className = "bi bi-clock";
+    const whenElm = document.createElement("span");
+    whenElm.innerText = ` ${translateAdvisoryType(
+      advisory.type
+    )} · ${formatDateTime(new Date(advisory.start), {
+      month: "short",
+      day: "numeric",
+    })}`;
+    whenCell.appendChild(clockIcon);
+    whenCell.appendChild(whenElm);
+
+    // Clicking a row frames the advisory footprint on the map.
+    rowElm.addEventListener("click", (event) => {
+      event.stopPropagation();
+      if (typeof zoomToWaterAdvisory === "function")
+        zoomToWaterAdvisory(advisory.bbox);
+    });
+
+    // The full utility message, so residents can read what the advisory says
+    // without leaving the dashboard.
+    if (advisory.message) {
+      const messageRow = document.createElement("tr");
+      const messageCell = document.createElement("td");
+      messageCell.colSpan = 2;
+      messageCell.className = "water-advisory-message";
+      const messageElm = document.createElement("span");
+      messageElm.innerText = advisory.message;
+      messageCell.appendChild(messageElm);
+      if (advisory.link) {
+        const linkElm = document.createElement("a");
+        linkElm.href = advisory.link;
+        linkElm.target = "_blank";
+        linkElm.rel = "noopener";
+        linkElm.innerText = i18next.t("sidebar.cards.waterAdvisory.noticeLink");
+        messageCell.appendChild(linkElm);
+      }
+      messageRow.appendChild(messageCell);
+      tbody.appendChild(messageRow);
+    }
+  }
+
+  // update card footer (using Intl)
+  const cardFooter = document.querySelector("#water-advisory-card .card-footer");
+  if (cardFooter) {
+    const span = cardFooter.querySelector("span");
+    const checkedDate = dayjs(geoData.lastUpdated).toDate();
+    const formattedDate = formatDateTime(checkedDate, {
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+    span.innerText = i18next.t("sidebar.cards.waterAdvisory.footer.text", {
+      date: formattedDate,
+    });
+  }
+}
+
 // --- Beach Closures Rendering ---
 function renderBeachClosures(jsonData) {
   latestBeachData = jsonData; // Store data
@@ -661,6 +932,52 @@ function fetchWastewaterData() {
     .catch((error) => {
       console.error("Error fetching Wastewater Flows JSON:", error);
       document.querySelector("#wastewater-flows-card").remove();
+    });
+}
+
+function fetchWaterAdvisoryLayer(id) {
+  const params = new URLSearchParams({
+    where: "EventState='CA'",
+    outFields:
+      "EventID,EventType,EventStatus,EventState,EventHeader,EventMessage," +
+      "EventStartDate,EventExpirationDate,EventLastUpdatedDate,EventHyperlink",
+    returnGeometry: "true",
+    outSR: "4326",
+    maxAllowableOffset: "0.0002", // degrees, because outSR is 4326
+    f: "geojson",
+  });
+
+  return fetch(`${amWaterAdvisoryBase}/${id}/query?${params}`)
+    .then((response) =>
+      response.ok ? response.json() : Promise.reject(response.statusText)
+    )
+    .then((geoData) => {
+      if (geoData.error) return Promise.reject(geoData.error.message);
+      // Tag each feature with its severity so the card and the map layer can both
+      // work from a single merged collection.
+      return (geoData.features || []).map((feature) => {
+        feature.properties.advisoryLevel = amWaterAdvisoryLayers[id].level;
+        return feature;
+      });
+    });
+}
+
+function fetchWaterAdvisoryData() {
+  Promise.all(
+    Object.keys(amWaterAdvisoryLayers).map((id) => fetchWaterAdvisoryLayer(id))
+  )
+    .then((collections) => {
+      // The service reports no feed-level timestamp, so record when we checked.
+      const geoData = {
+        type: "FeatureCollection",
+        lastUpdated: new Date().toISOString(),
+        features: collections.flat(),
+      };
+      renderWaterAdvisory(geoData);
+    })
+    .catch((error) => {
+      console.error("Error fetching Drinking Water Advisories:", error);
+      document.querySelector("#water-advisory-card")?.remove();
     });
 }
 
