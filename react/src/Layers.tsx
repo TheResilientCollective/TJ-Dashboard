@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaWind, FaDroplet, FaCircleExclamation } from 'react-icons/fa6';
+import { FaWind, FaDroplet, FaCircleExclamation, FaFaucet } from 'react-icons/fa6';
 import { useGlobalState } from './GlobalState';
 import "./Layers.css"
 
@@ -42,6 +42,14 @@ export const MapLayers = () => {
         });
     }
 
+    const getIconForLayer = (label: string) => {
+        const lower = label.toLowerCase();
+        if (lower.includes('drinking water') || lower.includes('potable water')) return FaFaucet;
+        if (lower.includes('water')) return FaDroplet;
+        if (lower.includes('air') || lower.includes('wind')) return FaWind;
+        return FaCircleExclamation;
+    };
+
     // Keep the toggles in sync with the fsmap layers
     useEffect(() => {
         if (!state || !state.map || state.map.config.visState.layers.length === 0) return;
@@ -49,7 +57,7 @@ export const MapLayers = () => {
         const newLayers: LayerToggleProps[] = [];
         for (const layer of state.map.config.visState.layers) {
             console.log("Layer", layer);
-            newLayers.push({id: layer.id, text: layer.config.label, icon: FaCircleExclamation, isEnabled: layer.config.isVisible, onToggle: () => {}});
+            newLayers.push({id: layer.id, text: layer.config.label, icon: getIconForLayer(layer.config.label), isEnabled: layer.config.isVisible, onToggle: () => {}});
         }
         setLayers(newLayers);
     }, [state]);
