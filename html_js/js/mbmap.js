@@ -685,7 +685,7 @@ function h2s_layer() {
       } else {
         var name = feature.properties["SiteName"].replace(/\([A-Z]+\)/g, "");
       }
-      let date = dayjs(feature.properties["Date with time"]);
+      let date = adjustPSTTimestamp(dayjs(feature.properties["Date with time"]));
       var airnow_link = `https://www.airnow.gov/?city=${feature.properties["Site Name"]}&state=CA&country=USA`;
 
       var result = feature.properties.Result;
