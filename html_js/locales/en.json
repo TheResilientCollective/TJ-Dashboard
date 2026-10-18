@@ -134,7 +134,7 @@
                 }
             },
             "waterAdvisory": {
-                "title": "Drinking Water (Tap Water)",
+                "title": "Drinking Water Advisory",
                 "overview": {
                     "none": "No active advisories",
                     "count_one": "{{count}} Active Advisory",
@@ -358,7 +358,8 @@
             "footer": {
                 "text": "Issued by California American Water.",
                 "link": {
-                    "text": "Read the full notice"
+                    "text": "Read the full notice",
+                  "url": "https://awgis.amwater.com/CustomerAdvisoryMap/"
                 }
             },
             "demo": "Example advisory — not a real notice"
