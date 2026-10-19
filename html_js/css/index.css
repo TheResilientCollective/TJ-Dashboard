@@ -618,18 +618,33 @@ button.button.map-control-button.button {
   vertical-align: top;
 }
 
+/* Type name with its status dot on the left, the start date on the right. */
 #water-advisory-data tr td:first-child {
-  width: 42%;
+  width: 65%;
 }
 
-#water-advisory-data tr td:last-child {
-  width: 58%;
+#water-advisory-data tr td:last-child:not([colspan]) {
+  width: 35%;
+  text-align: right;
 }
 
-/* Inline so wrapped text flows under the clock icon instead of starting a new
-   block below it. The first column keeps its inline-block status dot. */
-#water-advisory-data tr td:last-child span {
+/* Inline so wrapped text flows beside the status dot or clock icon instead of
+   starting a new block below it. The dot itself stays inline-block. */
+#water-advisory-data tr td span:not(.indicator) {
   display: inline;
+}
+
+/* Estimated end and last-updated lines, one per line under the type row. */
+#water-advisory-data tr td.water-advisory-details {
+  width: 100%;
+  font-weight: normal;
+  font-size: 0.8rem;
+  opacity: 0.8;
+  padding-top: 0;
+}
+
+#water-advisory-data tr td.water-advisory-details span {
+  display: block;
 }
 
 /* The advisory message needs to wrap, unlike the fixed single-line data rows. */
@@ -692,8 +707,12 @@ button.button.map-control-button.button {
   display: none;
 }
 
-/* Demonstration mode (?wateradvisory=). Deliberately loud and unlike the real
+/* Demonstration mode (?DemoDrinkingWater=). Deliberately loud and unlike the real
    alert styling, so an example advisory can never pass for a genuine one. */
+.water-advisory-demo[hidden] {
+  display: none;
+}
+
 .water-advisory-demo {
   display: flex;
   align-items: center;

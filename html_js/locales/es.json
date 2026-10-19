@@ -159,16 +159,16 @@
                     "Conservation": "Conservación"
                 },
                 "alert": {
-                    "boilWaterTitle": "Aviso de hervir el agua en su área",
+                    "boilWaterTitle": "Aviso de hervir el agua en la región",
                     "boilWaterBody": "California American Water ha emitido un aviso de hervir el agua que afecta parte de esta región. No beba agua de la llave sin hervirla primero, y siga las instrucciones del aviso a continuación hasta que la compañía levante el aviso.",
-                    "emergencyTitle": "Aviso de agua en su área",
+                    "emergencyTitle": "Aviso de agua en la región",
                     "emergencyBody": "California American Water ha emitido un aviso de emergencia que afecta parte de esta región. Siga las instrucciones del aviso a continuación, incluida cualquier indicación de hervir el agua o de dejar de usar la llave.",
-                    "generalTitle": "Notificación de agua en su área",
+                    "generalTitle": "Notificación de agua en la región",
                     "generalBody": "California American Water ha publicado una notificación que afecta parte de esta región. Su servicio de agua o la presión pueden interrumpirse, y es posible que note el agua descolorida. Los detalles están en el aviso a continuación."
                 },
                 "p1": "El agua de la llave que llega a los hogares de la región es tratada y analizada para cumplir con las normas estatales y federales de agua potable. Los flujos de aguas negras en el Valle del Río Tijuana afectan el agua de las playas y del río, no el agua tratada que llega a su llave.",
                 "p2": {
-                    "body": "Su compañía de agua emite un aviso cuando la ruptura de una tubería principal, una reparación de emergencia o un trabajo programado puede afectar su servicio o la calidad del agua. Verifique quién le suministra el agua y consulte los avisos vigentes aquí:",
+                    "body": "Su compañía de agua emite un aviso cuando la ruptura de una tubería principal, una reparación de emergencia o un trabajo programado puede afectar su servicio o la calidad del agua. Verifique quién le suministra el agua y encuentre más información aquí:",
                     "link": {
                         "text": "Avisos al Cliente de California American Water",
                         "url": "https://awgis.amwater.com/CustomerAdvisoryMap/"
@@ -176,7 +176,7 @@
                 },
                 "coverage": "Los avisos que se muestran aquí provienen únicamente de California American Water. Otras compañías dan servicio a partes de esta región, así que consulte con su propio proveedor si no está seguro de quién le suministra el agua.",
                 "tableLabel": "Avisos vigentes en la región:",
-                "noticeLink": "Leer el aviso completo",
+                "noticeLink": "Más información de California American Water",
                 "footer": {
                     "text": "Última consulta el {{date}}",
                     "link": {
@@ -188,7 +188,9 @@
                     "banner": "Solo demostración — el aviso siguiente es un ejemplo inventado, no un aviso real.",
                     "tag": "Ejemplo",
                     "message": "AVISO DE EJEMPLO — ESTE NO ES UN AVISO REAL. Este texto de muestra indica cómo aparecería aquí un aviso de California American Water. En un aviso real, aquí se mostrarían las instrucciones de la compañía para los residentes, incluida la duración prevista del aviso y a quién contactar."
-                }
+                },
+                "estimatedEnd": "Fin estimado:",
+                "lastUpdated": "Última actualización:"
             },
             "odorComplaints": {
                 "title": "Quejas del aire",
@@ -358,7 +360,8 @@
             "footer": {
                 "text": "Emitido por California American Water.",
                 "link": {
-                    "text": "Leer el aviso completo"
+                    "text": "Más información de California American Water",
+                    "url": "https://awgis.amwater.com/CustomerAdvisoryMap/"
                 }
             },
             "demo": "Aviso de ejemplo — no es un aviso real"

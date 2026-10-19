@@ -86,10 +86,11 @@
     // Get the value of the "name" parameter
     const spill_days = Number(params.get('spill')?? 30);
     window.spill_days = spill_days;
-    // Shows a clearly-labelled example drinking water advisory for demonstrations.
-    // ?wateradvisory=demo (boil water), =emergency, =general. Off unless set.
-    window.water_advisory_demo = params.get('wateradvisory') ?? '';
-    console.log('water advisory demo', window.water_advisory_demo)
+    // Shows a clearly-labelled mock drinking water advisory for demonstrations.
+    // Off by default. ?DemoDrinkingWater=boil (default), =emergency, =general.
+    // Ignored whenever a real advisory is active in the region.
+    window.water_advisory_demo = params.get('DemoDrinkingWater') ?? params.get('demodrinkingwater') ?? '';
+    console.log('drinking water demo', window.water_advisory_demo)
     window.spill_timeframe = {
       numDays: spill_days,
       latestDate: undefined,
@@ -260,6 +261,7 @@
       </button>
       <button id="water-advisory-filter-btn" data-layer-group="Drinking Water Advisories" class="active" onclick="toggleLayer(this, 'Drinking Water Advisories')">
         <i class="bi bi-check-circle-fill"></i>
+        <img src="img/marker-droplet.svg">
         <div>
           <span data-i18n="topbar.waterAdvisories">Drinking Water</span>
           <br>
@@ -665,7 +667,7 @@
             </table>
           </div>
 
-          <!-- Shown only when a ?wateradvisory= demonstration advisory is on screen -->
+          <!-- Shown only when a ?DemoDrinkingWater= mock advisory is on screen -->
           <div id="water-advisory-demo" class="water-advisory-demo always-expand" hidden>
             <i class="bi bi-cone-striped"></i>
             <span data-i18n="sidebar.cards.waterAdvisory.demo.banner">Demonstration only — the advisory below is a made-up example, not a real notice.</span>
@@ -685,7 +687,7 @@
           </p>
 
           <p>
-            <span data-i18n="sidebar.cards.waterAdvisory.p2.body">Your water utility issues an advisory when a main break, emergency repair, or planned work may affect your service or water quality. Check who supplies your water and look up current notices here:</span>
+            <span data-i18n="sidebar.cards.waterAdvisory.p2.body">Your water utility issues an advisory when a main break, emergency repair, or planned work may affect your service or water quality. Check who supplies your water and find more information here:</span>
             <a href="https://example.com" target="_blank" data-i18n="sidebar.cards.waterAdvisory.p2.link.text" data-i18n-href="sidebar.cards.waterAdvisory.p2.link.url">California American Water Customer Advisories</a>
           </p>
 

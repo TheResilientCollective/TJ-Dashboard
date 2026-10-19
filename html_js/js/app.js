@@ -27,11 +27,12 @@ const amWaterAdvisoryLayers = {
 // Vista. An advisory counts as "in the region" when its footprint overlaps this.
 const waterAdvisoryAoi = [-117.25, 32.5, -116.9, 32.68];
 
-// Demonstration advisories, shown only when the page is opened with a
-// ?wateradvisory= flag, so the card can be shown to the county while no real
-// advisory covers the region. Everything these produce is labelled as an example
-// in the card, the list and the map popup — a fabricated notice must never be
-// mistaken for a real one. Real advisories are still fetched and shown alongside.
+// Demonstration advisories, off by default and shown only when the page is
+// opened with ?DemoDrinkingWater=, so the card can be shown to the county while
+// no real advisory covers the region. Everything these produce is labelled as an
+// example in the card, the list and the map popup — a fabricated notice must
+// never be mistaken for a real one. The mock is dropped whenever a real advisory
+// is active in the region (see fetchWaterAdvisoryData).
 const waterAdvisoryDemoScenarios = {
   boil: { level: "emergency", type: "Main Break / Boil Water Advisory" },
   emergency: { level: "emergency", type: "Main Break" },
@@ -48,11 +49,12 @@ const waterAdvisoryDemoFootprint = [
 ];
 
 function waterAdvisoryDemoFeatures() {
-  const requested = (window.water_advisory_demo || "").toLowerCase();
-  if (!requested || requested === "off" || requested === "false") return [];
+  if (window.water_advisory_demo === undefined || window.water_advisory_demo === null) return [];
+  const requested = String(window.water_advisory_demo).toLowerCase();
+  if (requested === "off" || requested === "false" || requested === "0") return [];
 
-  // "?wateradvisory=demo" (or any unrecognised value) shows the boil water case,
-  // which is the one the county most needs to see.
+  // "?DemoDrinkingWater" with no value, "=demo", "=true" or any unrecognised
+  // value shows the boil water case, which is the one the county most needs to see.
   const name = waterAdvisoryDemoScenarios[requested] ? requested : "boil";
   const scenario = waterAdvisoryDemoScenarios[name];
   const now = Date.now();
@@ -73,6 +75,7 @@ function waterAdvisoryDemoFeatures() {
         EventMessage: i18next.t("sidebar.cards.waterAdvisory.demo.message"),
         EventStartDate: now - 3 * 60 * 60 * 1000,
         EventExpirationDate: now + 24 * 60 * 60 * 1000,
+        EventLastUpdatedDate: now - 60 * 60 * 1000,
         EventHyperlink: "",
       },
     },
@@ -532,7 +535,8 @@ function groupWaterAdvisories(geoData) {
         place: parseAdvisoryPlace(props),
         start: props.EventStartDate || 0,
         expires: props.EventExpirationDate || 0,
-        message: props.EventMessage || props.EventHeader || "",
+        updated: props.EventLastUpdatedDate || 0,
+        message: briefAdvisoryText(props),
         link: props.EventHyperlink || "",
         isDemo: !!props.isDemo,
         bbox: [180, 90, -180, -90],
@@ -589,6 +593,17 @@ function translateAdvisoryType(type) {
     ""
   )}`;
   return window.i18next.t(key, { defaultValue: type });
+}
+
+// The utility's EventHeader is a short cut of EventMessage, so it is what we show
+// on screen; the full text is one click away behind the notice link. An ellipsis
+// marks a header that stops mid-sentence.
+function briefAdvisoryText(props) {
+  const header = (props.EventHeader || "").trim();
+  const message = (props.EventMessage || "").trim();
+  if (!header) return message;
+  const truncated = message.length > header.length && !/[.!?]$/.test(header);
+  return truncated ? `${header}…` : header;
 }
 
 // "Imperial Beach: Main Break : This is an urgent..." -> "Imperial Beach"
@@ -705,10 +720,10 @@ function renderWaterAdvisory(geoData) {
 
     const statusIndicator = document.createElement("span");
     statusIndicator.className = `indicator ${advisory.indicator}`;
-    const placeElm = document.createElement("span");
-    placeElm.innerText = ` ${advisory.place}`;
+    const typeElm = document.createElement("span");
+    typeElm.innerText = ` ${translateAdvisoryType(advisory.type)}`;
     placeCell.appendChild(statusIndicator);
-    placeCell.appendChild(placeElm);
+    placeCell.appendChild(typeElm);
 
     // Label the row itself, so a demo advisory reads as an example even in a
     // screenshot that crops out the banner above.
@@ -722,9 +737,7 @@ function renderWaterAdvisory(geoData) {
     const clockIcon = document.createElement("i");
     clockIcon.className = "bi bi-clock";
     const whenElm = document.createElement("span");
-    whenElm.innerText = ` ${translateAdvisoryType(
-      advisory.type
-    )} · ${formatDateTime(new Date(advisory.start), {
+    whenElm.innerText = ` ${formatDateTime(new Date(advisory.start), {
       month: "short",
       day: "numeric",
     })}`;
@@ -738,8 +751,39 @@ function renderWaterAdvisory(geoData) {
         zoomToWaterAdvisory(advisory.bbox);
     });
 
-    // The full utility message, so residents can read what the advisory says
-    // without leaving the dashboard.
+    // Estimated end and last update from the utility, when it supplies them.
+    const detailParts = [];
+    if (advisory.expires) {
+      detailParts.push(
+        `${i18next.t("sidebar.cards.waterAdvisory.estimatedEnd")} ${formatDateTime(
+          new Date(advisory.expires),
+          { month: "short", day: "numeric" }
+        )}`
+      );
+    }
+    if (advisory.updated) {
+      detailParts.push(
+        `${i18next.t("sidebar.cards.waterAdvisory.lastUpdated")} ${formatDateTime(
+          new Date(advisory.updated),
+          { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }
+        )}`
+      );
+    }
+    if (detailParts.length) {
+      const detailRow = document.createElement("tr");
+      const detailCell = document.createElement("td");
+      detailCell.colSpan = 2;
+      detailCell.className = "water-advisory-details";
+      detailParts.forEach((text) => {
+        const line = document.createElement("span");
+        line.innerText = text;
+        detailCell.appendChild(line);
+      });
+      detailRow.appendChild(detailCell);
+      tbody.appendChild(detailRow);
+    }
+
+    // The utility's brief header, with a link to the full notice.
     if (advisory.message) {
       const messageRow = document.createElement("tr");
       const messageCell = document.createElement("td");
@@ -1003,8 +1047,22 @@ function fetchWastewaterData() {
 }
 
 function fetchWaterAdvisoryLayer(id) {
+  // Ask the service only for footprints that touch the South Bay area of
+  // interest, rather than pulling every advisory in the state and trimming
+  // client side. The envelope is lon/lat, so inSR is WGS84.
+  const [aoiWest, aoiSouth, aoiEast, aoiNorth] = waterAdvisoryAoi;
   const params = new URLSearchParams({
     where: "EventState='CA'",
+    geometry: JSON.stringify({
+      xmin: aoiWest,
+      ymin: aoiSouth,
+      xmax: aoiEast,
+      ymax: aoiNorth,
+      spatialReference: { wkid: 4326 },
+    }),
+    geometryType: "esriGeometryEnvelope",
+    spatialRel: "esriSpatialRelIntersects",
+    inSR: "4326",
     outFields:
       "EventID,EventType,EventStatus,EventState,EventHeader,EventMessage," +
       "EventStartDate,EventExpirationDate,EventLastUpdatedDate,EventHyperlink",
@@ -1036,11 +1094,20 @@ function fetchWaterAdvisoryData() {
     Object.keys(amWaterAdvisoryLayers).map((id) => fetchWaterAdvisoryLayer(id))
   )
     .then((collections) => {
+      const realFeatures = collections.flat();
+      // A real advisory in the region makes the mock redundant and confusing, so
+      // the demo only ever appears when there is nothing real to show.
+      const realInRegion = regionalAdvisoryFeatures({ features: realFeatures }).features;
+      if (demoFeatures.length && realInRegion.length) {
+        console.log(
+          "[app.js] (Water) Real advisory active in the region; demo advisory suppressed."
+        );
+      }
       // The service reports no feed-level timestamp, so record when we checked.
       const geoData = {
         type: "FeatureCollection",
         lastUpdated: new Date().toISOString(),
-        features: [...collections.flat(), ...demoFeatures],
+        features: realInRegion.length ? realFeatures : [...realFeatures, ...demoFeatures],
       };
       renderWaterAdvisory(geoData);
     })

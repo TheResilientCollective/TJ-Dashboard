@@ -859,7 +859,13 @@ function water_advisory_layer() {
       const place = parseAdvisoryPlace(props);
       const start = dayjs(props.EventStartDate);
       const expires = dayjs(props.EventExpirationDate);
-      const message = props.EventMessage || props.EventHeader || "";
+      const message =
+        typeof briefAdvisoryText === "function"
+          ? briefAdvisoryText(props)
+          : props.EventHeader || props.EventMessage || "";
+      const noticeUrl =
+        props.EventHyperlink ||
+        window.i18next.t("tooltips.waterAdvisory.footer.link.url");
 
       var popupContent = `
       <div class="tooltip">
@@ -903,15 +909,9 @@ function water_advisory_layer() {
           <span>${message}</span>
         </div>
         <div class="tooltip-footer">
-          ${
-            props.EventHyperlink
-              ? `<a target="_blank" rel="noopener" href="${props.EventHyperlink}">${window.i18next.t(
-                  "tooltips.waterAdvisory.footer.link.text"
-                )}</a>`
-              : `<span data-i18n="tooltips.waterAdvisory.footer.text">${window.i18next.t(
-                  "tooltips.waterAdvisory.footer.text"
-                )}</span>`
-          }
+          <a target="_blank" rel="noopener" href="${noticeUrl}">${window.i18next.t(
+            "tooltips.waterAdvisory.footer.link.text"
+          )}</a>
         </div>
       </div>`;
 

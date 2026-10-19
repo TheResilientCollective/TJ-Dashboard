@@ -159,16 +159,16 @@
                     "Conservation": "Conservation"
                 },
                 "alert": {
-                    "boilWaterTitle": "Boil water advisory in your area",
+                    "boilWaterTitle": "Boil water advisory in the region",
                     "boilWaterBody": "California American Water has issued a boil water advisory affecting part of this region. Do not drink water from the tap without boiling it first, and follow the instructions in the notice below until the utility lifts the advisory.",
-                    "emergencyTitle": "Water advisory in your area",
+                    "emergencyTitle": "Water advisory in the region",
                     "emergencyBody": "California American Water has issued an emergency advisory affecting part of this region. Follow the instructions in the notice below, including any guidance to boil water or to stop using the tap.",
-                    "generalTitle": "Water notice in your area",
+                    "generalTitle": "Water notice in the region",
                     "generalBody": "California American Water has posted a notice affecting part of this region. Your water service or pressure may be interrupted, and you may notice discolored water. Details are in the notice below."
                 },
                 "p1": "Tap water delivered to homes in the region is treated and tested to meet state and federal drinking water standards. Sewage flows in the Tijuana River Valley affect beach and river water, not the treated water supplied to your tap.",
                 "p2": {
-                    "body": "Your water utility issues an advisory when a main break, emergency repair, or planned work may affect your service or water quality. Check who supplies your water and look up current notices here:",
+                    "body": "Your water utility issues an advisory when a main break, emergency repair, or planned work may affect your service or water quality. Check who supplies your water and find more information here:",
                     "link": {
                         "text": "California American Water Customer Advisories",
                         "url": "https://awgis.amwater.com/CustomerAdvisoryMap/"
@@ -176,7 +176,7 @@
                 },
                 "coverage": "Advisories shown here come from California American Water only. Other utilities serve parts of this region, so check with your own provider if you are unsure who supplies your water.",
                 "tableLabel": "Current advisories in the region:",
-                "noticeLink": "Read the full notice",
+                "noticeLink": "More info from California American Water",
                 "footer": {
                     "text": "Last checked on {{date}}",
                     "link": {
@@ -188,7 +188,9 @@
                     "banner": "Demonstration only — the advisory below is a made-up example, not a real notice.",
                     "tag": "Example",
                     "message": "EXAMPLE ADVISORY — THIS IS NOT A REAL NOTICE. This sample text shows how a California American Water advisory would appear here. In a real advisory, this is where the utility's instructions to residents would be shown, including how long the advisory is expected to last and who to contact."
-                }
+                },
+                "estimatedEnd": "Estimated end:",
+                "lastUpdated": "Last updated:"
             },
             "odorComplaints": {
                 "title": "Air Quality Complaints",
@@ -358,8 +360,8 @@
             "footer": {
                 "text": "Issued by California American Water.",
                 "link": {
-                    "text": "Read the full notice",
-                  "url": "https://awgis.amwater.com/CustomerAdvisoryMap/"
+                    "text": "More info from California American Water",
+                    "url": "https://awgis.amwater.com/CustomerAdvisoryMap/"
                 }
             },
             "demo": "Example advisory — not a real notice"
