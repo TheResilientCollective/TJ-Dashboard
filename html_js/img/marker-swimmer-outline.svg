@@ -1,0 +1,9 @@
+<svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Swimmer glyph: Tabler Icons "swimming", MIT License, https://tabler.io/icons -->
+    <rect x="1.25" y="1.25" width="38.5" height="38.5" rx="19.25" stroke="black" stroke-width="2.5"/>
+    <g transform="translate(5.5 5.5) scale(1.25)" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" fill="black"/>
+        <path d="M6 11l4 -2l3.5 3l-1.5 2"/>
+        <path d="M3 16.75a2.4 2.4 0 0 0 1 .25a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 1 -.25"/>
+    </g>
+</svg>
