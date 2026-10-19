@@ -109,7 +109,7 @@
       {label: 'Wastewater Spills', id: 'spill_group' , layers: ['spills']}, // water
       {label: 'Beach Status', id: 'beach_group' , layers: ['beaches', 'outfalls']}, // observations
       {label: 'River Basin', id: 'water_group' , layers: ['basin','basin-outline', 'streams-line']},
-      {label: 'Ocean Model', id: 'ocean_group', layers: ['oceanmodel-contours', 'oceanmodel-contours-outline', 'oceanmodel-shoreline']},
+      {label: 'Swimming Risk', id: 'ocean_group', layers: ['oceanmodel-contours', 'oceanmodel-contours-outline', 'oceanmodel-shoreline']},
     ]
 
 
@@ -261,10 +261,10 @@
 <!--        <i class="bi bi-x-circle"></i>-->
 <!--        <span data-i18n="topbar.riverBasin">River Basin</span>-->
 <!--      </button>-->
-      <button id="oceanmodel-filter-btn" class="active" onclick="toggleLayer(this, 'Ocean Model')">
+      <button id="oceanmodel-filter-btn" class="active" onclick="toggleLayer(this, 'Swimming Risk')">
         <i class="bi bi-check-circle-fill"></i>
         <div>
-          <span data-i18n="topbar.oceanModel">Ocean Model</span>
+          <span data-i18n="topbar.oceanModel">Swimming Risk</span>
           <br>
           <span class="trend-flat sublabel" data-i18n="topbar.currentData">current data</span>
         </div>
@@ -585,46 +585,75 @@
           </div>
         </div>
 
-        <!-- Card: Swimmer Illness Risk (Ocean Model) -->
-        <div id="oceanmodel-card" class="card shadow expandable" onclick="selectCard('Ocean Model')">
+        <!-- Card: Swimming Risk (Pathogen Forecast Model) -->
+        <div id="oceanmodel-card" class="card shadow expandable" onclick="selectCard('Swimming Risk')">
           <div class="card-header always-expand">
-            <i class="bi bi-water"></i>
-            <h3 class="card-title" data-i18n="sidebar.cards.oceanModel.title">Swimmer Illness Risk</h3>
+            <svg class="icon-swimmer" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="16.5" cy="6.5" r="2.5" fill="currentColor"/><path d="M3 12.5 7.5 7l5.5 3.5-2.5 2.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 17c1.7 0 1.7 1.2 3.4 1.2S7.1 17 8.8 17s1.7 1.2 3.4 1.2S13.9 17 15.6 17s1.7 1.2 3.4 1.2S20.7 17 22.4 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M2 20.5c1.7 0 1.7 1.2 3.4 1.2S7.1 20.5 8.8 20.5s1.7 1.2 3.4 1.2 1.7-1.2 3.4-1.2 1.7 1.2 3.4 1.2 1.7-1.2 3.4-1.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <h3 class="card-title" data-i18n="sidebar.cards.oceanModel.title">Swimming Risk</h3>
             <button class="expand-btn"><i class="bi bi-chevron-down"></i></button>
           </div>
 
           <p>
             <span data-i18n="sidebar.cards.oceanModel.p1">
-              The ocean model estimates sewage concentration at the shoreline and offshore.
-              Color indicates swimmer illness risk based on sewage percentage.
+              This map shows a forecast of sewage in the ocean along the San Diego/Tijuana coast.
+              Water with more sewage carries a higher chance of getting sick from swimming or surfing.
             </span>
             <br>
-            <a href="https://pfmweb.ucsd.edu/" target="_blank" data-i18n="sidebar.cards.oceanModel.sourceLink">Tijuana River Pathogen Forecast Model</a>
+            <a href="https://pfmweb.ucsd.edu/" target="_blank" data-i18n="sidebar.cards.oceanModel.sourceLink">Pathogen Forecast Model (UC San Diego)</a>
+          </p>
+
+          <div class="card-data always-expand">
+            <span data-i18n="sidebar.cards.oceanModel.shoreline.label">Shoreline Risk</span>
+            <p class="legend-note">
+              <span data-i18n="sidebar.cards.oceanModel.shoreline.note">The color along the beach shows the chance of swimmer illness based on how much sewage is in the water.</span>
+            </p>
+            <table class="risk-table">
+              <tbody>
+                <tr>
+                  <td><span class="indicator high"></span></td>
+                  <td><span data-i18n="sidebar.cards.oceanModel.shoreline.high">High risk: more than 0.1% sewage. About 1 in 10 swimmers may get sick.</span></td>
+                </tr>
+                <tr>
+                  <td><span class="indicator moderate"></span></td>
+                  <td><span data-i18n="sidebar.cards.oceanModel.shoreline.moderate">Moderate risk: between 0.001% and 0.1% sewage.</span></td>
+                </tr>
+                <tr>
+                  <td><span class="indicator low"></span></td>
+                  <td><span data-i18n="sidebar.cards.oceanModel.shoreline.low">Low risk: less than 0.001% sewage. About 1 in 100 swimmers or fewer may get sick.</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card-data always-expand">
+            <span data-i18n="sidebar.cards.oceanModel.ocean.label">Sewage in the Ocean</span>
+            <p class="legend-note">
+              <span data-i18n="sidebar.cards.oceanModel.ocean.note">Colors offshore show the percentage of sewage at the ocean surface. 100% would be pure sewage and 0% pure ocean water. Darker colors mean more sewage.</span>
+            </p>
+            <div class="colorbar" role="img" aria-label="Sewage concentration color scale from 0.001% to more than 10%">
+              <div class="colorbar-swatches"><span style="background:#fcf0b2"></span><span style="background:#fed799"></span><span style="background:#febd82"></span><span style="background:#fea36f"></span><span style="background:#fb8761"></span><span style="background:#f66c5c"></span><span style="background:#ea5661"></span><span style="background:#d8456c"></span><span style="background:#c23b75"></span><span style="background:#aa337d"></span><span style="background:#932b80"></span><span style="background:#7c2382"></span><span style="background:#671b80"></span><span style="background:#4f127b"></span><span style="background:#38106c"></span><span style="background:#21114e"></span><span style="background:#100b2d"></span><span style="background:#03030f"></span><span class="colorbar-cap"></span></div>
+              <div class="colorbar-ticks">
+                <span style="left:11.1%">0.001%</span>
+                <span style="left:33.3%">0.01%</span>
+                <span style="left:55.6%">0.1%</span>
+                <span style="left:77.8%">1%</span>
+                <span style="left:100%">10%</span>
+              </div>
+            </div>
+            <div class="colorbar-ends">
+              <span data-i18n="sidebar.cards.oceanModel.ocean.less">Less sewage</span>
+              <span data-i18n="sidebar.cards.oceanModel.ocean.more">More sewage</span>
+            </div>
+          </div>
+
+          <p>
+            <span data-i18n="sidebar.cards.oceanModel.official">This forecast is not an official beach advisory. For current advisories, warnings, and closures, check</span>
+            <a href="https://cosdapps.sandiegocounty.gov/sdbeachinfo/" target="_blank" data-i18n="sidebar.cards.oceanModel.officialLink">County of San Diego Beach Water Quality</a>.
           </p>
 
           <p class="disclaimer">
             <span data-i18n="sidebar.cards.oceanModel.disclaimer">This forecast is experimental and may contain errors. Not for official use. Accuracy is not guaranteed.</span>
           </p>
-
-          <div class="card-data always-expand">
-            <span data-i18n="sidebar.cards.oceanModel.legendLabel">Risk Legend</span>
-            <table>
-              <tbody>
-                <tr>
-                  <td><span class="indicator high"></span></td>
-                  <td><span data-i18n="sidebar.cards.oceanModel.risk.high">High Risk (&gt;0.1% sewage)</span></td>
-                </tr>
-                <tr>
-                  <td><span class="indicator moderate"></span></td>
-                  <td><span data-i18n="sidebar.cards.oceanModel.risk.moderate">Moderate Risk (0.001%–0.1% sewage)</span></td>
-                </tr>
-                <tr>
-                  <td><span class="indicator low"></span></td>
-                  <td><span data-i18n="sidebar.cards.oceanModel.risk.low">Low Risk (&lt;0.001% sewage)</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
 
           <div class="card-footer">
             <span data-i18n="sidebar.cards.oceanModel.footer.text"></span>

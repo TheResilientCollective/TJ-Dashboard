@@ -200,18 +200,27 @@
                 }
             },
             "oceanModel": {
-                "title": "Swimmer Illness Risk",
-                "p1": "The ocean model estimates sewage concentration at the shoreline and offshore. Color indicates swimmer illness risk based on sewage percentage.",
-                "sourceLink": "Tijuana River Pathogen Forecast Model",
-                "disclaimer": "This forecast is experimental and may contain errors. Not for official use. Accuracy is not guaranteed.",
-                "legendLabel": "Risk Legend",
-                "risk": {
-                    "high": "High Risk (>0.1% sewage)",
-                    "moderate": "Moderate Risk (0.001%–0.1% sewage)",
-                    "low": "Low Risk (<0.001% sewage)"
+                "title": "Swimming Risk",
+                "p1": "This map shows a forecast of sewage in the ocean along the San Diego/Tijuana coast. Water with more sewage carries a higher chance of getting sick from swimming or surfing.",
+                "sourceLink": "Pathogen Forecast Model (UC San Diego)",
+                "shoreline": {
+                    "label": "Shoreline Risk",
+                    "note": "The color along the beach shows the chance of swimmer illness based on how much sewage is in the water.",
+                    "high": "High risk: more than 0.1% sewage. About 1 in 10 swimmers may get sick.",
+                    "moderate": "Moderate risk: between 0.001% and 0.1% sewage.",
+                    "low": "Low risk: less than 0.001% sewage. About 1 in 100 swimmers or fewer may get sick."
                 },
+                "ocean": {
+                    "label": "Sewage in the Ocean",
+                    "note": "Colors offshore show the percentage of sewage at the ocean surface. 100% would be pure sewage and 0% pure ocean water. Darker colors mean more sewage.",
+                    "less": "Less sewage",
+                    "more": "More sewage"
+                },
+                "official": "This forecast is not an official beach advisory. For current advisories, warnings, and closures, check",
+                "officialLink": "County of San Diego Beach Water Quality",
+                "disclaimer": "This forecast is experimental and may contain errors. Not for official use. Accuracy is not guaranteed.",
                 "footer": {
-                    "text": "Ocean model output",
+                    "text": "Forecast by UC San Diego Scripps Institution of Oceanography",
                     "link": {
                         "text": "",
                         "url": ""
@@ -247,7 +256,7 @@
         "currentData": "current data",
         "prevComplaintdays": "from {{start_date}} to {{end_date}}",
         "prevSpilldays": "from {{start_date}} to {{end_date}}",
-        "oceanModel": "Ocean Model"
+        "oceanModel": "Swimming Risk"
     },
     "mapFooter": {
         "disclaimer": {
@@ -319,10 +328,10 @@
             "ppb": "ppB: parts per billion"
         },
         "oceanModel": {
-            "title": "Sewage Concentration",
-            "shorelineTitle": "Swimmer Illness Risk",
+            "title": "Sewage in the Ocean",
+            "shorelineTitle": "Shoreline Swimming Risk",
             "labels": {
-                "range": "Concentration range:",
+                "range": "Sewage concentration:",
                 "risk": "Risk level:"
             },
             "risk": {

@@ -162,7 +162,6 @@
                     }
                 }
             },
-
             "wastewater": {
                 "title": "Flujos de Aguas Residuales",
                 "overview": {
@@ -201,18 +200,27 @@
                 }
             },
             "oceanModel": {
-                "title": "Riesgo de Enfermedad para Nadadores",
-                "p1": "El modelo oceánico estima la concentración de aguas negras en la orilla y en alta mar. El color indica el riesgo de enfermedad para nadadores según el porcentaje de aguas negras.",
-                "sourceLink": "Modelo de Pronóstico de Patógenos del Río Tijuana",
-                "disclaimer": "Este pronóstico es experimental y puede contener errores. No es para uso oficial. No se garantiza la precisión.",
-                "legendLabel": "Leyenda de Riesgo",
-                "risk": {
-                    "high": "Riesgo Alto (>0.1% aguas negras)",
-                    "moderate": "Riesgo Moderado (0.001%–0.1% aguas negras)",
-                    "low": "Riesgo Bajo (<0.001% aguas negras)"
+                "title": "Riesgo para Nadadores",
+                "p1": "Este mapa muestra un pronóstico de aguas residuales en el océano a lo largo de la costa de San Diego/Tijuana. El agua con más aguas residuales conlleva una mayor probabilidad de enfermarse al nadar o surfear.",
+                "sourceLink": "Modelo de Pronóstico de Patógenos (UC San Diego)",
+                "shoreline": {
+                    "label": "Riesgo en la Costa",
+                    "note": "El color a lo largo de la playa muestra la probabilidad de enfermedad para nadadores según la cantidad de aguas residuales en el agua.",
+                    "high": "Riesgo alto: más de 0.1% de aguas residuales. Aproximadamente 1 de cada 10 nadadores podría enfermarse.",
+                    "moderate": "Riesgo moderado: entre 0.001% y 0.1% de aguas residuales.",
+                    "low": "Riesgo bajo: menos de 0.001% de aguas residuales. Aproximadamente 1 de cada 100 nadadores o menos podría enfermarse."
                 },
+                "ocean": {
+                    "label": "Aguas Residuales en el Océano",
+                    "note": "Los colores mar adentro muestran el porcentaje de aguas residuales en la superficie del océano. 100% sería aguas residuales puras y 0% agua oceánica pura. Los colores más oscuros indican más aguas residuales.",
+                    "less": "Menos aguas residuales",
+                    "more": "Más aguas residuales"
+                },
+                "official": "Este pronóstico no es un aviso oficial de playa. Para avisos, advertencias y cierres actuales, consulte",
+                "officialLink": "Calidad del Agua de Playas del Condado de San Diego",
+                "disclaimer": "Este pronóstico es experimental y puede contener errores. No es para uso oficial. No se garantiza su precisión.",
                 "footer": {
-                    "text": "Resultado del modelo oceánico",
+                    "text": "Pronóstico de UC San Diego, Scripps Institution of Oceanography",
                     "link": {
                         "text": "",
                         "url": ""
@@ -248,7 +256,7 @@
         "currentData": "datos actuales",
         "prevComplaintdays": "de {{start_date}} a {{end_date}}",
         "prevSpilldays": "de {{start_date}} a {{end_date}}",
-        "oceanModel": "Modelo Oceánico"
+        "oceanModel": "Riesgo para Nadadores"
     },
     "mapFooter": {
         "disclaimer": {
@@ -320,10 +328,10 @@
             "ppb": "ppb: partes por billón"
         },
         "oceanModel": {
-            "title": "Concentración de Aguas Negras",
-            "shorelineTitle": "Riesgo de Enfermedad para Nadadores",
+            "title": "Aguas Residuales en el Océano",
+            "shorelineTitle": "Riesgo para Nadadores en la Costa",
             "labels": {
-                "range": "Rango de concentración:",
+                "range": "Concentración de aguas residuales:",
                 "risk": "Nivel de riesgo:"
             },
             "risk": {

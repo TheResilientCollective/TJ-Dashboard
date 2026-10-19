@@ -955,3 +955,100 @@ body:-webkit-full-screen #fullscreen-btn {
 .hidden {
   display: none;
 }
+/* Swimming Risk card (Pathogen Forecast Model) */
+.card-header .icon-swimmer {
+  width: calc(var(--icon) * 1.5);
+  height: calc(var(--icon) * 1.5);
+  flex: 0 0 auto;
+  align-self: center;
+}
+
+.card .legend-note {
+  font-size: 0.8em;
+  opacity: 0.8;
+  margin: 2px 0 6px 0;
+}
+
+.colorbar {
+  width: 100%;
+  padding-right: 1.6em; /* room for the arrow cap and the last tick label */
+  box-sizing: border-box;
+  margin-top: 4px;
+}
+
+.colorbar-swatches {
+  position: relative;
+  display: flex;
+  height: 14px;
+  width: 100%;
+}
+
+.colorbar-swatches > span {
+  flex: 1 1 0;
+  display: block;
+  height: 100%;
+}
+
+.colorbar-swatches > span.colorbar-cap {
+  flex: 0 0 0;
+  position: absolute;
+  right: -14px;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 14px solid #000004;
+}
+
+.colorbar-ticks {
+  position: relative;
+  height: 1.6em;
+  font-size: 0.75em;
+  opacity: 0.85;
+}
+
+.colorbar-ticks > span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.colorbar-ticks > span::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -3px;
+  width: 1px;
+  height: 4px;
+  background: currentColor;
+}
+
+.colorbar-ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75em;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+#oceanmodel-card .card-data table.risk-table td {
+  white-space: normal;
+  text-align: left;
+  font-size: 0.9em;
+  vertical-align: top;
+}
+
+#oceanmodel-card .card-data table.risk-table td:first-child {
+  width: calc(var(--icon) + var(--p-half));
+  padding-top: 2px;
+}
+
+#oceanmodel-card .card-data table.risk-table td * {
+  display: inline;
+}
+
+#oceanmodel-card .card-data table.risk-table td .indicator {
+  display: inline-block;
+}
