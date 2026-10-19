@@ -680,27 +680,9 @@ function renderWaterAdvisory(geoData) {
         : "low");
   }
 
-  // Alert banner. Only shown when something is actually active in the region, and
-  // it opens the card so residents do not have to expand it to find the notice.
-  const alertElm = document.getElementById("water-advisory-alert");
-  if (alertElm) {
-    alertElm.hidden = advisories.length === 0;
-    if (advisories.length) {
-      // Keep always-expand so the alert stays visible even when the card is collapsed.
-      // Boil orders reuse the emergency styling.
-      alertElm.className = `water-advisory-alert always-expand ${
-        alertKind === "general" ? "general" : "emergency"
-      }`;
-      alertElm.querySelector(".water-advisory-alert-title").innerText =
-        i18next.t(`sidebar.cards.waterAdvisory.alert.${alertKind}Title`, {
-          count: advisories.length,
-        });
-      alertElm.querySelector(".water-advisory-alert-body").innerText = i18next.t(
-        `sidebar.cards.waterAdvisory.alert.${alertKind}Body`
-      );
-      card.classList.add("expanded");
-    }
-  }
+  // Open the card when something is active in the region, so residents do not
+  // have to expand it to find the notice.
+  if (advisories.length) card.classList.add("expanded");
 
   // Detail table, one row per advisory in the region
   const tableWrapper = document.getElementById("water-advisory-data");

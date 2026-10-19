@@ -666,47 +666,6 @@ button.button.map-control-button.button {
   white-space: nowrap;
 }
 
-.water-advisory-alert {
-  border-radius: var(--border-radius);
-  border-left: 4px solid var(--grey);
-  padding: var(--p1) var(--p2);
-  background: rgba(128, 128, 128, 0.12);
-}
-
-.water-advisory-alert.emergency {
-  border-left-color: #ed1c25;
-  background: rgba(237, 28, 37, 0.12);
-}
-
-.water-advisory-alert.general {
-  border-left-color: #f9a028;
-  background: rgba(249, 160, 40, 0.14);
-}
-
-.water-advisory-alert-header {
-  display: flex;
-  align-items: center;
-  gap: var(--p1);
-  font-weight: bold;
-}
-
-.water-advisory-alert.emergency .water-advisory-alert-header {
-  color: #ed1c25;
-}
-
-.water-advisory-alert.general .water-advisory-alert-header {
-  color: #b26a10;
-}
-
-.water-advisory-alert-body {
-  padding-top: var(--p-half);
-  font-size: 0.85rem;
-}
-
-.water-advisory-alert-body:empty {
-  display: none;
-}
-
 /* Demonstration mode (?DemoDrinkingWater=). Deliberately loud and unlike the real
    alert styling, so an example advisory can never pass for a genuine one. */
 .water-advisory-demo[hidden] {

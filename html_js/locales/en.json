@@ -158,14 +158,6 @@
                     "Investigation": "Investigation",
                     "Conservation": "Conservation"
                 },
-                "alert": {
-                    "boilWaterTitle": "Boil water advisory in the region",
-                    "boilWaterBody": "California American Water has issued a boil water advisory affecting part of this region. Do not drink water from the tap without boiling it first, and follow the instructions in the notice below until the utility lifts the advisory.",
-                    "emergencyTitle": "Water advisory in the region",
-                    "emergencyBody": "California American Water has issued an emergency advisory affecting part of this region. Follow the instructions in the notice below, including any guidance to boil water or to stop using the tap.",
-                    "generalTitle": "Water notice in the region",
-                    "generalBody": "California American Water has posted a notice affecting part of this region. Your water service or pressure may be interrupted, and you may notice discolored water. Details are in the notice below."
-                },
                 "p1": "Tap water delivered to homes in the region is treated and tested to meet state and federal drinking water standards. Sewage flows in the Tijuana River Valley affect beach and river water, not the treated water supplied to your tap.",
                 "p2": {
                     "body": "Your water utility issues an advisory when a main break, emergency repair, or planned work may affect your service or water quality. Check who supplies your water and find more information here:",
