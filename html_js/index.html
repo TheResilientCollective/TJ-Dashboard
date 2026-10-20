@@ -89,8 +89,14 @@
     // Shows a clearly-labelled mock drinking water advisory for demonstrations.
     // Off by default. ?DemoDrinkingWater=boil (default), =emergency, =general.
     // Ignored whenever a real advisory is active in the region.
-    window.water_advisory_demo = params.get('DemoDrinkingWater') ?? params.get('demodrinkingwater') ?? '';
-    console.log('drinking water demo', window.water_advisory_demo)
+    // Left null when the parameter is absent; app.js treats null as off. A bare
+    // ?DemoDrinkingWater (empty value) still turns the demo on.
+    window.water_advisory_demo = params.has('DemoDrinkingWater')
+      ? params.get('DemoDrinkingWater')
+      : params.has('demodrinkingwater')
+        ? params.get('demodrinkingwater')
+        : null;
+    if (window.water_advisory_demo !== null) console.log('drinking water demo', window.water_advisory_demo);
     window.spill_timeframe = {
       numDays: spill_days,
       latestDate: undefined,
