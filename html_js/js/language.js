@@ -36,6 +36,7 @@ async function initializeI18next() {
   fetchOdorData();
   fetchWastewaterData();
   fetchBeachData();
+  fetchWaterAdvisoryData();
 
   // --- Optional: Language Switcher ---
   // (Keep existing language switcher code)
@@ -111,6 +112,10 @@ function updateContent() {
   if (typeof renderWastewaterFlows === "function" && window.latestWastewaterData) {
     console.log("[language.js] Re-rendering Wastewater Flows");
     renderWastewaterFlows(window.latestWastewaterData);
+  }
+  if (typeof renderWaterAdvisory === "function" && window.latestWaterAdvisoryData) {
+    console.log("[language.js] Re-rendering Drinking Water Advisories");
+    renderWaterAdvisory(window.latestWaterAdvisoryData);
   }
 
   // Close any tooltips

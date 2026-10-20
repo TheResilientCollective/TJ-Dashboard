@@ -602,6 +602,150 @@ button.button.map-control-button.button {
   height: var(--p-half);
 }
 
+/* Drinking water advisories */
+#water-advisory-count {
+  font-weight: normal;
+}
+
+#water-advisory-data-overview table {
+  border-spacing: 0;
+}
+
+/* Advisory type names run long ("Main break / boil order"), so these cells wrap
+   rather than clipping the way the fixed single-line data tables do. */
+#water-advisory-data tr td {
+  white-space: normal;
+  vertical-align: top;
+}
+
+/* Type name with its status dot on the left, the start date on the right. */
+#water-advisory-data tr td:first-child {
+  width: 65%;
+}
+
+#water-advisory-data tr td:last-child:not([colspan]) {
+  width: 35%;
+  text-align: right;
+}
+
+/* Inline so wrapped text flows beside the status dot or clock icon instead of
+   starting a new block below it. The dot itself stays inline-block. */
+#water-advisory-data tr td span:not(.indicator) {
+  display: inline;
+}
+
+/* Estimated end and last-updated lines, one per line under the type row. */
+#water-advisory-data tr td.water-advisory-details {
+  width: 100%;
+  font-weight: normal;
+  font-size: 0.8rem;
+  opacity: 0.8;
+  padding-top: 0;
+}
+
+#water-advisory-data tr td.water-advisory-details span {
+  display: block;
+}
+
+/* The advisory message needs to wrap, unlike the fixed single-line data rows. */
+#water-advisory-data tr td.water-advisory-message {
+  width: 100%;
+  white-space: normal;
+  font-weight: normal;
+  font-size: 0.8rem;
+  color: var(--grey);
+  padding-left: calc(var(--icon) + var(--p-half));
+}
+
+#water-advisory-data tr td.water-advisory-message * {
+  display: inline;
+}
+
+#water-advisory-data tr td.water-advisory-message a {
+  margin-left: var(--p-half);
+  white-space: nowrap;
+}
+
+/* Demonstration mode (?DemoDrinkingWater=). Deliberately loud and unlike the real
+   alert styling, so an example advisory can never pass for a genuine one. */
+.water-advisory-demo[hidden] {
+  display: none;
+}
+
+.water-advisory-demo {
+  display: flex;
+  align-items: center;
+  gap: var(--p1);
+  border: 2px dashed #6b21a8;
+  border-radius: var(--border-radius);
+  padding: var(--p1) var(--p2);
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(107, 33, 168, 0.08),
+    rgba(107, 33, 168, 0.08) 10px,
+    rgba(107, 33, 168, 0.16) 10px,
+    rgba(107, 33, 168, 0.16) 20px
+  );
+  color: #6b21a8;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.water-advisory-demo i {
+  flex: none;
+}
+
+.water-advisory-demo-tag {
+  margin-left: var(--p-half);
+  padding: 0 var(--p-half);
+  border: 1px solid #6b21a8;
+  border-radius: 2px;
+  color: #6b21a8;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.water-advisory-tooltip .water-advisory-demo-line {
+  border: 1px dashed #6b21a8;
+  border-radius: 2px;
+  padding: 2px var(--p-half);
+  color: #6b21a8;
+  font-weight: bold;
+  white-space: normal;
+}
+
+.water-advisory-coverage {
+  font-size: 0.8rem;
+  color: var(--grey);
+}
+
+.legend-swatch {
+  width: var(--icon);
+  height: var(--icon);
+  border-radius: 2px;
+  display: inline-block;
+  flex: none;
+}
+
+.legend-swatch.water-advisory-emergency {
+  background: rgba(237, 28, 37, 0.25);
+  border: 1px solid #ed1c25;
+}
+
+.legend-swatch.water-advisory-general {
+  background: rgba(249, 160, 40, 0.25);
+  border: 1px solid #f9a028;
+}
+
+/* Advisory notices are long, so let the popup text wrap and cap its height. */
+.water-advisory-tooltip .water-advisory-note {
+  white-space: normal;
+  max-height: 9rem;
+  overflow-y: auto;
+}
+
 .text-card {
 }
 
