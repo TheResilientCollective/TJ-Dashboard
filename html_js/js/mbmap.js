@@ -822,10 +822,10 @@ function water_advisory_layer() {
       "match",
       ["get", "advisoryLevel"],
       "emergency",
-      "#ed1c25",
+      "#7b1fa2",
       "general",
-      "#f9a028",
-      /* default */ "#f9a028",
+      "#00897b",
+      /* default */ "#00897b",
     ];
 
     map.addLayer({
@@ -835,7 +835,25 @@ function water_advisory_layer() {
       layout: { visibility: advisoryVisible ? "visible" : "none" },
       paint: {
         "fill-color": advisoryColor,
-        "fill-opacity": 0.25,
+        "fill-opacity": 0.18,
+      },
+    });
+
+    // Repeating wave/droplet tile over the tint; the tile colour tracks the level.
+    map.addLayer({
+      id: "water-advisory-pattern",
+      type: "fill",
+      source: "water-advisories",
+      layout: { visibility: advisoryVisible ? "visible" : "none" },
+      paint: {
+        "fill-pattern": [
+          "match",
+          ["get", "advisoryLevel"],
+          "emergency",
+          "water-pattern-emergency",
+          /* default */ "water-pattern-general",
+        ],
+        "fill-opacity": 0.55,
       },
     });
 
@@ -1170,6 +1188,9 @@ map.on("load", function () {
     { id: "h2s_icon_orange", url: "img/marker-h2s-orange.png" },
     { id: "h2s_icon_purple", url: "img/marker-h2s-purple.png" },
     { id: "river_icon", url: "img/river.png" },
+    // Repeating "drinking water" tiles for the advisory polygons (2x, 96 css px).
+    { id: "water-pattern-general", url: "img/pattern-water-general.png", pixelRatio: 2 },
+    { id: "water-pattern-emergency", url: "img/pattern-water-emergency.png", pixelRatio: 2 },
   ];
 
   // Load icons (retrying up to 3 times)
@@ -1193,7 +1214,7 @@ map.on("load", function () {
         } else if (error) {
           reject(error);
         } else {
-          map.addImage(icon.id, image);
+          map.addImage(icon.id, image, { pixelRatio: icon.pixelRatio || 1 });
           resolve();
         }
       });
