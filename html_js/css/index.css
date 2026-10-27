@@ -730,13 +730,13 @@ button.button.map-control-button.button {
 }
 
 .legend-swatch.water-advisory-emergency {
-  background: rgba(237, 28, 37, 0.25);
-  border: 1px solid #ed1c25;
+  background: rgba(123, 31, 162, 0.25);
+  border: 1px solid #7b1fa2;
 }
 
 .legend-swatch.water-advisory-general {
-  background: rgba(249, 160, 40, 0.25);
-  border: 1px solid #f9a028;
+  background: rgba(0, 137, 123, 0.25);
+  border: 1px solid #00897b;
 }
 
 /* Advisory notices are long, so let the popup text wrap and cap its height. */
